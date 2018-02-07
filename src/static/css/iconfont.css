@@ -1,0 +1,70 @@
+@font-face {
+  font-family: 'custom';  /* project id 464975 */
+  src: url('https://at.alicdn.com/t/font_464975_k1hkifqpwsgaatt9.eot');
+  src: url('https://at.alicdn.com/t/font_464975_k1hkifqpwsgaatt9.eot?#iefix') format('embedded-opentype'),
+  url('https://at.alicdn.com/t/font_464975_k1hkifqpwsgaatt9.woff') format('woff'),
+  url('https://at.alicdn.com/t/font_464975_k1hkifqpwsgaatt9.ttf') format('truetype'),
+  url('https://at.alicdn.com/t/font_464975_k1hkifqpwsgaatt9.svg#custom') format('svg');
+   /*url('iconfont.ttf') format('truetype');*/
+}
+[class^="icon-custom-"]:before, [class*=" icon-custom-"]:before {
+    font-family: 'custom';
+}
+.icon-custom-mylp:before{content: "\e672"}
+.icon-custom-jfxx:before{content: "\e607";}
+.icon-custom-zfcg:before{content: "\e6a0";}
+.icon-custom-yhj:before{content: "\e61f";}
+.icon-custom-quxiao:before{content: "\e61b";}
+.icon-custom-zgfp:before{content:"\e730";}
+.icon-custom-zymd:before{content:"\e635";}
+.icon-custom-zpbz:before{content: "\e60f";}
+
+.icon-custom-kzbz:before{content: "\e64a";}
+.icon-custom-kfdh:before{content: "\e644";}
+.icon-custom-kefu:before { content: "\e601"; }
+
+.icon-custom-yiwancheng:before { content: "\e630"; }
+
+.icon-custom-gouxuan:before { content: "\e669"; }
+
+.icon-custom-daifukuan:before { content: "\e7a7"; }
+
+.icon-custom-gouwuche:before { content: "\e63f"; }
+
+.icon-custom-shouye:before { content: "\e64f"; }
+
+.icon-custom-icon2-copy:before { content: "\e604"; }
+
+.icon-custom-daipingjia-copy:before { content: "\e603"; }
+
+.icon-custom-zonghe:before { content: "\e643"; }
+
+.icon-custom-tuijian:before { content: "\e605"; }
+
+.icon-custom-daishouhuo:before { content: "\e60e"; }
+
+.icon-custom-tubiaozhizuomoban:before { content: "\e65d"; }
+
+.icon-custom-guanyu:before { content: "\e600"; }
+
+.icon-custom-baodan:before { content: "\e62d"; }
+
+.icon-custom-nav-order:before { content: "\e671"; }
+
+.icon-custom-tuihuoguanli:before { content: "\e783"; }
+
+.icon-custom-youhuiquan:before { content: "\e64d"; }
+
+.icon-custom-duihuan:before { content: "\e610"; }
+
+.icon-custom-shaixuan:before { content: "\e636"; }
+
+.icon-custom-gerenzhongxin:before { content: "\e7de"; }
+
+.icon-custom-baodanguanli:before { content: "\e68d"; }
+
+.icon-custom-jiagepaixu-shengxu:before { content: "\e625"; }
+
+.icon-custom-jiagepaixu-jiangxu:before { content: "\e626"; }
+
+.icon-custom-shangdian:before { content: "\e633"; }
