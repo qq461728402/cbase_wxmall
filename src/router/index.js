@@ -6,41 +6,43 @@ const ChooseCity = r => require.ensure([], () => r(require('../components/pageHo
 const CarProducts = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/carProducts')), 'CarProducts')//车品商城
 const ProductsList = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/productsList')), 'ProductsList')//商品列表
 const ProductsDetail = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/productsDetail')), 'ProductsDetail')//商品详情
-import ReviewsList from '@/components/pageHome/carProductsMall/reviewsList'
-import OrderSubmit from '@/components/pageHome/orderSubmit/orderSubmit'
-import GetCoupons from '@/components/pageHome/coupons/getcoupons'
-import Maintain from '@/components/pageHome/maintain/maintainPackage'
-import CarMaintain from '@/components/pageHome/maintain/carMaintain'
-import ShoppingCart from '@/components/ShoppingCart'
-import PersonalCenter from '@/components/PersonalCenter'
-import LoginWithCode from '@/components/personalCenter/loginWithCode'
-import CarChoose from '@/components/pageHome/carChoose'
-import InsuranceList from '@/components/pageHome/insurance/insuranceList'
-import FillInformation from '@/components/pageHome/insurance/fillInformation'
-import Insurance_type from '@/components/pageHome/insurance/insurance_type'
-import InsuranceSure from '@/components/pageHome/insurance/insuranceSure'
-import ChooseCarInfo from '@/components/pageHome/chooseCarInfo/chooseCarInfo'
-import Protocol from '@/components/pageHome/orderSubmit/protocol'
-import OrderSuccess from '@/components/pageHome/orderSubmit/orderSuccess'
+const ReviewsList = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/reviewsList')), 'ReviewsList')//评价列表
+
+const OrderSubmit = r => require.ensure([], () => r(require('../components/pageHome/orderSubmit/orderSubmit')), 'OrderSubmit')//订单提交
+const GetCoupons = r => require.ensure([], () => r(require('../components/pageHome/coupons/getcoupons')), 'GetCoupons')//获取优惠券
+const Maintain = r => require.ensure([], () => r(require('../components/pageHome/maintain/maintainPackage')), 'Maintain')//保养
+const CarMaintain = r => require.ensure([], () => r(require('../components/pageHome/maintain/carMaintain')), 'CarMaintain')//保养
+const ShoppingCart = r => require.ensure([], () => r(require('../components/ShoppingCart')), 'ShoppingCart')//购物车
+const PersonalCenter = r => require.ensure([], () => r(require('../components/PersonalCenter')), 'PersonalCenter')//个人中心
+const LoginWithCode = r => require.ensure([], () => r(require('../components/personalCenter/loginWithCode')), 'LoginWithCode')//用户登录
+const CarChoose = r => require.ensure([], () => r(require('../components/pageHome/carChoose')), 'CarChoose')//车辆选择
+const InsuranceList = r => require.ensure([], () => r(require('../components/pageHome/insurance/insuranceList')), 'InsuranceList')//保险
+const FillInformation = r => require.ensure([], () => r(require('../components/pageHome/insurance/fillInformation')), 'FillInformation')//保险信息填写
+const Insurance_type = r => require.ensure([], () => r(require('../components/pageHome/insurance/insurance_type')), 'Insurance_type')//保险报价
+const InsuranceSure = r => require.ensure([], () => r(require('../components/pageHome/insurance/insuranceSure')), 'InsuranceSure')//保险报价确定
+const ChooseCarInfo = r => require.ensure([], () => r(require('../components/pageHome/chooseCarInfo/chooseCarInfo')), 'ChooseCarInfo')//选择车辆
+const Protocol = r => require.ensure([], () => r(require('../components/pageHome/orderSubmit/protocol')), 'Protocol')//用户协议
+const OrderSuccess = r => require.ensure([], () => r(require('../components/pageHome/orderSubmit/orderSuccess')), 'OrderSuccess')//订单成功
 const register = resolve => require.ensure([], () => resolve(require('../components/personalCenter/register')), 'register')//注册
 const userProtocol = resolve => require.ensure([], () => resolve(require('../components/personalCenter/userProtocol')), 'userProtocol')//协议
-import UserInfo from '@/components/personalCenter/userInfo'
-import RePerUserInfo from '@/components/personalCenter/reperUserInfo'
-import AddressList from '@/components/personalCenter/addressList'
-import AddAddress from '@/components/personalCenter/addAddress'
-import MyCoupons from '@/components/personalCenter/myCoupons'
-import MyOderList from '@/components/personalCenter/myOderList'
-import OrderDetail from '@/components/personalCenter/orderDetail'
-import OrderAppraise from '@/components/personalCenter/orderAppraise'
-import FillsalesRetrun  from '@/components/personalCenter/salesReturn/fillsalesRetrun'
-import SalesRetrunList from '@/components/personalCenter/salesReturn/salesRetrunList'
-import SalesRetrunDetail from '@/components/personalCenter/salesReturn/salesRetrunDetail'
-import PolicyList from '@/components/personalCenter/policy/policyList'
-import PolicyDetail from '@/components/personalCenter/policy/policyDetail'
-import GiftList from '@/components/personalCenter/gift/giftList'
-import GiftAppoint from '@/components/personalCenter/gift/giftAppoint'
-import AboutUs from '@/components/personalCenter/introduct/aboutUs'
-import StoresDetail from '@/components/storesDetail'
+const UserInfo = resolve => require.ensure([], () => resolve(require('../components/personalCenter/userInfo')), 'UserInfo')//用户信息
+const RePerUserInfo = resolve => require.ensure([], () => resolve(require('../components/personalCenter/reperUserInfo')), 'RePerUserInfo')//修改用户信息
+const AddressList = resolve => require.ensure([], () => resolve(require('../components/personalCenter/addressList')), 'AddressList')//地址列表
+const AddAddress = resolve => require.ensure([], () => resolve(require('../components/personalCenter/addAddress')), 'AddAddress')//添加地址
+const MyCoupons = resolve => require.ensure([], () => resolve(require('../components/personalCenter/myCoupons')), 'MyCoupons')//优惠券
+const MyOderList = resolve => require.ensure([], () => resolve(require('../components/personalCenter/myOderList')), 'MyOderList')//我的订单
+const OrderDetail = resolve => require.ensure([], () => resolve(require('../components/personalCenter/orderDetail')), 'OrderDetail')//订单详情
+const OrderAppraise = resolve => require.ensure([], () => resolve(require('../components/personalCenter/orderAppraise')), 'OrderAppraise')//订单评价
+const FillsalesRetrun = resolve => require.ensure([], () => resolve(require('../components/personalCenter/salesReturn/fillsalesRetrun')), 'FillsalesRetrun')//退货订单
+const SalesRetrunList = resolve => require.ensure([], () => resolve(require('../components/personalCenter/salesReturn/salesRetrunList')), 'SalesRetrunList')//退货订单列表
+const SalesRetrunDetail = resolve => require.ensure([], () => resolve(require('../components/personalCenter/salesReturn/salesRetrunDetail')), 'SalesRetrunDetail')//退货订单详情
+const PolicyList = resolve => require.ensure([], () => resolve(require('../components/personalCenter/policy/policyList')), 'PolicyList')
+const PolicyDetail = resolve => require.ensure([], () => resolve(require('../components/personalCenter/policy/policyDetail')), 'PolicyDetail')
+const GiftList = resolve => require.ensure([], () => resolve(require('../components/personalCenter/gift/giftList')), 'GiftList')
+const GiftAppoint = resolve => require.ensure([], () => resolve(require('../components/personalCenter/gift/giftAppoint')), 'GiftAppoint')
+const AboutUs = resolve => require.ensure([], () => resolve(require('../components/personalCenter/introduct/aboutUs')), 'AboutUs')
+const StoresDetail = resolve => require.ensure([], () => resolve(require('../components/storesDetail')), 'StoresDetail')
+
 Vue.use(Router)
 const router = new Router({
   hashbang:false,
