@@ -26,7 +26,7 @@
     <!--</yd-cell-group>-->
 
     <!--banner-->
-    <yd-slider autoplay="3000">
+    <yd-slider autoplay="3000" style="min-height: 100px">
       <yd-slider-item  v-for="item,index in banner.items" :key="index">
         <a :href="item.url">
           <img :src="item.img">
@@ -68,7 +68,6 @@
           <img  style="width: 100%;" :src="item.img" @click="gotofluid(item)" >
         </swiper-slide>
     </swiper>
-
     <div v-for="codeitem in config" style="background-color: #fff;">
       <div v-if="codeitem.template=='gridView'&&codeitem.code!='brand'" class="codeitemView">
         <div class="codeitemTitle">
@@ -124,6 +123,7 @@
         </div>
       </div>
     </div>
+    <div style="margin-bottom: 1rem;width: 100%;height: 1px"></div>
     <yd-backtop></yd-backtop>
     <yd-tabbar slot="tabbar" activeColor="#d41d0f">
       <yd-tabbar-item title="首页" link="/" active>
@@ -496,5 +496,4 @@ export default {
     background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAmCAYAAAAm56DSAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDE0IDc5LjE1Njc5NywgMjAxNC8wOC8yMC0wOTo1MzowMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTQgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjFFNzFBRjFDQ0I2MDExRTc5ODY2RDlDQkFCRkI3NjZFIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjFFNzFBRjFEQ0I2MDExRTc5ODY2RDlDQkFCRkI3NjZFIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MUU3MUFGMUFDQjYwMTFFNzk4NjZEOUNCQUJGQjc2NkUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MUU3MUFGMUJDQjYwMTFFNzk4NjZEOUNCQUJGQjc2NkUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6+zIFGAAABDUlEQVR42mJkYGAwZqASYGKgIhg1bNSw4W/YmjVr1ECYYsP27t1rHBgYOEtDQ0MdmzwLsQZduXLFV1NTs/jAgQPFzs7OZ8l2Gcyg9evXp+EyiCiXvX37toGbm1tt8uTJUQUFBc/wqWUhxqD8/Pz0mTNnfiYrNtPT03l//PixjIWFhZdYg0CAEVtJ+/jx4zQpKamorKwsX2INwmkYzEAJCQnfjRs3FoeEhNyiKNHKysrOunnz5ixQusKVSIl2GXKyUFdXTwMZrKOjs5mi7AQyAORVUDoDGUyRy5DzpL+/f++LFy82g4KAorwJioScnJwoUVFRB1DkUJQ3QQCaTNIp9uZosT1q2KhhdDUMIMAAeoFsxdIhoU8AAAAASUVORK5CYII=")!important;
     left:0!important;
   }
-
 </style>
