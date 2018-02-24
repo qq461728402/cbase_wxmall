@@ -132,7 +132,7 @@
       <yd-tabbar-item title="首页" link="/" active>
           <yd-icon name="shouye" slot="icon" size="0.54rem" custom></yd-icon>
       </yd-tabbar-item>
-      <yd-tabbar-item title="门店"  link="/stores" >
+      <yd-tabbar-item title="分类"  link="/stores" >
         <yd-icon slot="icon" size="0.54rem" name="shangdian" custom></yd-icon>
       </yd-tabbar-item>
       <yd-tabbar-item title="购物车" link="/shoppingCart">
