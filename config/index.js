@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'https://www.cqssqm.com',
+        target: 'http://joewee.mynatapp.cc',
         changeOrigin: true,
         pathRewrite: {'^/api' : ''},
         onProxyReq (proxyReq, req, res) {
@@ -47,7 +47,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

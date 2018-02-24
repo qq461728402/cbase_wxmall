@@ -4,11 +4,8 @@ const Stores =resolve =>require(['../components/stores.vue'],resolve);//懒加�
 const IndexHome = r => require.ensure([], () => r(require('../components/IndexHome')), 'IndexHome')//懒加载
 const ChooseCity = r => require.ensure([], () => r(require('../components/pageHome/chooseCity/chooseCity')), 'ChooseCity')//选择城市
 const CarProducts = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/carProducts')), 'CarProducts')//车品商城
-
 const ProductsList = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/productsList')), 'ProductsList')//商品列表
-
 const ProductsDetail = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/productsDetail')), 'ProductsDetail')//商品详情
-
 import ReviewsList from '@/components/pageHome/carProductsMall/reviewsList'
 import OrderSubmit from '@/components/pageHome/orderSubmit/orderSubmit'
 import GetCoupons from '@/components/pageHome/coupons/getcoupons'

@@ -7,7 +7,7 @@ import VueAxios from 'vue-axios'
 import YDUI from 'vue-ydui'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
-axios.defaults.baseURL = 'https://www.cqssqm.com';
+axios.defaults.baseURL = 'http://joewee.mynatapp.cc';
 import {removeStore} from './mUtils'
 /*par 参数
  *url 接口地址
