@@ -46,7 +46,7 @@
         <!--</yd-flexbox-item>-->
       <!--</yd-flexbox>-->
     <!--</div>-->
-    <yd-grids-group :rows="5"  :class="{'yd-show-car':!showcar}" v-if="primaryMenu.code" id="primaryMenu">
+    <yd-grids-group :rows="5" v-if="primaryMenu.code" id="primaryMenu">
       <yd-grids-item @click.native="gotoinsurance(item)" v-for="item,index in primaryMenu.items" :key="index">
         <img slot="icon" :src="item.img" style="height: 100%">
         <span slot="text" style="font-weight: bold;display: block;font-size: .25rem;color: #d41d0f;" v-cloak>{{item.title}}</span>
