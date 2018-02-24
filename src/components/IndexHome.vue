@@ -33,8 +33,6 @@
         </a>
       </yd-slider-item>
     </yd-slider>
-
-
     <!--<div v-if="!showcar" style="position: relative;top: -0.5rem; height: 1rem;width: 80%;background-color: #ffffff;z-index: 5;margin: auto;border-radius: 0.5rem;border: 1px solid #f5f5f5" @click="gotochoosecar">-->
       <!--<yd-flexbox>-->
         <!--<div>-->
@@ -48,8 +46,7 @@
         <!--</yd-flexbox-item>-->
       <!--</yd-flexbox>-->
     <!--</div>-->
-
-    <yd-grids-group :rows="3"  :class="{'yd-show-car':!showcar}" v-if="primaryMenu.code" id="primaryMenu">
+    <yd-grids-group :rows="5"  :class="{'yd-show-car':!showcar}" v-if="primaryMenu.code" id="primaryMenu">
       <yd-grids-item @click.native="gotoinsurance(item)" v-for="item,index in primaryMenu.items" :key="index">
         <img slot="icon" :src="item.img" style="height: 100%">
         <span slot="text" style="font-weight: bold;display: block;font-size: .25rem;color: #d41d0f;" v-cloak>{{item.title}}</span>
@@ -170,8 +167,8 @@ export default {
       advertisement:{},
       gridViewlst:[],
       coupon:{},
-      showcar:false,
-      carInfo:{},
+//      showcar:false,
+//      carInfo:{},
       signatureInfo:{},
       quantity:0,
       tops:'0rem',
@@ -196,12 +193,12 @@ export default {
   },
   mounted(){
 //    this.$dialog.alert({mes: '商城内测中请勿下单!'});
-    var carInfo = getStore('carInfo');
-    if (carInfo.type){
-      this.carInfo=carInfo;
-      this.showcar=true;
-      this.tops='-0.5rem';
-    }
+//    var carInfo = getStore('carInfo');
+//    if (carInfo.type){
+//      this.carInfo=carInfo;
+//      this.showcar=true;
+//      this.tops='-0.5rem';
+//    }
     if(getStore('cityInfo').cityname){
       this.cityname=getStore('cityInfo').cityname;
     }
@@ -237,16 +234,16 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(function (vm) {
-      var carInfo = getStore('carInfo');
-      if (carInfo.type){
-        vm.carInfo=carInfo;
-        vm.showcar=true;
-        vm.tops='-0.5rem';
-      }else{
-        vm.carInfo={};
-        vm.showcar=false;
-        vm.tops='0rem';
-      }
+//      var carInfo = getStore('carInfo');
+//      if (carInfo.type){
+//        vm.carInfo=carInfo;
+//        vm.showcar=true;
+//        vm.tops='-0.5rem';
+//      }else{
+//        vm.carInfo={};
+//        vm.showcar=false;
+//        vm.tops='0rem';
+//      }
       if(getStore('cityInfo').cityname){
         vm.cityname=getStore('cityInfo').cityname;
       }
@@ -463,10 +460,10 @@ export default {
     bottom: 1.5rem;
   }
 
-  #primaryMenu .yd-grids-3 .yd-grids-item:not(:nth-child(3n)):before{
+  #primaryMenu .yd-grids-5 .yd-grids-item:not(:nth-child(5n)):before{
     border-right:none;
   }
-  #primaryMenu .yd-grids-3:before{
+  #primaryMenu .yd-grids-5:before{
     border-bottom:none;
   }
   #primaryMenu .yd-grids-item:after{
