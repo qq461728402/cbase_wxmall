@@ -118,7 +118,7 @@
           </span>
           </span><span class="line"></span>
         </div>
-        <div style="overflow: hidden; font-size: 0;">
+        <div style="overflow: hidden; min-height: 100px">
           <div v-for="item in codeitem.items" @click="gotofluid(item)"><img :src="item.img" style="width: 100%;border-bottom: 10px solid #f5f5f5;" /></div>
         </div>
       </div>
