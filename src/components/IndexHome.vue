@@ -9,7 +9,7 @@
         </div>
         <yd-flexbox-item style="border: 1px solid #eee;border-radius: 5px;">
           <form action="javascript:return true;">
-            <input type="search" style="border: 0px;outline:none;cursor: pointer; height: 30px;"  placeholder="商社养车 人人有礼"  @keyup.13="search()" v-model="searchValue">
+            <input type="search" style="border: 0px;outline:none;cursor: pointer; height: 30px;"  placeholder=""  @keyup.13="search()" v-model="searchValue">
           </form>
         </yd-flexbox-item>
         <div style="width: 15%;height: 30px;line-height: 30px">
@@ -18,12 +18,12 @@
       </yd-flexbox>
     </div>
 
-    <yd-cell-group v-if="showcar" slot="navbar">
-      <yd-cell-item arrow @click.native="gotocarlist">
-        <img slot="icon" style="height: 0.6rem" :src="carInfo.logo">
-        <span slot="left" style="color:#d41d0f;">{{carInfo.type}}</span>
-      </yd-cell-item>
-    </yd-cell-group>
+    <!--<yd-cell-group v-if="showcar" slot="navbar">-->
+      <!--<yd-cell-item arrow @click.native="gotocarlist">-->
+        <!--<img slot="icon" style="height: 0.6rem" :src="carInfo.logo">-->
+        <!--<span slot="left" style="color:#d41d0f;">{{carInfo.type}}</span>-->
+      <!--</yd-cell-item>-->
+    <!--</yd-cell-group>-->
 
     <!--banner-->
     <yd-slider autoplay="3000">
@@ -35,19 +35,19 @@
     </yd-slider>
 
 
-    <div v-if="!showcar" style="position: relative;top: -0.5rem; height: 1rem;width: 80%;background-color: #ffffff;z-index: 5;margin: auto;border-radius: 0.5rem;border: 1px solid #f5f5f5" @click="gotochoosecar">
-      <yd-flexbox>
-        <div>
-          <img src="../assets/img/add.png" style="height: 0.5rem;margin:auto 0.3rem auto 0.3rem">
-        </div>
-        <yd-flexbox-item>
-          <yd-flexbox direction="vertical">
-            <yd-flexbox-item style="height: 0.5rem;line-height: 0.4rem;padding-top: 0.1rem"><span style="font-size: 0.3rem">添加爱车享优惠</span> </yd-flexbox-item>
-            <yd-flexbox-item style="height: 0.5rem"><span>任性红包等你拿</span></yd-flexbox-item>
-          </yd-flexbox>
-        </yd-flexbox-item>
-      </yd-flexbox>
-    </div>
+    <!--<div v-if="!showcar" style="position: relative;top: -0.5rem; height: 1rem;width: 80%;background-color: #ffffff;z-index: 5;margin: auto;border-radius: 0.5rem;border: 1px solid #f5f5f5" @click="gotochoosecar">-->
+      <!--<yd-flexbox>-->
+        <!--<div>-->
+          <!--<img src="../assets/img/add.png" style="height: 0.5rem;margin:auto 0.3rem auto 0.3rem">-->
+        <!--</div>-->
+        <!--<yd-flexbox-item>-->
+          <!--<yd-flexbox direction="vertical">-->
+            <!--<yd-flexbox-item style="height: 0.5rem;line-height: 0.4rem;padding-top: 0.1rem"><span style="font-size: 0.3rem">添加爱车享优惠</span> </yd-flexbox-item>-->
+            <!--<yd-flexbox-item style="height: 0.5rem"><span>任性红包等你拿</span></yd-flexbox-item>-->
+          <!--</yd-flexbox>-->
+        <!--</yd-flexbox-item>-->
+      <!--</yd-flexbox>-->
+    <!--</div>-->
 
     <yd-grids-group :rows="3"  :class="{'yd-show-car':!showcar}" v-if="primaryMenu.code" id="primaryMenu">
       <yd-grids-item @click.native="gotoinsurance(item)" v-for="item,index in primaryMenu.items" :key="index">
@@ -195,7 +195,7 @@ export default {
     }
   },
   mounted(){
-    this.$dialog.alert({mes: '商城内测中请勿下单!'});
+//    this.$dialog.alert({mes: '商城内测中请勿下单!'});
     var carInfo = getStore('carInfo');
     if (carInfo.type){
       this.carInfo=carInfo;
