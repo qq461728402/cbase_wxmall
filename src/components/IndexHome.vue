@@ -49,7 +49,7 @@
     <yd-grids-group :rows="5" v-if="primaryMenu.code" id="primaryMenu">
       <yd-grids-item @click.native="gotoinsurance(item)" v-for="item,index in primaryMenu.items" :key="index">
         <img slot="icon" :src="item.img" style="height: 100%">
-        <span slot="text" style="font-weight: bold;display: block;font-size: .25rem;color: #000000;" v-cloak>{{item.title}}</span>
+        <span slot="text" style="display: block;font-size: .25rem;color: #000000;" v-cloak>{{item.title}}</span>
       </yd-grids-item>
     </yd-grids-group>
     <div align="center" style="background-color: #ffffff;" v-if="advertisement.code">
@@ -124,9 +124,7 @@
         </div>
       </div>
     </div>
-
     <yd-backtop></yd-backtop>
-
     <yd-tabbar slot="tabbar" activeColor="#d41d0f">
       <yd-tabbar-item title="首页" link="/" active>
           <yd-icon name="shouye" slot="icon" size="0.54rem" custom></yd-icon>
