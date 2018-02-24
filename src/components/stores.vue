@@ -40,8 +40,8 @@
       <yd-tabbar-item title="首页" link="/">
         <yd-icon name="shouye" slot="icon" size="0.54rem" custom></yd-icon>
       </yd-tabbar-item>
-      <yd-tabbar-item title="门店"  link="/stores" active>
-        <yd-icon slot="icon" size="0.54rem" name="shangdian" custom></yd-icon>
+      <yd-tabbar-item title="分类"  link="/home/carProducts" active>
+        <yd-icon slot="icon" size="0.54rem" name="fenlei1" custom></yd-icon>
       </yd-tabbar-item>
       <yd-tabbar-item title="购物车" link="/shoppingCart">
         <yd-icon name="gouwuche" slot="icon" size="0.54rem" custom></yd-icon>

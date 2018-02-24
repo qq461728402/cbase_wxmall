@@ -24,6 +24,23 @@
         </yd-grids-group>
       </div>
     </div>
+
+    <yd-tabbar slot="tabbar" activeColor="#d41d0f">
+      <yd-tabbar-item title="首页" link="/">
+        <yd-icon name="shouye" slot="icon" size="0.54rem" custom></yd-icon>
+      </yd-tabbar-item>
+      <yd-tabbar-item title="分类"  link="/home/carProducts" active>
+        <yd-icon slot="icon" size="0.54rem" name="fenlei1" custom></yd-icon>
+      </yd-tabbar-item>
+      <yd-tabbar-item title="购物车" link="/shoppingCart">
+        <yd-icon name="gouwuche" slot="icon" size="0.54rem" custom></yd-icon>
+        <yd-badge slot="badge" type="danger" v-if="quantity!=0" style="background-color: #d41d0f;">{{quantity}}</yd-badge>
+      </yd-tabbar-item>
+      <yd-tabbar-item title="个人中心" link="/personalCenter">
+        <yd-icon name="ucenter" slot="icon" size="0.54rem"></yd-icon>
+      </yd-tabbar-item>
+    </yd-tabbar>
+
   </yd-layout>
 </template>
 <script type="text/babel">
@@ -31,6 +48,7 @@
   const vm= {
     data() {
       return {
+        quantity:0,
         initindex:0,
         nums:10,
         categories:[],
