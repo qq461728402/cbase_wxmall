@@ -49,7 +49,7 @@
     <yd-grids-group :rows="5" v-if="primaryMenu.code" id="primaryMenu">
       <yd-grids-item @click.native="gotoinsurance(item)" v-for="item,index in primaryMenu.items" :key="index">
         <img slot="icon" :src="item.img" style="height: 100%">
-        <span slot="text" style="font-weight: bold;display: block;font-size: .25rem;color: #d41d0f;" v-cloak>{{item.title}}</span>
+        <span slot="text" style="font-weight: bold;display: block;font-size: .25rem;color: #000000;" v-cloak>{{item.title}}</span>
       </yd-grids-item>
     </yd-grids-group>
     <div align="center" style="background-color: #ffffff;" v-if="advertisement.code">
@@ -104,9 +104,11 @@
             <img :src="codeitem.items[0].img"  @click="gotofluid(codeitem.items[0])"/>
           </div>
           <div class="rowSpanRigth">
-            <img style="width: 100%; border-bottom: 1px solid #edeeef" :src="codeitem.items[1].img" @click="gotofluid(codeitem.items[1])">
-            <img style="width: 50%; border-right: 1px solid #edeeef;float: left" :src="codeitem.items[2].img" @click="gotofluid(codeitem.items[2])">
-            <img style="width: 50%;float: right" :src="codeitem.items[3].img" @click="gotofluid(codeitem.items[3])">
+            <img style="width: 50%; border-right: 1px solid #edeeef;float: left" :src="codeitem.items[1].img" @click="gotofluid(codeitem.items[1])">
+            <img style="width: 50%;float: right" :src="codeitem.items[2].img" @click="gotofluid(codeitem.items[2])">
+
+            <img style="width: 50%; border-right: 1px solid #edeeef;float: left" :src="codeitem.items[3].img" @click="gotofluid(codeitem.items[3])">
+            <img style="width: 50%;float: right" :src="codeitem.items[4].img" @click="gotofluid(codeitem.items[4])">
           </div>
         </div>
       </div>
