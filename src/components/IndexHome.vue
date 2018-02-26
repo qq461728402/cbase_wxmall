@@ -19,37 +19,14 @@
         </div>
       </yd-flexbox>
     </div>
-
-    <!--<yd-cell-group v-if="showcar" slot="navbar">-->
-    <!--<yd-cell-item arrow @click.native="gotocarlist">-->
-    <!--<img slot="icon" style="height: 0.6rem" :src="carInfo.logo">-->
-    <!--<span slot="left" style="color:#d41d0f;">{{carInfo.type}}</span>-->
-    <!--</yd-cell-item>-->
-    <!--</yd-cell-group>-->
-
     <!--banner-->
-    <yd-slider autoplay="3000" style="min-height: 100px">
+    <yd-slider autoplay="3000" style="min-height: 2rem">
       <yd-slider-item v-for="item,index in banner.items" :key="index">
         <a :href="item.url">
           <img :src="item.img">
         </a>
       </yd-slider-item>
     </yd-slider>
-
-
-    <!--<div v-if="!showcar" style="position: relative;top: -0.5rem; height: 1rem;width: 80%;background-color: #ffffff;z-index: 5;margin: auto;border-radius: 0.5rem;border: 1px solid #f5f5f5" @click="gotochoosecar">-->
-    <!--<yd-flexbox>-->
-    <!--<div>-->
-    <!--<img src="../assets/img/add.png" style="height: 0.5rem;margin:auto 0.3rem auto 0.3rem">-->
-    <!--</div>-->
-    <!--<yd-flexbox-item>-->
-    <!--<yd-flexbox direction="vertical">-->
-    <!--<yd-flexbox-item style="height: 0.5rem;line-height: 0.4rem;padding-top: 0.1rem"><span style="font-size: 0.3rem">添加爱车享优惠</span> </yd-flexbox-item>-->
-    <!--<yd-flexbox-item style="height: 0.5rem"><span>任性红包等你拿</span></yd-flexbox-item>-->
-    <!--</yd-flexbox>-->
-    <!--</yd-flexbox-item>-->
-    <!--</yd-flexbox>-->
-    <!--</div>-->
     <yd-grids-group :rows="5" v-if="primaryMenu.code" id="primaryMenu">
       <yd-grids-item @click.native="gotoinsurance(item)" v-for="item,index in primaryMenu.items" :key="index">
         <img slot="icon" :src="item.img" style="height: 100%">
@@ -136,7 +113,6 @@
         </div>
       </div>
     </div>
-    <div style="margin-bottom: 1rem;width: 100%;height: 1px"></div>
     <yd-backtop></yd-backtop>
     <yd-tabbar slot="tabbar" activeColor="#d41d0f">
       <yd-tabbar-item title="首页" link="/" active>
