@@ -238,5 +238,6 @@
 <style>
     #prolist .yd-btn-block{
       margin-top: 0px;
+      font-size: 0.27rem;
     }
 </style>

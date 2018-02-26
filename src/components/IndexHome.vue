@@ -85,16 +85,16 @@
           </div>
           <div class="rowSpanRigth" id="rowSpans">
             <div class="yd-grids-2">
-              <div class="yd-grids-item" style="height: 1.3rem; padding: 0px; overflow: hidden;border-bottom: 1px solid #ebeced !important;">
+              <div class="yd-grids-item" style="height: 1.1rem; padding: 0px; overflow: hidden;border-bottom: 1px solid #ebeced !important;">
                 <img :src="codeitem.items[1].img" style="width: 100%;" @click="gotofluid(codeitem.items[1])">
               </div>
-              <div class="yd-grids-item" style="height: 1.3rem; padding: 0px; overflow: hidden;border-bottom: 1px solid #ebeced !important;">
+              <div class="yd-grids-item" style="height: 1.1rem; padding: 0px; overflow: hidden;border-bottom: 1px solid #ebeced !important;">
                 <img :src="codeitem.items[2].img" style="width: 100%;" @click="gotofluid(codeitem.items[2])">
               </div>
-              <div class="yd-grids-item" style="height: 1.3rem; padding: 0px; overflow: hidden;">
+              <div class="yd-grids-item" style="height: 1.1rem; padding: 0px; overflow: hidden;">
                 <img :src="codeitem.items[3].img" style="width: 100%;" @click="gotofluid(codeitem.items[3])">
               </div>
-              <div class="yd-grids-item" style="height: 1.3rem; padding: 0px; overflow: hidden;">
+              <div class="yd-grids-item" style="height: 1.1rem; padding: 0px; overflow: hidden;">
                 <img :src="codeitem.items[4].img" style="width: 100%;" @click="gotofluid(codeitem.items[4])">
               </div>
             </div>
@@ -120,7 +120,7 @@
       <yd-tabbar-item title="首页" link="/" active>
         <yd-icon name="shouye" slot="icon" size="0.54rem" custom></yd-icon>
       </yd-tabbar-item>
-      <yd-tabbar-item title="分类" link="/home/carProducts">
+      <yd-tabbar-item title="分类" link="/home/category">
         <yd-icon slot="icon" size="0.54rem" name="fenlei1" custom></yd-icon>
       </yd-tabbar-item>
       <yd-tabbar-item title="购物车" link="/shoppingCart">
@@ -189,33 +189,33 @@
       if (getStore('cityInfo').cityname) {
         this.cityname = getStore('cityInfo').cityname;
       }
-      var indexInfo = getStore('indexInfo');
-      if (indexInfo.length > 0) {
-        this.config = indexInfo;
-        const that = this;
-        if (this.config instanceof Array) {
-          that.config.forEach(function (item) {
-            if ("banner" == item.code) {
-              that.banner = item;
-            } else if ("primaryMenu" == item.code) {
-              that.primaryMenu = item;
-            } else if ("secondaryMenu" == item.code) {
-              that.secondaryMenu = item;
-            } else if ("coupon" == item.code) {
-              that.coupon = item;
-            } else if ('advertisement' == item.code) {
-              that.advertisement = item;
-            }
-            else if ("gridView" == item.template && item.code != 'brand') {
-              var result = [];
-              for (var i = 0, len = item.items.length; i < len; i += 6) {
-                result.push(item.items.slice(i, i + 6));
-              }
-              item.items = result;
-            }
-          })
-        }
-      }
+//      var indexInfo = getStore('indexInfo');
+//      if (indexInfo.length > 0) {
+//        this.config = indexInfo;
+//        const that = this;
+//        if (this.config instanceof Array) {
+//          that.config.forEach(function (item) {
+//            if ("banner" == item.code) {
+//              that.banner = item;
+//            } else if ("primaryMenu" == item.code) {
+//              that.primaryMenu = item;
+//            } else if ("secondaryMenu" == item.code) {
+//              that.secondaryMenu = item;
+//            } else if ("coupon" == item.code) {
+//              that.coupon = item;
+//            } else if ('advertisement' == item.code) {
+//              that.advertisement = item;
+//            }
+//            else if ("gridView" == item.template && item.code != 'brand') {
+//              var result = [];
+//              for (var i = 0, len = item.items.length; i < len; i += 6) {
+//                result.push(item.items.slice(i, i + 6));
+//              }
+//              item.items = result;
+//            }
+//          })
+//        }
+//      }
       this.signature();
       this.getConfig();
     },
@@ -280,13 +280,7 @@
         this.$router.push({path: '/home/productsList', query: {queryKey: this.searchValue}});
       },
       gotoinsurance(item){
-        if (item.title == '车险') {
-          this.$router.push({path: '/home/insuranceList'})
-        } else if (item.title == '做保养') {
-          this.$router.push({name: 'carmaintain', query: {type: 'upkeep'}, meta: {title: '汽车保养'}})
-        } else if (item.title == '汽车美容') {
-          this.$router.push({name: 'carmaintain', query: {type: 'decoration'}, meta: {title: '汽车美容'}})
-        }
+        this.$router.push({path: item.url})
       },
 //    选择城市
       gotocitychoose(){
@@ -414,7 +408,7 @@
     border-right: 1px solid #ebeced;
     text-align: center;
     margin: 0 auto;
-    height: 2.6rem;
+    height: 2.2rem;
   }
   .rowSpanLeft img {
     width: 100%;
@@ -422,7 +416,7 @@
   .rowSpanRigth {
     width: 60%;
     float: right;
-    height: 2.6rem;
+    height: 2.2rem;
   }
   .rowSpanRigth img {
     width: 100%;

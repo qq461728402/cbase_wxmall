@@ -3,7 +3,7 @@ import Router from 'vue-router'
 const Stores =resolve =>require(['../components/stores.vue'],resolve);//懒加载
 const IndexHome = r => require.ensure([], () => r(require('../components/IndexHome')), 'IndexHome')//懒加载
 const ChooseCity = r => require.ensure([], () => r(require('../components/pageHome/chooseCity/chooseCity')), 'ChooseCity')//选择城市
-const CarProducts = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/carProducts')), 'CarProducts')//车品商城
+const CarProducts = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/category')), 'CarProducts')//车品商城
 const ProductsList = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/productsList')), 'ProductsList')//商品列表
 const ProductsDetail = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/productsDetail')), 'ProductsDetail')//商品详情
 const ReviewsList = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/reviewsList')), 'ReviewsList')//评价列表
@@ -50,7 +50,7 @@ const router = new Router({
   routes: [
     {path: '/', name: 'home',component: IndexHome, meta:{title:'首页',keepAlive:true}},
     {path:'/home/chooseCity',name:'chooseCity',component:ChooseCity,meta:{title:'选择城市',keepAlive:true}},
-    {path:"/home/carProducts",name:'carProducts',component:CarProducts,meta:{title:'商品分类',keepAlive:true}},
+    {path:"/home/category",name:'category',component:CarProducts,meta:{title:'商品分类',keepAlive:true}},
     {path:"/home/productsList",name:'productsList',component:ProductsList,meta:{title:'商品列表',keepAlive:false}},
     {path:"/home/productsDetail",name:'productsDetail',component:ProductsDetail,meta:{title:'商品详情',keepAlive:false}},
     {path:"/home/reviewsList",name:'reviewsList',component:ReviewsList,meta:{title:'评论列表',keepAlive:false}},
