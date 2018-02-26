@@ -63,12 +63,15 @@
       if(this.$route.query.hasOwnProperty("categoryId")){
         this.selectcategoryId = this.$route.query.categoryId;
       }
+      console.log('categoryId');
       this.getData();  // 向data数组里添加数据
     },
     beforeRouteEnter(to, from, next) {
       next(function (vm) {
           if(from.name=='home'){
-            vm.selectcategoryId = vm.$route.query.categoryId;
+            if(vm.$route.query.hasOwnProperty("categoryId")){
+              vm.selectcategoryId = vm.$route.query.categoryId;
+            }
             vm.getData();  // 向data数组里添加数据
           }
       });
