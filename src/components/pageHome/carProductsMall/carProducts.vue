@@ -1,6 +1,6 @@
 <template>
   <yd-layout id="carPro">
-    <yd-navbar slot="navbar" title="车品商城" bgcolor="#d41d0f" color="#FFF">
+    <yd-navbar slot="navbar" title="商品分类" bgcolor="#d41d0f" color="#FFF">
       <router-link to="" slot="left" @click.native="gotoback()">
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
@@ -60,7 +60,9 @@
       }
     },
     mounted(){
-      this.selectcategoryId = this.$route.query.categoryId;
+      if(this.$route.query.hasOwnProperty("categoryId")){
+        this.selectcategoryId = this.$route.query.categoryId;
+      }
       this.getData();  // 向data数组里添加数据
     },
     beforeRouteEnter(to, from, next) {
@@ -84,7 +86,6 @@
         const  that=this;
         baseHttp(this,'/api/mall/category',this.loginpas,'post','加载中...',function (data) {
           if(data.categories){
-            console.log(that.selectcategoryId);
             that.cacheCatItemList=data.categories;
             for (var key in data.categories){
               data.categories[key].select=false;
@@ -158,6 +159,4 @@
   #carPro .yd-grids-icon{
     height:1.2rem
   }
-
-
 </style>
