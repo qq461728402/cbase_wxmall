@@ -20,7 +20,7 @@
       </yd-flexbox>
     </div>
     <!--banner-->
-    <yd-slider autoplay="3000" style="min-height: 2rem">
+    <yd-slider autoplay="3000" :style="{height: bl+'px'}">
       <yd-slider-item v-for="item,index in banner.items" :key="index">
         <a :href="item.url">
           <img :src="item.img">
@@ -84,17 +84,17 @@
             <img :src="codeitem.items[0].img" @click="gotofluid(codeitem.items[0])"/>
           </div>
           <div class="rowSpanRigth" id="rowSpans">
-            <div class="yd-grids-2" >
-              <div class="yd-grids-item" style="height: 1rem; padding: 0px; overflow: hidden;border-bottom: 1px solid #ebeced !important;">
+            <div class="yd-grids-2">
+              <div class="yd-grids-item" style="height: 1.3rem; padding: 0px; overflow: hidden;border-bottom: 1px solid #ebeced !important;">
                 <img :src="codeitem.items[1].img" style="width: 100%;" @click="gotofluid(codeitem.items[1])">
               </div>
-              <div class="yd-grids-item" style="height: 1rem; padding: 0px; overflow: hidden;border-bottom: 1px solid #ebeced !important;">
+              <div class="yd-grids-item" style="height: 1.3rem; padding: 0px; overflow: hidden;border-bottom: 1px solid #ebeced !important;">
                 <img :src="codeitem.items[2].img" style="width: 100%;" @click="gotofluid(codeitem.items[2])">
               </div>
-              <div class="yd-grids-item" style="height: 1rem; padding: 0px; overflow: hidden;">
+              <div class="yd-grids-item" style="height: 1.3rem; padding: 0px; overflow: hidden;">
                 <img :src="codeitem.items[3].img" style="width: 100%;" @click="gotofluid(codeitem.items[3])">
               </div>
-              <div class="yd-grids-item" style="height: 1rem; padding: 0px; overflow: hidden;">
+              <div class="yd-grids-item" style="height: 1.3rem; padding: 0px; overflow: hidden;">
                 <img :src="codeitem.items[4].img" style="width: 100%;" @click="gotofluid(codeitem.items[4])">
               </div>
             </div>
@@ -145,6 +145,7 @@
     },
     data () {
       return {
+        bl:'',
         mySwiper: '',
         isCookie: false,
         cityname: '',
@@ -179,6 +180,9 @@
       }
     },
     mounted(){
+      var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      this.bl= 300*w/640.0;
+      console.log(bl);
       if (getStore('cityInfo').cityname) {
         this.cityname = getStore('cityInfo').cityname;
       }
@@ -271,7 +275,6 @@
 //    查询服务
       search(){
         this.$router.push({path: '/home/productsList', query: {queryKey: this.searchValue}});
-        console.log(111);
       },
       gotoinsurance(item){
         if (item.title == '车险') {
@@ -407,19 +410,16 @@
     border-right: 1px solid #ebeced;
     text-align: center;
     margin: 0 auto;
-    height: 2rem;
+    height: 2.6rem;
   }
-
   .rowSpanLeft img {
     width: 100%;
   }
-
   .rowSpanRigth {
     width: 60%;
     float: right;
-    height: 2rem;
+    height: 2.6rem;
   }
-
   .rowSpanRigth img {
     width: 100%;
   }
