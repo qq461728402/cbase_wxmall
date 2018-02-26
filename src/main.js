@@ -18,9 +18,7 @@ Vue.use(VueAxios, axios)
 Vue.use(VueWechatTitle);
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: './assets/logo.png',
-  loading: './assets/wait.gif',
-  attempt: 1
+  loading:require('./assets/svg/loading-spin.svg'),
 });
 Vue.component('icon', Icon)
 /* eslint-disable no-new */
