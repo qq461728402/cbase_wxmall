@@ -2,25 +2,25 @@
   <yd-layout id="home" style="background-color: #fff">
     <yd-navbar slot="navbar" title="首页" bgcolor="#d41d0f" color="#FFF">
     </yd-navbar>
-    <div slot="navbar" style="text-align: center;background-color: #fff">
+    <div style="text-align: center;background-color:rgba(201, 21, 35, 0);position: fixed;width: 100%;z-index: 55" id="my_search">
       <yd-flexbox style="margin:8px 0">
         <div style="width: 22%;height: 30px;line-height: 30px" @click="gotocitychoose">
           <span class="city">{{cityname.length==0?'获取中...':cityname}}</span>
         </div>
-        <yd-flexbox-item style="border: 1px solid #eee;border-radius: 5px;">
+        <yd-flexbox-item style="border-radius: 15px;background: #ffffff">
           <form action="javascript:return true;">
             <input type="search" style="border: 0px;outline:none;cursor: pointer; height: 30px;" placeholder="" @keyup.13="search()" v-model="searchValue">
           </form>
         </yd-flexbox-item>
         <div style="width: 15%;height: 30px;line-height: 30px">
           <a href="tel:966888">
-            <yd-icon slot="icon" name="kefu" size=".42rem" custom color="#979797"></yd-icon>
+            <yd-icon slot="icon" name="kefu" size=".42rem" custom color="#ffffff"></yd-icon>
           </a>
         </div>
       </yd-flexbox>
     </div>
     <!--banner-->
-    <yd-slider autoplay="3000" :style="{height: bl+'px'}">
+    <yd-slider autoplay="3000" :style="{height: bl+'px'}" id="my_banner">
       <yd-slider-item v-for="item,index in banner.items" :key="index">
         <a :href="item.url">
           <img :src="item.img">
@@ -139,6 +139,7 @@
   import 'swiper/dist/css/swiper.css'
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import {getLocation} from '../config/weichatPay'
+  import {bindEvent} from '../config/event'
   export default {
     name: 'IndexHome',
     components: {
@@ -185,37 +186,10 @@
     mounted(){
       var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
       this.bl= 300*w/640.0;
-      console.log(bl);
+      bindEvent();
       if (getStore('cityInfo').cityname) {
         this.cityname = getStore('cityInfo').cityname;
       }
-//      var indexInfo = getStore('indexInfo');
-//      if (indexInfo.length > 0) {
-//        this.config = indexInfo;
-//        const that = this;
-//        if (this.config instanceof Array) {
-//          that.config.forEach(function (item) {
-//            if ("banner" == item.code) {
-//              that.banner = item;
-//            } else if ("primaryMenu" == item.code) {
-//              that.primaryMenu = item;
-//            } else if ("secondaryMenu" == item.code) {
-//              that.secondaryMenu = item;
-//            } else if ("coupon" == item.code) {
-//              that.coupon = item;
-//            } else if ('advertisement' == item.code) {
-//              that.advertisement = item;
-//            }
-//            else if ("gridView" == item.template && item.code != 'brand') {
-//              var result = [];
-//              for (var i = 0, len = item.items.length; i < len; i += 6) {
-//                result.push(item.items.slice(i, i + 6));
-//              }
-//              item.items = result;
-//            }
-//          })
-//        }
-//      }
       this.signature();
       this.getConfig();
     },
@@ -361,6 +335,7 @@
 <style scoped>
 
   .city {
+    color: white;
     padding-right: 15px;
     background: url(../assets/img/pull-down.png) no-repeat;
     background-position: right;
