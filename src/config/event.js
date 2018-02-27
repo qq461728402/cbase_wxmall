@@ -15,7 +15,7 @@ function bindEvent() {
     var top = document.getElementById("scrollView").scrollTop;
     /*当滚动高度大于banner的高度时候颜色不变*/
     if (top > height) {
-      sea.style.background = "rgba(201,21,35,0.85)";
+      sea.style.background = "rgba(212,29,15,0.85)";
     } else {
       var op = top / height * 0.85;
       sea.style.background = "rgba(201,21,35," + op + ")";

@@ -2,7 +2,7 @@
   <yd-layout id="home" style="background-color: #fff">
     <yd-navbar slot="navbar" title="首页" bgcolor="#d41d0f" color="#FFF">
     </yd-navbar>
-    <div style="text-align: center;background-color:rgba(201, 21, 35, 0);position: fixed;width: 100%;z-index: 55" id="my_search">
+    <div style="text-align: center;background-color:rgba(212, 29, 15, 0);position: fixed;width: 100%;max-width: 750px; z-index: 55" id="my_search">
       <yd-flexbox style="margin:8px 0">
         <div style="width: 22%;height: 30px;line-height: 30px" @click="gotocitychoose">
           <span class="city">{{cityname.length==0?'获取中...':cityname}}</span>
@@ -20,7 +20,8 @@
       </yd-flexbox>
     </div>
     <!--banner-->
-    <yd-slider autoplay="3000" :style="{height: bl+'px'}" id="my_banner">
+    <!--*:style="{minHeight: bl+'px'}"*-->
+    <yd-slider autoplay="3000"  style="min-height: 130px" id="my_banner">
       <yd-slider-item v-for="item,index in banner.items" :key="index">
         <a :href="item.url">
           <img :src="item.img">
