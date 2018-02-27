@@ -1,8 +1,7 @@
 <template>
-  <yd-layout id="shopcar">
+  <div id="shopcar">
     <yd-navbar slot="navbar" title="购物车" bgcolor="#d41d0f" color="#FFF">
     </yd-navbar>
-
     <yd-cell-group slot="navbar">
       <yd-cell-item>
         <span slot="left" style="text-align: center;">购物车</span>
@@ -65,22 +64,22 @@
             </span>
       </yd-cell-item>
     </yd-cell-group>
-    <yd-tabbar slot="tabbar" activeColor="#d41d0f">
-      <yd-tabbar-item title="首页" link="/">
-        <yd-icon name="shouye" slot="icon" size="0.54rem" custom></yd-icon>
-      </yd-tabbar-item>
-      <yd-tabbar-item title="分类"  link="/home/category" >
-        <yd-icon slot="icon" size="0.54rem" name="fenlei1" custom></yd-icon>
-      </yd-tabbar-item>
-      <yd-tabbar-item title="购物车" link="/shoppingCart" active>
-        <yd-icon name="gouwuche" slot="icon" size="0.54rem" custom></yd-icon>
-        <yd-badge slot="badge" type="danger" v-if="quantity!=0" style="background-color: #d41d0f;">{{quantity}}</yd-badge>
-      </yd-tabbar-item>
-      <yd-tabbar-item title="个人中心" link="/personalCenter">
-        <yd-icon name="ucenter" slot="icon" size="0.54rem"></yd-icon>
-      </yd-tabbar-item>
-    </yd-tabbar>
-  </yd-layout>
+    <!--<yd-tabbar slot="tabbar" activeColor="#d41d0f">-->
+      <!--<yd-tabbar-item title="首页" link="/">-->
+        <!--<yd-icon name="shouye" slot="icon" size="0.54rem" custom></yd-icon>-->
+      <!--</yd-tabbar-item>-->
+      <!--<yd-tabbar-item title="分类"  link="/home/category" >-->
+        <!--<yd-icon slot="icon" size="0.54rem" name="fenlei1" custom></yd-icon>-->
+      <!--</yd-tabbar-item>-->
+      <!--<yd-tabbar-item title="购物车" link="/shoppingCart" active>-->
+        <!--<yd-icon name="gouwuche" slot="icon" size="0.54rem" custom></yd-icon>-->
+        <!--<yd-badge slot="badge" type="danger" v-if="quantity!=0" style="background-color: #d41d0f;">{{quantity}}</yd-badge>-->
+      <!--</yd-tabbar-item>-->
+      <!--<yd-tabbar-item title="个人中心" link="/personalCenter">-->
+        <!--<yd-icon name="ucenter" slot="icon" size="0.54rem"></yd-icon>-->
+      <!--</yd-tabbar-item>-->
+    <!--</yd-tabbar>-->
+  </div>
 </template>
 <script type="text/babel">
   import {getCookie,baseHttp} from "../config/env"
@@ -175,14 +174,6 @@
           }
           that.$refs.gwc.style.display='';
           that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
-          that.getCartsQuantity();
-        });
-      },
-      /*获取购物车数量*/
-      getCartsQuantity(){
-        const that = this;
-        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
-          if (data.quantity)that.quantity = data.quantity
         });
       },
       /*购物车删除功能*/

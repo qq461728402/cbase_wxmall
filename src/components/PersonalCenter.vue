@@ -1,5 +1,5 @@
 <template>
-  <yd-layout class="personal">
+  <div class="personal">
     <yd-navbar slot="navbar" title="个人中心" bgcolor="#d41d0f" color="#FFF">
     </yd-navbar>
     <div style="height: 3.5rem; line-height: 3.5rem;text-align:center;" :style="bg">
@@ -100,22 +100,22 @@
       </yd-popup>
 
     </yd-cell-group>
-    <yd-tabbar slot="tabbar" activeColor="#d41d0f">
-      <yd-tabbar-item title="首页" link="/">
-        <yd-icon name="shouye" slot="icon" size="0.54rem" custom></yd-icon>
-      </yd-tabbar-item>
-      <yd-tabbar-item title="分类"  link="/home/category" >
-        <yd-icon slot="icon" size="0.54rem" name="fenlei1" custom></yd-icon>
-      </yd-tabbar-item>
-      <yd-tabbar-item title="购物车" link="/shoppingCart">
-        <yd-icon name="gouwuche" slot="icon" size="0.54rem" custom></yd-icon>
-        <yd-badge slot="badge" type="danger" v-if="quantity!=0" style="background-color: #d41d0f;">{{quantity}}</yd-badge>
-      </yd-tabbar-item>
-      <yd-tabbar-item title="个人中心" link="/personalCenter" active>
-        <yd-icon name="ucenter" slot="icon" size="0.54rem"></yd-icon>
-      </yd-tabbar-item>
-    </yd-tabbar>
-  </yd-layout>
+    <!--<yd-tabbar slot="tabbar" activeColor="#d41d0f">-->
+      <!--<yd-tabbar-item title="首页" link="/">-->
+        <!--<yd-icon name="shouye" slot="icon" size="0.54rem" custom></yd-icon>-->
+      <!--</yd-tabbar-item>-->
+      <!--<yd-tabbar-item title="分类"  link="/home/category" >-->
+        <!--<yd-icon slot="icon" size="0.54rem" name="fenlei1" custom></yd-icon>-->
+      <!--</yd-tabbar-item>-->
+      <!--<yd-tabbar-item title="购物车" link="/shoppingCart">-->
+        <!--<yd-icon name="gouwuche" slot="icon" size="0.54rem" custom></yd-icon>-->
+        <!--<yd-badge slot="badge" type="danger" v-if="quantity!=0" style="background-color: #d41d0f;">{{quantity}}</yd-badge>-->
+      <!--</yd-tabbar-item>-->
+      <!--<yd-tabbar-item title="个人中心" link="/personalCenter" active>-->
+        <!--<yd-icon name="ucenter" slot="icon" size="0.54rem"></yd-icon>-->
+      <!--</yd-tabbar-item>-->
+    <!--</yd-tabbar>-->
+  </div>
 </template>
 <script type="text/babel">
   import {getCookie,baseHttp} from "../config/env"
@@ -140,7 +140,6 @@
       var tempUserInfo=getStore("userInfo");
       this.isCookie=tempUserInfo.token?true:false;
       if(tempUserInfo.token){
-        this.getCartsQuantity();
         this.getOrderStatus();
         this.getuserInfo();
       }else{
@@ -181,10 +180,6 @@
         }else{
           this.$router.push({ name: 'loginWithCode'});
         }
-      },
-      /*跳转至首页*/
-      gotoindex () {
-
       },
       /*购物车*/
       gotoshopcar() {
@@ -240,14 +235,6 @@
           });
         }
       },
-
-      /*获取购物车数量*/
-      getCartsQuantity(){
-        const  that =this;
-        baseHttp(this,'/api/carts/cartsQuantity',{},'get','',function (data) {
-          if(data.quantity)that.quantity=data.quantity;
-        })
-      },
       /*获取订单数量*/
       getOrderStatus(){
         const  that =this;
@@ -267,7 +254,6 @@
       var tempUserInfo=getStore("userInfo");
       this.isCookie=tempUserInfo.token?true:false;
       if(tempUserInfo.token){
-        this.getCartsQuantity();
         this.getOrderStatus();
         this.getuserInfo();
       }

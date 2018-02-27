@@ -43,14 +43,25 @@ const GiftAppoint = resolve => require.ensure([], () => resolve(require('../comp
 const AboutUs = resolve => require.ensure([], () => resolve(require('../components/personalCenter/introduct/aboutUs')), 'AboutUs')
 const StoresDetail = resolve => require.ensure([], () => resolve(require('../components/storesDetail')), 'StoresDetail')
 
+const Index = resolve => require.ensure([], () => resolve(require('../components/Index')), 'Index')
+
 Vue.use(Router)
 const router = new Router({
   hashbang:false,
   // mode: 'history',
   routes: [
-    {path: '/', name: 'home',component: IndexHome, meta:{title:'首页',keepAlive:true}},
+    {path: "*", redirect: '/home'},
+    {path: '/index', name: 'index',component: Index,
+      children:[
+        {path:'/home',name:'home',component:IndexHome,meta:{title:'首页',keepAlive:true}},
+        {path:'/category',name:'category',component:CarProducts,meta:{title:'商品分类',keepAlive:true}},
+        {path:'/shoppingCart',name:'shoppingCart',component:ShoppingCart,meta:{title:'购物车',keepAlive:true}},
+        {path:'/personalCenter',name:'personalCenter',component:PersonalCenter,meta:{title:'个人中心',keepAlive:true}},
+      ]
+    },
+    // {path: '/', name: 'home',component: IndexHome, meta:{title:'首页',keepAlive:true}},
     {path:'/home/chooseCity',name:'chooseCity',component:ChooseCity,meta:{title:'选择城市',keepAlive:true}},
-    {path:"/home/category",name:'category',component:CarProducts,meta:{title:'商品分类',keepAlive:true}},
+    // {path:"/home/category",name:'category',component:CarProducts,meta:{title:'商品分类',keepAlive:true}},
     {path:"/home/productsList",name:'productsList',component:ProductsList,meta:{title:'商品列表',keepAlive:false}},
     {path:"/home/productsDetail",name:'productsDetail',component:ProductsDetail,meta:{title:'商品详情',keepAlive:false}},
     {path:"/home/reviewsList",name:'reviewsList',component:ReviewsList,meta:{title:'评论列表',keepAlive:false}},
@@ -68,8 +79,8 @@ const router = new Router({
     {path:'/home/chooseCarInfo',name:'chooseCarInfo',component:ChooseCarInfo,meta:{title:'选择车辆信息',keepAlive:false}},
     {path:'/stores', name:'stores', component:Stores, meta:{title:'门店',keepAlive:true}},
     {path:'/stores/storesDetail',name:'storesDetail',component:StoresDetail,meta:{title:'门店详情'}},
-    {path:'/shoppingCart', name:'shoppingCart', component:ShoppingCart, meta:{title:'购物车',keepAlive:true}},
-    {path:'/personalCenter', name:'personalCenter', component:PersonalCenter, meta:{title:'个人中心',keepAlive:true}},
+    // {path:'/shoppingCart', name:'shoppingCart', component:ShoppingCart, meta:{title:'购物车',keepAlive:true}},
+    // {path:'/personalCenter', name:'personalCenter', component:PersonalCenter, meta:{title:'个人中心',keepAlive:true}},
     {path:'/personalCenter/userInfo', name:'userInfo', component:UserInfo, meta:{title:'用户信息',keepAlive:true}},
     {path:'/personalCenter/reperUserInfo', name:'reperUserInfo', component:RePerUserInfo, meta:{title:'用户信息',keepAlive:true}},
     {path:'/personalCenter/addressList',name:'addressList',component:AddressList,meta:{title:'收货地址',keepAlive:true}},
