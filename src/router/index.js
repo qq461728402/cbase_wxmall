@@ -51,7 +51,7 @@ const router = new Router({
   // mode: 'history',
   routes: [
     {path: "*", redirect: '/home'},
-    {path: '/index', name: 'index',component: Index,
+    {path: '/index', name: 'index',component: Index, meta:{title:'重庆百货',keepAlive:true},
       children:[
         {path:'/home',name:'home',component:IndexHome,meta:{title:'首页',keepAlive:true}},
         {path:'/category',name:'category',component:CarProducts,meta:{title:'商品分类',keepAlive:true}},

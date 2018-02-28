@@ -37,6 +37,7 @@
 <script type="text/babel">
   import {baseHttp} from '../../config/env'
   import eventBus from '../../config/eventbus'
+  import  md5 from 'js-md5'
   const vm= {
     data() {
       return {
@@ -102,7 +103,7 @@
           return;
         }
         const  that =this;
-        gethttp(this, "/api/customer/regist", {'customerPhone': this.customerPhone, 'message': this.message, 'customerPassword': md5(this.password)}, 'post', '注册中...', function (data) {
+        baseHttp(this, "/api/customer/regist", {'customerPhone': this.customerPhone, 'message': this.message, 'customerPassword': md5(this.password)}, 'post', '注册中...', function (data) {
           that.$dialog.toast({
             mes: '注册成功!',
             timeout: 1000,

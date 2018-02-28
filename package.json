@@ -17,6 +17,7 @@
     "js-md5": "^0.7.3",
     "js-qrcode": "^1.0.0",
     "style-loader": "^0.19.1",
+    "vant": "^0.12.11",
     "vue": "^2.5.2",
     "vue-awesome-swiper": "^3.1.0",
     "vue-axios": "^2.0.2",
@@ -32,6 +33,7 @@
     "vue-touch": "^1.1.0",
     "vue-wechat-title": "^2.0.4",
     "vue-ydui": "^1.1.8",
+    "vuex": "^3.0.1",
     "vux": "^2.7.0",
     "weixin-js-sdk": "^1.2.0"
   },
@@ -42,6 +44,7 @@
     "babel-jest": "^21.0.2",
     "babel-loader": "^7.1.2",
     "babel-plugin-dynamic-import-node": "^1.2.0",
+    "babel-plugin-import": "^1.6.5",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.22.0",

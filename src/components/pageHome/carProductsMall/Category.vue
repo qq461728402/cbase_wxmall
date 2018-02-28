@@ -1,5 +1,5 @@
 <template>
-  <yd-layout id="carPro">
+  <div id="carPro">
     <yd-navbar slot="navbar" title="商品分类" bgcolor="#d41d0f" color="#FFF">
       <router-link to="" slot="left" @click.native="gotoback()">
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
@@ -24,24 +24,7 @@
         </yd-grids-group>
       </div>
     </div>
-
-    <yd-tabbar slot="tabbar" activeColor="#d41d0f">
-      <yd-tabbar-item title="首页" link="/">
-        <yd-icon name="shouye" slot="icon" size="0.54rem" custom></yd-icon>
-      </yd-tabbar-item>
-      <yd-tabbar-item title="分类"  link="/home/carProducts" active>
-        <yd-icon slot="icon" size="0.54rem" name="fenlei1" custom></yd-icon>
-      </yd-tabbar-item>
-      <yd-tabbar-item title="购物车" link="/shoppingCart">
-        <yd-icon name="gouwuche" slot="icon" size="0.54rem" custom></yd-icon>
-        <yd-badge slot="badge" type="danger" v-if="quantity!=0" style="background-color: #d41d0f;">{{quantity}}</yd-badge>
-      </yd-tabbar-item>
-      <yd-tabbar-item title="个人中心" link="/personalCenter">
-        <yd-icon name="ucenter" slot="icon" size="0.54rem"></yd-icon>
-      </yd-tabbar-item>
-    </yd-tabbar>
-
-  </yd-layout>
+  </div>
 </template>
 <script type="text/babel">
   import {baseHttp} from '../../../config/env'
@@ -63,8 +46,7 @@
       if(this.$route.query.hasOwnProperty("categoryId")){
         this.selectcategoryId = this.$route.query.categoryId;
       }
-      console.log('categoryId');
-      this.getData();  // 向data数组里添加数据
+      this.getData();
     },
     beforeRouteEnter(to, from, next) {
       next(function (vm) {
@@ -86,27 +68,46 @@
         this.$router.go(-2);
       },
       getData(){
+        var l=this.$store.state.basicStorage.categoryList;
+        if(l.length>0){
+          this.categories=l;
+          this.cacheCatItemList=this.categories;
+          for (var key in this.categories){
+            if(this.selectcategoryId.length>0&&this.selectcategoryId==this.categories[key].categoryId){
+              this.categories[key].select=true;
+              this.selectItemCategories(this.categories[key].categoryId,key);
+            }else if(this.selectcategoryId.length==0&&key==this.initindex){
+              this.categories[key].select=true;
+              this.selectItemCategories(this.categories[key].categoryId,key);
+            }else{
+              this.categories[key].select=false;
+            }
+          }
+          return;
+        }
         const  that=this;
         baseHttp(this,'/api/mall/category',this.loginpas,'post','加载中...',function (data) {
           if(data.categories){
             that.cacheCatItemList=data.categories;
             for (var key in data.categories){
-              data.categories[key].select=false;
               if(that.selectcategoryId.length>0&&that.selectcategoryId==data.categories[key].categoryId){
                 data.categories[key].select=true;
                 that.selectItemCategories(data.categories[key].categoryId,key);
-              }
-              if(that.selectcategoryId.length==0&&key==that.initindex){
+              }else if(that.selectcategoryId.length==0&&key==that.initindex){
                 data.categories[key].select=true;
                 that.selectItemCategories(data.categories[key].categoryId,key);
+              }else{
+                data.categories[key].select=false;
               }
             }
             that.categories=data.categories;
+            that.$store.dispatch('setCategoryList', that.categories);
           }
         })
       },
       /*加载数据*/
       selectItemCategories(parentId,index){
+        this.selectcategoryId=parentId+'';
         const that =this;
         this.catItemlist=that.cacheCatItemList[index].catItemlist!=undefined?that.cacheCatItemList[index].catItemlist:[];
         if(that.caturllist.length>=index){
