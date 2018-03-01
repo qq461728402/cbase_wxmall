@@ -14,7 +14,6 @@ const cookieMsg={
   },
   mutations:{
     SET_AVATAR:(state)=>{
-      console.log(11111);
       if(getStore('avatar').length>0){
         state.avatar=getStore('avatar');
       }else{

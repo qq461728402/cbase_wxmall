@@ -335,12 +335,11 @@
   }
   #searchId form .icon_search {
     display: block;
-    width: 0.5rem;
-    height: 0.6rem;
+    width: 20px;
+    height: 20px;
     position: absolute;
     left: 24%;
     top: 13px;
-    background-position: -60px -109px;
   }
   .codeitemView {
     border-bottom: 10px solid #f5f5f5;
@@ -389,8 +388,8 @@
     width: 100%;
   }
   .icon_search {
-    background: url(../assets/img/sprites.png) no-repeat;
-    background-size: 200px 200px;
+    background: url(../assets/img/search.png) no-repeat;
+    background-size: 20px 20px;
   }
 </style>
 <style>
