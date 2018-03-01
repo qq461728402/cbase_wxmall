@@ -5,11 +5,12 @@
     <div style="text-align: center;background-color:rgba(212, 29, 15, 0);position: fixed;width: 100%;max-width: 750px; z-index: 55" id="my_search">
       <yd-flexbox style="margin:8px 0">
         <div style="width: 22%;height: 30px;line-height: 30px" @click="gotocitychoose">
-          <span class="city">{{cityname.length==0?'获取中...':cityname}}</span>
+          <span class="city">{{cityname.length==0?'重庆市':cityname.substring(0,3)}}</span>
         </div>
-        <yd-flexbox-item style="border-radius: 15px;background: #ffffff">
+        <yd-flexbox-item id="searchId">
           <form action="javascript:return true;">
-            <input type="search" style="border: 0px;outline:none;cursor: pointer; height: 30px;" placeholder="" @keyup.13="search()" v-model="searchValue">
+            <span class="icon_search"></span>
+            <input type="search" class="search" placeholder="点击搜索"  @keyup.13="search()" v-model="searchValue">
           </form>
         </yd-flexbox-item>
         <div style="width: 15%;height: 30px;line-height: 30px">
@@ -135,7 +136,7 @@
       return {
         bl:'',
         mySwiper: '',
-        isCookie: false,
+        isCookie: getStore("token").length>0?true:false,
         cityname: '',
         weixinInfo: {},
         config: [],
@@ -169,23 +170,22 @@
       }
     },
     mounted(){
-//      var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-//      this.bl= 300*w/640.0;
       bindEvent();
-      if (getStore('cityInfo').cityname) {
-        this.cityname = getStore('cityInfo').cityname;
+      var cityname=this.$store.state.basicStorage.cityName;
+      if (cityname.length>0) {
+        this.cityname =cityname;
       }
       this.signature();
       this.getConfig();
     },
     beforeRouteEnter(to, from, next) {
       next(function (vm) {
-        if (getStore('cityInfo').cityname) {
-          vm.cityname = getStore('cityInfo').cityname;
+        var cityname=vm.$store.state.basicStorage.cityName;
+        if (cityname.length>0) {
+          vm.cityname = cityname;
         }
+        vm.searchValue='';
         vm.getConfig();
-        var tempUserInfo = getStore("userInfo");
-        vm.isCookie = tempUserInfo.token ? true : false;
       });
     },
     beforeRouteLeave(to, from, next){
@@ -294,9 +294,9 @@
                 longitude: success.longitude,
                 cityname: addComp.district
               };
-              setStore("cityInfo", data);
+              that.$store.dispatch('setCityName',data.cityname);
+              that.$store.dispatch('setLocatingCity',data.cityname);
               that.cityname = data.cityname;
-              that.locityName = data.cityname;
             });
           },
           function (fail) {
@@ -308,50 +308,67 @@
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
   .city {
+    overflow-x:hidden;
     color: white;
     padding-right: 15px;
     background: url(../assets/img/pull-down.png) no-repeat;
     background-position: right;
     background-size: 15px 15px;
     font-size: 0.3rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-
+  #searchId form .search {
+    width: 100%;
+    height: 30px;
+    border-radius: 15px;
+    padding-left: 0.6rem;
+    padding-right:0.2rem;
+  }
+  #searchId input{
+    border: none;
+    resize: none;
+    outline: none;
+    -webkit-appearance: none;
+    background-color: white;
+  }
+  #searchId form .icon_search {
+    display: block;
+    width: 0.5rem;
+    height: 0.6rem;
+    position: absolute;
+    left: 24%;
+    top: 13px;
+    background-position: -60px -109px;
+  }
   .codeitemView {
     border-bottom: 10px solid #f5f5f5;
     background-color: #fff;
   }
-
   .codeitemTitle {
     border-bottom: 1px solid #ebeced;
     height: 0.8rem;
     line-height: 0.8rem;
     text-align: center;
   }
-
   .codeitemTitle .line {
     display: inline-block;
     width: .5rem;
     border-top: 1px solid #ccc;
-
   }
-
   .codeitemTitle .txt {
     color: #000000;
     font-size: 0.3rem;
     vertical-align: -8%;
   }
-
   .codeitemTitle span {
     color: #ccc;
   }
-
   .rowSpan {
     overflow: hidden;
     border-bottom: 1px solid #ebeced;
   }
-
   .rowSpanLeft {
     width: 40%;
     float: left;
@@ -370,6 +387,10 @@
   }
   .rowSpanRigth img {
     width: 100%;
+  }
+  .icon_search {
+    background: url(../assets/img/sprites.png) no-repeat;
+    background-size: 200px 200px;
   }
 </style>
 <style>

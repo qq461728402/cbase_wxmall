@@ -43,8 +43,7 @@
       const that = this;
       this.getCityInfo();
       this.city.onChoose = function(res){
-        console.log(res);
-        setStore('cityInfo',{'cityname':res.cityName});
+        that.$store.dispatch('setCityName',res.cityName);
         this.$router.go(-1);
       }
     },
@@ -54,6 +53,7 @@
       },
       getCityInfo: function(){
         const that=this;
+        var locatingCity=this.$store.state.basicStorage.locatingCity;
         var cityData=[];
         baseHttp(this,'/api/city/all',{},'get','加载中...',function (data){
           for(var key in data.areas){
@@ -96,7 +96,7 @@
         ]
         this.city.localCity = {
           cityId: 301,
-          cityName: getStore("cityInfo").locityName,
+          cityName: locatingCity,
           citySpell: "YUZHONGQU",
           cityFirstLetter: "Y",
         }
@@ -109,9 +109,10 @@
       }
     },
     activated(){
+      var locatingCity=this.$store.state.basicStorage.locatingCity;
       this.city.localCity = {
         cityId: 301,
-        cityName: getStore("cityInfo").locityName,
+        cityName: locatingCity,
         citySpell: "YUZHONGQU",
         cityFirstLetter: "Y",
       }

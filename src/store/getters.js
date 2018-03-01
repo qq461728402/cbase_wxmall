@@ -8,5 +8,7 @@ const getters= {
   token:state => state.cookieMsg.token,
   uid:state => state.cookieMsg.uid,
   uname:state => state.cookieMsg.uname,
+  cityName:state => state.basicStorage.cityName,
+  locatingCity:state => state.basicStorage.locatingCity,
 }
 export default getters;

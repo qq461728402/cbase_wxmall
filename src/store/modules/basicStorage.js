@@ -3,11 +3,19 @@
  */
 const basicStorage={
   state:{
+    cityName:'',//城市名称
+    locatingCity:'',//定位城市
     configList:[],//首页存储
     categoryList:[],//分类列表
     goodsList:[],//商品列表
   },
   mutations:{
+     SET_CITYNAME:(state,cityName) =>{
+        state.cityName=cityName;
+     },
+     SET_LOACTINGCITY:(state,cityName)=>{
+        state.locatingCity=cityName;
+     },
      SET_CATELIST:(state,list)=>{
        state.categoryList=list;
      },
@@ -27,6 +35,12 @@ const basicStorage={
     },
     setConfig({commit},list){
       commit('SET_CONFIGLIST',list);
+    },
+    setCityName({commit},cityName){
+      commit('SET_CITYNAME',cityName);
+    },
+    setLocatingCity({commit},cityName){
+      commit('SET_LOACTINGCITY',cityName);
     }
   }
 }

@@ -7,10 +7,10 @@
     </yd-navbar>
     <div class="yd-scrolltab">
       <div class="yd-scrolltab-nav">
-        <a href="javascript:;" class="yd-scrolltab-item" :class="{'yd-scrolltab-active':careItem.select}" v-for="careItem,index in categories" :key="index" @click="selectItem(index)">
+        <div class="yd-scrolltab-item" :class="{'yd-scrolltab-active':careItem.select}" v-for="careItem,index in categories" :key="index" @click="selectItem(index)">
           <div class="yd-scrolltab-icon"><i class="demo-icons-category1"></i></div>
-          <div class="yd-scrolltab-title" style="font-size: .28rem;">{{careItem.categoryName}}</div>
-        </a>
+          <div class="yd-scrolltab-title" style="font-size: .25rem;">{{careItem.categoryName}}</div>
+        </div>
       </div>
       <div class="yd-scrolltab-content">
         <div v-if="caturl&&caturl.length>0">
@@ -162,5 +162,20 @@
   }
   #carPro .yd-grids-icon{
     height:1.2rem
+  }
+  #carPro .yd-scrolltab-active{
+    background-color: #f5f5f5;
+  }
+  #carPro .yd-scrolltab-active  .yd-scrolltab-title{
+    color: #d41d0f;
+  }
+  #carPro .yd-scrolltab-nav{
+    background-color: #ffffff;
+  }
+  #carPro .yd-scrolltab-content{
+    background-color: #f5f5f5;
+  }
+  #carPro .yd-scrolltab-content > div{
+      margin: 0.2rem;
   }
 </style>
