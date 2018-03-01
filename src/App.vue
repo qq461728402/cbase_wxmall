@@ -24,12 +24,6 @@
       this.$store.dispatch('getToken');
       this.$store.dispatch('getUid');
       this.$store.dispatch('getUname');
-      var a=this.$store.state.cookieMsg.avatar;
-      var b=this.$store.state.cookieMsg.token;
-      var c=this.$store.state.cookieMsg.uid;
-      var d=this.$store.state.cookieMsg.uname;
-      console.log(1122113);
-      console.log(a+'-'+b+'-'+c+'-'+d);
     },
   }
 </script>

@@ -108,7 +108,7 @@
   const vm= {
     data() {
       return {
-        isCookie:false,
+        isCookie:getStore("token").length>0?true:false,
         isshowbounds:false,
         bonusPointsHistories:[],
         quantity:0,
@@ -122,9 +122,7 @@
       }
     },
     activated(){
-      var tempUserInfo=getStore("userInfo");
-      this.isCookie=tempUserInfo.token?true:false;
-      if(tempUserInfo.token){
+      if(this.isCookie==true){
         this.getOrderStatus();
         this.getuserInfo();
       }else{

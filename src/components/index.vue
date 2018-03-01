@@ -30,13 +30,11 @@
       return {
         quantity:0,
         currentPath:'',
-        isCookie:false
+        isCookie:getStore("token").length>0?true:false
       }
     },
     mounted(){
       this.currentPath=this.$route.path;
-      var tempUserInfo=getStore("userInfo");
-      this.isCookie=tempUserInfo.token?true:false;
       if(this.isCookie==true){
           this.getCartsQuantity();
       }
