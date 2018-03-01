@@ -14,7 +14,8 @@ const cookieMsg={
   },
   mutations:{
     SET_AVATAR:(state)=>{
-      if(getStore('avatar')){
+      console.log(11111);
+      if(getStore('avatar').length>0){
         state.avatar=getStore('avatar');
       }else{
         state.avatar=getToken('avatar');
@@ -25,7 +26,7 @@ const cookieMsg={
       }
     },
     SET_TOKEN:(state)=>{
-      if(getStore('token')){
+      if(getStore('token').length>0){
         state.token=getStore('token');
       }else{
         state.token=getToken('token');
@@ -36,7 +37,7 @@ const cookieMsg={
       }
     },
     SET_UID:(state)=>{
-      if(getStore('uid')){
+      if(getStore('uid').length>0){
         state.uid=getStore('uid');
       }else{
         state.uid=getToken('uid');
@@ -47,7 +48,7 @@ const cookieMsg={
       }
     },
     SET_UNAME:(state)=>{
-      if(getStore('uname')){
+      if(getStore('uname').length>0){
         state.uname=getStore('uname');
       }else{
         state.uname=getToken('uname');
