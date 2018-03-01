@@ -5,9 +5,11 @@ import Vue from 'vue';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import YDUI from 'vue-ydui'
+import store from '../store'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
 axios.defaults.baseURL = 'http://joewee.mynatapp.cc';
+axios.defaults.headers.token = store.getters.token;
 import {removeStore} from './mUtils'
 /*par 参数
  *url 接口地址
@@ -24,7 +26,7 @@ export function baseHttp(ydui, url, par, method, loadmsg, callback) {
     data:par,
     timeout: 5000,
   }).then(function (response) {
-    // console.log(response.data);
+    console.log(response.data);
     if(response.data.code==401){
       removeStore('userInfo');
       ydui.$dialog.confirm({

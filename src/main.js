@@ -12,7 +12,6 @@ import VueAxios from 'vue-axios'
 import VueWechatTitle from 'vue-wechat-title'
 import Icon from 'vue-svg-icon/Icon.vue'
 Vue.config.productionTip = false
-axios.defaults.withCredentials = true
 Vue.use(YDUI);
 Vue.use(VueAxios, axios)
 Vue.use(VueWechatTitle);

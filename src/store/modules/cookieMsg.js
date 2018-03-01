@@ -1,7 +1,7 @@
 /**
  * Created by dx on 18/3/1.
  */
-import {getToken} from '../../config/mUtils'
+import {getToken,removeToken} from '../../config/mUtils'
 /**
  * Created by dx on 18/2/27.
  */
@@ -15,15 +15,27 @@ const cookieMsg={
   mutations:{
     SET_AVATAR:(state)=>{
       state.avatar=getToken('avatar');
+      if(getToken('avatar')){
+        removeToken('avatar');
+      }
     },
     SET_TOKEN:(state)=>{
       state.token=getToken('token');
+      if(getToken('token')){
+        removeToken('token');
+      }
     },
     SET_UID:(state)=>{
       state.uid=getToken('uid');
+      if(getToken('uid')){
+        removeToken('uid');
+      }
     },
     SET_UNAME:(state)=>{
       state.uname=getToken('uname');
+      if(getToken('uname')){
+        removeToken('uname');
+      }
     },
   },
   actions: {
