@@ -19,8 +19,7 @@ export const setStore = (name, content) => {
 export const getStore = name => {
   if (!name) return;
    var getStr=window.localStorage.getItem(name)!=undefined?window.localStorage.getItem(name):'';
-  if(getStr.length>0)return JSON.parse(getStr);
-  else return {};
+   return getStr;
 }
 
 /**
