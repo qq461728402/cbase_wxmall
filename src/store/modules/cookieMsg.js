@@ -25,17 +25,15 @@ const cookieMsg={
       }
     },
     SET_TOKEN:(state)=>{
-      if(getStore('token').length>0){
-        state.token=getStore('token');
-
-      }else{
+      var getToken=getToken('token');
+      if(getToken.length>0){
         state.token=getToken('token');
         if(getToken('token')){
-          console.log(getToken('token'));
-          setStore('token',getToken('token'));
-          console.log(getStore('token'));
+          setStore('token',getToken);
           removeToken('token');
         }
+      }else{
+        state.token=getStore('token');
       }
     },
     SET_UID:(state)=>{
