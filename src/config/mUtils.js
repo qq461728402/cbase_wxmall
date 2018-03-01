@@ -31,7 +31,7 @@ export const removeStore = name => {
   window.localStorage.removeItem(name);
 }
 export function getToken(name) {
-  return Cookies.get(name)
+  return Cookies.get(name)?Cookies.get(name):'';
 }
 
 export function setToken(name,value) {
