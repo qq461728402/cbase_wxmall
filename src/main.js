@@ -11,18 +11,12 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueWechatTitle from 'vue-wechat-title'
 import Icon from 'vue-svg-icon/Icon.vue'
-import VueLazyload from 'vue-lazyload'
 Vue.config.productionTip = false
 axios.defaults.withCredentials = true
 Vue.use(YDUI);
 Vue.use(VueAxios, axios)
 Vue.use(VueWechatTitle);
-Vue.use(VueLazyload, {
-  preLoad: 1.3,
-  loading:require('./assets/svg/loading-spin.svg'),
-});
 Vue.component('icon', Icon)
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!--<van-button type="primary">主要按钮</van-button>-->
     <keep-alive>
       <router-view v-wechat-title="$route.meta.title" :img-set="imgUrl" v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
@@ -7,7 +8,11 @@
   </div>
 </template>
 <script>
+//  import { Button } from 'vant';
   export default{
+//    components: {
+//      [Button.name]: Button,
+//    },
     name: 'app',
     data () {
       return {
@@ -15,7 +20,16 @@
       }
     },
     mounted(){
-
+      this.$store.dispatch('getAvatar');
+      this.$store.dispatch('getToken');
+      this.$store.dispatch('getUid');
+      this.$store.dispatch('getUname');
+      var a=this.$store.state.cookieMsg.avatar;
+      var b=this.$store.state.cookieMsg.token;
+      var c=this.$store.state.cookieMsg.uid;
+      var d=this.$store.state.cookieMsg.uname;
+      console.log(1122113);
+      console.log(a+'-'+b+'-'+c+'-'+d);
     },
   }
 </script>
