@@ -27,10 +27,13 @@ const cookieMsg={
     SET_TOKEN:(state)=>{
       if(getStore('token').length>0){
         state.token=getStore('token');
+
       }else{
         state.token=getToken('token');
         if(getToken('token')){
+          console.log(getToken('token'));
           setStore('token',getToken('token'));
+          console.log(getStore('token'));
           removeToken('token');
         }
       }
