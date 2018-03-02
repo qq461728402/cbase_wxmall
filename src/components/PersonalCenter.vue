@@ -4,10 +4,10 @@
     </yd-navbar>
     <div class="mine_hearder" :style="bg">
       <div class="user_icon">
-         <img src="http://www.qqxoo.com/uploads/allimg/180301/16122362J-6.jpg">
+         <img :src="avatar">
       </div>
       <div class="user_detal">
-        <p class="user_name">xiongjj</p>
+        <p class="user_name">{{uname}}</p>
         <p class="user_des"> <yd-badge type="warning">会员</yd-badge></p>
       </div>
       <div class="manage_account">
@@ -108,7 +108,14 @@
 <script type="text/babel">
   import {getCookie,baseHttp} from "../config/env"
   import {getStore,setStore} from "../config/mUtils"
+  import { mapGetters } from 'vuex'
   const vm= {
+    computed: {
+      ...mapGetters([
+        'uname',
+        'avatar'
+      ])
+    },
     data() {
       return {
         isCookie:getStore("token").length>0?true:false,
