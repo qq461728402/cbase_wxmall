@@ -386,7 +386,10 @@
       }
     },
     mounted(){
-      this.getorderInfo = getStore("oderInfo");
+      if(getStore("oderInfo").length>0){
+        var orderI=getStore("oderInfo");
+        this.getorderInfo=JSON.parse(orderI);
+      }
       if(isEmptyObject(this.getorderInfo)){
         const that=this;
         this.$dialog.confirm({
@@ -410,15 +413,6 @@
           if(data.bonusPoints){
             that.bonusPoints=data.bonusPoints;
             that.bonusPointsUsed=data.bonusPoints;
-          }
-          if(!data.carInfo){
-            that.$dialog.confirm({
-              title: '温馨提示',
-              mes: '您还没有选择车辆是否需要选择！',
-              opts:function () {
-                that.$router.push({ name:'carchoose'});
-              }
-            });
           }
           if(!data.carInfo)that.carInfo=false;else that.carInfo=true;
           that.confirmOder();
