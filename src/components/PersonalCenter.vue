@@ -2,9 +2,17 @@
   <div class="personal">
     <yd-navbar slot="navbar" title="个人中心" bgcolor="#d41d0f" color="#FFF">
     </yd-navbar>
-    <div style="height: 3.5rem; line-height: 3.5rem;text-align:center;" :style="bg">
-      <img v-if="userInfo.avatar" @click="gotouser" alt=""  :src="userInfo.avatar" style="display: inline-block;height:2.5rem;width: 2.5rem;vertical-align: middle;border-radius: 50%"/>
-      <img v-else @click="gotouser" alt=""  src="../assets/img/touxiang.png" style="display: inline-block;height: 60%;vertical-align: middle;"/>
+    <div class="mine_hearder" :style="bg">
+      <div class="user_icon">
+         <img src="http://www.qqxoo.com/uploads/allimg/180301/16122362J-6.jpg">
+      </div>
+      <div class="user_detal">
+        <p class="user_name">xiongjj</p>
+        <p class="user_des"> <yd-badge type="warning">会员</yd-badge></p>
+      </div>
+      <div class="manage_account">
+        <span>用户管理></span>
+      </div>
     </div>
     <yd-cell-group style="margin-top: 0.2rem;margin-bottom:0px" >
       <yd-cell-item arrow>
@@ -52,16 +60,11 @@
         <span slot="left"> 我的优惠券</span>
         <span slot="right" style="font-size: .3rem;"></span>
       </yd-cell-item>
-      <yd-cell-item arrow type="a"  @click.native="mypolicy">
-        <yd-icon slot="icon" name="baodanguanli" size=".35rem" color="#999999" custom></yd-icon>
-        <span slot="left">我的保单</span>
-      </yd-cell-item>
       <yd-cell-item type="a" @click.native="gotobonushistroy()">
         <yd-icon slot="icon" name="jfxx" size=".35rem" color="#999999" custom></yd-icon>
-        <span slot="left">积分信息</span>
+        <span slot="left">积分商城</span>
         <span slot="right">{{userInfo.bonus?userInfo.bonus:'0'}}积分</span>
       </yd-cell-item>
-
       <yd-cell-item arrow type="a" @click.native="gotoGitfs()">
         <yd-icon slot="icon" name="mylp" size=".35rem" color="#999999" custom></yd-icon>
         <span slot="left">我的礼品</span>
@@ -71,13 +74,13 @@
         <yd-icon slot="icon" name="tuijian" size=".35rem" color="#999999" custom></yd-icon>
         <span slot="left">推荐好友</span>
       </yd-cell-item>
-      <yd-cell-item arrow @click.native="exchange" type="a" href="#" v-if="1==2">
+      <yd-cell-item arrow @click.native="exchange" type="a" href="#">
         <yd-icon slot="icon" name="duihuan" size=".35rem" color="#999999" custom></yd-icon>
         <span slot="left">兑换专区</span>
       </yd-cell-item>
       <yd-cell-item arrow @click.native="introduct" type="a">
         <yd-icon slot="icon" name="guanyu" size=".35rem" color="#999999" custom></yd-icon>
-        <span slot="left">关于商社车管家</span>
+        <span slot="left">关于重庆百货</span>
       </yd-cell-item>
       <yd-cell-item arrow type="a" href="tel:966888">
         <yd-icon slot="icon" name="kefu" size=".35rem" color="#999999" custom></yd-icon>
@@ -117,7 +120,7 @@
         shearData:{},
         userInfo:{},
         bg:{
-          backgroundImage: "url(" + require("../assets/img/grbj.png") + ")",
+          backgroundImage: "url(" + require("../assets/img/personbg.png") + ")",
         }
       }
     },
@@ -152,24 +155,18 @@
       gotoallorder(index) {
         if (this.isCookie==true){
           this.$router.push({ path: '/personalCenter/myOderList', query: { type: index }})
-        }else{
-          this.$router.push({ name: 'loginWithCode'});
         }
       },
       /*进入退货订单*/
       gotoReturnOrder(){
         if (this.isCookie==true){
           this.$router.push({ name: 'salesRetrunList', query: { type: 1 }})
-        }else{
-          this.$router.push({ name: 'loginWithCode'});
         }
       },
       /*购物车*/
       gotoshopcar() {
         if (this.isCookie==true){
           this.$router.push({ path: '/shoppingCart'});
-        }else{
-          this.$router.push({ name: 'loginWithCode'});
         }
       },
       /*门店*/
@@ -180,8 +177,6 @@
       coupons() {
         if (this.isCookie==true){
           this.$router.push({ name: 'myCoupons'});
-        }else{
-          this.$router.push({ name: 'loginWithCode'});
         }
       },
       /*我的保单*/
@@ -234,9 +229,7 @@
       },
     },
     mounted(){
-      var tempUserInfo=getStore("userInfo");
-      this.isCookie=tempUserInfo.token?true:false;
-      if(tempUserInfo.token){
+      if(this.isCookie==true){
         this.getOrderStatus();
         this.getuserInfo();
       }
@@ -267,7 +260,53 @@
   .personal .yd-grids-5:before{
     border-bottom:0px !important;
   }
+  .personal .yd-grids-item{
+    padding:.28rem 0;
+  }
+  .personal .yd-grids-item .yd-grids-icon i{
+    font-size: 0.5rem !important;
+  }
 </style>
 <style scoped>
+  .mine_hearder{
+    height: 2.8rem;
+    line-height: 2.8rem;
+  }
+  .mine_hearder .user_icon{
+    float: left;
+    vertical-align: middle;
+    margin-right: 0.2rem;
+    margin-left: 0.6rem;
+    position: relative;
+  }
+  .mine_hearder .user_icon img{
+    height: 1.2rem;
+    width: 1.2rem;
+    border-radius: 50%;
+    position: relative;
+    display: inline-block;
+    top:0.6rem
+  }
+  .mine_hearder .user_detal{
+    float: left;
+    color: #fff;
+    margin-top: 0.8rem;
+  }
+  .mine_hearder .user_name{
+    font-size: 0.3rem;
+    font-weight: 600;
+    line-height: 0.6rem;
+  }
+  .mine_hearder .user_des{
+    font-size: 0.2rem;
+    font-weight: 600;
+    line-height: 0.2rem;
+  }
+  .manage_account {
+    float: right;
+    color: #E6B2B0;
+    margin-right: 10px;
+
+  }
 
 </style>

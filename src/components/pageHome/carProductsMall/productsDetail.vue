@@ -40,13 +40,6 @@
               </yd-flexbox>
             </div>
           </div>
-          <div class="nature-container spxq10" id="natureCotainer" v-if="skus.result">
-
-        </div>
-        <div class="pro-size spxq12" style="height: 1rem">
-          <span class="part-note-msg spxq11" style="line-height: 1rem;font-size: 0.3rem" :class="{'isAvalible':product.isAvalible==false}">{{product.isAvalible==false?product.unAvalibleReson:'数量'}}</span>
-          <yd-spinner unit="1" v-model="spinner4" class="spxq13" style="margin-top: 0.2rem" v-if="product.isAvalible==true"></yd-spinner>
-        </div>
         <yd-cell-group id="security" @click.native="gotoSecurityDeatil()" style="margin-top: 0.2rem">
           <div style="padding: 0.2rem 0.2rem">
             <button style="line-height: 0.6rem;margin-right: 0.2rem;border: none;" v-for="securityitem in securitylst"><yd-icon name="gouxuan" size=".3rem" color="#ff7723"  custom></yd-icon>{{securityitem}}</button>
@@ -121,27 +114,14 @@
         <yd-button size="large" class="pj_12" @click.native="gotoReview()">查看全部评论</yd-button>
       </swiper-slide>
     </swiper>
-    <div slot="tabbar" align="center" style="background-color: #ffffff">
-      <a class="gwl1 yd-tabbar-item gwul2 yd-tabbar-active">
-        <span class="yd-tabbar-icon"><i class="yd-icon-phone2" style="font-size: 0.54rem;"></i></span>
-        <span class="yd-tabbar-txt">客服</span>
-      </a>
-      <a class="gwl1 yd-tabbar-item gwul2 yd-tabbar-active" @click="gotoCar()">
-            <span class="yd-tabbar-icon"><i class="yd-icon-shopcart-outline" style="font-size: 0.5rem;"></i>
-            <span class="yd-tabbar-badge" v-if="quantity>0">
-              <span class="yd-badge" style="background-color: rgb(212, 29, 15);">{{quantity}}</span>
-            </span>
-            </span>
-        <span class="yd-tabbar-txt">购物车</span>
-      </a>
-      <div v-if="product.isAvalible==true">
-        <yd-button type="warning" class="ljgm1" style="background-color: #D41D0F;" :class="{'isAbgColor':product.isAvalible==false}" @click.native="gotoOder()" >立即购买</yd-button>
-        <yd-button type="warning" class="jrgwc1" v-if="product.canAddCart==true" :class="{'isAbgColor':product.isAvalible==false}" @click.native="additem()">加入购物车</yd-button>
-      </div>
-      <div v-else>
-        <yd-button type="warning" class="ljgm1" :class="{'isAbgColor':product.isAvalible==false}" >库存不足</yd-button>
-      </div>
-    </div>
+
+    <van-goods-action slot="tabbar">
+      <van-goods-action-mini-btn icon="chat" text="客服" @click="onClickMiniBtn" />
+      <van-goods-action-mini-btn icon="cart" text="购物车" @click="gotoCar()" :info="quantity+''" />
+      <van-goods-action-big-btn  v-if="product.isAvalible==true" text="加入购物车" @click="showBase=!showBase"/>
+      <van-goods-action-big-btn  v-if="product.isAvalible==true" text="立即购买" @click="showBase=!showBase" primary />
+      <van-goods-action-big-btn  v-if="product.isAvalible==false" text="库存不足"/>
+    </van-goods-action>
 
     <yd-popup v-model="securityView" position="bottom" height="40%" style="z-index: 50;">
       <div style="display: flex;text-align:center;" slot="top">
@@ -162,9 +142,17 @@
           <p style="color: #808390;padding-left: 0.4rem">提供个人发票、增值税普通发票和增值税专用发票，增值税发票需提供单位名称和税号。服务类商品由线下服务门店提供发票。</p>
         </li>
       </ul>
-
-
     </yd-popup>
+    <van-sku
+      v-model="showBase"
+      :sku="sku"
+      :goods="goods"
+      :goods-id="goodsId"
+      :hide-stock="sku.hide_stock"
+      :quota="0"
+      @buy-clicked="gotoOder"
+      @add-cart="additem"
+    />
   </yd-layout>
 </template>
 <script type="text/babel">
@@ -175,18 +163,54 @@
   import Vue from 'vue'
   import VueLazyload from 'vue-lazyload'
   import VuePreview from 'vue-preview'
+  import {
+    GoodsAction,
+    GoodsActionBigBtn,
+    GoodsActionMiniBtn,
+    Sku
+  } from 'vant';
+
   Vue.use(VueLazyload)
   Vue.use(VuePreview)
   const vm= {
     components: {
       swiper,
-      swiperSlide
+      swiperSlide,
+      [GoodsAction.name]: GoodsAction,
+      [GoodsActionBigBtn.name]: GoodsActionBigBtn,
+      [GoodsActionMiniBtn.name]: GoodsActionMiniBtn,
+      [Sku.name]:Sku
     },
     data() {
       return {
+        skuData:{},
+        sku: {
+          // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
+          // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
+          tree: [
+          ],
+          // 所有 sku 的组合列表，比如红色、M 码为一个 sku 组合，红色、S 码为另一个组合
+          list: [
+          ],
+          price: '1.00', // 默认价格（单位元）
+          stock_num: 227, // 商品总库存
+          collection_id: 2261, // 无规格商品 skuId 取 collection_id，否则取所选 sku 组合对应的 id
+          none_sku: true, // 是否无规格商品
+          messages: [ {
+            datetime: '0', // 留言类型为 time 时，是否含日期。'1' 表示包含
+            multiple: '0', // 留言类型为 text 时，是否多行文本。'1' 表示多行
+            name: '留言', // 留言名称
+            type: 'text', // 留言类型，可选: id_no（身份证）, text, tel, date, time, email
+            required: '0' // 是否必填 '1' 表示必填
+          }],
+          hide_stock: false // 是否隐藏剩余库存
+        },
+        isCookie:getStore("token").length>0?true:false,
+        goods: {},
+        goodsId:'',
+        showBase:false,
         tabkey: 0,
         productId: '',//产品Id
-        skus: '',//sku分组
         defaultSkuId:'',//默认SkuId
         product: {'isAvalible':true,'skuAssociation':{}},
         skuid:'',//获取选择产品的sku
@@ -196,7 +220,6 @@
         spinner4: 1,//产品数量
         show2: false,
         securityView:false,
-        isCookie:false,
         list: [],//图文列表
         previewlist:[],
         param:{},
@@ -233,11 +256,21 @@
     },
     mounted(){
       this.productId =this.$route.query.skuId;
+      if(this.isCookie==true){
+        this.getCartsQuantity();
+      }
       this.productDetail();
     },
     methods:{
       gotoback(){
         this.$router.go(-1);
+      },
+      /*获取购物车数量*/
+      getCartsQuantity(){
+        const that = this;
+        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
+          if (data.quantity)that.quantity = data.quantity;
+        })
       },
       switchlist(label,tabkey){
         this.tabkey = tabkey;
@@ -263,18 +296,53 @@
             that.skuid =data.product.skuId
             that.price=data.product.price;
             that.guidePrice=data.product.guidePrice;
+            that.sku.stock_num=data.product.stock;
+            that.sku.price=data.product.price;
+            that.sku.collection_id=data.product.skuId;
+            that.goods.title=data.product.skuName;
+            that.goodsId=data.product.skuId
           }
-          if(data.skus)that.initsku(data.skus);
-
           var previewlist1=[];
-          data.product.images.forEach(function (item) {
-            var img = new Image();
-            img.src = item;
-            img.onload = function(){
-              var b={src:img.src,w:img.width,h:img.height};
-              previewlist1.push(b);
-            }
-          });
+          if(data.product.images){
+            that.goods.picture=data.product.images[0];
+            data.product.images.forEach(function (item) {
+              var img = new Image();
+              img.src = item;
+              img.onload = function(){
+                var b={src:img.src,w:img.width,h:img.height};
+                previewlist1.push(b);
+              }
+            });
+          }
+          if(data.skus){
+            that.sku.none_sku=false;
+            data.skus.forEach(function (item) {
+              for (var key in item.attrs){
+                eval("item."+key+"=\""+item.attrs[key]+"\"");
+              }
+              item.id=item.skuId;
+              item.stock_num=item.stock;
+              item.price=item.price*100;
+            })
+          }
+          that.sku.list=data.skus;
+          var tree=[];
+          if(data.productOptions){
+            data.productOptions.forEach(function (item) {
+              var treelst={};
+              for(var key in item){
+                treelst.k=key;
+                treelst.k_s=key;
+                treelst.v=[];
+                for(var vkey in item[key]){
+                  treelst.v.push({id:item[key][vkey],name:item[key][vkey]});
+                }
+              }
+              tree.push(treelst);
+            })
+          }
+
+          that.sku.tree=tree;
           that.previewlist=previewlist1;
           that.productDesc();
         })
@@ -307,13 +375,16 @@
         this.securityView=!this.securityView;
       },
       /*加入购物车*/
-      additem(){
-        if(this.skuid.length==0){
-          this.$dialog.toast({mes: '请选择产品规格', timeout: 1000});
-          return;
+      additem(skuData){
+        var skuId='';
+        if(skuData.selectedSkuComb){
+          skuId=skuData.selectedSkuComb.id;
+        }else{
+          skuId=skuData.goodsId;
         }
         var  that =this;
-        baseHttp(this,'/api/carts/addToCarts',{'skuId':this.skuid,'quantity':this.spinner4,'merchantId':this.product.merchantId},'post','',function (data){
+        baseHttp(this,'/api/carts/addToCarts',{'skuId':skuId,'quantity':skuData.selectedNum,'merchantId':this.product.merchantId},'post','',function (data){
+          that.showBase=false;
           that.quantity=parseInt(that.quantity)+1;
         });
       },
@@ -321,10 +392,13 @@
         this.$router.push({ name: 'shoppingCart',meta:{title:'购物车'}});
       },
       /*立即购买*/
-      gotoOder(){
-        if(this.skuid.length==0){
-          this.$dialog.toast({mes: '请选择产品规格', timeout: 1000});
-          return;
+      gotoOder(skuData){
+
+        var skuId='';
+        if(skuData.selectedSkuComb){
+          skuId=skuData.selectedSkuComb.id;
+        }else{
+          skuId=skuData.goodsId;
         }
         var oderInfo={};
         var carInfo = getStore('carInfo');
@@ -340,8 +414,8 @@
         oderInfo.orderType='GENERAL';
         var products=[];
         var product={};
-        product.skuId=this.skuid;
-        product.quantity=this.spinner4;
+        product.skuId=skuId;
+        product.quantity=skuData.selectedNum;
         products.push(product);
         if(products.length==0){
           this.$dialog.toast({mes: '请选择购物商品', timeout: 1000});
@@ -354,6 +428,9 @@
       /*查看评论*/
       gotoReview(){
         this.$router.push({ name: 'reviewsList',query:{skuId:this.productId},meta:{title:'评价列表'}});
+      },
+      onClickMiniBtn(){
+
       },
     },
   }

@@ -72,6 +72,7 @@
   const vm= {
     data() {
       return {
+        isCookie:getStore("token").length>0?true:false,
         showtext: true,
         removeShopping: '',
         carts: [],
@@ -268,9 +269,7 @@
 
     },
     activated(){
-      var tempUserInfo=getStore("userInfo");
-      this.isCookie=tempUserInfo.token?true:false;
-      if(tempUserInfo.token){
+      if(this.isCookie==true){
         this.getShopCarts(false);
       }
     },

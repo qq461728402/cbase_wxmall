@@ -14,22 +14,23 @@ const cookieMsg={
   },
   mutations:{
     SET_AVATAR:(state)=>{
-      if(getStore('avatar').length>0){
-        state.avatar=getStore('avatar');
-      }else{
+      var avatarstr=getToken('avatar');
+      if(avatarstr.length>0){
         state.avatar=getToken('avatar');
         if(getToken('avatar')){
-          setStore('avatar',getToken('avatar'));
+          setStore('avatar',avatarstr);
           removeToken('avatar');
         }
+      }else{
+        state.avatar=getStore('avatar');
       }
     },
     SET_TOKEN:(state)=>{
-      var getToken=getToken('token');
-      if(getToken.length>0){
+      var tokenstr=getToken('token');
+      if(tokenstr.length>0){
         state.token=getToken('token');
         if(getToken('token')){
-          setStore('token',getToken);
+          setStore('token',tokenstr);
           removeToken('token');
         }
       }else{
@@ -37,25 +38,27 @@ const cookieMsg={
       }
     },
     SET_UID:(state)=>{
-      if(getStore('uid').length>0){
-        state.uid=getStore('uid');
-      }else{
+      var tokenuid=getToken('uid');
+      if(tokenuid.length>0){
         state.uid=getToken('uid');
         if(getToken('uid')){
-          setStore('uid',getToken('uid'));
+          setStore('uid',tokenuid);
           removeToken('uid');
         }
+      }else{
+        state.uid=getStore('uid');
       }
     },
     SET_UNAME:(state)=>{
-      if(getStore('uname').length>0){
-        state.uname=getStore('uname');
-      }else{
+      var tokenuname=getToken('uname');
+      if(tokenuname.length>0){
         state.uname=getToken('uname');
         if(getToken('uname')){
-          setStore('uname',getToken('uname'));
+          setStore('uname',tokenuname);
           removeToken('uname');
         }
+      }else{
+        state.uname=getStore('uname');
       }
     },
   },
