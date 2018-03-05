@@ -25,10 +25,15 @@
 <script type="text/babel">
   import {baseHttp} from '../config/env'
   import {setStore, getStore} from '../config/mUtils'
+  import { mapGetters } from 'vuex'
   const vm= {
+    computed: {
+      ...mapGetters([
+        'quantity',
+      ])
+    },
     data() {
       return {
-        quantity:0,
         currentPath:'',
         isCookie:getStore("token").length>0?true:false
       }
@@ -44,7 +49,8 @@
       getCartsQuantity(){
         const that = this;
         baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
-          if (data.quantity)that.quantity = data.quantity;
+          if (data.quantity) that.$store.dispatch('setQuantity',data.quantity);
+//          that.quantity = data.quantity;
         })
       },
       gotoCars(){

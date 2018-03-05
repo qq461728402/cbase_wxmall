@@ -5,17 +5,7 @@
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
-    <yd-cell-group class="userInfo" @click.native="gotoAddress()" v-if="isNeedService==true">
-      <yd-cell-item>
-        <yd-icon slot="left" name="ucenter" size=".42rem" color="#666666"></yd-icon>
-        <yd-input slot="right" placeholder="请填写姓名" v-model="address.lastName"></yd-input>
-      </yd-cell-item>
-      <yd-cell-item class="main_1">
-        <yd-icon slot="left" name="phone3" size=".42rem" color="#666666"></yd-icon>
-        <yd-input slot="right" placeholder="请填写手机号码" v-model="address.phonePrimary"></yd-input>
-      </yd-cell-item>
-    </yd-cell-group>
-    <div class="userinfo" @click="gotoAddress()"  v-else>
+    <div class="userinfo" @click="gotoAddress()">
       <div class="defalutaddress" v-if="address.lastName.length>0">
         <div class="infomation" style="font-size: .3rem;">
           <span style="line-height: 0.5rem">{{address.lastName}}</span>
@@ -31,19 +21,6 @@
       </div>
     </div>
     <yd-cell-group style="margin-top: 10px;z-index:-1">
-      <yd-cell-item type="label" v-if="orderData.shippingType=='SELF_DELIVERY'||orderData.shippingType=='BOTH'">
-        <div slot="left">是否需要到店施工服务</div>
-        <yd-switch slot="right" v-model="isNeedService" :disabled="orderData.shippingType=='SELF_DELIVERY'"></yd-switch>
-      </yd-cell-item>
-      <yd-cell-item arrow type="a" @click.native="getStoreList()" v-if="isNeedService==true">
-        <span slot="left">服务门店</span>
-        <span slot="right" class="main_2" v-if="storeName">{{storeName}}</span>
-        <span slot="right" class="main_2" v-else>请选择服务门店</span>
-      </yd-cell-item>
-      <yd-cell-item v-if="isNeedService==true">
-        <span slot="left">预约时间</span>
-        <span slot="right"> <yd-datetime :start-date="startDate" :end-date="endDate" type="date" v-model="orderDate"></yd-datetime></span>
-      </yd-cell-item>
       <yd-cell-item arrow type="label">
         <span slot="left">支付方式</span>
         <select slot="right" class="main_3" v-model="orderData.payment">
@@ -52,11 +29,10 @@
       </yd-cell-item>
       <yd-cell-item arrow @click.native="mshowfp">
         <span slot="left">发票</span>
-        <span slot="right" style="font-size: 0.3rem">{{orderType=='NO'?'无需发票':orderType=='PERSONAL'?'个人-商品明细':'公司-商品明细'}}</span>
+        <span slot="right" style="font-size: 0.3rem">{{invoice.invoiceType=='NO'?'无需发票':invoice.invoiceType=='PERSONAL'?'个人-商品明细':'公司-商品明细'}}</span>
       </yd-cell-item>
       <yd-cell-item arrow @click.native="getCoupon()">
-            <span slot="left">我的优惠券<span v-if="selectCoupons.length>0"
-                                         style="border: 1px solid #d41d0f;padding: 0.05rem;font-size: 0.2rem !important;color: #d41d0f;border-radius: 0.1rem;margin-left: 0.1rem">{{'已选择'+selectCoupons.length+'张'}} </span> </span>
+            <span slot="left">优惠券<span v-if="selectCoupons.length>0" style="border: 1px solid #d41d0f;padding: 0.05rem;font-size: 0.2rem !important;color: #d41d0f;border-radius: 0.1rem;margin-left: 0.1rem">{{'已选择'+selectCoupons.length+'张'}} </span> </span>
         <span slot="right" style="font-size: 0.3rem" v-if="availableCount==0">无可用</span>
         <span slot="right" style="font-size: 0.3rem" v-else-if="couponsMoney==0">{{'可用优惠券'+available.length+'张'}}</span>
         <span slot="right" style="font-size: 0.3rem;color:#d41d0f" v-else>{{'-'+couponsMoney+'元'}}</span>
@@ -66,7 +42,6 @@
         <span slot="left">是否使用积分</span>
         <yd-switch slot="right" v-model="isBonusPointsUsed" :disabled="bonusPoints==0"></yd-switch>
       </yd-cell-item>
-
       <yd-cell-item v-if="isBonusPointsUsed">
         <span slot="left">抵扣积分(共{{bonusPoints}}积分)</span>
         <span slot="right"> <yd-spinner :max="bonusPoints>(orderData.subTotal+orderData.serviceFee-couponsMoney)?(orderData.subTotal+orderData.serviceFee-couponsMoney):bonusPoints" unit="1" v-model="bonusPointsUsed"></yd-spinner> </span>
@@ -158,52 +133,6 @@
       <div class="subbtn" style="width: 40%" @click="gotoplay">提交订单</div>
     </div>
 
-    <yd-popup v-model="showfp" position="right" width="100%" style="background-color: #D9D9D9;">
-      <yd-navbar slot="navbar" title="设置发票信息" bgcolor="#fff" color="#454545" style="display: flex;">
-        <router-link @click="mshowfp" slot="left" v-if="1==2">
-          <yd-navbar-back-icon></yd-navbar-back-icon>
-        </router-link>
-      </yd-navbar>
-      <yd-flexbox direction="vertical" style="padding-left:0.24rem">
-        <yd-flexbox-item style="font-size: 0.3rem;padding: 0.1rem 0">发票类型</yd-flexbox-item>
-        <yd-flexbox-item style="padding-bottom: 0.1rem">
-          <yd-button type="hollow">纸质发票</yd-button>
-        </yd-flexbox-item>
-      </yd-flexbox>
-      <hr style="border: none;border-bottom: 1px solid #D9D9D9;"/>
-      <yd-flexbox direction="vertical" style="padding-left:0.24rem;padding-bottom: 0.24rem">
-        <yd-flexbox-item style="font-size: 0.3rem;padding: 0.1rem 0">发票抬头</yd-flexbox-item>
-        <yd-flexbox-item style="padding-bottom: 0.1rem">
-          <yd-radio-group v-model="orderType" color="#F00">
-            <yd-radio val="PERSONAL">个人</yd-radio>
-            <yd-radio val="COMPANY">单位</yd-radio>
-            <yd-radio val="NO">无需发票</yd-radio>
-          </yd-radio-group>
-        </yd-flexbox-item>
-      </yd-flexbox>
-      <hr style="border: none;border-bottom:.2rem solid #f5f5f5;"/>
-      <yd-cell-group v-if="orderType=='PERSONAL'">
-        <yd-cell-item><span slot="left">个人：</span>
-          <yd-input slot="right" v-model="personV" placeholder="请输入个人姓名"></yd-input>
-        </yd-cell-item>
-        <yd-cell-item>
-          <span slot="left">发票内容：</span>
-          <yd-input slot="right" readonly="true" value="商品明细" placeholder="商品明细"></yd-input>
-        </yd-cell-item>
-      </yd-cell-group>
-      <yd-cell-group v-else-if="orderType=='COMPANY'">
-        <yd-cell-item><span slot="left">单位名称：</span>
-          <yd-input slot="right" v-model="dwV" placeholder="请输入单位名称"></yd-input>
-        </yd-cell-item>
-        <yd-cell-item><span slot="left">单位税号：</span>
-          <yd-input slot="right" v-model="dwNum" placeholder="纳税人识别号或统一社会信用代码"></yd-input>
-        </yd-cell-item>
-        <yd-cell-item><span slot="left">发票内容：</span>
-          <yd-input slot="right" readonly="true" placeholder="商品明细" value="商品明细"></yd-input>
-        </yd-cell-item>
-      </yd-cell-group>
-      <yd-button size="large" style="margin-left: 10%;width: 80%" bgcolor="#d41d0f" color="#fff" type="danger" @click.native="invoiceok()">确定</yd-button>
-    </yd-popup>
     <yd-popup v-model="chooseCoupon" position="bottom" height="60%" id="coupon">
       <yd-tab :callback="switchlist" slot="top">
         <yd-tab-panel label="可用优惠券" tabkey="1">
@@ -299,7 +228,13 @@
   import {getStore,removeStore} from '../../../config/mUtils'
   import {baseHttp,formatDate,isEmptyObject} from '../../../config/env'
   import {wexinPay} from '../../../config/weichatPay'
+  import { mapGetters } from 'vuex'
   const vm= {
+    computed: {
+      ...mapGetters([
+        'invoice',
+      ])
+    },
     data() {
       return {
         checkbox1:true,
@@ -319,16 +254,11 @@
         defuletCoupons: {},//默认优惠券
         selectCoupons: [],//选中优惠券
         couponsMoney: 0.0,
-        showfp: false,
         exchangeStore: false,
         stores: [],
         personCheckbox: true,
         unitCheckbox: false,
         msg: '',
-        orderType: 'NO',
-        personV: '',
-        dwV: '',
-        dwNum: '',
         storeName: '',
         isNeedService: false,
         isBonusPointsUsed:false,
@@ -493,7 +423,7 @@
         }
       },
       mshowfp() {
-        this.showfp = !this.showfp;
+        this.$router.push({name: 'invoiceInfo'})
       },
       changes(index){
         if (index == 1) {
@@ -530,32 +460,6 @@
           that.exchangeStore = !that.exchangeStore;
         })
       },
-      invoiceok(){
-        if (this.orderType == 'NO') {
-          this.orderData.needInvoice = false;
-        } else {
-          this.orderData.needInvoice = true;
-          if (this.orderType == 'PERSONAL') {
-            if (this.personV.length == 0) {
-              this.$dialog.toast({mes: '请输入发票信息', timeout: 1000});
-              return;
-            }
-            this.orderData.invoiceTitle = this.personV;
-          } else {
-            if (this.dwV.length == 0) {
-              this.$dialog.toast({mes: '请输入发票信息', timeout: 1000});
-              return;
-            } else if (this.dwNum.length == 0) {
-              this.$dialog.toast({mes: '请输入发票信息', timeout: 1000});
-              return;
-            }
-            this.orderData.invoiceTitle = this.dwV;
-            this.orderData.taxNumber = this.dwNum;
-          }
-        }
-        this.orderData.invoiceType = this.orderType;
-        this.showfp = !this.showfp;
-      },
       /*领券中心*/
       coupons(){
         this.$router.push({ path: '/home/getcoupons'});
@@ -583,17 +487,6 @@
           this.$dialog.toast({mes: '请确认用户须知', timeout: 1000});
           return;
         }
-        else if (this.orderData.isNeedService == true) {
-          if (!this.orderData.serviceShop) {
-            this.$dialog.toast({mes: '请选择安装门店', timeout: 1000});
-            return;
-          }
-          if (this.address.lastName.length == 0 || this.address.phonePrimary.length == 0) {
-            this.$dialog.toast({mes: '请选择收货人姓名和电话', timeout: 1000});
-            return;
-          }
-          this.orderData.preorderTime = this.orderDate;
-        }
         if (this.address.lastName.length == 0 && this.orderData.isNeedService == false) {
           this.$dialog.toast({mes: '请选择地址', timeout: 1000});
           return;
@@ -601,28 +494,9 @@
           this.$dialog.toast({mes: '请选择支付方式', timeout: 1000});
           return;
         }
-        if (this.orderType == 'NO') {
-          this.orderData.needInvoice = false;
-        } else {
-          this.orderData.needInvoice = true;
-          if (this.orderType == 'PERSONAL') {
-            if (this.personV.length == 0) {
-              this.$dialog.toast({mes: '请输入发票信息', timeout: 1000});
-              return;
-            }
-            this.orderData.invoiceTitle = this.personV;
-          } else {
-            if (this.dwV.length == 0) {
-              this.$dialog.toast({mes: '请输入发票信息', timeout: 1000});
-              return;
-            } else if (this.dwNum.length == 0) {
-              this.$dialog.toast({mes: '请输入发票信息', timeout: 1000});
-              return;
-            }
-            this.orderData.invoiceTitle = this.dwV;
-            this.orderData.taxNumber = this.dwNum;
-          }
-        }
+        this.orderData.invoiceTitle = this.invoice.invoiceTitle;
+        this.orderData.taxNumber =this.invoice.taxNumber;
+        this.orderData.invoiceType = this.invoice.invoiceType;
         if(this.carInfo==false&&this.msg.length==0&&this.orderData.isNeedService == true){
           this.$dialog.toast({mes: '请输入留言', timeout: 1000});
           return;

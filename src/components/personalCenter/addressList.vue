@@ -5,7 +5,7 @@
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
-    <div class="listItem" v-for="items,index in data.address" :key="index">
+    <div class="listItem" v-for="items,index in data.address" :key="index" @click="setDefault(items)">
       <div class="item" :class="{'default':items.default==1}">
         <div class="addressinfo">
           <p style="font-size: 0.3rem">
@@ -28,15 +28,14 @@
     data() {
       return {
         data:{},
+        isCookie:getStore("token").length>0?true:false,
       }
     },
     mounted(){
 
     },
     activated(){
-      var tempUserInfo=getStore("userInfo");
-      this.isCookie=tempUserInfo.token?true:false;
-      if(tempUserInfo.token){
+      if(this.isCookie==true){
         this.addressList();
       }
     },
@@ -58,19 +57,19 @@
       gotorap(item){
         this.$router.push({name:'addAddress',query:{'ismaintain':'2','addressId':item.addressId}});
       },
-      /*设置默认*/
+      /*选择地址*/
       setDefault(item){
         const  that =this;
         var par={};
         par.isDeafult=1;
         par.addressId=item.addressId;
-        baseHttp(this, 'updateAddressAPI', par, 'post', '设置默认中...', function (data) {
+        baseHttp(this, 'updateAddressAPI', par, 'post', '选择中...', function (data) {
           that.$dialog.toast({
-            mes: '设置成功!',
+            mes: '选择成功!',
             timeout: 1000,
             icon: 'success',
             callback:function () {
-                that.addressList();
+                that.gotoback();
             }
           });
         })

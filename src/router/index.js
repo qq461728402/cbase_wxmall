@@ -9,6 +9,9 @@ const ProductsDetail = r => require.ensure([], () => r(require('../components/pa
 const ReviewsList = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/reviewsList')), 'ReviewsList')//评价列表
 
 const OrderSubmit = r => require.ensure([], () => r(require('../components/pageHome/orderSubmit/orderSubmit')), 'OrderSubmit')//订单提交
+
+const InvoiceInfo = r => require.ensure([], () => r(require('../components/pageHome/orderSubmit/invoiceInfo')), 'InvoiceInfo')//发票信息填写
+
 const GetCoupons = r => require.ensure([], () => r(require('../components/pageHome/coupons/getcoupons')), 'GetCoupons')//获取优惠券
 const Maintain = r => require.ensure([], () => r(require('../components/pageHome/maintain/maintainPackage')), 'Maintain')//保养
 const CarMaintain = r => require.ensure([], () => r(require('../components/pageHome/maintain/carMaintain')), 'CarMaintain')//保养
@@ -65,7 +68,12 @@ const router = new Router({
     {path:"/home/productsList",name:'productsList',component:ProductsList,meta:{title:'商品列表',keepAlive:false}},
     {path:"/home/productsDetail",name:'productsDetail',component:ProductsDetail,meta:{title:'商品详情',keepAlive:false}},
     {path:"/home/reviewsList",name:'reviewsList',component:ReviewsList,meta:{title:'评论列表',keepAlive:false}},
-    {path:"/home/orderSubmit",name:'orderSubmit',component:OrderSubmit,meta:{title:'订单提交',keepAlive:false}},
+    {path:"/home/orderSubmit",name:'orderSubmit',component:OrderSubmit,meta:{title:'订单提交',keepAlive:false},
+    beforeEnter:(to, from, next) => {
+        from.path == '/home/invoiceInfo' ? next({replace: true,path:'/'}) :next();
+      },
+    },
+    {path:"/home/invoiceInfo",name:'invoiceInfo',component:InvoiceInfo,meta:{title:'发票信息',keepAlive:false}},
     {path:"/home/protocol",name:'protocol',component:Protocol,meta:{title:'退换货须知',keepAlive:true}},
     {path:"/home/orderSuccess",name:'orderSuccess',component:OrderSuccess,meta:{title:'订单支付成功',keepAlive:false}},
     {path:'/home/getcoupons',name:'getcoupons',component:GetCoupons,meta:{title:'领券中心',keepAlive:false}},

@@ -178,4 +178,7 @@
   #carPro .yd-scrolltab-content > div{
       margin: 0.2rem;
   }
+  #carPro .yd-scrolltab-active:before{
+    border-right:0px;
+  }
 </style>

@@ -10,5 +10,7 @@ const getters= {
   uname:state => state.cookieMsg.uname,
   cityName:state => state.basicStorage.cityName,
   locatingCity:state => state.basicStorage.locatingCity,
+  quantity:state => state.basicStorage.quantity,
+  invoice:state => state.basicStorage.invoice,
 }
 export default getters;

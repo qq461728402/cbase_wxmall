@@ -48,7 +48,7 @@
         </yd-checklist>
       </div>
     </yd-pullrefresh>
-    <yd-cell-group slot="tabbar" style="margin-bottom: 0rem;" v-if="carts.length!=0">
+    <yd-cell-group style="position: absolute;bottom: 0px;width: 100%" v-if="carts.length!=0">
       <yd-cell-item>
             <span slot="left">
             	<yd-flexbox>
@@ -69,6 +69,7 @@
 <script type="text/babel">
   import {getCookie,baseHttp} from "../config/env"
   import {getStore,setStore} from "../config/mUtils"
+  import { mapGetters } from 'vuex'
   const vm= {
     data() {
       return {
@@ -87,11 +88,18 @@
       carts: {
         handler: function (val, oldval) {
           this.calculate();
+          this.getCartsQuantity();
         },
         deep: true,
       }
     },
     methods:{
+      getCartsQuantity(){
+        const that = this;
+        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
+          if (data.quantity) that.$store.dispatch('setQuantity',data.quantity);
+        })
+      },
       loadList(){
         this.getShopCarts(true);
       },
@@ -266,7 +274,6 @@
       },
     },
     mounted(){
-
     },
     activated(){
       if(this.isCookie==true){

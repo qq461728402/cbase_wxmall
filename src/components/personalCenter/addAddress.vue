@@ -40,6 +40,7 @@
   const vm= {
     data() {
       return {
+        isCookie:getStore("token").length>0?true:false,
         addressInfo:{detail:''},
         maintain:'',//判断是不是维护 1 不是 2 是
         addressId:'',
@@ -54,9 +55,7 @@
     },
     mounted(){
       this.getarea();
-      var tempUserInfo=getStore("userInfo");
-      this.isCookie=tempUserInfo.token?true:false;
-      if(tempUserInfo.token){
+      if(this.isCookie==true){
         this.maintain =this.$route.query.ismaintain;
         if(this.maintain==2){
           this.addressId=this.$route.query.addressId;
