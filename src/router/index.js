@@ -70,7 +70,7 @@ const router = new Router({
     {path:"/home/reviewsList",name:'reviewsList',component:ReviewsList,meta:{title:'评论列表',keepAlive:false}},
     {path:"/home/orderSubmit",name:'orderSubmit',component:OrderSubmit,meta:{title:'订单提交',keepAlive:false},
     beforeEnter:(to, from, next) => {
-        from.path == '/home/invoiceInfo' ? next({replace: true,path:'/'}) :next();
+        from.path == '/home/orderSuccess' ? next({replace: true,path:'/'}) :next();
       },
     },
     {path:"/home/invoiceInfo",name:'invoiceInfo',component:InvoiceInfo,meta:{title:'发票信息',keepAlive:false}},
