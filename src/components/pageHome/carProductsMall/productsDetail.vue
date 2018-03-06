@@ -115,7 +115,7 @@
       </swiper-slide>
     </swiper>
 
-    <van-goods-action>
+    <van-goods-action style="z-index: 100;" slot="tabbar">
       <van-goods-action-mini-btn icon="chat" text="客服" @click="onClickMiniBtn" />
       <van-goods-action-mini-btn icon="cart" text="购物车" @click="gotoCar()" :info="quantity+''" />
       <van-goods-action-big-btn  v-if="product.isAvalible==true" text="加入购物车" @click="showBase=!showBase"/>

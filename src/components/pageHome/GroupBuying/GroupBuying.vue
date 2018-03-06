@@ -22,10 +22,8 @@
       </yd-grids-item>
     </yd-grids-group>
     <!--菜单-->
-
-
     <!--商品展示-->
-    <yd-list theme="3">
+    <yd-list theme="4">
       <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
       <yd-list-item v-for="item, key in items" :key="key">
         <img slot="img" :src="item.skuModel.image">
@@ -44,21 +42,10 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import axios from 'axios'
-  import VueAxios from 'vue-axios'
+  import {baseHttp} from '../../../config/env'
   const vm= {
     data() {
       return {
-        /*list: [
-          {img: "https://free.modao.cc/uploads3/images/1725/17258040/raw_1519277870.jpeg", title: "澳佳宝 深海无腥味鱼油胶囊400粒", price: 156.23, w_price: 89.36,dan:15},
-          {img: "https://free.modao.cc/uploads3/images/1725/17258126/raw_1519278180.jpeg", title: "韩国AHC 强补水修复精华原液B5", price: 256.23, w_price: 89.36},
-          {img: "https://free.modao.cc/uploads3/images/1725/17258875/raw_1519280302.jpeg", title: "Guerlain/娇兰 法式之吻有色润唇膏", price: 356.23, w_price: 89.36},
-          {img: "https://free.modao.cc/uploads3/images/1725/17258916/raw_1519280420.jpeg", title: "德国Doppelherz 双心 女性复合矿", price: 456.23, w_price: 89.36},
-          {img: "https://free.modao.cc/uploads3/images/1725/17258040/raw_1519277870.jpeg", title: "澳佳宝 深海无腥味鱼油胶囊400粒", price: 156.23, w_price: 89.36},
-          {img: "https://free.modao.cc/uploads3/images/1725/17258126/raw_1519278180.jpeg", title: "韩国AHC 强补水修复精华原液B5", price: 256.23, w_price: 89.36},
-          {img: "https://free.modao.cc/uploads3/images/1725/17258875/raw_1519280302.jpeg", title: "Guerlain/娇兰 法式之吻有色润唇膏", price: 356.23, w_price: 89.36},
-          {img: "https://free.modao.cc/uploads3/images/1725/17258916/raw_1519280420.jpeg", title: "德国Doppelherz 双心 女性复合矿", price: 456.23, w_price: 89.36},
-        ],*/
         caidan:[
           {name:"女士",img:"http://joewee.mynatapp.cc/index/2018/2/女士-31b59978-b778-45e5-bde3-64ae61eafd96.jpg"},
           {name:"男士",img:"http://joewee.mynatapp.cc/index/2018/2/男士-ae8aa3fc-4240-4255-a9ee-6d88a74bb7c0.jpg"},
@@ -71,39 +58,24 @@
           {img:"https://free.modao.cc/uploads3/images/1725/17259088/raw_1519280946.jpeg"},
           {img:"https://free.modao.cc/uploads3/images/1725/17259094/raw_1519280958.jpeg"}
         ],
-        list:[],
         items:[],
-        /*caidan:[],
-        banner:[],*/
-
       }
     },
     mounted(){
-      /*this.getshuju();*/
-      this.getcuxiao();
+      this.loadList();
     },
-    methods:{
+    methods: {
       loadList() {
-        axios.get("http://130.130.88.111:8008/api/promotion/list?promotionType=GROUPON",{},"数据加载中...").then((response) => {
-          const _list = response.data.promotions;
-          console.log(_list);
-          this.$dialog.toast({
-            mes: _list.length > 0 ? '为您更新了' + _list.length + '条内容' : '已是最新内容'
+        const that = this;
+        baseHttp(this, '/api/promotion/list', {'promotionType': 'GROUPON'}, 'get', '加载中...', function (data) {
+          that.items = data.promotions;
+          that.$dialog.toast({
+            mes: that.items.length > 0 ? '为您更新了' + that.items.length + '条内容' : '已是最新内容'
           });
-          this.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
-        }).catch( error => { console.log(error); });
-      },
-      getcuxiao() {
-        axios.get("http://130.130.88.111:8008/api/promotion/list?promotionType=GROUPON",{},"数据加载中...").then((response) => {
-          this.items = response.data.promotions;
-          console.log(this.items);
-        }).catch( error => { console.log(error); });
-      },
-
-
-
-    },
-
+          that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
+        })
+      }
+    }
   }
   export default vm;
 </script>
