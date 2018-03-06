@@ -233,8 +233,7 @@
       },
 //    选择城市
       gotocitychoose(){
-//        this.$router.push({path: 'home/chooseCity'})
-        this.$router.push({path: '/home/MyPoints'})
+        this.$router.push({path: 'home/chooseCity'})
 
       },
 //    车品商城

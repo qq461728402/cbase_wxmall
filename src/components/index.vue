@@ -50,7 +50,6 @@
         const that = this;
         baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
           if (data.quantity) that.$store.dispatch('setQuantity',data.quantity);
-//          that.quantity = data.quantity;
         })
       },
       gotoCars(){
@@ -63,8 +62,10 @@
     },
     watch:{
       $route(to,from){
-        if(this.isCookie==true){
-          this.getCartsQuantity();
+        if(to.name=='/home'||to.name=='/category'||to.name=='/shoppingCart'||to.name=='/personalCenter'){
+          if(this.isCookie==true){
+            this.getCartsQuantity();
+          }
         }
         this.currentPath=this.$route.path;
       }
