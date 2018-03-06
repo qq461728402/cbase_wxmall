@@ -75,10 +75,10 @@ const router = new Router({
     {path:"/home/productsDetail",name:'productsDetail',component:ProductsDetail,meta:{title:'商品详情',keepAlive:false}},
     {path:"/home/reviewsList",name:'reviewsList',component:ReviewsList,meta:{title:'评论列表',keepAlive:false}},
     {path:"/home/orderSubmit",name:'orderSubmit',component:OrderSubmit,meta:{title:'订单提交',keepAlive:false},
-    beforeEnter:(to, from, next) => {
-        from.path == '/home/orderSuccess' ? next({replace: true,path:'/'}) :next();
-      },
-    },
+    // beforeEnter:(to, from, next) => {
+    //     from.path == '/home/orderSuccess' ? next({replace: true,path:'/'}) :next();
+    //   },
+     },
     {path:"/home/invoiceInfo",name:'invoiceInfo',component:InvoiceInfo,meta:{title:'发票信息',keepAlive:false}},
     {path:"/home/protocol",name:'protocol',component:Protocol,meta:{title:'退换货须知',keepAlive:true}},
     {path:"/home/orderSuccess",name:'orderSuccess',component:OrderSuccess,meta:{title:'订单支付成功',keepAlive:false}},
@@ -115,7 +115,7 @@ const router = new Router({
       children:[ {path:'/personalCenter/register/:userId',name:'register',component:register,meta:{title:'注册'}},
                  {path:'/personalCenter/userProtocol',name:'userProtocol',component:userProtocol,meta:{title:'用户协议'}},]},
 
-	{path:'/home/MyPoints',name:'MyPoints',component:MyPoints,meta:{title:'积分中心',keepAlive:true}},
+    {path:'/home/MyPoints',name:'MyPoints',component:MyPoints,meta:{title:'积分中心',keepAlive:true}},
     {path:'/home/PointsList',name:'PointsList',component:PointsList,meta:{title:'积分中心',keepAlive:true}},
     {path:'/home/PointsDetails',name:'PointsDetails',component:PointsDetails,meta:{title:'商品详情',keepAlive:true}},
   ]

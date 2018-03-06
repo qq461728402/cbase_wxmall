@@ -15,7 +15,7 @@
       <yd-flexbox class="ddxq_7">
         <yd-flexbox-item class="ddxq_8">
           <p>订单编号<i style="float: right;">{{info.number}}</i></p>
-          <p>订单时间<i style="float: right;">{{info.date}}</i></p>
+          <p>下单时间<i style="float: right;">{{info.date}}</i></p>
           <p>收货人<i style="float: right;">{{info.name}}</i></p>
           <p v-if="info.needService==true">服务门店<i style="float: right;">{{info.serviceShopName}}</i></p>
           <p v-else-if="info.deliverNumber&&info.deliverNumber.length>0">快递单号<i style="float: right;">{{info.deliverNumber}}</i></p>

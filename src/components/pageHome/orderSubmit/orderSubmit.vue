@@ -524,12 +524,12 @@
           that.paytotalFee=data.total_fee;
           if(data.total_fee){
             if (data.total_fee==0){
-              this.$router.push({ name: 'myOderList', query: { type: 1 }})
+              this.$router.replace({ name: 'myOderList', query: { type: 1 }})
             }else{
               that.perPay(data);
             }
           }else{
-            this.$router.push({ name: 'myOderList', query: { type: 1 }})
+            this.$router.replace({ name: 'myOderList', query: { type: 1 }})
           }
         });
       },
@@ -540,9 +540,9 @@
           wexinPay(data.payInfo,function (res) {
             removeStore("oderInfo");
             if (res.err_msg == "get_brand_wcpay_request:ok") {
-              that.$router.push({ name: 'orderSuccess', params: { payMoney:that.paytotalFee}})
+              that.$router.replace({ name: 'orderSuccess', params: { payMoney:that.paytotalFee}})
             }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
-              that.$router.push({ name: 'myOderList', query: { type:2}})
+              that.$router.replace({ name: 'myOderList', query: { type:2}})
             }else if(res.err_msg =="get_brand_wcpay_request:fail"){
               that.$dialog.toast({
                 mes: '支付失败! 请重新支付',

@@ -5,8 +5,6 @@
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
-
-
     <yd-tab style="margin-bottom: 50px">
       <yd-tab-panel label="商品">
         <yd-slider autoplay="3000">

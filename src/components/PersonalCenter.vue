@@ -211,13 +211,14 @@
       },
       gotobonushistroy(){
         if (this.isCookie==true){
-          const  that =this;
-          baseHttp(this,'/api/customer/bonusPointsHistories',{},'get','获取中...',function (data) {
-            if(data.histories.length>0){
-              that.bonusPointsHistories=data.histories;
-              that.isshowbounds=true;
-            }
-          });
+//          const  that =this;
+//          baseHttp(this,'/api/customer/bonusPointsHistories',{},'get','获取中...',function (data) {
+//            if(data.histories.length>0){
+//              that.bonusPointsHistories=data.histories;
+//              that.isshowbounds=true;
+//            }
+//          });
+          this.$router.push({ name: 'PointsList'});
         }
       },
       /*获取订单数量*/

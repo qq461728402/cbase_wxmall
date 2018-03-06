@@ -5,41 +5,38 @@
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
-
     <yd-tab slot="navbar" :callback="switchlist">
       <yd-tab-panel label="全部"  tabkey="all" :active="type==1"></yd-tab-panel>
       <yd-tab-panel :label="ordernum.PURCHASED>0?'待付款('+ordernum.PURCHASED+')':'待付款'" tabkey="PURCHASED" :active="type==2"></yd-tab-panel>
       <yd-tab-panel :label="(ordernum.SHIPPED+ordernum.CONFIRMED)>0?'待收货('+(ordernum.SHIPPED+ordernum.CONFIRMED)+')':'待收货'" tabkey="SHIPPED,CONFIRMED" :active="type==3"></yd-tab-panel>
       <yd-tab-panel :label="ordernum.RECEIVED>0?'待评价('+ordernum.RECEIVED+')':'待评价'" tabkey="RECEIVED" :active="type==4"></yd-tab-panel>
-      <!--<yd-tab-panel :label="ordernum.COMMENTED+ordernum.FINISHED>0?'已完成('+(ordernum.COMMENTED+ordernum.FINISHED)+')':'已完成'" tabkey="COMMENTED,FINISHED" :active="type==5"></yd-tab-panel>-->
       <yd-tab-panel label="已完成" tabkey="COMMENTED,FINISHED" :active="type==5"></yd-tab-panel>
     </yd-tab>
     <yd-pullrefresh :callback="pullList" ref="pullrefreshDemo" >
       <yd-infinitescroll :callback="loadList" ref="infinitescrollDemo">
         <div slot="list" class="or_1" v-for="item in oderlist" @click="gotoOderDetail(item)">
-          <yd-cell-item>
-            <span slot="left" class="or_2">订单编号：{{item.orderNumber}}</span><!--订单编号-->
-					<span slot="right" class="or_3" :class="{'cancleOrder':item.status=='CANCELED'}">
-						<!--{{item.status=='PURCHASED'?'待付款':item.status=='PAID'?'已支付':item.status=='CONFIRMED'?'待发货':item.status=='SHIPPED'?'待收货':item.status=='RECEIVED'?'待评价':item.status=='CANCELED'?'已取消':item.status=='COMMENTED'?'已完成':''}}-->
-						{{item.orderStatus}}</span><!--订单状态-->
-          </yd-cell-item>
-          <yd-flexbox>
-            <div class="or_4">
-              <img class="or_5" :src="item.url"><!--订单图片-->
-            </div>
-            <yd-flexbox-item class="or_6" style="padding: 0 0.2rem 0 0">
-              <yd-flexbox direction="vertical" class="or_7">
-                <yd-flexbox-item><p class="or_8">{{item.skuName}}</p></yd-flexbox-item><!--订单商品名-->
-                <yd-flexbox-item>
-                  <yd-flexbox >
-                    <yd-flexbox-item><span class="or_9" style="color: #d41d0f">&yen;{{item.totleFee}}</span></yd-flexbox-item>
-                    <yd-flexbox-item style="text-align: right"><span class="or_9">x{{item.quantity}}</span></yd-flexbox-item><!--件数-->
-                  </yd-flexbox>
-                  <yd-button type="hollow" style="float: right;margin-bottom: 0.2rem;border: 1px solid #d41d0f;color: #d41d0f;height: .5rem;" v-if="item.status=='PURCHASED'" @click.native.stop="gotoPay(item)">去支付</yd-button>
-                </yd-flexbox-item>
-              </yd-flexbox>
-            </yd-flexbox-item>
-          </yd-flexbox>
+          <van-row class="orderHeard">
+            <van-col span="12"><p class="orderNumber">订单编号:<span style="color: #313131">{{item.orderNumber}}</span></p></van-col>
+            <van-col span="12" style="text-align: right;padding-right: .2rem"></van-col>
+          </van-row>
+          <van-row class="orderHeard">
+            <van-col span="12">
+              <p class="orderNumber" style="margin-bottom: 0.2rem">状态:&nbsp;<span :class="{'cancleOrder':item.status=='CANCELED'}">{{item.orderStatus}}</span></p>
+              <p class="orderNumber">总价:&nbsp;<span style="color: #313131">&yen;{{item.totleFee}}</span></p>
+            </van-col>
+            <van-col span="12" style="text-align: right;padding-right: .2rem;">
+              <yd-button type="hollow" style="border: 1px solid #d41d0f;color: #d41d0f;height: .5rem;margin-top: 0.15rem" v-if="item.status=='PURCHASED'" @click.native.stop="gotoPay(item)">去支付</yd-button>
+            </van-col>
+          </van-row>
+          <van-row style="padding: 0.2rem;">
+            <van-col span="4">
+              <img style="height: 1.2rem;width: 1.2rem;" :src="item.url"><!--订单图片-->
+            </van-col>
+            <van-col span="18" offset="1">
+                <p style="height: 1rem;color: #313131;font-size: 0.25rem">{{item.skuName}}</p>
+                <p style="height: 0.2rem;color: #6e6f70;font-size: 0.25rem">x{{item.quantity}}</p>
+            </van-col>
+          </van-row>
           <hr style="border: none;border-bottom:8px solid #f5f5f5;"/>
         </div>
         <!-- 数据全部加载完毕显示 -->
@@ -51,14 +48,18 @@
       <img src="../../assets/img/cleanOder.png">
       <p>您还没有相关订单</p>
     </div>
-
   </yd-layout>
 </template>
 <script type="text/babel">
   import {baseHttp,getCookie,formatDate} from '../../config/env'
   import  {getStore,removeStore} from '../../config/mUtils'
   import {wexinPay} from '../../config/weichatPay'
+  import {Row, Col} from 'vant';
   const vm= {
+    components: {
+      [Row.name]: Row,
+      [Col.name]: Col,
+    },
     data() {
       return {
         type:'',
@@ -84,7 +85,6 @@
         this.statuses='COMMENTED,FINISHED';
       }
     },
-
     beforeRouteEnter(to, from, next) {
       console.log(from);
       next(function (vm) {
@@ -105,6 +105,7 @@
           vm.page=1;
           vm.orderslist();
         }else{
+          vm.ordernum={'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0};
           vm.getOrderStatus();
           vm.page=1;
           vm.orderslist();
@@ -112,7 +113,6 @@
       });
     },
     beforeRouteLeave(to,from,next){
-
       next(function (vm) {
 
       });
@@ -203,6 +203,22 @@
   export default vm;
 </script>
 <style scoped>
+
+  .orderHeard{
+    padding: 0.2rem;
+    border-bottom:1px solid #d9d9d9;
+  }
+  .orderHeard p {
+    line-height: 0.3rem;
+  }
+  .orderHeard p  span{
+    color: red;
+  }
+  .orderHeard .orderNumber {
+    color:#6e6f70;
+    font-size: .3rem
+  }
+
   div.or_1{
     background-color: #FFFFFF;
   }

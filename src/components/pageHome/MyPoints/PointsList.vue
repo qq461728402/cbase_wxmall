@@ -5,16 +5,12 @@
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
-
-
     <div style="background: linear-gradient(90deg,#eb3c3c,#ff7459);box-shadow:0 2px 5px rgba(255,98,98,.4);width: 100%;height: 130px;">
       <div style="font-size: 14px;padding-top: 20px;text-align: center;color: rgba(76,0,0,.7);">可用积分</div>
       <div style="font-size: 48px;color: #ffffff;text-align: center">10</div>
       <div style="font-size: 12px;color: hsla(0,0%,100%,.7);text-align: center">小积分&nbsp;换好礼&nbsp;会员专享&nbsp;每月更新</div>
     </div>
     <div style="width: 100%;height: 10px; background-color: #eeeeee"></div>
-
-
     <div>
       <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
         <div style="border-bottom: 1px solid #d9d9d9;height: 4rem;overflow: hidden;width: 100%;" v-for="(item,index) in list" :key="index">
@@ -36,28 +32,6 @@
         </div>
       </yd-pullrefresh>
     </div>
-
-
-
-
-
-
-
-    <yd-tabbar slot="tabbar" activeColor="#d41d0f">
-      <yd-tabbar-item title="首页" link="/">
-        <yd-icon name="shouye" slot="icon" size="0.54rem" custom></yd-icon>
-      </yd-tabbar-item>
-      <yd-tabbar-item title="分类"  link="/home/carProducts" >
-        <yd-icon slot="icon" size="0.54rem" name="fenlei1" custom></yd-icon>
-      </yd-tabbar-item>
-      <yd-tabbar-item title="购物车" link="/shoppingCart">
-        <yd-icon name="gouwuche" slot="icon" size="0.54rem" custom></yd-icon>
-        <!--<yd-badge slot="badge" type="danger" v-if="quantity!=0" style="background-color: #d41d0f;">{{quantity}}</yd-badge>-->
-      </yd-tabbar-item>
-      <yd-tabbar-item title="个人中心" link="/personalCenter">
-        <yd-icon name="ucenter" slot="icon" size="0.54rem"></yd-icon>
-      </yd-tabbar-item>
-    </yd-tabbar>
   </yd-layout>
 </template>
 <script type="text/babel">
@@ -80,27 +54,11 @@
       }
     },
     mounted(){
-      this.getshuju();
+
     },
     methods:{
-      /*loadList() {
-        axios.get("../static/data.json",{},"数据加载中...").then((response) => {
-          const _list = response.data.list;
-          this.$dialog.toast({
-            mes: _list.length > 0 ? '为您更新了' + _list.length + '条内容' : '已是最新内容'
-          });
-          this.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
-        }).catch( error => { console.log(error); });
-      },*/
 
-      /*getshuju() {
-        axios.get("../static/data.json",{},"数据加载中...").then((response) => {
-          this.items = response.data.list;
-          this.ji = response.data.jifen;
-        }).catch( error => { console.log(error); });
-      },*/
     },
-
   }
   export default vm;
 </script>

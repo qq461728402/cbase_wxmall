@@ -5,7 +5,7 @@
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
-    <div class="listItem" v-for="items,index in data.address" :key="index" @click="setDefault(items)">
+    <div class="listItem" v-for="items,index in data.address" :key="index">
       <div class="item" :class="{'default':items.default==1}">
         <div class="addressinfo">
           <p style="font-size: 0.3rem">
