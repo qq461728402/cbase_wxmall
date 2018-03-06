@@ -115,14 +115,13 @@
       </swiper-slide>
     </swiper>
 
-    <van-goods-action style="z-index: 100;" slot="tabbar">
+    <van-goods-action slot="tabbar">
       <van-goods-action-mini-btn icon="chat" text="客服" @click="onClickMiniBtn" />
       <van-goods-action-mini-btn icon="cart" text="购物车" @click="gotoCar()" :info="quantity+''" />
       <van-goods-action-big-btn  v-if="product.isAvalible==true" text="加入购物车" @click="showBase=!showBase"/>
       <van-goods-action-big-btn  v-if="product.isAvalible==true" text="立即购买" @click="showBase=!showBase" primary />
       <van-goods-action-big-btn  v-if="product.isAvalible==false" text="库存不足"/>
     </van-goods-action>
-
     <yd-popup v-model="securityView" position="bottom" height="40%" style="z-index: 50;">
       <div style="display: flex;text-align:center;" slot="top">
         <p style="padding: 0.2rem;line-height: 0.4rem;font-size: 0.3rem;width: 98%">服务说明</p>
@@ -152,6 +151,7 @@
       :quota="0"
       @buy-clicked="gotoOder"
       @add-cart="additem"
+      style="z-index: 50;"
     />
   </yd-layout>
 </template>
