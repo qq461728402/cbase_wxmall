@@ -16,7 +16,10 @@ Vue.config.productionTip = false
 Vue.use(YDUI);
 Vue.use(VueAxios, axios)
 Vue.use(VueWechatTitle);
-Vue.use(VueLazyload)
+Vue.use(VueLazyload,{
+  listenEvents: [ 'scroll' ],
+  attempt: 1,
+})
 Vue.component('icon', Icon)
 new Vue({
   el: '#app',

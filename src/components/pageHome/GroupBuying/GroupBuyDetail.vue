@@ -43,25 +43,45 @@
          商品详情
       </van-cell>
       <div class="detal">
-        <img src="https://img.yzcdn.cn/upload_files/2015/01/16/7a30ba768d2984b5e83c279afb6098a6.jpg?imageView2/2/w/980/h/980/q/75/format/webp">
-        <img src="https://img.yzcdn.cn/upload_files/2015/01/16/7a30ba768d2984b5e83c279afb6098a6.jpg?imageView2/2/w/980/h/980/q/75/format/webp">
-        <img src="https://img.yzcdn.cn/upload_files/2015/01/16/7a30ba768d2984b5e83c279afb6098a6.jpg?imageView2/2/w/980/h/980/q/75/format/webp">
-        <img src="https://img.yzcdn.cn/upload_files/2015/01/16/7a30ba768d2984b5e83c279afb6098a6.jpg?imageView2/2/w/980/h/980/q/75/format/webp">
+        <img v-lazy="img">
+        <img v-lazy="img2">
+        <img v-lazy="img2">
+        <img v-lazy="img2">
+        <img v-lazy="img">
+        <img v-lazy="img">
+        <img v-lazy="img">
+        <img v-lazy="img">
+        <img v-lazy="img">
+        <img v-lazy="img">
       </div>
     </van-cell-group>
-
-
-    <van-goods-action>
-      <van-goods-action-mini-btn icon="chat" text="客服" @click="onClickMiniBtn" />
-      <van-goods-action-mini-btn icon="cart" text="购物车" @click="onClickMiniBtn" />
-      <van-goods-action-big-btn text="加入购物车" @click="onClickBigBtn" />
-      <van-goods-action-big-btn text="立即购买" @click="onClickBigBtn" primary />
+    <van-goods-action solt="tabbar">
+      <van-goods-action-mini-btn icon="chat" text="客服" />
+      <van-goods-action-mini-btn icon="cart" text="购物车" />
+      <van-goods-action-big-btn text="开团" primary  @click="showBase=!showBase"/>
     </van-goods-action>
+    <van-sku slot="tabbar"
+             v-model="showBase"
+             :sku="sku"
+             :goods="goods"
+             :goods-id="goodsId"
+             :hide-stock="sku.hide_stock"
+             :quota="0"
+             :reset-stepper-on-hide="sku.resetStepperOnHide"
+             :reset-selected-sku-on-hide="sku.resetSelectedSkuOnHide"
+             @buy-clicked="gotoOder">
+      <template slot="sku-actions" slot-scope="props">
+        <div class="van-sku-actions">
+          <van-button type="primary" bottom-action @click="props.skuEventBus.$emit('sku:buy')">下一步</van-button>
+        </div>
+      </template>
+    </van-sku>
 
   </yd-layout>
 </template>
 <script type="text/babel">
-  import { Swipe, SwipeItem,Cell,CellGroup,Col, GoodsAction, GoodsActionBigBtn,GoodsActionMiniBtn} from 'vant';
+  import { Swipe, SwipeItem,Cell,CellGroup,Col, GoodsAction, GoodsActionBigBtn,GoodsActionMiniBtn,Sku,Button} from 'vant';
+  import {baseHttp} from '../../../config/env'
   const vm= {
     components: {
       [Swipe.name]:Swipe,
@@ -72,25 +92,94 @@
       [GoodsAction.name]:GoodsAction,
       [GoodsActionBigBtn.name]:GoodsActionBigBtn,
       [GoodsActionMiniBtn.name]:GoodsActionMiniBtn,
+      [Sku.name]:Sku,
+      [Button.name]:Button,
     },
     data() {
       return {
+        showBase:false,
+        img:'https://img.yzcdn.cn/upload_files/2015/01/16/7a30ba768d2984b5e83c279afb6098a6.jpg?imageView2/2/w/980/h/980/q/75/format/webp',
+        img2:'https://img.yzcdn.cn/upload_files/2015/01/16/bbbc927a68c9159f9d39ea84ed7a66d2.jpg?imageView2/2/w/980/h/980/q/75/format/webp',
         images: [
           'https://img.yzcdn.cn/upload_files/2015/01/16/7a30ba768d2984b5e83c279afb6098a6.jpg?imageView2/2/w/980/h/980/q/75/format/webp',
           'https://img.yzcdn.cn/upload_files/2015/01/16/bbbc927a68c9159f9d39ea84ed7a66d2.jpg?imageView2/2/w/980/h/980/q/75/format/webp'
         ],
+        promotionId:'',
         securitylst:['正品保障','正规发票','自营门店'],
+        sku: {
+          tree: [],
+          list: [],
+          none_sku: true, // 是否无规格商品
+          messages: [ {
+            datetime: '0', // 留言类型为 time 时，是否含日期。'1' 表示包含
+            multiple: '0', // 留言类型为 text 时，是否多行文本。'1' 表示多行
+            name: '留言', // 留言名称
+            type: 'text', // 留言类型，可选: id_no（身份证）, text, tel, date, time, email
+            required: '0' // 是否必填 '1' 表示必填
+          }],
+          hide_stock: false, // 是否隐藏剩余库存
+          resetStepperOnHide:true,//窗口隐藏时重置选择的商品数量
+          resetSelectedSkuOnHide:true,//窗口隐藏时重置已选择的sku
+        },
+        goods: {},
+        goodsId:'',
+        endTime:'',//活动结束时间
       }
     },
     mounted(){
-
+      this.promotionId =this.$route.query.promotionId;
+      this.getDetail();
     },
     methods:{
       gotoback(){
         this.$router.go(-1);
       },
-    },
+      getDetail(){
+        const  that =this;
+        baseHttp(this, '/api/promotion/detail', {'promotionId': this.promotionId}, 'get', '加载中...', function (data) {
+          var tree=[];
+          var promotion=data.promotion;
+          promotion.endTime;
+          if(promotion.attrs){
+            promotion.attrs.forEach(function (item) {
+              var treelst={};
+              for(var key in item){
+                treelst.k=key;
+                treelst.k_s=key;
+                treelst.v=[];
+                for(var vkey in item[key]){
+                  treelst.v.push({id:item[key][vkey],name:item[key][vkey]});
+                }
+              }
+              tree.push(treelst);
+            })
+            that.sku.tree=tree;
+          }
+          if(promotion.skuModels){
+            that.sku.none_sku=false;
+            promotion.skuModels.forEach(function (item) {
+              for (var key in item.attrs){
+                eval("item."+key+"=\""+item.attrs[key]+"\"");
+              }
+              item.id=item.skuId;
+              item.stock_num=item.stock;
+              item.price=item.price*100;
+            })
+            that.sku.list=promotion.skuModels;
+          }
+          if(promotion.skuModels){
+           var defelutModel = promotion.skuModels[0];
+            that.sku.stock_num=defelutModel.stock;
+            that.sku.price=defelutModel.price;
+            that.sku.collection_id=defelutModel.skuId;
+            that.goods.picture=defelutModel.image;
+          }
+        })
+      },
+      gotoOder(skuData){
 
+      }
+    },
   }
   export default vm;
 </script>

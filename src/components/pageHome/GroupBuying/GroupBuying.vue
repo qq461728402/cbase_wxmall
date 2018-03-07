@@ -54,7 +54,7 @@
         })
       },
       gotoDetail(item){
-        this.$router.push({path: '/home/GroupBuyDetail',query:{'skuId':1}})
+        this.$router.push({path: '/home/GroupBuyDetail',query:{'promotionId':item.promotionId}})
       }
     }
   }
