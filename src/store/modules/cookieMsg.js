@@ -27,19 +27,19 @@ const cookieMsg={
     },
     SET_TOKEN:(state)=>{
 
-      // setStore('token','eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MjAzMjEzNzcsInN1YiI6IntcInVpZFwiOjQsXCJzY29wZVwiOlwiQUxMXCJ9IiwiaXNzIjoiTUFMTCJ9.mjg8sos61KWQy7Hmovdpr8HJmGZmfgihZmBe83PFiUo');
-      // state.token=getStore('token');
+      setStore('token','eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MjAzOTAxMjksInN1YiI6IntcInVpZFwiOjQsXCJzY29wZVwiOlwiQUxMXCJ9IiwiaXNzIjoiTUFMTCJ9.jfQRyd09m0JqBW40wvHFonjlO5VeIPimHtPFoO9ZA-8');
+      state.token=getStore('token');
 
-      var tokenstr=getToken('token');
-      if(tokenstr.length>0){
-        state.token=getToken('token');
-        if(getToken('token')){
-          setStore('token',tokenstr);
-          removeToken('token');
-        }
-      }else{
-        state.token=getStore('token');
-      }
+      // var tokenstr=getToken('token');
+      // if(tokenstr.length>0){
+      //   state.token=getToken('token');
+      //   if(getToken('token')){
+      //     setStore('token',tokenstr);
+      //     removeToken('token');
+      //   }
+      // }else{
+      //   state.token=getStore('token');
+      // }
     },
     SET_UID:(state)=>{
       var tokenuid=getToken('uid');

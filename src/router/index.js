@@ -53,7 +53,11 @@ const Index = resolve => require.ensure([], () => resolve(require('../components
 const MyPoints = resolve => require.ensure([], () => resolve(require('../components/pageHome/MyPoints/MyPoints')), 'MyPoints')
 const PointsList = resolve => require.ensure([], () => resolve(require('../components/pageHome/MyPoints/PointsList')), 'PointsList')
 const PointsDetails = resolve => require.ensure([], () => resolve(require('../components/pageHome/MyPoints/PointsDetails')), 'PointsDetails')
-const GroupBuying = resolve => require.ensure([], () => resolve(require('../components/pageHome/GroupBuying/GroupBuying')), 'GroupBuying')
+
+const GroupBuying = resolve => require.ensure([], () => resolve(require('../components/pageHome/GroupBuying/GroupBuying')), 'GroupBuying')//团购列表
+const GroupBuyDetail = resolve => require.ensure([], () => resolve(require('../components/pageHome/GroupBuying/GroupBuyDetail')), 'GroupBuyDetail')//团购详情
+
+
 const Seckill = resolve => require.ensure([], () => resolve(require('../components/pageHome/GroupBuying/Seckill')), 'Seckill')
 
 Vue.use(Router)
@@ -120,8 +124,9 @@ const router = new Router({
     {path:'/home/MyPoints',name:'MyPoints',component:MyPoints,meta:{title:'积分中心',keepAlive:true}},
     {path:'/home/PointsList',name:'PointsList',component:PointsList,meta:{title:'积分中心',keepAlive:true}},
     {path:'/home/PointsDetails',name:'PointsDetails',component:PointsDetails,meta:{title:'商品详情',keepAlive:true}},
-	{path:'/home/GroupBuying',name:'GroupBuying',component:GroupBuying,meta:{title:'团购频道',keepAlive:true}},
-	{path:'/home/Seckill',name:'Seckill',component:Seckill,meta:{title:'限时秒杀',keepAlive:true}},
+	  {path:'/home/GroupBuying',name:'GroupBuying',component:GroupBuying,meta:{title:'团购频道',keepAlive:true}},
+    {path:'/home/GroupBuyDetail',name:'GroupBuyDetail',component:GroupBuyDetail,meta:{title:'商品详情',keepAlive:false}},
+	  {path:'/home/Seckill',name:'Seckill',component:Seckill,meta:{title:'限时秒杀',keepAlive:true}},
   ]
 })
 export default router

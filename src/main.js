@@ -11,10 +11,12 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueWechatTitle from 'vue-wechat-title'
 import Icon from 'vue-svg-icon/Icon.vue'
+import VueLazyload from 'vue-lazyload'
 Vue.config.productionTip = false
 Vue.use(YDUI);
 Vue.use(VueAxios, axios)
 Vue.use(VueWechatTitle);
+Vue.use(VueLazyload)
 Vue.component('icon', Icon)
 new Vue({
   el: '#app',

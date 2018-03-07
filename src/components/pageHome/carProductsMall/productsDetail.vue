@@ -10,15 +10,16 @@
       <yd-tab-panel label="详情" tabkey="1" :active="tabkey==1"></yd-tab-panel>
       <yd-tab-panel label="评价" tabkey="2" :active="tabkey==2"></yd-tab-panel>
     </yd-tab>
-    <swiper :options="swiperOption" ref="mySwiper" id="mySwipers">
+    <swiper :options="swiperOption" ref="mySwiper" id="mySwipers" style="margin-bottom: 1.2rem">
       <!-- slides -->
       <swiper-slide>
           <swiper :options="swiperOption1" ref="myImageSwiper" style="max-height: 6rem" id="img">
             <swiper-slide style="height: 100%;text-align:center !important;"  v-for="item,index in previewlist" :key="index">
-              <img class="preview-img" :src="item.src"  style="height: 100%;overflow:hidden" @click="$preview.open(index, previewlist)">
+              <img class="preview-img" :src="item.src"  style="height: 100%;overflow:hidden" @click="showPreview(index)">
             </swiper-slide>
             <div class="swiper-pagination" slot="pagination"></div>
           </swiper>
+
           <div class="spxq1">
             <p class="spxq2">{{product.skuName}}</p>
             <p class="spxq3" style="color:#D41D0F;font-size: .25rem;">{{product.longDescription}}</p>
@@ -114,12 +115,11 @@
         <yd-button size="large" class="pj_12" @click.native="gotoReview()">查看全部评论</yd-button>
       </swiper-slide>
     </swiper>
-
-    <van-goods-action slot="tabbar">
+    <van-goods-action slot="tabbar" style="z-index: 1">
       <van-goods-action-mini-btn icon="chat" text="客服" @click="onClickMiniBtn" />
       <van-goods-action-mini-btn icon="cart" text="购物车" @click="gotoCar()" :info="quantity+''" />
-      <van-goods-action-big-btn  v-if="product.isAvalible==true" text="加入购物车" @click="showBase=!showBase"/>
-      <van-goods-action-big-btn  v-if="product.isAvalible==true" text="立即购买" @click="showBase=!showBase" primary />
+      <van-goods-action-big-btn  v-if="product.isAvalible==true" text="加入购物车" @click="shopping(1)"/>
+      <van-goods-action-big-btn  v-if="product.isAvalible==true" text="立即购买" @click="shopping(2)" primary />
       <van-goods-action-big-btn  v-if="product.isAvalible==false" text="库存不足"/>
     </van-goods-action>
     <yd-popup v-model="securityView" position="bottom" height="40%" style="z-index: 50;">
@@ -142,17 +142,23 @@
         </li>
       </ul>
     </yd-popup>
-    <van-sku
+    <van-sku slot="tabbar"
       v-model="showBase"
       :sku="sku"
       :goods="goods"
       :goods-id="goodsId"
       :hide-stock="sku.hide_stock"
       :quota="0"
-      @buy-clicked="gotoOder"
-      @add-cart="additem"
-      style="z-index: 50;"
-    />
+      :reset-stepper-on-hide="sku.resetStepperOnHide"
+      :reset-selected-sku-on-hide="sku.resetSelectedSkuOnHide"
+      @buy-clicked="gotoOder">
+      <template slot="sku-actions" slot-scope="props">
+        <div class="van-sku-actions">
+          <van-button v-if="isCarOrBuy==1" type="primary" bottom-action @click="props.skuEventBus.$emit('sku:buy')">加入购物车</van-button>
+          <van-button type="primary" v-else-if="isCarOrBuy==2" bottom-action @click="props.skuEventBus.$emit('sku:buy')">下一步</van-button>
+        </div>
+      </template>
+    </van-sku>
   </yd-layout>
 </template>
 <script type="text/babel">
@@ -161,17 +167,16 @@
   import {baseHttp} from  '../../../config/env'
   import {setStore,getStore} from '../../../config/mUtils'
   import Vue from 'vue'
-  import VueLazyload from 'vue-lazyload'
-  import VuePreview from 'vue-preview'
   import {
     GoodsAction,
     GoodsActionBigBtn,
     GoodsActionMiniBtn,
-    Sku
+    Sku,
+    Button,
+    Cell,
+    CellGroup,
+    ImagePreview
   } from 'vant';
-
-  Vue.use(VueLazyload)
-  Vue.use(VuePreview)
   const vm= {
     components: {
       swiper,
@@ -179,22 +184,18 @@
       [GoodsAction.name]: GoodsAction,
       [GoodsActionBigBtn.name]: GoodsActionBigBtn,
       [GoodsActionMiniBtn.name]: GoodsActionMiniBtn,
-      [Sku.name]:Sku
+      [Sku.name]:Sku,
+      [Button.name]:Button,
+      [Cell.name]:Cell,
+      [CellGroup.name]:CellGroup,
+      [ImagePreview.name]:ImagePreview,
     },
     data() {
       return {
-        skuData:{},
+        isCarOrBuy:0,//1表示Car 2表示 buy
         sku: {
-          // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
-          // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
-          tree: [
-          ],
-          // 所有 sku 的组合列表，比如红色、M 码为一个 sku 组合，红色、S 码为另一个组合
-          list: [
-          ],
-          price: '1.00', // 默认价格（单位元）
-          stock_num: 227, // 商品总库存
-          collection_id: 2261, // 无规格商品 skuId 取 collection_id，否则取所选 sku 组合对应的 id
+          tree: [],
+          list: [],
           none_sku: true, // 是否无规格商品
           messages: [ {
             datetime: '0', // 留言类型为 time 时，是否含日期。'1' 表示包含
@@ -203,7 +204,9 @@
             type: 'text', // 留言类型，可选: id_no（身份证）, text, tel, date, time, email
             required: '0' // 是否必填 '1' 表示必填
           }],
-          hide_stock: false // 是否隐藏剩余库存
+          hide_stock: false, // 是否隐藏剩余库存
+          resetStepperOnHide:true,//窗口隐藏时重置选择的商品数量
+          resetSelectedSkuOnHide:true,//窗口隐藏时重置已选择的sku
         },
         isCookie:getStore("token").length>0?true:false,
         goods: {},
@@ -262,6 +265,10 @@
       this.productDetail();
     },
     methods:{
+      shopping(isCarOrBuy){
+        this.isCarOrBuy=isCarOrBuy;
+        this.showBase=!this.showBase
+      },
       gotoback(){
         this.$router.go(-1);
       },
@@ -306,14 +313,11 @@
           if(data.product.images){
             that.goods.picture=data.product.images[0];
             data.product.images.forEach(function (item) {
-              var img = new Image();
-              img.src = item;
-              img.onload = function(){
-                var b={src:img.src,w:img.width,h:img.height};
-                previewlist1.push(b);
-              }
+              previewlist1.push({src:item});
             });
           }
+          that.previewlist=previewlist1;
+
           if(data.skus){
             that.sku.none_sku=false;
             data.skus.forEach(function (item) {
@@ -342,7 +346,7 @@
             })
           }
           that.sku.tree=tree;
-          that.previewlist=previewlist1;
+
           that.productDesc();
         })
       },
@@ -392,6 +396,10 @@
       },
       /*立即购买*/
       gotoOder(skuData){
+        if(this.isCarOrBuy==1){
+          this.additem(skuData);
+          return;
+        }
         var skuId='';
         if(skuData.selectedSkuComb){
           skuId=skuData.selectedSkuComb.id;
@@ -430,6 +438,14 @@
       onClickMiniBtn(){
 
       },
+      //图片预览
+      showPreview(index){
+        var img=[];
+        this.previewlist.forEach(function (item) {
+          img.push(item.src);
+        })
+        ImagePreview(img, index);
+      }
     },
   }
   export default vm;
@@ -447,13 +463,14 @@
     }
 
     .spxq3{
-      color: red;
       text-decoration:underline;
       overflow:hidden;
       text-overflow:ellipsis;
       display:-webkit-box;
       -webkit-box-orient:vertical;
       -webkit-line-clamp:2;
+      color:#D41D0F;
+      font-size: .25rem;
     }
     #natureCotainer.nature-container.spxq10{
       margin-left: 15px;
@@ -597,5 +614,8 @@
   #reviews .yd-cell-item:not(:last-child):after{
     border-bottom:0px;
   }
+
+</style>
+<style>
 
 </style>
