@@ -6,7 +6,6 @@
       </router-link>
     </yd-navbar>
 
-
     <yd-tab>
       <yd-tab-panel label="10:00进行中" v-if="dqshijian<='10:00:00'">
         <div style="overflow: hidden;width: 100%;height: .8rem;line-height: .8rem;border-bottom: 1px solid #eeeeee;text-align: center;font-size: .3rem;">

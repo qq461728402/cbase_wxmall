@@ -17,8 +17,9 @@ Vue.use(YDUI);
 Vue.use(VueAxios, axios)
 Vue.use(VueWechatTitle);
 Vue.use(VueLazyload,{
-  listenEvents: [ 'scroll' ],
+  
   attempt: 1,
+  preLoad: 1.3,
 })
 Vue.component('icon', Icon)
 new Vue({

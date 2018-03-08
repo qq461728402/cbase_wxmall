@@ -78,7 +78,7 @@
         <yd-cell-item style="border-top: 8px solid #f5f5f5;">
           <span slot="left" class="qbpj1"><em style="color: #D41D0F;font-size: .4rem;">|</em>&nbsp;商品详情</span>
         </yd-cell-item>
-        <img  v-for="item,imgindex in list" :key="imgindex" v-lazy="item" style="width: 100%;">
+        <img  v-for="item,imgindex in descriptions" :key="imgindex" v-lazy="item" style="width: 100%;">
       </swiper-slide>
       <swiper-slide id="reviews">
         <yd-cell-item class="qbpj" style="background-color: #fff">
@@ -223,7 +223,7 @@
         spinner4: 1,//产品数量
         show2: false,
         securityView:false,
-        list: [],//图文列表
+        descriptions: [],//图文列表
         previewlist:[],
         param:{},
         reviews1:{},
@@ -355,7 +355,7 @@
         const  that =this;
         baseHttp(this, '/api/mall/productDesc', {'skuId': this.productId}, 'get', '加载中...', function (data) {
           if(data.images)that.images=data.images;
-          if(data.images.descriptions) that.list = data.images.descriptions;
+          if(data.images.descriptions) that.descriptions = data.images.descriptions;
           if(data.images.param) that.param=data.images.param;
             that.$nextTick(function() {
               that.swiper.update();

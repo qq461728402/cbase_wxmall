@@ -6,30 +6,39 @@
       </router-link>
     </yd-navbar>
     <van-swipe :autoplay="3000">
-      <van-swipe-item v-for="(image, index) in images" :key="index" class="thumb">
-        <img :src="image"/>
+      <van-swipe-item v-for="(image, index) in skuModel.images" :key="index" class="thumb">
+        <img v-lazy="image" style="min-height: 100px"  @click="showPreview(index)"/>
       </van-swipe-item>
     </van-swipe>
-
     <van-cell-group id="active">
       <van-cell class="actvie" >
-        <van-col span="10"><div class="price"><span>$33.00</span> <span class="del_price"><em>¥</em>$33</span></div></van-col>
-        <van-col style="position: absolute;right: 10px"><div>距活动结束时间还剩</div><div><span>
-          <yd-countdown slot="right" time="2018/09/08 00:00:00" id="times">
-          <span><em>{%d0}</em><em>{%d1}</em><em>{%d2}</em></span> 天
-          <span><em>{%h1}</em><em>{%h2}</em></span>小时
-          <span><em>{%m1}</em><em>{%m2}</em></span>时
-          <span><em>{%s1}</em><em>{%s2}</em></span>秒
-        </yd-countdown></span></div></van-col>
+        <van-col span="10">
+          <div class="price">
+            <span><em>¥</em>{{skuModel.price}}</span>
+            <span class="del_price" v-if="skuModel.salePrice"><em>¥</em>{{skuModel.salePrice}}</span>
+          </div>
+        </van-col>
+        <van-col style="position: absolute;right: 10px">
+          <div>距活动结束时间还剩</div>
+          <div>
+            <yd-countdown :time="endTime"  id="times">
+              <span><em>{%d}</em></span>天
+              <span><em>{%h}</em></span>小时
+              <span><em>{%m}</em></span>时
+              <span><em>{%s}</em></span>秒
+            </yd-countdown>
+        </div>
+        </van-col>
       </van-cell>
       <van-cell>
-        <div class="goods-title">[哈哈啊]aad发送到发顺丰哈市发哈水电费哈佛哈闪电发货</div>
+        <div class="goods-title">{{skuModel.skuName}}</div>
+        <div class="goods-des">{{skuModel.skuDescription}}</div>
       </van-cell>
     </van-cell-group>
     <van-cell-group style="margin-top: 0.2rem">
       <van-cell>
-        <van-col span="10" style="color:#9c9c9c">运费：500</van-col>
-        <van-col span="14" style="text-align: right;color:#9c9c9c">剩余：400</van-col>
+        <van-col span="10" style="color:#9c9c9c">剩余：{{skuModel.stock}}件</van-col>
+        <!--<van-col span="14" style="text-align: right;color:#9c9c9c">剩余：{{skuModel.stock}}</van-col>-->
       </van-cell>
     </van-cell-group>
 
@@ -42,22 +51,21 @@
       <van-cell>
          商品详情
       </van-cell>
-      <div class="detal">
-        <img v-lazy="img">
-        <img v-lazy="img2">
-        <img v-lazy="img2">
-        <img v-lazy="img2">
-        <img v-lazy="img">
-        <img v-lazy="img">
-        <img v-lazy="img">
-        <img v-lazy="img">
-        <img v-lazy="img">
-        <img v-lazy="img">
-      </div>
+      <van-cell>
+        <van-col span="12" style="border-right: 1px solid #f5f5f5;border-bottom: 1px solid #f5f5f5;">等级{{param.greade}}</van-col>
+        <van-col span="12" style="border-bottom: 1px solid #f5f5f5;padding-left: 0.2rem">规格{{param.model}}</van-col>
+        <van-col span="12" style="border-right: 1px solid #f5f5f5;padding-right: 0.2rem">单位{{param.unit}}</van-col>
+        <van-col span="12" style="padding-left: 0.2rem">产地{{param.place}}</van-col>
+      </van-cell>
+      <van-cell style="padding: 0px;margin: 0;line-height: normal">
+        <div class="detal">
+          <img v-lazy="img" v-for="(img,index) in descriptions" :key="index" @click="showPreviewDetail(index)">
+        </div>
+      </van-cell>
     </van-cell-group>
-    <van-goods-action solt="tabbar">
+    <van-goods-action slot="tabbar">
       <van-goods-action-mini-btn icon="chat" text="客服" />
-      <van-goods-action-mini-btn icon="cart" text="购物车" />
+      <van-goods-action-mini-btn icon="cart" text="购物车" @click="gotoCar()" :info="quantity+''"/>
       <van-goods-action-big-btn text="开团" primary  @click="showBase=!showBase"/>
     </van-goods-action>
     <van-sku slot="tabbar"
@@ -80,9 +88,16 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import { Swipe, SwipeItem,Cell,CellGroup,Col, GoodsAction, GoodsActionBigBtn,GoodsActionMiniBtn,Sku,Button} from 'vant';
+  import { Swipe, SwipeItem,Cell,CellGroup,Col, GoodsAction, GoodsActionBigBtn,GoodsActionMiniBtn,Sku,Button,ImagePreview} from 'vant';
+  import {setStore,getStore} from '../../../config/mUtils'
   import {baseHttp} from '../../../config/env'
+  import { mapGetters } from 'vuex'
   const vm= {
+    computed: {
+      ...mapGetters([
+        'quantity',
+      ])
+    },
     components: {
       [Swipe.name]:Swipe,
       [SwipeItem.name]:SwipeItem,
@@ -94,18 +109,15 @@
       [GoodsActionMiniBtn.name]:GoodsActionMiniBtn,
       [Sku.name]:Sku,
       [Button.name]:Button,
+      [ImagePreview.name]:ImagePreview,
     },
     data() {
       return {
         showBase:false,
-        img:'https://img.yzcdn.cn/upload_files/2015/01/16/7a30ba768d2984b5e83c279afb6098a6.jpg?imageView2/2/w/980/h/980/q/75/format/webp',
-        img2:'https://img.yzcdn.cn/upload_files/2015/01/16/bbbc927a68c9159f9d39ea84ed7a66d2.jpg?imageView2/2/w/980/h/980/q/75/format/webp',
-        images: [
-          'https://img.yzcdn.cn/upload_files/2015/01/16/7a30ba768d2984b5e83c279afb6098a6.jpg?imageView2/2/w/980/h/980/q/75/format/webp',
-          'https://img.yzcdn.cn/upload_files/2015/01/16/bbbc927a68c9159f9d39ea84ed7a66d2.jpg?imageView2/2/w/980/h/980/q/75/format/webp'
-        ],
         promotionId:'',
         securitylst:['正品保障','正规发票','自营门店'],
+        param:{},//商品规格
+        descriptions:[],//商品图文
         sku: {
           tree: [],
           list: [],
@@ -122,8 +134,10 @@
           resetSelectedSkuOnHide:true,//窗口隐藏时重置已选择的sku
         },
         goods: {},
+        skuModel:{},
         goodsId:'',
         endTime:'',//活动结束时间
+
       }
     },
     mounted(){
@@ -139,7 +153,7 @@
         baseHttp(this, '/api/promotion/detail', {'promotionId': this.promotionId}, 'get', '加载中...', function (data) {
           var tree=[];
           var promotion=data.promotion;
-          promotion.endTime;
+          that.formatPrice(promotion.endTime);
           if(promotion.attrs){
             promotion.attrs.forEach(function (item) {
               var treelst={};
@@ -167,17 +181,75 @@
             })
             that.sku.list=promotion.skuModels;
           }
-          if(promotion.skuModels){
-           var defelutModel = promotion.skuModels[0];
-            that.sku.stock_num=defelutModel.stock;
-            that.sku.price=defelutModel.price;
-            that.sku.collection_id=defelutModel.skuId;
-            that.goods.picture=defelutModel.image;
+          if(promotion.skuModel){
+            that.skuModel=promotion.skuModel;
+            that.sku.stock_num=promotion.skuModel.stock;
+            that.sku.price=promotion.skuModel.price;
+            that.sku.collection_id=promotion.skuModel.skuId;
+            that.goods.picture=promotion.skuModel.image;
+          }
+          that.productDesc();
+        })
+      },
+      /*商品图文描述*/
+      productDesc(){
+        const  that =this;
+        baseHttp(this, '/api/mall/productDesc', {'skuId': this.skuModel.skuId}, 'get', '', function (data) {
+          if(data.images){
+            if(data.images.descriptions) that.descriptions = data.images.descriptions;
+            if(data.images.param) that.param=data.images.param;
           }
         })
       },
-      gotoOder(skuData){
 
+
+      formatPrice(time){
+        var date = new Date(time);
+        var Y = date.getFullYear() + '/';
+        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '/';
+        var D = (date.getDate()<10?'0'+date.getDate():date.getDate())+' ';
+        var h = date.getHours() + ':';
+        var m = date.getMinutes() + ':';
+        var s = date.getSeconds();
+        this.endTime=Y+M+D+h+m+s;
+      },
+      //图片预览
+      showPreview(index){
+        ImagePreview(this.skuModel.images, index);
+      },
+      showPreviewDetail(index){
+        ImagePreview(this.descriptions, index);
+      },
+      gotoCar(){
+        this.$router.push({ name: 'shoppingCart',meta:{title:'购物车'}});
+      },
+      gotoOder(skuData){
+        var skuId='';
+        if(skuData.selectedSkuComb){
+          skuId=skuData.selectedSkuComb.id;
+        }else{
+          skuId=skuData.goodsId;
+        }
+        var oderInfo={};
+        var carInfo = getStore('carInfo');
+        if (carInfo.type){
+          oderInfo.carDetailId=carInfo.id;//
+        }
+        var cityInfo=getStore('cityInfo');
+        if(cityInfo.cityName){
+          oderInfo.location=cityInfo.cityName;
+        }else{
+          oderInfo.location='重庆';
+        }
+        oderInfo.orderType='GENERAL';
+        var products=[];
+        var product={};
+        product.skuId=skuId;
+        product.quantity=skuData.selectedNum;
+        products.push(product);
+        oderInfo.products=products;
+        setStore("oderInfo",oderInfo);
+        this.$router.push({ name: 'orderSubmit'});
       }
     },
   }
@@ -208,8 +280,8 @@
   }
   .actvie .price{
     line-height: 0.8rem;
-    font-size: 0.35rem;
-    font-weight: bold;
+    font-size: 0.45rem;
+    font-weight: 600;
   }
   .actvie .del_price{
     color: #ebeced;
@@ -239,5 +311,15 @@
     margin: auto;
     max-width: 100%;
     max-height: 100%;
+  }
+  .goods-des{
+    text-decoration:underline;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+    color:#D41D0F;
+    font-size: .25rem;
   }
 </style>
