@@ -42,6 +42,7 @@
       this.currentPath=this.$route.path;
       if(this.isCookie==true){
           this.getCartsQuantity();
+          this.getuserInfo();
       }
     },
     methods:{
@@ -50,6 +51,15 @@
         const that = this;
         baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
           if (data.quantity) that.$store.dispatch('setQuantity',data.quantity);
+        })
+      },
+      /*获取用户信息*/
+      getuserInfo(){
+        const  that =this;
+        baseHttp(this,'/api/personal/info',{},'get','',function (data) {
+          if(data){
+            that.$store.dispatch('setUserInfo',data.info);
+          }
         })
       },
       gotoCars(){

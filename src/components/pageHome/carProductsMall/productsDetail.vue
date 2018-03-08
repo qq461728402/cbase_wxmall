@@ -151,10 +151,12 @@
       :quota="0"
       :reset-stepper-on-hide="sku.resetStepperOnHide"
       :reset-selected-sku-on-hide="sku.resetSelectedSkuOnHide"
-      @buy-clicked="gotoOder">
+      @buy-clicked="gotoOder"
+      @add-cart="additem"
+    >
       <template slot="sku-actions" slot-scope="props">
         <div class="van-sku-actions">
-          <van-button v-if="isCarOrBuy==1" type="primary" bottom-action @click="props.skuEventBus.$emit('sku:buy')">加入购物车</van-button>
+          <van-button v-if="isCarOrBuy==1" type="primary" bottom-action @click="props.skuEventBus.$emit('sku:addCart')">加入购物车</van-button>
           <van-button type="primary" v-else-if="isCarOrBuy==2" bottom-action @click="props.skuEventBus.$emit('sku:buy')">下一步</van-button>
         </div>
       </template>
@@ -396,10 +398,6 @@
       },
       /*立即购买*/
       gotoOder(skuData){
-        if(this.isCarOrBuy==1){
-          this.additem(skuData);
-          return;
-        }
         var skuId='';
         if(skuData.selectedSkuComb){
           skuId=skuData.selectedSkuComb.id;

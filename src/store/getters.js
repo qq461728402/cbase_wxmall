@@ -12,5 +12,6 @@ const getters= {
   locatingCity:state => state.basicStorage.locatingCity,
   quantity:state => state.basicStorage.quantity,
   invoice:state => state.basicStorage.invoice,
+  userInfo:state => state.basicStorage.userInfo,
 }
 export default getters;

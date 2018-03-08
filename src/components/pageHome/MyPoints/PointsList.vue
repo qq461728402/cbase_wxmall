@@ -7,61 +7,204 @@
     </yd-navbar>
     <div style="background: linear-gradient(90deg,#eb3c3c,#ff7459);box-shadow:0 2px 5px rgba(255,98,98,.4);width: 100%;height: 130px;">
       <div style="font-size: 14px;padding-top: 20px;text-align: center;color: rgba(76,0,0,.7);">可用积分</div>
-      <div style="font-size: 48px;color: #ffffff;text-align: center">10</div>
+      <div style="font-size: 48px;color: #ffffff;text-align: center">{{userInfo.bonus?userInfo.bonus:'0'}}</div>
       <div style="font-size: 12px;color: hsla(0,0%,100%,.7);text-align: center">小积分&nbsp;换好礼&nbsp;会员专享&nbsp;每月更新</div>
     </div>
-    <div style="width: 100%;height: 10px; background-color: #eeeeee"></div>
-    <div>
-      <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
-        <div style="border-bottom: 1px solid #d9d9d9;height: 4rem;overflow: hidden;width: 100%;" v-for="(item,index) in list" :key="index">
-          <div style="float: left;">
-            <div style="width: 4rem;height: 4rem;display: flex;flex-direction: column;justify-content: center;align-items: center">
-              <img :src="item.img" style="width: 3rem;height: 3rem;">
+    <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
+      <ul class="bulk_goods">
+        <li class="goods-item" v-for="item, key in items" :key="key" @click="gotoDetail(item)">
+          <div class="thumb center-img">
+            <img :src="item.skuModel.image">
+            <!--<span class="num">2人团</span>-->
+            <!--<i class="sell-out sell-out-60" v-if="1==2"></i>-->
+          </div>
+          <div class="detail">
+            <div class="goods-info">
+              <div class="title">{{item.skuModel.skuName}}</div>
+              <div class="meta">
+                <div class="price pull-left">
+                    <span>{{item.skuModel.bonusPoints}}积分</span>
+                    <span class="del_price"><em>¥</em>{{item.skuModel.salePrice}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="from-shop">
+              <van-button style="border: 1px solid red;color: red" size="normal" class="pull-right">立即兑换</van-button>
             </div>
           </div>
-          <div style="display: flex;flex-direction: column;justify-content: center;height: 4rem;">
-            <h3 style="margin-bottom: .2rem;font-size: .3rem;line-height: 1.5;font-weight: 400;">{{item.title}}</h3>
-            <div style="line-height: .4rem;margin-bottom: .4rem">
-              <span style="font-size: .3rem;margin-right: .1rem;color: #b4a078;font-weight: 700">{{item.price}}</span>
-              <span style="position: relative;font-size: .25rem;color: #999;margin-bottom: .4rem;text-decoration:line-through;"><em>￥</em>{{item.w_price}}</span>
-            </div>
-            <div>
-              <yd-button type="hollow" style="border: 1px solid #b4a078;width: 2rem;font-size: .3rem;color: #b4a078;">立即兑换</yd-button>
-            </div>
-          </div>
-        </div>
-      </yd-pullrefresh>
-    </div>
+        </li>
+      </ul>
+    </yd-pullrefresh>
   </yd-layout>
 </template>
 <script type="text/babel">
-  import axios from 'axios'
-  import VueAxios from 'vue-axios'
+  import {baseHttp} from '../../../config/env'
+  import {Button} from 'vant';
+  import { mapGetters } from 'vuex'
   const vm= {
+    computed: {
+      ...mapGetters([
+        'userInfo',
+      ])
+    },
+    components: {
+      [Button.name]:Button,
+    },
     data() {
       return {
-        list: [
-          {img: "https://free.modao.cc/uploads3/images/1725/17258040/raw_1519277870.jpeg", title: "澳佳宝 深海无腥味鱼油胶囊400粒", price: 1560, w_price: 156.23},
-          {img: "https://free.modao.cc/uploads3/images/1725/17258126/raw_1519278180.jpeg", title: "韩国AHC 强补水修复精华原液B5", price: 2560, w_price: 256.23},
-          {img: "https://free.modao.cc/uploads3/images/1725/17258875/raw_1519280302.jpeg", title: "Guerlain/娇兰 法式之吻有色润唇膏", price: 3560, w_price: 356.23},
-          {img: "https://free.modao.cc/uploads3/images/1725/17258916/raw_1519280420.jpeg", title: "德国Doppelherz 双心 女性复合矿", price: 4560, w_price: 456.23},
-        ],
-        /*list:[],*/
         items:[],
-        jifen:'',
-        ji:[],
-
       }
     },
     mounted(){
-
+      this.loadList();
     },
     methods:{
-
+      loadList() {
+        const that = this;
+        baseHttp(this, '/api/promotion/list', {'promotionType': 'EXCHANGE'}, 'get', '加载中...', function (data) {
+          that.items = data.promotions;
+          that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
+        })
+      },
+      //积分兑换
+      gotoDetail(item){
+        this.$router.push({path: '/home/PointsDetail',query:{'promotionId':item.promotionId}})
+      }
     },
   }
   export default vm;
 </script>
-<style>
+<style scoped>
+  .bulk_goods{
+    position: relative;
+  }
+  ul {
+    list-style: none;
+  }
+  .bulk_goods li{
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .bulk_goods .goods-item{
+    display: block;
+    position: relative;
+    width: auto;
+  }
+  .bulk_goods .goods-item .thumb {
+    float: left;
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    background-color: #f4f4f4;
+    text-align: center;
+    margin:0.2rem;
+  }
+  .bulk_goods .goods-item .badge:before {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: " ";
+    border-style: solid;
+    border-width: 0.18rem;
+    border-color: #cccccc;
+    z-index: 1;
+    opacity:0.8
+  }
+  .goods-item .detail {
+    position: relative;
+    font-size: 0.25rem;
+    height: 2.4rem;
+    margin-left: 2.2rem;
+  }
+  .goods-item .thumb img {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .center-img img {
+    max-width: 100%;
+    max-height: 100%;
+    border: 0;
+    vertical-align: middle;
+  }
+  .bulk_goods .goods-item .badge .num {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #fff;
+    font-size: 0.24rem;
+    line-height: 1.5;
+    margin-left: 3px;
+    z-index: 2;
+  }
+  .bulk_goods .goods-item .title {
+    line-height: 1.5;
+    padding-top: 0.2rem;
+    margin-bottom: 0.2rem;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size: 14px;
+  }
+  .bulk_goods .meta {
+    position: relative;
+    zoom: 1;
+  }
+  .bulk_goods .goods-item .price {
+    font-size: 0.25rem;
+    margin: 0;
+    padding-bottom: 0;
+    display: inline-block;
+  }
+  .bulk_goods .goods-item .price .del_price{
+    color: #999;
+    font-size: 0.2rem;
+    text-decoration: line-through
+  }
+
+  .goods-item .detail .price {
+    padding-bottom: 8px;
+    font-size: 0.25rem;
+    color: #ff525e;
+  }
+  .pull-left {
+    float: left;
+  }
+  .pull-right {
+    float: right;
+  }
+  .goods-item .from-shop {
+    position: absolute;
+    left:0.2rem;
+    bottom: 0.2rem;
+    width: 100%;
+    padding-right: 20px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  .goods-item .thumb .sell-out-60 {
+    background-size: 60% auto;
+  }
+  .goods-item .thumb .sell-out {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: url(../../../assets/img/2listicon_shouqing@2x.png) no-repeat 50%;
+    background-size: 60% auto;
+    background-color: rgba(0,0,0,.3);
+  }
 
 </style>

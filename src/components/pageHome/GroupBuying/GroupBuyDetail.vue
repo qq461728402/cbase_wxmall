@@ -41,7 +41,6 @@
         <!--<van-col span="14" style="text-align: right;color:#9c9c9c">剩余：{{skuModel.stock}}</van-col>-->
       </van-cell>
     </van-cell-group>
-
     <van-cell-group style="margin-top: 0.2rem">
       <van-cell>
         <button class="security" v-for="securityitem in securitylst"><yd-icon name="gouxuan" size=".3rem" color="#ff7723"  custom></yd-icon>{{securityitem}}</button>
@@ -137,7 +136,6 @@
         skuModel:{},
         goodsId:'',
         endTime:'',//活动结束时间
-
       }
     },
     mounted(){
@@ -187,6 +185,8 @@
             that.sku.price=promotion.skuModel.price;
             that.sku.collection_id=promotion.skuModel.skuId;
             that.goods.picture=promotion.skuModel.image;
+            that.goods.title=promotion.skuModel.skuName;
+            that.goodsId=promotion.skuModel.skuId
           }
           that.productDesc();
         })
@@ -201,8 +201,6 @@
           }
         })
       },
-
-
       formatPrice(time){
         var date = new Date(time);
         var Y = date.getFullYear() + '/';

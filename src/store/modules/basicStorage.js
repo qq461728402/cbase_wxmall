@@ -9,6 +9,9 @@ const basicStorage={
     categoryList:[],//分类列表
     goodsList:[],//商品列表
     quantity:'',//存储购物车数量
+    userInfo:{
+      bonus:0,//用户积分
+    },
     invoice:{
       invoiceType:'NO',
       invoiceTitle:'',
@@ -37,7 +40,10 @@ const basicStorage={
     },
     SET_INVOIVE:(state,invoice) =>{
       state.invoice=invoice;
-    }
+    },
+    SET_USERINFO:(state,userInfo)=>{
+      state.userInfo=userInfo;
+    },
   },
   actions: {
     setCategoryList({commit},list){
@@ -60,6 +66,9 @@ const basicStorage={
     },
     setInvoice({commit},invoice){
       commit('SET_INVOIVE',invoice);
+    },
+    setUserInfo({commit},userInfo){
+      commit('SET_USERINFO',userInfo);
     }
   }
 }
