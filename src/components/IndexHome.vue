@@ -24,9 +24,7 @@
     <!--*:style="{minHeight: bl+'px'}"*-->
     <yd-slider autoplay="3000"  style="min-height: 130px" id="my_banner">
       <yd-slider-item v-for="item,index in banner.items" :key="index">
-        <a :href="item.url">
-          <img :src="item.img">
-        </a>
+        <img v-lazy="item.img">
       </yd-slider-item>
     </yd-slider>
     <yd-grids-group :rows="5" v-if="primaryMenu.code" id="primaryMenu">

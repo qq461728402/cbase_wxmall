@@ -21,8 +21,8 @@
             </div>
           </div>
           <div class="from-shop">
-            <p class="pull-left" style="font-size: 11px;">已团<span style="color:#ff525e">{{item.dan?item.dan:'0'}}</span>件</p>
-            <van-button type="danger" size="mini" class="pull-right">去开团</van-button>
+            <div class="pull-left" style="font-size: 11px;height: 30px;line-height: 30px">已团<span style="color:#ff525e">{{item.dan?item.dan:'0'}}</span>件</div>
+            <van-button type="danger" size="small" class="pull-right">去开团</van-button>
           </div>
         </div>
       </li>

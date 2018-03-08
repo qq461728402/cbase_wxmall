@@ -311,8 +311,8 @@
   .detal {
     width: 100%;
     text-align: center;
+    min-height: 100px;
   }
-
   .detal img {
     margin: auto;
     max-width: 100%;

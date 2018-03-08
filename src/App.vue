@@ -42,4 +42,7 @@
   .ios .yd-scrollview{
     margin-top: 0px;
   }
+  .van-image-preview .van-swipe{
+    background-color: white;
+  }
 </style>

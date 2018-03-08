@@ -46,7 +46,7 @@
         <button class="security" v-for="securityitem in securitylst"><yd-icon name="gouxuan" size=".3rem" color="#ff7723"  custom></yd-icon>{{securityitem}}</button>
       </van-cell>
     </van-cell-group>
-    <van-cell-group style="margin-top: 0.2rem;margin-bottom: 1.2rem">
+    <van-cell-group style="margin-top: 0.2rem;margin-bottom: 1.5rem">
       <van-cell>
          商品详情
       </van-cell>
@@ -58,7 +58,7 @@
       </van-cell>
       <van-cell style="padding: 0px;margin: 0;line-height: normal">
         <div class="detal">
-          <img v-lazy="img" v-for="(img,index) in descriptions" :key="index" @click="showPreviewDetail(index)">
+          <img v-lazy="img"  v-for="(img,index) in descriptions" :key="index" @click="showPreviewDetail(index)">
         </div>
       </van-cell>
     </van-cell-group>
@@ -304,11 +304,13 @@
   .detal{
     width: 100%;
     text-align: center;
+    min-height: 100px;
   }
   .detal img{
     margin: auto;
     max-width: 100%;
     max-height: 100%;
+
   }
   .goods-des{
     text-decoration:underline;
