@@ -118,7 +118,7 @@
           tree: [],
           list: [],
           none_sku: true, // 是否无规格商品
-          stock_num:0,
+          stock_num:1,
           collection_id:0,
           price:'',
           messages: [{

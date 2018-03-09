@@ -18,7 +18,7 @@
         </div>
         <yd-grids-group :rows="3">
           <yd-grids-item v-for="item,index in catItemlist" :key="index" :link="{ name: 'productsList', query: { categoryId: item.categoryId}}">
-            <img slot="icon" :src="item.imgUrl">
+            <img slot="icon" v-lazy="item.imgUrl">
             <span slot="text">{{item.categoryName}}</span>
           </yd-grids-item>
         </yd-grids-group>
@@ -101,7 +101,7 @@
               }
             }
             that.categories=data.categories;
-            that.$store.dispatch('setCategoryList', that.categories);
+//            that.$store.dispatch('setCategoryList', that.categories);
           }
         })
       },
@@ -180,5 +180,18 @@
   }
   #carPro .yd-scrolltab-active:before{
     border-right:0px;
+  }
+</style>
+<style scoped>
+  img[lazy=loading] {
+    background: url('../../../assets/img/default.png');
+    background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;
+  }
+  img[lazy=loaded] {
+
+  }
+  img[lazy=error] {
+    background: url('../../../assets/img/default.png');
+    background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;
   }
 </style>
