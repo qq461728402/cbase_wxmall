@@ -105,7 +105,7 @@ const router = new Router({
     {path:'/personalCenter/reperUserInfo', name:'reperUserInfo', component:RePerUserInfo, meta:{title:'用户信息',keepAlive:true}},
     {path:'/personalCenter/addressList',name:'addressList',component:AddressList,meta:{title:'收货地址',keepAlive:true}},
     {path:'/personalCenter/addAddress',name:'addAddress',component:AddAddress,meta:{title:'地址信息',keepAlive:false}},
-    {path:'/personalCenter/myOderList',name:'myOderList',component:MyOderList,meta:{title:'我的订单',keepAlive:true}},
+    {path:'/personalCenter/myOderList',name:'myOderList',component:MyOderList,meta:{title:'我的订单',keepAlive:false}},
     {path:'/personalCenter/orderDetail',name:'orderDetail',component:OrderDetail,meta:{title:'订单详情',keepAlive:false}},
     {path:'/personalCenter/orderAppraise',name:'orderAppraise',component:OrderAppraise,meta:{title:'订单评价',keepAlive:false}},
     {path:'/personalCenter/fillsalesRetrun',name:'fillsalesRetrun',component:FillsalesRetrun,meta:{title:'填写退货订单',keepAlive:false}},
@@ -123,9 +123,7 @@ const router = new Router({
 
     {path:'/home/MyPoints',name:'MyPoints',component:MyPoints,meta:{title:'积分中心',keepAlive:true}},
     {path:'/home/PointsList',name:'PointsList',component:PointsList,meta:{title:'积分中心',keepAlive:true}},
-    {path:'/home/PointsDetail',name:'PointsDetail',component:PointsDetail,meta:{title:'商品详情',keepAlive:true}},
-
-
+    {path:'/home/PointsDetail',name:'PointsDetail',component:PointsDetail,meta:{title:'商品详情',keepAlive:false}},
 
 	  {path:'/home/GroupBuying',name:'GroupBuying',component:GroupBuying,meta:{title:'团购频道',keepAlive:true}},
     {path:'/home/GroupBuyDetail',name:'GroupBuyDetail',component:GroupBuyDetail,meta:{title:'商品详情',keepAlive:false}},

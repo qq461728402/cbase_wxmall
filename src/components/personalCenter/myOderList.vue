@@ -84,38 +84,10 @@
       }else if(this.type==5){
         this.statuses='COMMENTED,FINISHED';
       }
-    },
-    beforeRouteEnter(to, from, next) {
-      console.log(from);
-      next(function (vm) {
-        if(from.name=='personalCenter'){
-          vm.type =vm.$route.query.type;
-          if(vm.type==1){
-            vm.statuses='all';
-          }else if(vm.type==2){
-            vm.statuses='PURCHASED';
-          }else if(vm.type==3){
-            vm.statuses='SHIPPED,CONFIRMED';
-          }else if(vm.type==4){
-            vm.statuses='RECEIVED';
-          }else if(vm.type==5){
-            vm.statuses='COMMENTED,FINISHED';
-          }
-          vm.getOrderStatus();
-          vm.page=1;
-          vm.orderslist();
-        }else{
-          vm.ordernum={'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0};
-          vm.getOrderStatus();
-          vm.page=1;
-          vm.orderslist();
-        }
-      });
-    },
-    beforeRouteLeave(to,from,next){
-      next(function (vm) {
-
-      });
+      this.ordernum={'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0};
+      this.getOrderStatus();
+      this.page=1;
+      this.orderslist();
     },
     methods:{
       gotoback(){
@@ -206,7 +178,7 @@
 
   .orderHeard{
     padding: 0.2rem;
-    border-bottom:1px solid #d9d9d9;
+    border-bottom:1px solid #f5f5f5;
   }
   .orderHeard p {
     line-height: 0.3rem;
@@ -216,7 +188,7 @@
   }
   .orderHeard .orderNumber {
     color:#6e6f70;
-    font-size: .3rem
+    font-size: .25rem
   }
 
   div.or_1{

@@ -71,6 +71,9 @@
         this.$router.push({path: '/home/PointsDetail',query:{'promotionId':item.promotionId}})
       }
     },
+    activated(){
+      this.loadList();
+    },
   }
   export default vm;
 </script>

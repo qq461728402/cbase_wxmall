@@ -194,10 +194,12 @@
     },
     data() {
       return {
-        isCarOrBuy:0,//1表示Car 2表示 buy
         sku: {
           tree: [],
           list: [],
+          stock_num:0,
+          collection_id:0,
+          price:'',
           none_sku: true, // 是否无规格商品
           messages: [ {
             datetime: '0', // 留言类型为 time 时，是否含日期。'1' 表示包含
@@ -210,8 +212,12 @@
           resetStepperOnHide:true,//窗口隐藏时重置选择的商品数量
           resetSelectedSkuOnHide:true,//窗口隐藏时重置已选择的sku
         },
+        isCarOrBuy:0,//1表示Car 2表示 buy
         isCookie:getStore("token").length>0?true:false,
-        goods: {},
+        goods: {
+          title: '',
+          picture: ''
+        },
         goodsId:'',
         showBase:false,
         tabkey: 0,
@@ -330,8 +336,8 @@
               item.stock_num=item.stock;
               item.price=item.price*100;
             })
+            that.sku.list=data.skus;
           }
-          that.sku.list=data.skus;
           var tree=[];
           if(data.productOptions){
             data.productOptions.forEach(function (item) {
@@ -346,9 +352,8 @@
               }
               tree.push(treelst);
             })
+            that.sku.tree=tree;
           }
-          that.sku.tree=tree;
-
           that.productDesc();
         })
       },

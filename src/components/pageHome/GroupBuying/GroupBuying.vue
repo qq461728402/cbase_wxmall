@@ -56,7 +56,10 @@
       gotoDetail(item){
         this.$router.push({path: '/home/GroupBuyDetail',query:{'promotionId':item.promotionId}})
       }
-    }
+    },
+    activated(){
+      this.loadList();
+    },
   }
   export default vm;
 </script>

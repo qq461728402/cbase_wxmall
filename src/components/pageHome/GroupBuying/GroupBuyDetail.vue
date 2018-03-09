@@ -73,7 +73,7 @@
              :goods="goods"
              :goods-id="goodsId"
              :hide-stock="sku.hide_stock"
-             :quota="0"
+             :quota="quota"
              :reset-stepper-on-hide="sku.resetStepperOnHide"
              :reset-selected-sku-on-hide="sku.resetSelectedSkuOnHide"
              @buy-clicked="gotoOder">
@@ -121,6 +121,9 @@
           tree: [],
           list: [],
           none_sku: true, // 是否无规格商品
+          stock_num:0,
+          collection_id:0,
+          price:'',
           messages: [ {
             datetime: '0', // 留言类型为 time 时，是否含日期。'1' 表示包含
             multiple: '0', // 留言类型为 text 时，是否多行文本。'1' 表示多行
@@ -132,7 +135,11 @@
           resetStepperOnHide:true,//窗口隐藏时重置选择的商品数量
           resetSelectedSkuOnHide:true,//窗口隐藏时重置已选择的sku
         },
-        goods: {},
+        goods: {
+          title: '',
+          picture: ''
+        },
+        quota:0,
         skuModel:{},
         goodsId:'',
         endTime:'',//活动结束时间
@@ -151,6 +158,9 @@
         baseHttp(this, '/api/promotion/detail', {'promotionId': this.promotionId}, 'get', '加载中...', function (data) {
           var tree=[];
           var promotion=data.promotion;
+          if(promotion.limit==true){
+            that.quota=promotion.limitQuantity;
+          }
           that.formatPrice(promotion.endTime);
           if(promotion.attrs){
             promotion.attrs.forEach(function (item) {
@@ -229,20 +239,18 @@
           skuId=skuData.goodsId;
         }
         var oderInfo={};
-        var carInfo = getStore('carInfo');
-        if (carInfo.type){
-          oderInfo.carDetailId=carInfo.id;//
-        }
         var cityInfo=getStore('cityInfo');
         if(cityInfo.cityName){
           oderInfo.location=cityInfo.cityName;
         }else{
           oderInfo.location='重庆';
         }
-        oderInfo.orderType='GENERAL';
+        oderInfo.orderType='GROUPON';
         var products=[];
         var product={};
         product.skuId=skuId;
+        product.appliedPromotionId=this.promotionId;
+        product.isPromotionApplied=true;
         product.quantity=skuData.selectedNum;
         products.push(product);
         oderInfo.products=products;
