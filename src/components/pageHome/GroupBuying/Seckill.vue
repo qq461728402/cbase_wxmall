@@ -6,7 +6,7 @@
       </router-link>
     </yd-navbar>
     <ul class="yd-scrollnav-tab-item" style="color: rgb(255, 255, 255); height: 0.9rem;" id="scroll" slot="navbar">
-      <li :class="{'yd-scrollnav-current':selettype==item.type}" style="color: rgb(245, 245, 245);" v-for="item in tablist" @click="switchlist(item.type,$event)">
+      <li :class="{'yd-scrollnav-current':selettype==item.type}" style="color: rgb(245, 245, 245);" v-for="item in startTimes" @click="switchlist(item.type,$event)">
         <div style="width: 100%;display:table;margin: auto;height: 0.9rem;text-align: center">
           <div style="vertical-align:middle;display:table-cell;">
               <p style="font-size: 0.25rem">{{item.name}}</p>
@@ -20,13 +20,14 @@
     </div>
     <van-row style="line-height: 30px;background-color: #E9E9E9">
       <van-col offset="1" span="7"><span style="font-size: 0.25rem;color: #d41d0f">疯狂抢购&nbsp;限时秒杀</span></van-col>
-      <van-col offset="6" span="9" style="text-align: right"> <yd-countdown time="2018/06/06 06:06:06"  id="times">
+      <van-col offset="6" span="9" style="text-align: right"> <yd-countdown :time="seckillTime"  id="times">
         <span><em>{%d}</em></span>天
         <span><em>{%h}</em></span>小时
         <span><em>{%m}</em></span>时
         <span><em>{%s}</em></span>秒
       </yd-countdown></van-col>
     </van-row>
+
     <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
       <ul class="bulk_goods">
         <li class="goods-item" v-for="item, key in items" :key="key" @click="gotoDetail(item)">
@@ -40,12 +41,12 @@
             <div class="from-shop">
               <van-row style="line-height: 30px">
                 <van-col span="8" class="price"> <span><em>¥</em>{{item.skuModel.price}}</span></van-col>
-                <van-col offset="8" span="8"><van-button type="danger" size="small" class="pull-right">立即抢购</van-button></van-col>
+                <van-col offset="8" span="8"><van-button :disabled="item.avaliable==false" type="danger" size="small" class="pull-right">{{item.avaliable==false?'活动结束':'立即抢购'}}</van-button></van-col>
               </van-row>
               <van-row>
                 <van-col span="8" class="del_price"><span><em>¥</em>{{item.skuModel.salePrice}}</span></van-col>
-                <van-col span="8" style="text-align: right;font-size: 0.2rem;color: #999;">已售26%</van-col>
-                <van-col span="7" offset="1" style="margin-top: 7px"><van-progress :show-pivot="showpivot" color="#ed5050" :percentage="26" /></van-col>
+                <van-col span="8" style="text-align: right;font-size: 0.2rem;color: #999;">已售{{((item.skuModel.stock-item.skuModel.stockAvalible)/item.skuModel.stock*100).toFixed(2)}}%</van-col>
+                <van-col span="7" offset="1" style="margin-top: 7px"><van-progress :show-pivot="showpivot" color="#ed5050" :percentage="(item.skuModel.stock-item.skuModel.stockAvalible)/item.skuModel.stock*100" /></van-col>
               </van-row>
             </div>
           </div>
@@ -67,32 +68,74 @@
     data() {
       return {
         showpivot:false,
-        selettype:1,
-        tablist:[{name:'10:00',des:'已结束',type:1},
-          {name:'12:00',des:'已结束',type:2},
-          {name:'15:00',des:'已结束',type:3},
-          {name:'19:00',des:'抢购进行中',type:4},
-          {name:'21:00',des:'未开始',type:5}],
+        selettype:0,
+        startTimes:[],
+        promotions:[],//所有的列表
         items:[],
+        seckillTime:'',//秒杀时间
       }
     },
     mounted(){
-      this.loadList();
+
     },
     methods: {
       switchlist(key,e) {
         this.selettype=key;
+        var seckillTime =this.startTimes[key-1].seckillTime;
+        var list=[];
+        this.promotions.forEach(function (proitem) {
+          if(proitem.startTime==seckillTime){
+            list.push(proitem);
+          }
+        })
+        this.seckillTime=seckillTime/1000;
+        this.items=list;
         document.getElementById('scroll').scrollLeft=e.currentTarget.offsetLeft-10;
       },
       loadList() {
         const that = this;
-        baseHttp(this, '/api/promotion/list', {'promotionType': 'GROUPON'}, 'get', '加载中...', function (data) {
-          that.items = data.promotions;
+        baseHttp(this, '/api/promotion/seckill', {'promotionType': 'SECKILL','store':'1'}, 'get', '加载中...', function (data) {
+          if(data.promotions){
+            that.promotions=data.promotions;
+          }
+          if(data.startTimes){
+            that.startTimes=[];
+            data.startTimes= data.startTimes.sort();//排序
+            var fristBool=true;
+            for(var i =0;i<data.startTimes.length;i++){
+              var item=data.startTimes[i];
+              var date = new Date(item);
+              var dates = (date.getHours()<10?'0'+date.getHours():date.getHours()) + ':'+ (date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes());
+              if(data.currentTime>item){
+                that.startTimes.push({name:dates,des:'已结束',type:(i+1),seckillTime:item});
+              }else{
+                if(fristBool==true){
+                  fristBool=false;
+                  that.selettype=i+1;
+                  that.startTimes.push({name:dates,des:'抢购进行中...',type:(i+1),seckillTime:item});
+                  that.seckillTime=item/1000;
+                  var list=[];
+                  that.promotions.forEach(function (proitem) {
+                      if(proitem.startTime==item){
+                        list.push(proitem);
+                      }
+                  })
+                  that.items=list;
+                }else{
+                  that.startTimes.push({name:dates,des:'未开始',type:(i+1),seckillTime:item/1000});
+                }
+              }
+            }
+          }
+//          that.items = data.promotions;
           that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
         })
       },
       gotoDetail(item){
-        this.$router.push({path: '/home/GroupBuyDetail',query:{'promotionId':item.promotionId}})
+        if(item.avaliable==false){
+          return;
+        }
+        this.$router.push({path: '/home/GroupBuyDetail',query:{'promotionId':item.promotionId,'promotionType':'SECKILL'}})
       }
     },
     activated(){
@@ -248,7 +291,7 @@
   #seckill .yd-scrollnav-tab-item{
     overflow-x:scroll;
     flex:initial;
-    background-color: white;
+    background-color: #31343d;
   }
   #seckill .yd-scrollnav-tab-item>li{
     min-width: 1.5rem;

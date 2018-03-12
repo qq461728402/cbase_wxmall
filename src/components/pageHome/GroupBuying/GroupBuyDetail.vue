@@ -5,9 +5,9 @@
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
-    <van-swipe :autoplay="3000">
+    <van-swipe :autoplay="3000" style="transform: none;" :style="{height:screenWidth+'px'}">
       <van-swipe-item v-for="(image, index) in skuModel.images" :key="index" class="thumb">
-        <img v-lazy="image" style="min-height: 100px"  @click="showPreview(index)"/>
+        <img v-lazy="image"   @click="showPreview(index)"/>
       </van-swipe-item>
     </van-swipe>
     <van-cell-group id="active">
@@ -65,7 +65,7 @@
     <van-goods-action slot="tabbar">
       <van-goods-action-mini-btn icon="chat" text="客服" />
       <van-goods-action-mini-btn icon="cart" text="购物车" @click="gotoCar()" :info="quantity+''"/>
-      <van-goods-action-big-btn text="开团" primary  @click="showBase=!showBase"/>
+      <van-goods-action-big-btn :text="(promotionType=='SECKILL'?'立即购买':'立即开团')" primary  @click="showBase=!showBase"/>
     </van-goods-action>
     <van-sku slot="tabbar"
              v-model="showBase"
@@ -112,6 +112,8 @@
     },
     data() {
       return {
+        screenWidth: document.body.clientWidth,
+        promotionType:'',
         showBase:false,
         promotionId:'',
         securitylst:['正品保障','正规发票','自营门店'],
@@ -145,8 +147,17 @@
         endTime:'',//活动结束时间
       }
     },
+
     mounted(){
       this.promotionId =this.$route.query.promotionId;
+      this.promotionType =this.$route.query.promotionType;
+      const  that =this;
+      window.onresize = () => {
+        return (() => {
+          window.screenWidth = document.body.clientWidth
+          that.screenWidth = window.screenWidth
+        })()
+      }
       this.getDetail();
     },
     methods:{
@@ -245,7 +256,7 @@
         }else{
           oderInfo.location='重庆';
         }
-        oderInfo.orderType='GROUPON';
+        oderInfo.orderType=this.promotionType;
         var products=[];
         var product={};
         product.skuId=skuId;
@@ -262,9 +273,21 @@
   export default vm;
 </script>
 <style scoped>
+  .thumb img {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    max-width: 100%;
+    max-height: 100%;
+    border: 0;
+    vertical-align: middle;
+  }
   .thumb {
     width: 100%;
-    background-color: #f4f4f4;
+    background-color: #ffffff;
     text-align: center;
   }
   .thumb img {

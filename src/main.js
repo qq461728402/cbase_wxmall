@@ -17,9 +17,9 @@ Vue.use(YDUI);
 Vue.use(VueAxios, axios)
 Vue.use(VueWechatTitle);
 Vue.use(VueLazyload,{
-  
   attempt: 1,
   preLoad: 1.3,
+  listenEvents:['resize'],
 })
 Vue.component('icon', Icon)
 new Vue({

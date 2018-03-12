@@ -51,11 +51,11 @@ export function baseHttp(ydui, url, par, method, loadmsg, callback) {
   }).catch(function (error) {
     console.log(error);
     ydui.$dialog.loading.close();
-    ydui.$dialog.toast({
-      mes: error,
-      timeout: 1000,
-      icon: 'error',
-    });
+    // ydui.$dialog.toast({
+    //   mes: error,
+    //   timeout: 1000,
+    //   icon: 'error',
+    // });
   })
 }
 

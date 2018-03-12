@@ -11,35 +11,37 @@
       <div style="font-size: 12px;color: hsla(0,0%,100%,.7);text-align: center">小积分&nbsp;换好礼&nbsp;会员专享&nbsp;每月更新</div>
     </div>
     <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
-      <ul class="bulk_goods">
-        <li class="goods-item" v-for="item, key in items" :key="key" @click="gotoDetail(item)">
-          <div class="thumb center-img">
-            <img :src="item.skuModel.image">
-            <!--<span class="num">2人团</span>-->
-            <!--<i class="sell-out sell-out-60" v-if="1==2"></i>-->
-          </div>
-          <div class="detail">
-            <div class="goods-info">
-              <div class="title">{{item.skuModel.skuName}}</div>
-              <div class="meta">
-                <div class="price pull-left">
-                    <span>{{item.skuModel.bonusPoints}}积分</span>
-                    <span class="del_price"><em>¥</em>{{item.skuModel.salePrice}}</span>
-                </div>
-              </div>
-            </div>
-            <div class="from-shop">
-              <van-button style="border: 1px solid red;color: red" size="normal" class="pull-right">立即兑换</van-button>
-            </div>
-          </div>
-        </li>
-      </ul>
+      <integral :list="items" :theme="theme" @gotoDetail="gotoDetail"></integral>
+      <!--<ul class="bulk_goods">-->
+        <!--<li class="goods-item" v-for="item, key in items" :key="key" @click="gotoDetail(item)">-->
+          <!--<div class="thumb center-img">-->
+            <!--<img :src="item.skuModel.image">-->
+            <!--&lt;!&ndash;<span class="num">2人团</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;<i class="sell-out sell-out-60" v-if="1==2"></i>&ndash;&gt;-->
+          <!--</div>-->
+          <!--<div class="detail">-->
+            <!--<div class="goods-info">-->
+              <!--<div class="title">{{item.skuModel.skuName}}</div>-->
+              <!--<div class="meta">-->
+                <!--<div class="price pull-left">-->
+                    <!--<span>{{item.skuModel.bonusPoints}}积分</span>-->
+                    <!--<span class="del_price"><em>¥</em>{{item.skuModel.salePrice}}</span>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="from-shop">-->
+              <!--<van-button style="border: 1px solid red;color: red" size="normal" class="pull-right">立即兑换</van-button>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</li>-->
+      <!--</ul>-->
     </yd-pullrefresh>
   </yd-layout>
 </template>
 <script type="text/babel">
   import {baseHttp} from '../../../config/env'
   import {Button} from 'vant';
+  import integral from '../../../views/integral'
   import { mapGetters } from 'vuex'
   const vm= {
     computed: {
@@ -49,9 +51,11 @@
     },
     components: {
       [Button.name]:Button,
+      integral,
     },
     data() {
       return {
+        theme:3,
         items:[],
       }
     },
