@@ -29,7 +29,7 @@
             </van-col>
           </van-row>
           <van-row style="padding: 0.2rem;">
-            <goods :item="item" :showQuantity="true"></goods>
+            <goods :item="item" :showQuantity="false"></goods>
           </van-row>
           <hr style="border: none;border-bottom:8px solid #f5f5f5;"/>
         </div>

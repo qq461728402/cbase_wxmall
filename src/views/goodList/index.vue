@@ -1,9 +1,10 @@
+<!--团购列表-->
 <template>
   <ul class="bulk_goods">
     <li class="goods-item" v-for="item, key in goodlist" :key="key" @click="gotoDetail(item)">
       <div class="thumb center-img badge">
         <img :src="item.skuModel.image">
-        <span class="num">2人团</span>
+        <span class="num" v-if="1==2">2人团</span>
         <i class="sell-out sell-out-60" v-if="1==2"></i>
       </div>
       <div class="detail">

@@ -1,3 +1,4 @@
+<!--积分列表-->
 <template>
   <yd-list :theme="theme" id="integral">
     <yd-list-item v-for="item, key in list" :key="key" @click.native="gotoDetail(item)" >

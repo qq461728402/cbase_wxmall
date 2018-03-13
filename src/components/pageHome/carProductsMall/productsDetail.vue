@@ -11,14 +11,13 @@
       <yd-tab-panel label="评价" tabkey="2" :active="tabkey==2"></yd-tab-panel>
     </yd-tab>
     <swiper :options="swiperOption" ref="mySwiper" id="mySwipers" style="margin-bottom: 1.2rem">
-      <!-- slides -->
       <swiper-slide>
-          <swiper :options="swiperOption1" ref="myImageSwiper" style="max-height: 6rem" id="img">
-            <swiper-slide style="height: 100%;text-align:center !important;"  v-for="item,index in previewlist" :key="index">
-              <img class="preview-img" :src="item.src"  style="height: 100%;overflow:hidden" @click="showPreview(index)">
-            </swiper-slide>
-            <div class="swiper-pagination" slot="pagination"></div>
-          </swiper>
+        <swiper :options="swiperOption1" ref="myImageSwiper" :style="{height:screenWidth+'px'}" id="img">
+          <swiper-slide class="thumb"  v-for="item,index in previewlist" :key="index">
+            <img :src="item.src"  @click="showPreview(index)"/>
+          </swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
 
           <div class="spxq1">
             <p class="spxq2">{{product.skuName}}</p>
@@ -54,31 +53,23 @@
         </yd-cell-group>
       </swiper-slide>
       <swiper-slide style="background-color: white">
-        <yd-cell-item style="border-bottom: 1px solid #D9D9D9;" >
-          <span slot="left" class="qbpj1"><em style="color: #d41d0f;font-size: .4rem;">|</em>&nbsp;规格参数</span>
-        </yd-cell-item>
-        <table class="gridtable">
-          <tr style="height: .8rem;">
-            <th>等级</th>
-            <th>{{param.greade}}</th>
-          </tr>
-          <tr style="height: .8rem;">
-            <th>规格</th>
-            <th>{{param.model}}</th>
-          </tr>
-          <tr style="height: .8rem;">
-            <th>单位</th>
-            <th>{{param.unit}}</th>
-          </tr>
-          <tr style="height: .8rem;">
-            <th>产地</th>
-            <th>{{param.place}}</th>
-          </tr>
-        </table>
-        <yd-cell-item style="border-top: 8px solid #f5f5f5;">
-          <span slot="left" class="qbpj1"><em style="color: #D41D0F;font-size: .4rem;">|</em>&nbsp;商品详情</span>
-        </yd-cell-item>
-        <img  v-for="item,imgindex in descriptions" :key="imgindex" v-lazy="item" style="width: 100%;">
+        <van-cell-group style="margin-top: 0.2rem">
+          <van-cell>
+            <span  class="qbpj1"><em style="color: #D41D0F;font-size: .5rem;">|</em>&nbsp;商品规格</span>
+          </van-cell>
+          <van-cell>
+            <van-col span="12" style="border-right: 1px solid #f5f5f5;border-bottom: 1px solid #f5f5f5;">等级{{param.greade}}</van-col>
+            <van-col span="12" style="border-bottom: 1px solid #f5f5f5;padding-left: 0.2rem">规格{{param.model}}</van-col>
+            <van-col span="12" style="border-right: 1px solid #f5f5f5;padding-right: 0.2rem">单位{{param.unit}}</van-col>
+            <van-col span="12" style="padding-left: 0.2rem">产地{{param.place}}</van-col>
+          </van-cell>
+        </van-cell-group>
+        <van-cell-group>
+          <van-cell>
+            <span  class="qbpj1"><em style="color: #D41D0F;font-size: .5rem;">|</em>&nbsp;商品详情</span>
+          </van-cell>
+          <img  v-for="item,imgindex in descriptions" :key="imgindex" v-lazy="item" style="width: 100%;" @click="showPreviewDetail(imgindex)">
+        </van-cell-group>
       </swiper-slide>
       <swiper-slide id="reviews">
         <yd-cell-item class="qbpj" style="background-color: #fff">
@@ -122,6 +113,7 @@
       <van-goods-action-big-btn  v-if="product.isAvalible==true" text="立即购买" @click="shopping(2)" primary />
       <van-goods-action-big-btn  v-if="product.isAvalible==false" text="库存不足"/>
     </van-goods-action>
+
     <yd-popup v-model="securityView" position="bottom" height="40%" style="z-index: 50;">
       <div style="display: flex;text-align:center;" slot="top">
         <p style="padding: 0.2rem;line-height: 0.4rem;font-size: 0.3rem;width: 98%">服务说明</p>
@@ -176,6 +168,7 @@
     Sku,
     Button,
     Cell,
+    Col,
     CellGroup,
     ImagePreview
   } from 'vant';
@@ -190,14 +183,16 @@
       [Button.name]:Button,
       [Cell.name]:Cell,
       [CellGroup.name]:CellGroup,
+      [Col.name]:Col,
       [ImagePreview.name]:ImagePreview,
     },
     data() {
       return {
+        screenWidth: document.body.clientWidth,
         sku: {
           tree: [],
           list: [],
-          stock_num:0,
+          stock_num:1,
           collection_id:0,
           price:'',
           none_sku: true, // 是否无规格商品
@@ -266,6 +261,13 @@
       }
     },
     mounted(){
+      const  that =this;
+      window.onresize = () => {
+        return (() => {
+          window.screenWidth = document.body.clientWidth
+          that.screenWidth = window.screenWidth
+        })()
+      }
       this.productId =this.$route.query.skuId;
       if(this.isCookie==true){
         this.getCartsQuantity();
@@ -448,33 +450,59 @@
           img.push(item.src);
         })
         ImagePreview(img, index);
-      }
+      },
+      showPreviewDetail(index){
+        ImagePreview(this.descriptions, index);
+      },
     },
   }
   export default vm;
 </script>
 <style scoped>
-    .spxq1{
-      padding-left:0.3rem;
-      background-color: white;
-    }
+  .thumb img {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    max-width: 100%;
+    max-height: 100%;
+    border: 0;
+    vertical-align: middle;
+  }
+  .thumb {
+    width: 100%;
+    background-color: #ffffff;
+    text-align: center;
+  }
+  .thumb img {
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .spxq1{
+    padding-left:0.3rem;
+    background-color: white;
+  }
 
-    .spxq2{
-      line-height: .5rem;
-      font-size: 0.3rem;
-      color: #001b29;
-    }
+  .spxq2{
+    line-height: .5rem;
+    font-size: 0.3rem;
+    color: #001b29;
+  }
 
-    .spxq3{
-      text-decoration:underline;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      display:-webkit-box;
-      -webkit-box-orient:vertical;
-      -webkit-line-clamp:2;
-      color:#D41D0F;
-      font-size: .25rem;
-    }
+  .spxq3{
+    text-decoration:underline;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+    color:#D41D0F;
+    font-size: .25rem;
+  }
+
     #natureCotainer.nature-container.spxq10{
       margin-left: 15px;
       background-color: white;
@@ -513,23 +541,7 @@
     }
     .qbpj1 {
       color: #8f8f94;
-    }
-    /*详情页面*/
-    table.gridtable {
-      width: 100%;
-      font-family: verdana,arial,sans-serif;
-      font-size:.25rem;
-      color:#8f8f94;
-      border-width: 1px;
-      border-color: #666666;
-      border-collapse: collapse;
-    }
-    table.gridtable th {
-      border-width: 1px;
-      padding: 8px;
-      border-style: solid;
-      border-color: #D9D9D9;
-      border-top: none;
+      font-size: 0.28rem;
     }
     .security{
       padding: 0 0.2rem;
@@ -611,12 +623,14 @@
   #info .yd-cell-item {
     max-height: 0.8rem;
   }
-  #img .swiper-wrapper{
-    height: 6rem;
+  #img .swiper-container-autoheight, .swiper-container-autoheight .swiper-slide{
+    height: 100%;
   }
   #reviews .yd-cell-item:not(:last-child):after{
     border-bottom:0px;
   }
+
+
 
 </style>
 <style>
