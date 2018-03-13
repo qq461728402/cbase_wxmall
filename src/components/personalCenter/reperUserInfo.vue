@@ -16,7 +16,7 @@
             :data="tag"
             @imageuploaded="imageuploaded"
             :max-file-size="5242880"
-            url="https://www.cqssqm.com/api/file/upload">
+            :url="uploadURL">
             <img :src="userInfo.avatar" class="messimg" style="height: 0.8rem;width: 0.8rem" >
           </vue-core-image-upload>
         </div>
@@ -32,7 +32,7 @@
       </yd-cell-item>
       <yd-cell-item>
         <span slot="left">手机号：</span>
-        <yd-input slot="right" readonly  placeholder="请输入手机号码" v-model="userInfo.phone" disabled :show-clear-icon="false"></yd-input>
+        <yd-input slot="right"  placeholder="请输入手机号码" v-model="userInfo.phone" disabled :show-clear-icon="false"></yd-input>
       </yd-cell-item>
       <yd-cell-item>
         <span slot="left">性别：</span>
@@ -49,25 +49,24 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '../../config/env'
+  import {baseHttp,getCookie,uploadURL} from '../../config/env'
   import  {getStore,removeStore} from '../../config/mUtils'
   import VueCoreImageUpload from 'vue-core-image-upload'
+  import { mapGetters } from 'vuex'
   const vm= {
-    data() {
-      return {
-        userInfo:{},
-        radio5:'',
-        tag:{tag:'repUserInfo'},
-      }
+    computed: {
+      ...mapGetters([
+        'userInfo'
+      ])
     },
     components: {
       'vue-core-image-upload': VueCoreImageUpload,
     },
-    activated(){
-      var tempUserInfo=getStore("userInfo");
-      this.isCookie=tempUserInfo.token?true:false;
-      if(tempUserInfo.token){
-        this.getuserInfo();
+    data() {
+      return {
+        radio5:'',
+        uploadURL:uploadURL,
+        tag:{tag:'repUserInfo'},
       }
     },
     mounted(){
@@ -90,7 +89,7 @@
         const  that =this;
         baseHttp(this,'/api/personal/info',{},'get','',function (data){
           if(data){
-            that.userInfo=data.info;
+            that.$store.dispatch('setUserInfo',data.info);
           }
         })
       },
@@ -103,7 +102,7 @@
             timeout: 1000,
             icon: 'success',
             callback:function () {
-              that.$router.go(-1);
+                that.getuserInfo();
             }
           });
         });

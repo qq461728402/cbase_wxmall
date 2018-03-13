@@ -20,7 +20,7 @@
     </div>
     <van-row style="line-height: 30px;background-color: #E9E9E9">
       <van-col offset="1" span="7"><span style="font-size: 0.25rem;color: #d41d0f">疯狂抢购&nbsp;限时秒杀</span></van-col>
-      <van-col offset="6" span="9" style="text-align: right"> <yd-countdown :time="seckillTime"  id="times">
+      <van-col offset="6" span="9" style="text-align: right"> <yd-countdown :time="seckillTime"  done-text="正在抢购" id="times">
         <span><em>{%d}</em></span>天
         <span><em>{%h}</em></span>小时
         <span><em>{%m}</em></span>时
@@ -107,7 +107,7 @@
               var date = new Date(item);
               var dates = (date.getHours()<10?'0'+date.getHours():date.getHours()) + ':'+ (date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes());
               if(data.currentTime>item){
-                that.startTimes.push({name:dates,des:'已结束',type:(i+1),seckillTime:item});
+                that.startTimes.push({name:dates,des:'已开抢',type:(i+1),seckillTime:item});
               }else{
                 if(fristBool==true){
                   fristBool=false;

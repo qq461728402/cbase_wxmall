@@ -1,6 +1,6 @@
 <template>
   <yd-list :theme="theme" id="integral">
-    <yd-list-item v-for="item, key in list" :key="key" >
+    <yd-list-item v-for="item, key in list" :key="key" @click.native="gotoDetail(item)" >
       <img slot="img" :src="item.skuModel.image">
       <span slot="title" style="font-weight: normal;color: #000;">{{item.skuModel.skuName}}</span>
       <yd-list-other slot="other">

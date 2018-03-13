@@ -24,12 +24,12 @@
         <yd-checklist color="#d41d0f" :label="false" v-model="cart.selectitem" :ref="cart.ref" :callback="change(cart.ref,cart.selectitem)" slot="list">
           <yd-checklist-item :val="item.skuId" v-for="(item,index) in cart.items" :key="index">
             <yd-flexbox @click.native.stop="gotoDetail(item)">
-              <div style="overflow:hidden;padding: 0.15rem; height: 1.8rem;width: 1.8rem">
-                <img :src="item.url" style="height: 1.5rem;width: 1.5rem">
+              <div class="thumb center-img">
+                <img :src="item.url">
               </div>
               <yd-flexbox-item>
                 <yd-flexbox direction="vertical" style="padding-top: 0.15rem">
-                  <yd-flexbox-item style="min-height: 0.6rem"><span style=" overflow:hidden; text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;font-size: 0.28rem">{{item.name}}</span>
+                  <yd-flexbox-item style="min-height: 0.6rem"><span style="overflow:hidden; text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;font-size: 0.28rem">{{item.name}}</span>
                   </yd-flexbox-item>
                   <yd-flexbox-item>
                     <span style="background-color: #d41d0f;padding:0.05rem 0.1rem;color: #fff;border-radius: 0.05rem" v-if="item.shippingType=='DELIVERY'||item.shippingType=='BOTH'">快递</span>
@@ -340,6 +340,41 @@
 
   .shopCar li {
     border-bottom: 1px solid #eeeeee;
+  }
+  .thumb img {
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+  }
+  .thumb {
+    float: left;
+    position: relative;
+    width: 1.8rem;
+    height: 1.8rem;
+    background-color: #f4f4f4;
+    text-align: center;
+    margin:0.2rem;
+  }
+  .thumb img {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .center-img img {
+    max-width: 100%;
+    max-height: 100%;
+    border: 0;
+    vertical-align: middle;
   }
 
 </style>

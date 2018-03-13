@@ -2,16 +2,18 @@
   <div class="personal">
     <yd-navbar slot="navbar" title="个人中心" bgcolor="#d41d0f" color="#FFF">
     </yd-navbar>
-    <div class="mine_hearder" :style="bg">
+    <div class="mine_hearder" :style="bg" @click="gotouser()">
       <div class="user_icon">
-         <img :src="avatar">
+         <img :src="userInfo.avatar">
       </div>
       <div class="user_detal">
-        <p class="user_name">{{uname}}</p>
+        <p class="user_name">{{userInfo.nickname}}</p>
         <p class="user_des"> <yd-badge type="warning">会员</yd-badge></p>
       </div>
       <div class="manage_account">
-        <span>用户管理></span>
+        <span>用户管理</span>
+        <div class="yd-cell-arrow" style="float: right">
+        </div>
       </div>
     </div>
     <yd-cell-group style="margin-top: 0.2rem;margin-bottom:0px" >
@@ -112,8 +114,7 @@
   const vm= {
     computed: {
       ...mapGetters([
-        'uname',
-        'avatar'
+        'userInfo'
       ])
     },
     data() {
@@ -125,7 +126,6 @@
         ordernum:{'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'REFUNDING':0},
         shearView:false,
         shearData:{},
-        userInfo:{},
         bg:{
           backgroundImage: "url(" + require("../assets/img/personbg.png") + ")",
         }
@@ -134,23 +134,12 @@
     activated(){
       if(this.isCookie==true){
         this.getOrderStatus();
-        this.getuserInfo();
       }else{
-        this.userInfo={};
         this.quantity=0;
         this.ordernum={'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'REFUNDING':0};
       }
     },
     methods:{
-      /*获取用户信息*/
-      getuserInfo(){
-        const  that =this;
-        baseHttp(this,'/api/personal/info',{},'get','',function (data) {
-          if(data){
-            that.userInfo=data.info;
-          }
-        })
-      },
       gotouser(){
         if (this.isCookie==true){
           this.$router.push({name:'userInfo'});
@@ -211,13 +200,6 @@
       },
       gotobonushistroy(){
         if (this.isCookie==true){
-//          const  that =this;
-//          baseHttp(this,'/api/customer/bonusPointsHistories',{},'get','获取中...',function (data) {
-//            if(data.histories.length>0){
-//              that.bonusPointsHistories=data.histories;
-//              that.isshowbounds=true;
-//            }
-//          });
           this.$router.push({ name: 'PointsList'});
         }
       },
@@ -239,7 +221,6 @@
     mounted(){
       if(this.isCookie==true){
         this.getOrderStatus();
-        this.getuserInfo();
       }
     },
   }
@@ -314,7 +295,6 @@
     float: right;
     color: #E6B2B0;
     margin-right: 10px;
-
+    font-size: 0.25rem;
   }
-
 </style>

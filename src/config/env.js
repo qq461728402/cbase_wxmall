@@ -11,6 +11,8 @@ Vue.use(YDUI)
 axios.defaults.baseURL = 'http://joewee.mynatapp.cc';
 axios.defaults.headers.token = store.getters.token;
 import {removeStore} from './mUtils'
+
+export  const  uploadURL=axios.defaults.baseURL+'/api/file/upload';
 /*par 参数
  *url 接口地址
  *method 请求方式POST Get

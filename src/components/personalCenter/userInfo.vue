@@ -32,12 +32,12 @@
       <yd-cell-item arrow type="a" @click.native="repaddress()">
         <span slot="left">收货地址设置</span>
       </yd-cell-item>
-      <yd-cell-item arrow type="a" @click.native="repcarInfo()">
+      <yd-cell-item arrow type="a" @click.native="repcarInfo()" v-if="1==2">
         <span slot="left">车辆信息设置</span>
       </yd-cell-item>
     </yd-cell-group>
 
-    <yd-button  size="large" type="primary" style="background-color: #d41d0f; margin: auto;width: 80%;margin-top: 20px;font-size: .3rem;" @click.native="loginout">退出登录</yd-button>
+    <yd-button  v-if="1==2" size="large" type="primary" style="background-color: #d41d0f; margin: auto;width: 80%;margin-top: 20px;font-size: .3rem;" @click.native="loginout">退出登录</yd-button>
   </yd-layout>
 
 </template>
@@ -45,22 +45,20 @@
   import {baseHttp,getCookie} from '../../config/env'
   import  {getStore,removeStore} from '../../config/mUtils'
   import VueCoreImageUpload from 'vue-core-image-upload'
+  import { mapGetters } from 'vuex'
   const vm= {
+    computed: {
+      ...mapGetters([
+        'userInfo'
+      ])
+    },
     data() {
       return {
-        userInfo:{},
-        isCookie:false,
+
       }
     },
     mounted(){
 
-    },
-    activated(){
-      var tempUserInfo=getStore("userInfo");
-      this.isCookie=tempUserInfo.token?true:false;
-      if(tempUserInfo.token){
-        this.getuserInfo();
-      }
     },
     methods:{
       gotoback(){
@@ -72,15 +70,6 @@
         if (res.errcode == 0) {
           this.src = res.data.src;
         }
-      },
-      /*获取用户信息*/
-      getuserInfo(){
-        const  that =this;
-        baseHttp(this,'/api/personal/info',{},'get','',function (data){
-          if(data){
-            that.userInfo=data.info;
-          }
-        })
       },
       /*收货地址*/
       repaddress(){

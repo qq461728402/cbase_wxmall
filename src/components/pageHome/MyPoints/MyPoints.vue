@@ -76,8 +76,6 @@
       </div>
     </div>
     <div style="width: 100%;height: 10px; background-color: #eeeeee"></div>
-
-
     <div>
       <div style="font-size: 14px;width: 100%;text-align: center;padding-top: 20px;"><span>积分好礼</span>&nbsp;<span style="font-weight: bold">轻松得</span></div>
       <div style="width: 100%;text-align: center;color: #999999;padding-top: 10px;">聚少成多&nbsp;积小致巨</div>
