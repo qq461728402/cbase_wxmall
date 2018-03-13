@@ -59,19 +59,7 @@
         <h3>商品</h3>
         <ul class="por" slot="list">
           <li v-for="item in orderData.items">
-            <yd-flexbox>
-              <div class="imgdiv">
-                <img :src="item.imageUrl">
-                <img src="../../../assets/img/unavailable.png" v-if="item.available==false" style="margin-left:-1.3rem">
-              </div>
-              <yd-flexbox-item>
-                <div class="titlediv">
-                  <p>{{item.skuName}}</p>
-                  <span class="price">&yen;{{item.salePrice}}</span>
-                  <span class="count">×{{item.quantity}}</span>
-                </div>
-              </yd-flexbox-item>
-            </yd-flexbox>
+            <goods :item="item" goodsType="submit" :showQuantity="true"></goods>
           </li>
         </ul>
         <div v-if="orderData.gifts&&orderData.gifts.length>0">
@@ -229,11 +217,15 @@
   import {baseHttp,formatDate,isEmptyObject} from '../../../config/env'
   import {wexinPay} from '../../../config/weichatPay'
   import { mapGetters } from 'vuex'
+  import goods from '../../../views/goods'
   const vm= {
     computed: {
       ...mapGetters([
         'invoice',
       ])
+    },
+    components: {
+      goods
     },
     data() {
       return {
@@ -919,36 +911,6 @@
     border-bottom: 0 solid #eee
   }
 
-  .por li .imgdiv {
-    margin: 0 .1rem
-  }
-
-  .por li .imgdiv img {
-    height: 1.2rem;
-    width: 1.2rem
-  }
-
-  .por li .titlediv {
-    margin-left: .02rem
-  }
-
-  .por li .titlediv p {
-    min-height: 1rem;
-    margin-right: .2rem;
-    color: #333;
-    padding-top: .1rem
-  }
-
-  .por li .titlediv .price {
-    color: #df3448;
-    float: left
-  }
-
-  .por li .titlediv .count {
-    float: right;
-    margin-right: .3rem;
-    color: #999
-  }
   .storeList {
     background-color: #fff
   }

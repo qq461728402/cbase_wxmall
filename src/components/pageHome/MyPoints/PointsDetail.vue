@@ -5,7 +5,7 @@
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
-    <van-swipe :autoplay="3000">
+    <van-swipe :autoplay="3000" style="transform: none;" :style="{height:screenWidth+'px'}">
       <van-swipe-item v-for="(image, index) in skuModel.images" :key="index" class="thumb">
         <img v-lazy="image" style="min-height: 100px" @click="showPreview(index)"/>
       </van-swipe-item>
@@ -109,6 +109,7 @@
     },
     data() {
       return {
+        screenWidth: document.body.clientWidth,
         showBase: false,
         promotionId: '',
         securitylst: ['正品保障', '正规发票', '自营门店'],
@@ -145,7 +146,13 @@
     mounted(){
       this.promotionId = this.$route.query.promotionId;
       this.getDetail();
-
+      const  that =this;
+      window.onresize = () => {
+        return (() => {
+          window.screenWidth = document.body.clientWidth
+          that.screenWidth = window.screenWidth
+        })()
+      }
     },
     methods: {
       gotoback(){
@@ -260,16 +267,22 @@
   export default vm;
 </script>
 <style scoped>
-  .thumb {
-    width: 100%;
-    background-color: #f4f4f4;
-    text-align: center;
-  }
-
   .thumb img {
+    position: absolute;
     margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     max-width: 100%;
     max-height: 100%;
+    border: 0;
+    vertical-align: middle;
+  }
+  .thumb {
+    width: 100%;
+    background-color: #ffffff;
+    text-align: center;
   }
 
   .goods-title {
@@ -277,25 +290,6 @@
     line-height: 1.5;
     font-weight: 500;
     margin: 0.1rem 0;
-  }
-
-  .actvie {
-    color: #ffffff;
-    background-color: #ff002c;
-    font-size: 12px;
-    line-height: 0.4rem;
-  }
-
-  .actvie .price {
-    line-height: 0.8rem;
-    font-size: 0.45rem;
-    font-weight: 600;
-  }
-
-  .actvie .del_price {
-    color: #ebeced;
-    font-size: 0.25rem;
-    text-decoration: line-through
   }
 
   #active .van-cell {
@@ -336,5 +330,15 @@
     -webkit-line-clamp: 2;
     color: #D41D0F;
     font-size: .25rem;
+  }
+  .thumb {
+    width: 100%;
+    background-color: #ffffff;
+    text-align: center;
+  }
+  .thumb img {
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
   }
 </style>

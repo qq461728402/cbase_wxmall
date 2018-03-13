@@ -29,13 +29,7 @@
             </van-col>
           </van-row>
           <van-row style="padding: 0.2rem;">
-            <van-col span="4">
-              <img style="height: 1.2rem;width: 1.2rem;" :src="item.url"><!--订单图片-->
-            </van-col>
-            <van-col span="18" offset="1">
-                <p style="height: 1rem;color: #313131;font-size: 0.25rem">{{item.skuName}}</p>
-                <p style="height: 0.2rem;color: #6e6f70;font-size: 0.25rem">x{{item.quantity}}</p>
-            </van-col>
+            <goods :item="item" :showQuantity="true"></goods>
           </van-row>
           <hr style="border: none;border-bottom:8px solid #f5f5f5;"/>
         </div>
@@ -55,10 +49,12 @@
   import  {getStore,removeStore} from '../../config/mUtils'
   import {wexinPay} from '../../config/weichatPay'
   import {Row, Col} from 'vant';
+  import goods from '../../views/goods'
   const vm= {
     components: {
       [Row.name]: Row,
       [Col.name]: Col,
+      goods
     },
     data() {
       return {
