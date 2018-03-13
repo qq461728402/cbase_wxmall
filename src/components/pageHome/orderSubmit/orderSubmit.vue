@@ -215,7 +215,7 @@
 <script type="text/babel">
   import {getStore,removeStore} from '../../../config/mUtils'
   import {baseHttp,formatDate,isEmptyObject} from '../../../config/env'
-  import {wexinPay} from '../../../config/weichatPay'
+  import {wexinPay,wftPay} from '../../../config/weichatPay'
   import { mapGetters } from 'vuex'
   import goods from '../../../views/goods'
   const vm= {
@@ -527,10 +527,9 @@
       },
       perPay(data){
         const that = this;
-        baseHttp(this, '/wechat/pay/unifiedorder', data, 'post', '提交中...', function (data) {
+        baseHttp(this, '/api/order/prePay', data, 'post', '提交中...', function (data) {
           that.payInfo = data.payInfo;
-          wexinPay(data.payInfo,function (res) {
-            removeStore("oderInfo");
+          wftPay(data.payInfo,function (res) {
             if (res.err_msg == "get_brand_wcpay_request:ok") {
               that.$router.replace({ name: 'orderSuccess', params: { payMoney:that.paytotalFee}})
             }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
