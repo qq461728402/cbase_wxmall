@@ -52,8 +52,8 @@
           </yd-cell-item>
         </yd-cell-group>
       </swiper-slide>
-      <swiper-slide style="background-color: white">
-        <van-cell-group style="margin-top: 0.2rem">
+      <swiper-slide style="background-color: white" id="proDes">
+        <van-cell-group>
           <van-cell>
             <span  class="qbpj1"><em style="color: #D41D0F;font-size: .5rem;">|</em>&nbsp;商品规格</span>
           </van-cell>
@@ -622,6 +622,7 @@
   }
   #info .yd-cell-item {
     max-height: 0.8rem;
+    margin-bottom: 0.2rem;
   }
   #img .swiper-container-autoheight, .swiper-container-autoheight .swiper-slide{
     height: 100%;
@@ -630,7 +631,9 @@
     border-bottom:0px;
   }
 
-
+  #proDes .van-hairline--top-bottom::after{
+    border-width:0 1px 1px 1px;
+  }
 
 </style>
 <style>

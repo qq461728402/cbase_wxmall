@@ -128,6 +128,16 @@ const router = new Router({
 	  {path:'/home/GroupBuying',name:'GroupBuying',component:GroupBuying,meta:{title:'团购频道',keepAlive:true}},
     {path:'/home/GroupBuyDetail',name:'GroupBuyDetail',component:GroupBuyDetail,meta:{title:'商品详情',keepAlive:false}},
 	  {path:'/home/Seckill',name:'Seckill',component:Seckill,meta:{title:'限时秒杀',keepAlive:true}},
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      if (from.meta.keepAlive) {
+        from.meta.savedPosition = document.body.scrollTop
+      }
+      return { x: 0, y: to.meta.savedPosition || 0 }
+    }
+  }
 })
 export default router

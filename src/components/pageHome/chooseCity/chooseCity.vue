@@ -126,19 +126,23 @@
     font-size:0.3rem;
     margin:0rem;
   }
+  #chooseCity .xin-widget-citys-letnav ol li{
+    font-size:0.25rem
+  }
   #chooseCity .xin-widget-citys .xin-widget-citys-content .xin-widget-citys-header .xin-widget-citys-iptbox input{
     font-size: 0.3rem;
     line-height:0.5rem;
   }
-  #chooseCity .xin-widget-citys .xin-widget-citys-content .xin-widget-citys-list dl dd[_v-2ed50dba]{
+  #chooseCity .xin-widget-citys .xin-widget-citys-content .xin-widget-citys-list dl dd{
+    height:0.8rem;
+    line-height: 0.8rem;
+    font-size:0.25rem;
+  }
+  #chooseCity .xin-widget-citys .xin-widget-citys-content .xin-widget-citys-local{
     height:0.8rem;
     line-height: 0.8rem;
   }
-  #chooseCity .xin-widget-citys .xin-widget-citys-content .xin-widget-citys-local[_v-2ed50dba]{
-    height:0.8rem;
-    line-height: 0.8rem;
-  }
-  #chooseCity .xin-widget-citys .xin-widget-citys-content .xin-widget-citys-list dl dt[_v-2ed50dba]{
+  #chooseCity .xin-widget-citys .xin-widget-citys-content .xin-widget-citys-list dl dt{
     height:0.4rem;
     line-height: 0.4rem;
   }
@@ -148,10 +152,10 @@
   #chooseCity .xin-widget-citys-searchlist{
     top: .82rem;
   }
-  #chooseCity .xin-widget-citys .xin-widget-citys-content .xin-widget-citys-header a[_v-2ed50dba]{
+  #chooseCity .xin-widget-citys .xin-widget-citys-content .xin-widget-citys-header a{
     display: none;
   }
-  #chooseCity .xin-widget-citys .xin-widget-citys-searchlist li[_v-2ed50dba]{
+  #chooseCity .xin-widget-citys .xin-widget-citys-searchlist li{
     height:0.8rem;
     line-height: 0.8rem;
   }

@@ -186,11 +186,6 @@
         vm.getConfig();
       });
     },
-    beforeRouteLeave(to, from, next){
-      next(function (vm) {
-
-      });
-    },
     methods: {
       getConfig(){
         var storeConfig=this.$store.state.basicStorage.configList

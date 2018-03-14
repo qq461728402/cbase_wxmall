@@ -68,7 +68,7 @@
       }
     },
     mounted(){
-      this.type =this.$route.query.type;
+      this.type=this.$route.query.type;
       if(this.type==1){
         this.statuses='all';
       }else if(this.type==2){
@@ -171,7 +171,6 @@
   export default vm;
 </script>
 <style scoped>
-
   .orderHeard{
     padding: 0.2rem;
     border-bottom:1px solid #f5f5f5;
@@ -186,7 +185,6 @@
     color:#6e6f70;
     font-size: .25rem
   }
-
   div.or_1{
     background-color: #FFFFFF;
   }

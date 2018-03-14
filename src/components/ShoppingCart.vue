@@ -8,7 +8,7 @@
         <span slot="right" type="button" @click="editorShopping" style="font-size: .3rem;">{{ showtext ? '编辑' : '完成' }}</span>
       </yd-cell-item>
     </yd-cell-group>
-    <div class="noProduct" v-if="carts.length==0" ref="gwc" style="display: none">
+    <div class="noProduct" v-if="showNoProduct==true">
       <img src="../assets/img/shopCar.png">
       <p>您的购物车是空的</p>
       <link to="/">
@@ -82,6 +82,7 @@
         quantity: 0,//购物车数量
         totalMoney: 0.0,
         carInfo: {},
+        showNoProduct:false,
       }
     },
     watch: {
@@ -165,8 +166,9 @@
               cart.allCheck = false;
             });
             that.carts = data.carts;
+          }else{
+            that.showNoProduct=true;
           }
-          that.$refs.gwc.style.display='';
           that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
         });
       },

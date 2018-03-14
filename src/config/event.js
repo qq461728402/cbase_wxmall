@@ -9,10 +9,13 @@ function bindEvent() {
   /*banner对象*/
   var banner = $id("my_banner");
   /*高度*/
-  var height = banner.offsetHeight;
+  var height = banner.offsetHeight?banner.offsetHeight:0;
   document.getElementById("scrollView").addEventListener('scroll',()=>{
     height = banner.offsetHeight;
     var top = document.getElementById("scrollView").scrollTop;
+    if(top==0) {
+      sea.style.background = "rgba(212,29,15,0)";
+    }
     /*当滚动高度大于banner的高度时候颜色不变*/
     if (top > height) {
       sea.style.background = "rgba(212,29,15,0.85)";

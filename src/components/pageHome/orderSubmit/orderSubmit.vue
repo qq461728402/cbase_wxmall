@@ -27,6 +27,15 @@
           <option v-for="item in oderdefault.payments" :value='item.id'>{{item.description}}</option>
         </select>
       </yd-cell-item>
+      <yd-cell-item arrow type="label">
+        <span slot="left">配送方式</span>
+        <select slot="right" class="main_3" v-model="distribut" v-if="orderData.shippingType=='BOTH'">
+          <option v-for="item in distribution" :value='item.type'>{{item.name}}</option>
+        </select>
+        <span slot="right" v-else  style="font-size: 0.3rem">
+            {{orderData.shippingType=='DELIVERY'?'快递':'门店自提'}}
+        </span>
+      </yd-cell-item>
       <yd-cell-item arrow @click.native="mshowfp">
         <span slot="left">发票</span>
         <span slot="right" style="font-size: 0.3rem">{{invoice.invoiceType=='NO'?'无需发票':invoice.invoiceType=='PERSONAL'?'个人-商品明细':'公司-商品明细'}}</span>
@@ -37,7 +46,6 @@
         <span slot="right" style="font-size: 0.3rem" v-else-if="couponsMoney==0">{{'可用优惠券'+available.length+'张'}}</span>
         <span slot="right" style="font-size: 0.3rem;color:#d41d0f" v-else>{{'-'+couponsMoney+'元'}}</span>
       </yd-cell-item>
-
       <yd-cell-item>
         <span slot="left">是否使用积分</span>
         <yd-switch slot="right" v-model="isBonusPointsUsed" :disabled="bonusPoints==0"></yd-switch>
@@ -50,7 +58,6 @@
         <yd-textarea slot="right" :placeholder="(carInfo==false&&isNeedService==true)?'请输入留言(必填)':'请输入留言(选填)'" v-model="msg" maxlength="30"></yd-textarea>
       </yd-cell-item>
     </yd-cell-group>
-
     <div class="products">
       <div class="yd-accordion-title" style="border-bottom: 1px solid #e3e3e3">
         <span style="padding-left: 0.3rem;font-size: 0.3rem">订单商品</span>
@@ -111,16 +118,12 @@
       <div style="padding-top: 0.3rem"  id="hyxz">
         <yd-checkbox  v-model="checkbox1" shape="circle" color="#d41d0f" size="16"></yd-checkbox><span style="font-size: 12px;text-decoration:underline;color: #d41d0f" @click="gotopro()">《退换货须知》</span>
       </div>
-
     </div>
-
     <div style="margin-bottom: 1.5rem"></div>
-
     <div slot="tabbar" class="submitorder">
       <div style="width: 60%;text-align: left;padding-left: 0.2rem">实付款:&yen;<span v-if="isBonusPointsUsed">{{orderData.total-couponsMoney- bonusPointsUsed}}</span><span v-else>{{orderData.total-couponsMoney}}</span> </div>
       <div class="subbtn" style="width: 40%" @click="gotoplay">提交订单</div>
     </div>
-
     <yd-popup v-model="chooseCoupon" position="bottom" height="60%" id="coupon">
       <yd-tab :callback="switchlist" slot="top">
         <yd-tab-panel label="可用优惠券" tabkey="1">
@@ -179,37 +182,6 @@
         </p>
       </div>
     </yd-popup>
-    <!--选择门店-->
-    <yd-popup v-model="exchangeStore" position="bottom" height="60%">
-      <div style="height: 1rem;line-height: 1rem;border-bottom: 1px solid #edeeef" slot="top">
-        <span style="font-size: 0.3rem;color: #666;padding-left: 0.2rem">选择安装门店</span>
-        <div class="close" @click="exchangeStore=false"></div>
-      </div>
-      <ul class="storeList">
-        <li v-for="item,index in stores" @click="selectStore(index)">
-          <yd-flexbox>
-            <div style="overflow:hidden; padding: 0.15rem;height: 1.8rem;width: 1.8rem">
-              <img :src="item.logo" style="height: 1.5rem;width: 1.5rem">
-            </div>
-            <yd-flexbox-item style="height:1.8rem;width:75%">
-              <yd-flexbox direction="vertical" style="padding-top: 0.15rem">
-                <yd-flexbox-item><span style="font-size: 0.3rem">{{item.storeName}}</span></yd-flexbox-item>
-                <yd-flexbox-item><p style="color: #6e6f70;font-size: 0.25rem;line-height: 0.5rem;  overflow: hidden; white-space: nowrap;text-overflow: ellipsis;">
-                  {{item.storeAddress}}</p></yd-flexbox-item>
-                <yd-flexbox-item>
-                                    <span style="color: #6e6f70;font-size: 0.25rem;line-height: 0.5rem">评价<span style="color:#ff7d49">{{item.ratesCount?item.ratesCount:'0'}}</span> |总订单<span
-                                      style="color:#ff7d49 ">{{item.orderCount?item.orderCount:'0'}}</span></span>
-                                    <span style="float: right;margin-right: 0.1rem"> <button :class="{'storeSelectBtn':item.select,'storeNoselectBtn':!item.select}">
-                                      {{item.select?'已选择':'选择'}}
-                                    </button> </span>
-                </yd-flexbox-item>
-              </yd-flexbox>
-            </yd-flexbox-item>
-          </yd-flexbox>
-        </li>
-      </ul>
-    </yd-popup>
-
   </yd-layout>
 </template>
 <script type="text/babel">
@@ -217,6 +189,7 @@
   import {baseHttp,formatDate,isEmptyObject} from '../../../config/env'
   import {wexinPay,wftPay} from '../../../config/weichatPay'
   import { mapGetters } from 'vuex'
+  import { Row, Col,Cell, CellGroup } from 'vant';
   import goods from '../../../views/goods'
   const vm= {
     computed: {
@@ -225,10 +198,16 @@
       ])
     },
     components: {
-      goods
+      goods,
+      [Row.name]:Row,
+      [Col.name]:Col,
+      [Cell.name]:Cell,
+      [CellGroup.name]:CellGroup,
     },
     data() {
       return {
+        distribut:'DELIVERY',
+        distribution:[{'type':'DELIVERY','name':'快递'},{'type':'SELF_DELIVERY','name':'门店自提'}],
         checkbox1:true,
         getorderInfo:{},
         spinner1:1,
@@ -246,8 +225,6 @@
         defuletCoupons: {},//默认优惠券
         selectCoupons: [],//选中优惠券
         couponsMoney: 0.0,
-        exchangeStore: false,
-        stores: [],
         personCheckbox: true,
         unitCheckbox: false,
         msg: '',
@@ -277,16 +254,17 @@
           }
         }
       },
-      isNeedService: {
-        handler: function (val, oldval) {
-          if (val == false) {
-            this.stores.forEach(function (item) {
-              item.select = false;
-            })
-            this.storeName = "";
-            this.orderData.serviceShop = '';
-            this.confirmOder();
-          }
+      distribut:{
+        handler:function (val,oldval) {
+            if(val=='DELIVERY'){
+              this.isNeedService==false;
+              this.storeName = "";
+              this.orderData.serviceShop = '';
+              this.confirmOder();
+            }else{
+              this.isNeedService==true;
+              this.confirmOder();
+            }
         }
       },
       unitCheckbox: {
@@ -427,52 +405,18 @@
       switchlist(label, tabkey){
         this.tabkey=tabkey;
       },
-      /*获取门店信息*/
-      getStoreList(){
-        const that = this;
-        if (this.stores.length > 0) {
-          this.exchangeStore = !this.exchangeStore;
-          return;
-        }
-        var oderInfo = this.getorderInfo;
-        oderInfo.serviceShop = this.orderData.serviceShop;
-        if (this.address.lastname) {
-          oderInfo.lastname = this.address.lastName;
-          oderInfo.primaryPhone = this.address.phonePrimary;
-          oderInfo.city = this.address.addressCity;
-          oderInfo.district = this.address.addressDistrict;
-          oderInfo.state = this.address.addressState;
-          oderInfo.street = this.address.addressStreet;
-        }
-        baseHttp(this, '/api/order/serviceShops', {'data': JSON.stringify(oderInfo)}, 'post', '加载中...', function (data) {
-          for (var key in data.stores) {
-            data.stores[key].select = false;
-          }
-          that.stores = data.stores;
-          that.exchangeStore = !that.exchangeStore;
-        })
-      },
       /*领券中心*/
       coupons(){
         this.$router.push({ path: '/home/getcoupons'});
       },
-      /*选择门店*/
-      selectStore(index){
-        for (var key in this.stores) {
-          this.stores[key].select = false;
-        }
-        this.stores[index].select = true;
-        this.storeName = this.stores[index].storeName;
-        this.orderData.serviceShop = this.stores[index].id;
-        this.exchangeStore = false;
-        this.confirmOder();
-      },
+      /*退货协议*/
       gotopro(){
         this.$router.push({ name: 'protocol'});
       },
       gotoback(){
         this.$router.go(-1);
       },
+      /*去支付*/
       gotoplay() {
         this.orderData.isNeedService = this.isNeedService;
         if(this.checkbox1==false){
@@ -662,17 +606,17 @@
     line-height: 28px
   }
 
-  .payinfo p .label {
+  .payinfo .label {
     color: #666;
     float: left
   }
 
-  .payinfo p .price {
+  .payinfo .price {
     color: #df3448;
     float: right
   }
 
-  .payinfo p .price.discount {
+  .payinfo .price.discount {
     color: #47ab10
   }
 
@@ -685,7 +629,6 @@
   .products, .products ul {
     border-bottom: 1px solid #e3e3e3
   }
-
   .products {
     background: #fff
   }
@@ -921,25 +864,6 @@
   .storeList li:last-child {
     border-bottom: 0
   }
-
-  .storeSelectBtn {
-    background-color: #d41d0f;
-    color: #fff;
-    border: 0;
-    padding: 0 .2rem;
-    min-width: .3rem;
-    border-radius: .1rem
-  }
-
-  .storeNoselectBtn {
-    background-color: #fff;
-    color: #d41d0f;
-    border: 1px solid #d41d0f;
-    padding: 0 .2rem;
-    min-width: .3rem;
-    border-radius: .1rem
-  }
-
   #orderSub .yd-textarea textarea {
     height: 0.8rem;
   }
@@ -1062,6 +986,8 @@
   #hyxz .yd-checkbox{
     padding-right:5px;
   }
-
+  #payMoney .van-cell{
+    padding:5px 0;
+  }
 </style>
 

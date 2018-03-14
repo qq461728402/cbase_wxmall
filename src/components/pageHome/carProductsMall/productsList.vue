@@ -29,22 +29,7 @@
     <!--描述：商品列表-->
     <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
       <yd-infinitescroll :callback="loadMore" ref="infinitescrollDemo">
-        <ul slot="list" style="background-color: #FFFFFF;">
-          <li v-for="item,index in list" :key="index"  style="border-bottom: 1px solid #edeeef;">
-            <yd-flexbox @click.native="gotoDetail(item)">
-              <div style="overflow:hidden; padding: 0.15rem;height: 1.8rem;width: 1.8rem">
-                <img :src="item.url" style="height: 1.5rem;width: 1.5rem">
-              </div>
-              <yd-flexbox-item style="height:1.8rem">
-                <yd-flexbox direction="vertical" style="padding-top: 0.15rem;padding-right: 0.1rem">
-                  <yd-flexbox-item><p style="overflow:hidden; text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;font-size: 0.28rem ">{{item.skuName}}</p></yd-flexbox-item>
-                  <yd-flexbox-item><p style="color:#d41d0f;font-size: 0.25rem;line-height: 0.5rem">&yen;{{item.salePrices}}&nbsp<span style="color:#6e6f70;text-decoration:line-through;">&yen;{{item.retailPrices}}</span></p></yd-flexbox-item>
-                  <yd-flexbox-item><span style="color: #6e6f70;font-size: 0.25rem;line-height: 0.5rem">已售&nbsp<span style="color:#ff7d49">{{item.salesCount?item.salesCount:'0'}}</span> |&nbsp;<span style="color: #6e6f70;">评论</span>&nbsp;<span style="color:#ff7d49 ">{{item.reviewCount?item.reviewCount:'0'}}</span></span>&nbsp;<span v-if="item.isAvalible==false" style="font-weight: bold;color: #d41d0f;">{{(item.unAvalibleReson)}}</span></yd-flexbox-item>
-                </yd-flexbox>
-              </yd-flexbox-item>
-            </yd-flexbox>
-          </li>
-        </ul>
+        <productlist slot="list" :productlist="list" @gotoDetail="gotoDetail"></productlist>
         <span slot="doneTip">我是有底线的</span>
       </yd-infinitescroll>
     </yd-pullrefresh>
@@ -73,7 +58,11 @@
 </template>
 <script type="text/babel">
   import {baseHttp} from '../../../config/env'
+  import productlist from '../../../views/productList'
   const vm= {
+    components: {
+      productlist
+    },
     data() {
       return {
         categoryId:'',

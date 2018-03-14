@@ -67,7 +67,7 @@
         <span slot="left">积分商城</span>
         <span slot="right">{{userInfo.bonus?userInfo.bonus:'0'}}积分</span>
       </yd-cell-item>
-      <yd-cell-item arrow type="a" @click.native="gotoGitfs()">
+      <yd-cell-item arrow type="a" @click.native="gotoGitfs()" v-if="1==2">
         <yd-icon slot="icon" name="mylp" size=".35rem" color="#999999" custom></yd-icon>
         <span slot="left">我的礼品</span>
       </yd-cell-item>
@@ -150,7 +150,7 @@
       /*加入订单*/
       gotoallorder(index) {
         if (this.isCookie==true){
-          this.$router.push({ path: '/personalCenter/myOderList', query: { type: index }})
+          this.$router.push({ path: '/personalCenter/myOderList', query: { type: index },meta:{keepAlive:false}})
         }
       },
       /*进入退货订单*/
