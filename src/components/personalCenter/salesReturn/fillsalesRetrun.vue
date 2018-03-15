@@ -60,7 +60,6 @@
 <script type="text/babel">
   import {baseHttp,getCookie,uploadURL} from '../../../config/env'
   import  {getStore,removeStore} from '../../../config/mUtils'
-  import VueCoreImageUpload from 'vue-core-image-upload'
 
   const vm= {
     data() {
@@ -74,9 +73,6 @@
         images: [],
         item:{},
       }
-    },
-    components: {
-      'vue-core-image-upload': VueCoreImageUpload,
     },
     mounted(){
       this.orderId = this.$route.query.orderId;
@@ -101,9 +97,9 @@
         const input = this.$refs.contactPhone;//电话号码
         this.orderItems.desc=this.reasons+"|"+this.dess;
         if (this.flag.length==0)return;
-        const  that=this;
-        var    applyRefundAPI='/api/refund/apply';//单品退
-        var    refundApplyOrder='/api/refund/applyOrder';//整单退
+        const that=this;
+        var applyRefundAPI='/api/refund/apply';//单品退
+        var refundApplyOrder='/api/refund/applyOrder';//整单退
         baseHttp(this,this.flag==1?refundApplyOrder:this.flag==2?applyRefundAPI:'',this.orderItems,'post','申请中...',function (data){
           that.$dialog.toast({
             mes: '申请成功!',
