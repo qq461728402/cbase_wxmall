@@ -1,11 +1,12 @@
 <template>
   <yd-layout id="fillsales">
-    <yd-navbar slot="navbar" title="填写退货订单" bgcolor="#d41d0f" color="#FFF">
+    <yd-navbar slot="navbar" title="填写售后订单" bgcolor="#d41d0f" color="#FFF">
       <router-link to="" slot="left" @click.native="gotoback()">
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
 
+    <div class="service">本次售后服务由<em>重庆百货</em>为您提供</div>
     <yd-cell-group>
       <yd-cell-item>
         <span slot="left" class="or_2">订单编号：{{orderItems.number}}</span>
@@ -30,16 +31,11 @@
 
     <yd-cell-group style="margin-top: 0.2rem">
       <yd-cell-item arrow type="label">
-        <span slot="left">申请原因：</span>
+        <span slot="left">服务类型：</span>
         <select slot="right" style="color: black" v-model="reasons" ref="reason">
-          <option value="商品需要维修">商品需要维修</option>
-          <option value="收到商品有破损">收到商品有破损</option>
-          <option value="商品错发/漏发">商品错发/漏发</option>
-          <option value="发票问题、退运费">发票问题、退运费</option>
-          <option value="收到商品不符合描述">收到商品不符合描述</option>
-          <option value="商品质量有问题">商品质量有问题</option>
-          <option value="未按约定时间发货">未按约定时间发货</option>
-          <option value="七天内无理由退换货">七天内无理由退换货</option>
+          <option value="退货">退货</option>
+          <option value="换货">换货</option>
+          <option value="维修">维修</option>
         </select>
       </yd-cell-item>
       <yd-cell-item>
@@ -56,14 +52,15 @@
     </yd-cell-group>
 
     <yd-button-group>
-      <yd-button size="large" class="thlb7" @click.native="submit()">提交</yd-button>
+      <yd-button size="large" class="thlb7" @click.native="submit()">提交申请</yd-button>
     </yd-button-group>
 
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '../../../config/env'
+  import {baseHttp,getCookie,uploadURL} from '../../../config/env'
   import  {getStore,removeStore} from '../../../config/mUtils'
+
   const vm= {
     data() {
       return {
@@ -72,13 +69,16 @@
         reasons:'',
         dess:'',
         flag:'',//1 表示整单退 2 表示单品退
+        uploadURL:uploadURL,
+        images: [],
+        item:{},
       }
     },
     mounted(){
       this.orderId = this.$route.query.orderId;
       this.flag=this.$route.query.flag;
       var orderItems= JSON.parse(getStore('refundInfo'));
-      this.reasons='商品需要维修';
+      this.reasons='退货';
       this.dess='',
       orderItems.desc='';
       orderItems.contactName='';
@@ -91,11 +91,15 @@
       gotoback(){
         this.$router.go(-1);
       },
+
+
       submit(){
         const input = this.$refs.contactPhone;//电话号码
         this.orderItems.desc=this.reasons+"|"+this.dess;
         if (this.flag.length==0)return;
-        const  that=this;
+        const that=this;
+        var applyRefundAPI='/api/refund/apply';//单品退
+        var refundApplyOrder='/api/refund/applyOrder';//整单退
         baseHttp(this,this.flag==1?refundApplyOrder:this.flag==2?applyRefundAPI:'',this.orderItems,'post','申请中...',function (data){
           that.$dialog.toast({
             mes: '申请成功!',
@@ -114,6 +118,21 @@
   export default vm;
 </script>
 <style scoped>
+  .service{
+    background-color: #f8f8f8;
+    padding: .2rem 0;
+    text-align: center;
+    color: #81838e;
+    font-size: 13px;
+    box-shadow: 0 2px 10px 0 #e3e2e2;
+    z-index: 10;
+    position: relative;
+  }
+  .service em{
+    color: red;
+  }
+
+
   .or_2{
     color:#6e6f70;
   }
@@ -153,13 +172,13 @@
 </style>
 <style>
   #fillsales .yd-cell-box{
-     margin-bottom:0rem;
-   }
+    margin-bottom:0rem;
+  }
   #fillsales .yd-cell-right select{
-     margin-left:.3rem;
-   }
+    margin-left:.3rem;
+  }
   #fillsales button.thlb7.yd-btn-block.yd-btn-primary{
-     background-color:#d41d0f ;
-     font-size: .3rem;
-   }
+    background-color:#d41d0f ;
+    font-size: .3rem;
+  }
 </style>
