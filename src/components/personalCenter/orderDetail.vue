@@ -329,7 +329,7 @@
         var items = {'item': this.order.items}
         items.number = this.info.number;
         setStore("refundInfo",items);
-        this.$router.push({ name: 'fillsalesRetrun',query:{orderId:this.orderId,flag:2}});
+        this.$router.push({ name: 'fillsalesRetrun',query:{orderId:this.orderId,flag:1}});
       },
       /*单品申请退货*/
       applyRefund(item){
