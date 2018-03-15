@@ -9,7 +9,7 @@
       <yd-tab-panel label="全部"  tabkey="ALL" :active="type==1"></yd-tab-panel>
       <yd-tab-panel :label="ordernum.PURCHASED>0?'待付款('+ordernum.PURCHASED+')':'待付款'" tabkey="PURCHASED" :active="type==2"></yd-tab-panel>
       <yd-tab-panel :label="(ordernum.SHIPPED+ordernum.CONFIRMED)>0?'待收货('+(ordernum.SHIPPED+ordernum.CONFIRMED)+')':'待收货'" tabkey="SHIPPED" :active="type==3"></yd-tab-panel>
-      <yd-tab-panel :label="ordernum.RECEIVED>0?'待评价('+ordernum.RECEIVED+')':'待评价'" tabkey="NOT_COMMENT" :active="type==4"></yd-tab-panel>
+      <yd-tab-panel :label="ordernum.NOT_COMMENT>0?'待评价('+ordernum.NOT_COMMENT+')':'待评价'" tabkey="NOT_COMMENT" :active="type==4"></yd-tab-panel>
       <yd-tab-panel label="已完成" tabkey="FINISHED" :active="type==5"></yd-tab-panel>
     </yd-tab>
     <yd-pullrefresh :callback="pullList" ref="pullrefreshDemo" >
@@ -47,7 +47,7 @@
 <script type="text/babel">
   import {baseHttp,getCookie,formatDate} from '../../config/env'
   import  {getStore,removeStore} from '../../config/mUtils'
-  import {wexinPay} from '../../config/weichatPay'
+  import {wexinPay,wftPay} from '../../config/weichatPay'
   import {Row, Col} from 'vant';
   import goods from '../../views/goods'
   const vm= {
@@ -80,7 +80,7 @@
       }else if(this.type==5){
         this.statuses='FINISHED';
       }
-      this.ordernum={'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0};
+      this.ordernum={'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'NOT_COMMENT':0};
       this.getOrderStatus();
       this.page=1;
       this.orderslist();
@@ -158,17 +158,26 @@
       },
       perPay(data){
         const that = this;
-        baseHttp(this, '/wechat/pay/unifiedorder', data, 'post', '支付中...', function (data) {
+        baseHttp(this, '/api/order/prePay', data, 'post', '提交中...', function (data) {
           that.payInfo = data.payInfo;
-          that.wxPay();
+          wftPay(data.payInfo,function (res) {
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+              that.$router.replace({ name: 'orderSuccess', params: { payMoney:that.paytotalFee}})
+            }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
+              that.$router.replace({ name: 'myOderList', query: { type:2}})
+            }else if(res.err_msg =="get_brand_wcpay_request:fail"){
+              that.$dialog.toast({
+                mes: '支付失败! 请重新支付',
+                timeout: 2000,
+              });
+            }
+          },function (fail) {
+            that.$dialog.toast({
+              mes: '支付失败! 请重新支付',
+              timeout: 2000,
+            });
+          })
         });
-      },
-      wxPay(){
-        wexinPay(this.payInfo,function (succuess) {
-          console.log(succuess);
-        },function (err) {
-          console.log(err);
-        })
       },
     },
   }

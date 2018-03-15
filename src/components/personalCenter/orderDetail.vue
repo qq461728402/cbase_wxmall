@@ -114,7 +114,7 @@
 <script type="text/babel">
   import {baseHttp,getCookie,formatDate} from '../../config/env'
   import  {getStore,removeStore,setStore} from '../../config/mUtils'
-  import {wexinPay} from '../../config/weichatPay'
+  import {wexinPay,wftPay} from '../../config/weichatPay'
   import goods from '../../views/goods'
   var QRCode = require('js-qrcode');
   const vm= {
@@ -266,17 +266,26 @@
       },
       perPay(data){
         const that = this;
-        baseHttp(this, '/wechat/pay/unifiedorder', data, 'post', '支付中...', function (data) {
+        baseHttp(this, '/api/order/prePay', data, 'post', '提交中...', function (data) {
           that.payInfo = data.payInfo;
-          that.wxPay();
+          wftPay(data.payInfo,function (res) {
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+              that.$router.replace({ name: 'orderSuccess', params: { payMoney:that.paytotalFee}})
+            }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
+              that.$router.replace({ name: 'myOderList', query: {type:2}})
+            }else if(res.err_msg =="get_brand_wcpay_request:fail"){
+              that.$dialog.toast({
+                mes: '支付失败! 请重新支付',
+                timeout: 2000,
+              });
+            }
+          },function (fail) {
+            that.$dialog.toast({
+              mes: '支付失败! 请重新支付',
+              timeout: 2000,
+            });
+          })
         });
-      },
-      wxPay(){
-        wexinPay(this.payInfo,function (succuess) {
-          console.log(succuess);
-        },function (err) {
-          console.log(err);
-        })
       },
       gethistoryOrder(){
         const that = this;

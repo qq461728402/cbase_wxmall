@@ -29,7 +29,6 @@
         </yd-flexbox>
       </li>
     </ul>
-
   </yd-layout>
 </template>
 <script type="text/babel">
