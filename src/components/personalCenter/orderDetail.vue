@@ -31,7 +31,6 @@
         </yd-flexbox-item>
       </yd-flexbox>
     </yd-cell-group>
-
     <div class="products">
       <div class="yd-accordion-title" style="border-bottom: 1px solid #e3e3e3">
         <span style="padding-left: 0.3rem;font-size: 0.3rem">订单商品</span>
@@ -40,28 +39,7 @@
         <h3>商品</h3>
         <ul class="por" slot="list">
           <li v-for="item in order.items" @click="gotoProdcut(item)">
-            <yd-flexbox>
-              <div class="imgdiv">
-                <img :src="item.imageUrl">
-                <img src="../../assets/img/unavailable.png" v-if="item.available==false" style="margin-left:-1.3rem">
-              </div>
-              <yd-flexbox-item style="font-size: .3rem;">
-                <div class="titlediv">
-                  <p>{{item.skuName}}</p>
-                  <span class="price">&yen;{{item.salePrice}}</span>
-                  <span class="count">×{{item.quantity}}</span>
-                </div>
-              </yd-flexbox-item>
-            </yd-flexbox>
-            <div align="right" style="padding-right: .3rem;">
-              <yd-button type="hollow" style="font-size: .2rem;" @click.native.stop="applyRefund(item)" v-if="item.refundable==true">申请退货</yd-button>
-              <yd-button type="hollow" style="font-size: .2rem;" v-else-if="item.refundStatus=='REFUNDING'&&item.refundable==false" @click.native.stop="gotoRefund(2)">
-                退货中
-              </yd-button>
-              <yd-button type="hollow" style="font-size: .2rem;" v-else-if="item.refundStatus=='REFUNDED'&&item.refundable==false" @click.native.stop="gotoRefund(4)">
-                已退款
-              </yd-button>
-            </div>
+            <goods :item="item" goodsType="submit" :showQuantity="true"></goods>
           </li>
         </ul>
         <div v-if="order.needService">
@@ -93,7 +71,6 @@
       <p v-if="order.isBonusPointsUsed==true"><span class="label">积分抵扣金额</span> <span class="price discount">-&yen;{{order.bonusPointsUsed}}</span></p>
       <p><span class="label">订单总额</span> <span class="price">&yen;{{order.total}}</span></p>
     </div>
-
     <yd-cell-group style="text-align: center;" v-show="showQRCode==true">
       <div style="padding: 0.2rem;">
         <p style="font-size: 0.3rem"><strong>订单二维码</strong></p>
@@ -112,10 +89,10 @@
             <span slot="right">
             	<yd-button type="hollow" v-if="canCancel==true" class="order_3" @click.native="cancleOrder()">取消订单</yd-button>
 				<yd-button type="hollow" v-if="canRefund==true" class="order_3" @click.native="canclePayOrder()">申请退款</yd-button>
-				<yd-button type="danger" v-if="canReturn==true" class="order_3" bgcolor="red" color="#fff" @click.native="applyRefundAll()">申请售后</yd-button>
-				<yd-button type="danger" v-if="canConfirm==true" class="order_3" bgcolor="red" color="#fff" @click.native="affirmOrder()">{{info.needService==true?'待服务':'确认收货'}}
+				<yd-button type="danger" v-if="canReturn==true" class="order_3" color="#fff" @click.native="applyRefundAll()">申请售后</yd-button>
+				<yd-button type="danger" v-if="canConfirm==true" class="order_3"  color="#fff" @click.native="affirmOrder()">{{info.needService==true?'待服务':'确认收货'}}
         </yd-button>
-            	<yd-button type="danger" v-if="canPay==true" bgcolor="#d41d0f" color="#fff" class="order_3" @click.native="payOrder()">立即支付</yd-button>
+            	<yd-button type="danger" v-if="canPay==true" color="#fff" class="order_3" @click.native="payOrder()">立即支付</yd-button>
 				<yd-button type="hollow"  class="order_3" v-if="canComment==true" @click.native="appraiseOrder()">评价晒单</yd-button>
             </span>
       </yd-cell-item>
@@ -138,8 +115,12 @@
   import {baseHttp,getCookie,formatDate} from '../../config/env'
   import  {getStore,removeStore,setStore} from '../../config/mUtils'
   import {wexinPay} from '../../config/weichatPay'
+  import goods from '../../views/goods'
   var QRCode = require('js-qrcode');
   const vm= {
+    components: {
+      goods,
+    },
     data() {
       return {
         isLocked: false,

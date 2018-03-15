@@ -98,7 +98,10 @@
       getCartsQuantity(){
         const that = this;
         baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
-          if (data.quantity) that.$store.dispatch('setQuantity',data.quantity);
+          console.log(data.quantity);
+          if (data.quantity>-1) {
+            that.$store.dispatch('setQuantity',data.quantity);
+          }
         })
       },
       loadList(){
@@ -157,6 +160,7 @@
         that.carts=[];
         baseHttp(this, '/api/carts/carts', {}, 'get', isrefesh==false?'加载中...':'', function (data) {
           if (data.carts) {
+            that.showNoProduct=false;
             data.carts.forEach(function (cart) {
               cart.ref = 'mq' + cart.cartId;
               cart.selectitem=[];
@@ -278,9 +282,7 @@
     mounted(){
     },
     activated(){
-      if(this.isCookie==true){
-        this.getShopCarts(false);
-      }
+      this.getShopCarts(false);
     },
   }
   export default vm;

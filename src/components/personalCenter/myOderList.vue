@@ -6,11 +6,11 @@
       </router-link>
     </yd-navbar>
     <yd-tab slot="navbar" :callback="switchlist">
-      <yd-tab-panel label="全部"  tabkey="all" :active="type==1"></yd-tab-panel>
+      <yd-tab-panel label="全部"  tabkey="ALL" :active="type==1"></yd-tab-panel>
       <yd-tab-panel :label="ordernum.PURCHASED>0?'待付款('+ordernum.PURCHASED+')':'待付款'" tabkey="PURCHASED" :active="type==2"></yd-tab-panel>
-      <yd-tab-panel :label="(ordernum.SHIPPED+ordernum.CONFIRMED)>0?'待收货('+(ordernum.SHIPPED+ordernum.CONFIRMED)+')':'待收货'" tabkey="SHIPPED,CONFIRMED" :active="type==3"></yd-tab-panel>
-      <yd-tab-panel :label="ordernum.RECEIVED>0?'待评价('+ordernum.RECEIVED+')':'待评价'" tabkey="RECEIVED" :active="type==4"></yd-tab-panel>
-      <yd-tab-panel label="已完成" tabkey="COMMENTED,FINISHED" :active="type==5"></yd-tab-panel>
+      <yd-tab-panel :label="(ordernum.SHIPPED+ordernum.CONFIRMED)>0?'待收货('+(ordernum.SHIPPED+ordernum.CONFIRMED)+')':'待收货'" tabkey="SHIPPED" :active="type==3"></yd-tab-panel>
+      <yd-tab-panel :label="ordernum.RECEIVED>0?'待评价('+ordernum.RECEIVED+')':'待评价'" tabkey="NOT_COMMENT" :active="type==4"></yd-tab-panel>
+      <yd-tab-panel label="已完成" tabkey="FINISHED" :active="type==5"></yd-tab-panel>
     </yd-tab>
     <yd-pullrefresh :callback="pullList" ref="pullrefreshDemo" >
       <yd-infinitescroll :callback="loadList" ref="infinitescrollDemo">
@@ -70,15 +70,15 @@
     mounted(){
       this.type=this.$route.query.type;
       if(this.type==1){
-        this.statuses='all';
+        this.statuses='ALL';
       }else if(this.type==2){
         this.statuses='PURCHASED';
       }else if(this.type==3){
-        this.statuses='SHIPPED,CONFIRMED';
+        this.statuses='SHIPPED';
       }else if(this.type==4){
-        this.statuses='RECEIVED';
+        this.statuses='NOT_COMMENT';
       }else if(this.type==5){
-        this.statuses='COMMENTED,FINISHED';
+        this.statuses='FINISHED';
       }
       this.ordernum={'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0};
       this.getOrderStatus();
@@ -106,12 +106,16 @@
         })
       },
       orderslist(){
-        var pars={page:this.page,pageSize:this.pageSize}
-        if(this.statuses.length!=0){
-          pars.statuses=this.statuses;
+        var pars={page:this.page,pageSize:this.pageSize,store:1};
+        if(this.statuses.length!=0&&this.statuses!='NOT_COMMENT'){
+          pars.status=this.statuses;
+        }
+        var api ='/api/order/orders';
+        if(this.statuses=='NOT_COMMENT'){
+         api='/api/order/orders/nocomment';
         }
         const  that =this;
-        baseHttp(this,'/api/order/orders',pars,'get',this.page==1?'加载中...':'',function (data){
+        baseHttp(this,api,pars,'get',this.page==1?'加载中...':'',function (data){
           if(that.page==1){
             if(data.orders) {
               that.oderlist=data.orders;

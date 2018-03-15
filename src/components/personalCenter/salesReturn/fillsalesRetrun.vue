@@ -77,7 +77,7 @@
     mounted(){
       this.orderId = this.$route.query.orderId;
       this.flag=this.$route.query.flag;
-      var orderItems=getStore('refundInfo');
+      var orderItems= JSON.parse(getStore('refundInfo'));
       this.reasons='商品需要维修';
       this.dess='',
       orderItems.desc='';

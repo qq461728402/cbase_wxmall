@@ -8,10 +8,9 @@
 
     <yd-cell-group v-for="item,index in orderItems" :key="index" style="margin-top: 0.2rem">
       <yd-cell-item>
-        <span slot="left"><img  :src="item.imageUrl" style="width: 1.2rem;padding: 0.1rem"> </span>
+        <span slot="left" class="thumb"><img  :src="item.imageUrl"></span>
         <div slot="left">
-          <p>评分</p>
-          <yd-rate v-model="item.rank" color="#d41d0f" active-color="#d41d0f"></yd-rate>
+          <p>评分</p><yd-rate v-model="item.rank" color="#d41d0f" active-color="#d41d0f"></yd-rate>
         </div>
       </yd-cell-item>
       <yd-cell-item>
@@ -41,7 +40,7 @@
             @imageuploading="imageuploading"
             @imageuploaded="imageuploaded"
             :max-file-size="5242880"
-            url="https://www.cqssqm.com/api/file/upload">
+            :url=uploadURL>
             <img src="../../assets/img/addImages.png" class="messimg" style="height: 1.2rem;width: 1.2rem">
           </vue-core-image-upload>
         </yd-grids-item>
@@ -51,7 +50,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '../../config/env'
+  import {baseHttp,getCookie,uploadURL} from '../../config/env'
   import  {getStore,removeStore} from '../../config/mUtils'
   import VueCoreImageUpload from 'vue-core-image-upload'
   const vm= {
@@ -61,6 +60,7 @@
         images: [],
         upimages: [],
         orderId: '',
+        uploadURL:uploadURL,
       }
     },
     components: {
@@ -93,9 +93,8 @@
       gotoback(){
         this.$router.go(-1);
       },
-      imageuploading(data){
-        console.log(data);
-        this.orderItems[data.index].wait=true;
+      imageuploading(data,headers){
+        this.orderItems[headers.index].wait=true;
       },
       imageuploaded(res,data) {
         var upimageItem = {};
@@ -137,6 +136,29 @@
   }
   export default vm;
 </script>
+<style scoped>
+  .thumb {
+    float: left;
+    position: relative;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: #e5e5e5;
+    text-align: center;
+    margin-right: 0.2rem;
+  }
+  .thumb img {
+    vertical-align: middle;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    max-width: 100%;
+    max-height: 100%;
+    border: 0;
+  }
+</style>
 <style>
   #orderAppraise .pj_7.yd-btn-block.yd-btn-primary {
     background-color: #d41d0f;

@@ -40,17 +40,17 @@
     },
     mounted(){
       this.currentPath=this.$route.path;
-      if(this.isCookie==true){
-          this.getCartsQuantity();
-          this.getuserInfo();
-      }
+      this.getCartsQuantity();
+      this.getuserInfo();
     },
     methods:{
       /*获取购物车数量*/
       getCartsQuantity(){
         const that = this;
         baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
-          if (data.quantity) that.$store.dispatch('setQuantity',data.quantity);
+          if (data.quantity>=0){
+            that.$store.dispatch('setQuantity',data.quantity);
+          }
         })
       },
       /*获取用户信息*/
@@ -73,9 +73,7 @@
     watch:{
       $route(to,from){
         if(to.name=='/home'||to.name=='/category'||to.name=='/shoppingCart'||to.name=='/personalCenter'){
-          if(this.isCookie==true){
-            this.getCartsQuantity();
-          }
+          this.getCartsQuantity();
         }
         this.currentPath=this.$route.path;
       }
