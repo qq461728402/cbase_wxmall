@@ -11,24 +11,10 @@
       <yd-cell-item>
         <span slot="left" class="or_2">订单编号：{{orderItems.number}}</span>
       </yd-cell-item>
-      <yd-flexbox v-for="item,index in orderItems.item" :key="index">
-        <div class="or_4">
-          <img class="or_5" :src="item.imageUrl">
-        </div>
-        <yd-flexbox-item class="or_6">
-          <yd-flexbox direction="vertical" style="padding-right: 0.3rem">
-            <yd-flexbox-item><p class="or_8">{{item.skuName}}</p></yd-flexbox-item>
-            <yd-flexbox-item>
-              <yd-flexbox>
-                <yd-flexbox-item><span class="or_9" style="color: #d41d0f">&yen;{{item.salePrice}}</span></yd-flexbox-item>
-                <yd-flexbox-item style="text-align: right"><span class="or_9">x{{item.quantity}}</span></yd-flexbox-item><!--件数-->
-              </yd-flexbox>
-            </yd-flexbox-item>
-          </yd-flexbox>
-        </yd-flexbox-item>
-      </yd-flexbox>
+      <div v-for="item,index in orderItems.item" :key="index" style="padding: 0.2rem">
+        <goods :item="item" goodsType="submit" :showQuantity="true"></goods>
+      </div>
     </yd-cell-group>
-
     <yd-cell-group style="margin-top: 0.2rem">
       <yd-cell-item arrow type="label">
         <span slot="left">服务类型：</span>
@@ -60,8 +46,11 @@
 <script type="text/babel">
   import {baseHttp,getCookie,uploadURL} from '../../../config/env'
   import  {getStore,removeStore} from '../../../config/mUtils'
-
+  import  goods from '@/views/goods'
   const vm= {
+    components: {
+      goods,
+    },
     data() {
       return {
         orderItems:{},
@@ -91,8 +80,6 @@
       gotoback(){
         this.$router.go(-1);
       },
-
-
       submit(){
         const input = this.$refs.contactPhone;//电话号码
         this.orderItems.desc=this.reasons+"|"+this.dess;
