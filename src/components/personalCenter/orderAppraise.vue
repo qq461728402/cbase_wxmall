@@ -7,7 +7,7 @@
     </yd-navbar>
 
     <yd-cell-group v-for="item,index in orderItems" :key="index" style="margin-top: 0.2rem">
-      <yd-cell-item>
+      <yd-cell-item style="padding: 0.2rem 0">
         <span slot="left" class="thumb"><img  :src="item.imageUrl"></span>
         <div slot="left">
           <p>评分</p><yd-rate v-model="item.rank" color="#d41d0f" active-color="#d41d0f"></yd-rate>
@@ -16,7 +16,6 @@
       <yd-cell-item>
         <yd-textarea slot="right" placeholder="请输入您的评价？" maxlength="100" v-model="item.desc"></yd-textarea>
       </yd-cell-item>
-
       <yd-grids-group :rows="5">
         <yd-grids-item v-for="imgs,index1 in item.images" :key="index1">
           <div slot="else" style="text-align: center;" >
@@ -85,8 +84,6 @@
           appraiselst.push(item);
         }
         this.orderItems = appraiselst;
-      }else{
-
       }
     },
     methods:{

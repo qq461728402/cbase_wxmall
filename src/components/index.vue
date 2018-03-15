@@ -35,7 +35,6 @@
     data() {
       return {
         currentPath:'',
-        isCookie:getStore("token").length>0?true:false
       }
     },
     mounted(){
@@ -63,11 +62,7 @@
         })
       },
       gotoCars(){
-        if (this.isCookie==true){
-          this.$router.push({name:'shoppingCart'});
-        }else{
-          this.$router.push({ name: 'loginWithCode'})
-        }
+        this.$router.push({name:'shoppingCart'});
       },
     },
     watch:{

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+Vue.use(Router)
 const Stores =resolve =>require(['../components/stores.vue'],resolve);//懒加载
 const IndexHome = r => require.ensure([], () => r(require('../components/IndexHome')), 'IndexHome')//懒加载
 const ChooseCity = r => require.ensure([], () => r(require('../components/pageHome/chooseCity/chooseCity')), 'ChooseCity')//选择城市
@@ -60,7 +61,7 @@ const GroupBuyDetail = resolve => require.ensure([], () => resolve(require('../c
 
 const Seckill = resolve => require.ensure([], () => resolve(require('../components/pageHome/GroupBuying/Seckill')), 'Seckill')
 
-Vue.use(Router)
+
 const router = new Router({
   hashbang:false,
   // mode: 'history',
@@ -74,9 +75,7 @@ const router = new Router({
         {path:'/personalCenter',name:'personalCenter',component:PersonalCenter,meta:{title:'个人中心',keepAlive:true}},
       ]
     },
-    // {path: '/', name: 'home',component: IndexHome, meta:{title:'首页',keepAlive:true}},
     {path:'/home/chooseCity',name:'chooseCity',component:ChooseCity,meta:{title:'选择城市',keepAlive:true}},
-    // {path:"/home/category",name:'category',component:CarProducts,meta:{title:'商品分类',keepAlive:true}},
     {path:"/home/productsList",name:'productsList',component:ProductsList,meta:{title:'商品列表',keepAlive:false}},
     {path:"/home/productsDetail",name:'productsDetail',component:ProductsDetail,meta:{title:'商品详情',keepAlive:false}},
     {path:"/home/reviewsList",name:'reviewsList',component:ReviewsList,meta:{title:'评论列表',keepAlive:false}},
@@ -99,8 +98,6 @@ const router = new Router({
     {path:'/home/chooseCarInfo',name:'chooseCarInfo',component:ChooseCarInfo,meta:{title:'选择车辆信息',keepAlive:false}},
     {path:'/stores', name:'stores', component:Stores, meta:{title:'门店',keepAlive:true}},
     {path:'/stores/storesDetail',name:'storesDetail',component:StoresDetail,meta:{title:'门店详情'}},
-    // {path:'/shoppingCart', name:'shoppingCart', component:ShoppingCart, meta:{title:'购物车',keepAlive:true}},
-    // {path:'/personalCenter', name:'personalCenter', component:PersonalCenter, meta:{title:'个人中心',keepAlive:true}},
     {path:'/personalCenter/userInfo', name:'userInfo', component:UserInfo, meta:{title:'用户信息',keepAlive:true}},
     {path:'/personalCenter/reperUserInfo', name:'reperUserInfo', component:RePerUserInfo, meta:{title:'用户信息',keepAlive:true}},
     {path:'/personalCenter/addressList',name:'addressList',component:AddressList,meta:{title:'收货地址',keepAlive:true}},

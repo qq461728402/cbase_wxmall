@@ -3,6 +3,7 @@
  */
 import Vue from 'vue';
 import axios from 'axios'
+import router from '../router'
 import VueAxios from 'vue-axios'
 import YDUI from 'vue-ydui'
 import store from '../store'
@@ -10,8 +11,16 @@ Vue.use(VueAxios, axios)
 Vue.use(YDUI)
 axios.defaults.baseURL = 'http://joewee.mynatapp.cc';
 axios.defaults.headers.token = store.getters.token;
+/*
+ * 拦截器*/
+axios.interceptors.response.use(response =>{
+  if (response.data && response.data.code === 401) { // 401, token失效
+    router.push({ name: 'loginWithCode'});
+    removeStore('userInfo');
+  }
+  return response;
+});
 import {removeStore} from './mUtils'
-
 export  const  uploadURL=axios.defaults.baseURL+'/api/file/upload';
 /*par 参数
  *url 接口地址
@@ -29,16 +38,7 @@ export function baseHttp(ydui, url, par, method, loadmsg, callback) {
     timeout: 5000,
   }).then(function (response) {
     console.log(response.data);
-    if(response.data.code==401){
-      removeStore('userInfo');
-      ydui.$dialog.confirm({
-        title: '温馨提示',
-        mes: '登录过期是否重新登录！',
-        opts:function () {
-          ydui.$router.push({ name: 'loginWithCode'});
-        }
-      });
-    }else if(response.data.code==200){
+    if(response.data.code==200){
       if (callback) {
         callback(response.data)
       }

@@ -37,7 +37,7 @@
       </yd-grids-item>
       <yd-grids-item @click.native="gotoallorder(4)">
         <yd-icon slot="icon" name="daipingjia-copy" color="#68696b" custom></yd-icon>
-        <div slot="else" v-if="ordernum.RECEIVED"><yd-badge slot="badge" type="danger" style="position:absolute;right: 0.1rem;top: 0.2rem;background-color: #d41d0f;">{{ordernum.RECEIVED}}</yd-badge></div>
+        <div slot="else" v-if="ordernum.NOT_COMMENT"><yd-badge slot="badge" type="danger" style="position:absolute;right: 0.1rem;top: 0.2rem;background-color: #d41d0f;">{{ordernum.NOT_COMMENT}}</yd-badge></div>
         <span slot="text" style="color: #666666">待评价</span>
       </yd-grids-item>
       <yd-grids-item @click.native="gotoallorder(5)">
@@ -123,7 +123,7 @@
         isshowbounds:false,
         bonusPointsHistories:[],
         quantity:0,
-        ordernum:{'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'REFUNDING':0},
+        ordernum:{'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'REFUNDING':0,'NOT_COMMENT':0},
         shearView:false,
         shearData:{},
         bg:{
@@ -132,38 +132,23 @@
       }
     },
     activated(){
-      if(this.isCookie==true){
-        this.getOrderStatus();
-      }else{
-        this.quantity=0;
-        this.ordernum={'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'REFUNDING':0};
-      }
+      this.getOrderStatus();
     },
     methods:{
       gotouser(){
-        if (this.isCookie==true){
-          this.$router.push({name:'userInfo'});
-        }else{
-          this.$router.push({ name: 'loginWithCode'})
-        }
+        this.$router.push({name:'userInfo'});
       },
       /*加入订单*/
       gotoallorder(index) {
-        if (this.isCookie==true){
-          this.$router.push({ path: '/personalCenter/myOderList', query: { type: index },meta:{keepAlive:false}})
-        }
+        this.$router.push({ path: '/personalCenter/myOderList', query: { type: index },meta:{keepAlive:false}})
       },
       /*进入退货订单*/
       gotoReturnOrder(){
-        if (this.isCookie==true){
-          this.$router.push({ name: 'salesRetrunList', query: { type: 1 }})
-        }
+        this.$router.push({ name: 'salesRetrunList', query: { type: 1 }})
       },
       /*购物车*/
       gotoshopcar() {
-        if (this.isCookie==true){
-          this.$router.push({ path: '/shoppingCart'});
-        }
+        this.$router.push({ path: '/shoppingCart'});
       },
       /*门店*/
       gotostore() {
@@ -171,17 +156,11 @@
       },
       /*我的优惠券*/
       coupons() {
-        if (this.isCookie==true){
-          this.$router.push({ name: 'myCoupons'});
-        }
+        this.$router.push({ name: 'myCoupons'});
       },
       /*我的保单*/
       mypolicy(){
-        if (this.isCookie==true){
-          this.$router.push({ name: 'policyList'});
-        }else{
-          this.$router.push({ name: 'loginWithCode'});
-        }
+        this.$router.push({ name: 'policyList'});
       },
       /*兑换*/
       exchange() {
@@ -192,16 +171,10 @@
 
       },
       gotoGitfs(){
-        if (this.isCookie==true){
-          this.$router.push({ name: 'giftList'});
-        }else{
-          this.$router.push({ name: 'loginWithCode'});
-        }
+        this.$router.push({ name: 'giftList'});
       },
       gotobonushistroy(){
-        if (this.isCookie==true){
-          this.$router.push({ name: 'PointsList'});
-        }
+        this.$router.push({ name: 'PointsList'});
       },
       /*获取订单数量*/
       getOrderStatus(){

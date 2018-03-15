@@ -8,11 +8,7 @@
   </div>
 </template>
 <script>
-//  import { Button } from 'vant';
   export default{
-//    components: {
-//      [Button.name]: Button,
-//    },
     name: 'app',
     data () {
       return {
@@ -27,7 +23,6 @@
     },
   }
 </script>
-
 <style>
   @import "static/css/iconfont.css";
   #app {

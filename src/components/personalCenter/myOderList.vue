@@ -26,6 +26,7 @@
             </van-col>
             <van-col span="12" style="text-align: right;padding-right: .2rem;">
               <yd-button type="hollow" style="border: 1px solid #d41d0f;color: #d41d0f;height: .5rem;margin-top: 0.15rem" v-if="item.status=='PURCHASED'" @click.native.stop="gotoPay(item)">去支付</yd-button>
+              <yd-button type="hollow" style="border: 1px solid #d41d0f;color: #d41d0f;height: .5rem;margin-top: 0.15rem" v-else-if="item.status=='SHIPPED'" @click.native.stop="affirmOrder(item)">确认收货</yd-button>
             </van-col>
           </van-row>
           <van-row style="padding: 0.2rem;">
@@ -121,6 +122,8 @@
               that.oderlist=data.orders;
               that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
               that.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.reInit');
+            }else{
+              that.oderlist=[];
             }
           }else{
             if(data.orders){
@@ -146,6 +149,22 @@
         this.page=this.page+1;
         this.orderslist();
       },
+
+      /*确认收货*/
+      affirmOrder(item){
+        const  that =this;
+        baseHttp(this, '/api/order/received', {'orderId': item.orderId}, 'post', '正在处理中...', function (data) {
+          that.$dialog.toast({
+            mes: '确认成功!',
+            timeout: 1000,
+            icon: 'success',
+            callback: function () {
+              that.loadList();
+            }
+          });
+        })
+      },
+
       /*进入商品详情*/
       gotoOderDetail(item){
         this.$router.push({ name: 'orderDetail', query: { orderId: item.orderId }});
@@ -164,7 +183,7 @@
             if (res.err_msg == "get_brand_wcpay_request:ok") {
               that.$router.replace({ name: 'orderSuccess', params: { payMoney:that.paytotalFee}})
             }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
-              that.$router.replace({ name: 'myOderList', query: { type:2}})
+
             }else if(res.err_msg =="get_brand_wcpay_request:fail"){
               that.$dialog.toast({
                 mes: '支付失败! 请重新支付',

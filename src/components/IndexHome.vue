@@ -134,7 +134,6 @@
       return {
         bl:'',
         mySwiper: '',
-        isCookie: getStore("token").length>0?true:false,
         cityname: '',
         weixinInfo: {},
         config: [],
@@ -252,18 +251,10 @@
         }
       },
       gotocarlist(){
-        if (this.isCookie == true) {
-          this.$router.push({path: 'home/CarChoose'})
-        } else {
-          this.$router.push({name: 'loginWithCode'})
-        }
+        this.$router.push({path: 'home/CarChoose'})
       },
       gotochoosecar(){
-        if (this.isCookie == true) {
-          this.$router.push({path: 'home/CarChoose'})
-        } else {
-          this.$router.push({name: 'loginWithCode'})
-        }
+        this.$router.push({path: 'home/CarChoose'})
       },
       signature(){
         const that = this;
