@@ -6,13 +6,6 @@
       </router-link>
     </yd-navbar>
 
-    <yd-tab slot="navbar" :callback="switchlist">
-      <yd-tab-panel label="全部"  tabkey="all" :active="type==1"></yd-tab-panel>
-      <yd-tab-panel label="待退货" tabkey="CONFIRMED" :active="type==2"></yd-tab-panel>
-      <yd-tab-panel label="待退款" tabkey="SHIPPED" :active="type==3"></yd-tab-panel>
-      <yd-tab-panel label="已完成" tabkey="FINISHED" :active="type==4"></yd-tab-panel>
-    </yd-tab>
-
     <yd-pullrefresh :callback="pullList" ref="pullrefreshDemo" >
       <yd-infinitescroll :callback="loadList" ref="infinitescrollDemo">
         <div slot="list"  class="or_1" v-for="item,index in refundlist" :key="index" @click="gotogoodsDetail(item)">
@@ -39,9 +32,9 @@
       </yd-infinitescroll>
     </yd-pullrefresh>
     <yd-backtop></yd-backtop>
-    <div class="noProduct" v-if="refundlist.length==0" ref="gwc" >
+    <div class="noProduct" v-if="refundlist.length==0&&isrefund==true">
       <img src="../../../assets/img/cleanOder.png">
-      <p>您还没有退货订单</p>
+      <p>您还没有售后订单</p>
     </div>
 
   </yd-layout>
@@ -55,47 +48,34 @@
         type:'',
         page: 1,
         pageSize: 10,
-        status:'',
         ordernum:{},
         refundlist:[],
+        isrefund:false,
       }
     },
     mounted(){
-      this.type =this.$route.query.type;
-      if(this.type==1){
-        this.status='all';
-      }else if(this.type==2){
-        this.status='CONFIRMED';
-      }else if(this.type==3){
-        this.status='SHIPPED';
-      }else if(this.type==4){
-        this.status='FINISHED';
-      }
       this.page=1;
+      this.goodsrefundlist();
+    },
+    activated(){
       this.goodsrefundlist();
     },
     methods:{
       gotoback(){
         this.$router.go(-1);
       },
-      switchlist:function (label,tabkey) {
-        this.status=tabkey;
-        this.page=1;
-        this.goodsrefundlist();
-      },
       goodsrefundlist(){
         var pars={'page':this.page,'pageSize':this.pageSize}
-        if(this.status.length!=0){
-          pars.status=this.status;
-        }
         const  that =this;
-        baseHttp(this,'/api/refund/orders',pars,'get',this.page==1?'加载中...':'',function (data){
+        baseHttp(this,'/api/return/returns',pars,'get',this.page==1?'加载中...':'',function (data){
           if(that.page==1){
             if(data.orders) {
+              that.isrefund=false;
               that.refundlist=data.orders;
               that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
               that.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.reInit');
             }else{
+              that.isrefund=true;
               that.refundlist=[];
             }
           }else{
@@ -112,35 +92,6 @@
           }
         })
       },
-
-      beforeRouteEnter(to, from, next) {
-        console.log(from);
-        next(function (vm) {
-          if(from.name=='personalCenter'){
-            if(vm.type==1){
-              vm.status='all';
-            }else if(vm.type==2){
-              vm.status='CONFIRMED';
-            }else if(vm.type==3){
-              vm.status='SHIPPED';
-            }else if(this.type==4){
-              vm.status='FINISHED';
-            }
-            vm.page=1;
-            vm.goodsrefundlist();
-          }else{
-            vm.page=1;
-            vm.goodsrefundlist();
-          }
-        });
-      },
-      beforeRouteLeave(to,from,next){
-
-        next(function (vm) {
-
-        });
-      },
-
       /* 下拉刷新 */
       pullList() {
         this.page=1;
@@ -157,7 +108,6 @@
         this.$router.push({ name: 'salesRetrunDetail'});
       },
     },
-
   }
   export default vm;
 </script>

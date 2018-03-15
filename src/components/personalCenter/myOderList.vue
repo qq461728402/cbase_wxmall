@@ -39,7 +39,7 @@
       </yd-infinitescroll>
     </yd-pullrefresh>
     <yd-backtop></yd-backtop>
-    <div class="noProduct" v-if="oderlist.length==0">
+    <div class="noProduct" v-if="oderlist.length==0&&isoderlist==true">
       <img src="../../assets/img/cleanOder.png">
       <p>您还没有相关订单</p>
     </div>
@@ -59,6 +59,7 @@
     },
     data() {
       return {
+        isoderlist:false,
         type:'',
         page: 1,
         pageSize: 10,
@@ -119,11 +120,14 @@
         baseHttp(this,api,pars,'get',this.page==1?'加载中...':'',function (data){
           if(that.page==1){
             if(data.orders) {
+              that.isoderlist=false;
               that.oderlist=data.orders;
               that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
               that.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.reInit');
             }else{
+              that.isoderlist=true;
               that.oderlist=[];
+              that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
             }
           }else{
             if(data.orders){

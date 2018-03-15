@@ -1,4 +1,4 @@
-<template>
+<template id="personal">
   <div class="personal">
     <yd-navbar slot="navbar" title="个人中心" bgcolor="#d41d0f" color="#FFF">
     </yd-navbar>
@@ -24,73 +24,71 @@
       </yd-cell-item>
     </yd-cell-group>
 
-    <yd-grids-group :rows="5" id="orderlist" style="margin-top: 0.2rem">
+    <yd-grids-group :rows="5" id="orderlist" style="margin-top: 0.2rem" >
       <yd-grids-item @click.native="gotoallorder(2)">
-        <yd-icon slot="icon" name="daifukuan" color="#68696b" custom></yd-icon>
+        <yd-icon slot="icon" name="daifukuan" color="#5181ee" custom></yd-icon>
         <div slot="else" v-if="ordernum.PURCHASED>0"><yd-badge slot="badge" type="danger" style="position:absolute;right: 0.1rem;top: 0.2rem;background-color: #d41d0f;">{{ordernum.PURCHASED}}</yd-badge></div>
         <span slot="text" style="color: #666666">待付款</span>
       </yd-grids-item>
       <yd-grids-item @click.native="gotoallorder(3)">
-        <yd-icon slot="icon" name="daishouhuo" color="#68696b" custom></yd-icon>
+        <yd-icon slot="icon" name="daishouhuo" color="#5181ee" custom></yd-icon>
         <div slot="else" v-if="ordernum.SHIPPED+ordernum.CONFIRMED>0"><yd-badge slot="badge" type="danger" style="position:absolute;right: 0.1rem;top: 0.2rem;background-color: #d41d0f;">{{ordernum.SHIPPED+ordernum.CONFIRMED}}</yd-badge></div>
         <span slot="text" style="color: #666666">待收货</span>
       </yd-grids-item>
       <yd-grids-item @click.native="gotoallorder(4)">
-        <yd-icon slot="icon" name="daipingjia-copy" color="#68696b" custom></yd-icon>
+        <yd-icon slot="icon" name="daipingjia-copy" color="#5181ee" custom></yd-icon>
         <div slot="else" v-if="ordernum.NOT_COMMENT"><yd-badge slot="badge" type="danger" style="position:absolute;right: 0.1rem;top: 0.2rem;background-color: #d41d0f;">{{ordernum.NOT_COMMENT}}</yd-badge></div>
         <span slot="text" style="color: #666666">待评价</span>
       </yd-grids-item>
       <yd-grids-item @click.native="gotoallorder(5)">
-        <yd-icon slot="icon" name="yiwancheng" color="#68696b" custom></yd-icon>
+        <yd-icon slot="icon" name="yiwancheng" color="#5181ee" custom></yd-icon>
         <span slot="text" style="color: #666666">已完成</span>
       </yd-grids-item>
       <yd-grids-item @click.native="gotoReturnOrder()">
-        <yd-icon slot="icon" name="tuihuoguanli" color="#68696b" custom></yd-icon>
-        <div slot="else"><yd-badge slot="badge" type="danger" style="position:absolute;right: 0.1rem;top: 0.2rem;" v-if="1==2">2</yd-badge></div>
-        <span slot="text" style="color: #666666">退货</span>
+        <yd-icon slot="icon" name="shouhou" color="#5181ee" custom></yd-icon>
+        <div slot="else" v-if="ordernum.RETURN"><yd-badge slot="badge" type="danger" style="position:absolute;right: 0.1rem;top: 0.2rem;">{{ordernum.RETURN}}</yd-badge></div>
+        <span slot="text" style="color: #666666">售后/服务</span>
       </yd-grids-item>
     </yd-grids-group>
 
     <yd-cell-group style="margin-top: 0.2rem;">
       <yd-cell-item arrow type="a" @click.native="gotoshopcar">
-        <yd-icon slot="icon" name="gouwuche" size=".35rem" color="#999999" custom></yd-icon>
+        <yd-icon slot="icon" name="gouwuche" size=".35rem" color="#00d3bf" custom></yd-icon>
         <span slot="left">我的购物车</span>
         <span slot="right" style="font-size: .3rem;">{{quantity}}件商品</span>
       </yd-cell-item>
       <yd-cell-item arrow type="a"  @click.native="coupons">
-        <yd-icon slot="icon" name="youhuiquan" size=".35rem" color="#999999" custom></yd-icon>
+        <yd-icon slot="icon" name="youhuiquan" size=".35rem" color="#5181ee" custom></yd-icon>
         <span slot="left"> 我的优惠券</span>
         <span slot="right" style="font-size: .3rem;"></span>
       </yd-cell-item>
       <yd-cell-item type="a" @click.native="gotobonushistroy()">
-        <yd-icon slot="icon" name="jfxx" size=".35rem" color="#999999" custom></yd-icon>
+        <yd-icon slot="icon" name="jfxx" size=".35rem" color="#ff003e" custom></yd-icon>
         <span slot="left">积分商城</span>
         <span slot="right">{{userInfo.bonus?userInfo.bonus:'0'}}积分</span>
       </yd-cell-item>
       <yd-cell-item arrow type="a" @click.native="gotoGitfs()" v-if="1==2">
-        <yd-icon slot="icon" name="mylp" size=".35rem" color="#999999" custom></yd-icon>
+        <yd-icon slot="icon" name="mylp" size=".35rem" color="#ffaa00" custom></yd-icon>
         <span slot="left">我的礼品</span>
       </yd-cell-item>
 
       <yd-cell-item arrow type="a" v-if="1==2">
-        <yd-icon slot="icon" name="tuijian" size=".35rem" color="#999999" custom></yd-icon>
+        <yd-icon slot="icon" name="tuijian" size=".35rem" color="#ffaa00" custom></yd-icon>
         <span slot="left">推荐好友</span>
       </yd-cell-item>
       <yd-cell-item arrow @click.native="exchange" type="a" href="#">
-        <yd-icon slot="icon" name="duihuan" size=".35rem" color="#999999" custom></yd-icon>
+        <yd-icon slot="icon" name="duihuan" size=".35rem" color="#ffaa00" custom></yd-icon>
         <span slot="left">兑换专区</span>
       </yd-cell-item>
       <yd-cell-item arrow @click.native="introduct" type="a">
-        <yd-icon slot="icon" name="guanyu" size=".35rem" color="#999999" custom></yd-icon>
+        <yd-icon slot="icon" name="guanyu" size=".35rem" color="#2e4057" custom></yd-icon>
         <span slot="left">关于重庆百货</span>
       </yd-cell-item>
       <yd-cell-item arrow type="a" href="tel:966888">
-        <yd-icon slot="icon" name="kefu" size=".35rem" color="#999999" custom></yd-icon>
+        <yd-icon slot="icon" name="kefu" size=".35rem" color="#ff003e" custom></yd-icon>
         <span slot="left">客服帮助</span>
         <span slot="right" style="font-size: .3rem;">966888</span>
       </yd-cell-item>
-
-
       <yd-popup v-model="isshowbounds" position="bottom" height="60%">
         <div style="height: 1rem;line-height: 1rem;border-bottom: 1px solid #edeeef" slot="top">
           <span style="font-size: 0.3rem;color: #666;padding-left: 0.2rem">积分历史</span>
@@ -114,7 +112,8 @@
   const vm= {
     computed: {
       ...mapGetters([
-        'userInfo'
+        'userInfo',
+        'quantity'
       ])
     },
     data() {
@@ -122,8 +121,7 @@
         isCookie:getStore("token").length>0?true:false,
         isshowbounds:false,
         bonusPointsHistories:[],
-        quantity:0,
-        ordernum:{'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'REFUNDING':0,'NOT_COMMENT':0},
+        ordernum:{'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'REFUNDING':0,'NOT_COMMENT':0,'RETURN':0},
         shearView:false,
         shearData:{},
         bg:{
@@ -144,7 +142,7 @@
       },
       /*进入退货订单*/
       gotoReturnOrder(){
-        this.$router.push({ name: 'salesRetrunList', query: { type: 1 }})
+        this.$router.push({ name: 'salesRetrunList'})
       },
       /*购物车*/
       gotoshopcar() {
@@ -228,6 +226,9 @@
   .personal .yd-grids-item .yd-grids-icon i{
     font-size: 0.5rem !important;
   }
+  #orderlist .yd-grids-txt{
+    padding:0;
+  }
 </style>
 <style scoped>
   .mine_hearder{
@@ -271,3 +272,4 @@
     font-size: 0.25rem;
   }
 </style>
+

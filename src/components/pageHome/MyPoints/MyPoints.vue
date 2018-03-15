@@ -81,10 +81,10 @@
       <div style="width: 100%;text-align: center;color: #999999;padding-top: 10px;">聚少成多&nbsp;积小致巨</div>
       <div style="width: 100%;padding-top: 10px" align="center">
         <div>
-          <img src="../../../assets/xinjian/gw1.png" style="width: 95%;border-radius: 3px">
+          <img src="@/assets/xinjian/gw1.png" style="width: 95%;border-radius: 3px">
         </div>
         <div style="margin-top: 10px">
-          <img src="../../../assets/xinjian/gw2.png" style="width: 95%;border-radius: 3px">
+          <img src="@/assets/xinjian/gw2.png" style="width: 95%;border-radius: 3px">
         </div>
       </div>
       <div style="width: 100%;text-align: center;padding-top: 20px;">— 更多任务敬请期待 —</div>

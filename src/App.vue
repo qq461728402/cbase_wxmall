@@ -24,7 +24,6 @@
   }
 </script>
 <style>
-  @import "static/css/iconfont.css";
   #app {
     height: 100%;
   }

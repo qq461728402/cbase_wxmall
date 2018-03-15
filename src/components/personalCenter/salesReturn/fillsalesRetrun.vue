@@ -72,7 +72,7 @@
         <p>商品退回方式</p>
         <yd-button :class="{anniu:shippingType=='DELIVERY'}" @click.native="shippingType='DELIVERY'">快递至商城</yd-button>
         <yd-button :class="{anniu:shippingType=='SELF_DELIVERY'}" @click.native="shippingType='SELF_DELIVERY'">送货至自提点</yd-button>
-        <p style="color: #999999;padding-top: .2rem!important;">商品寄回地址将在审核通过后以短信形式告知，或在申请记录中查询。商城不收取快递附加费。</p>
+        <p style="color: #999999;padding-top: .2rem!important;font-size: 0.23rem">商品寄回地址将在审核通过后以短信形式告知，或在申请记录中查询。商城不收取快递附加费。</p>
       </div>
     </yd-cell-group>
     <yd-button-group>
