@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://192.168.1.129',//http://joewee.mynatapp.cc
+        target: 'http://joewee.mynatapp.cc',//
         changeOrigin: true,
         pathRewrite: {'^/api' : ''},
         onProxyReq (proxyReq, req, res) {
