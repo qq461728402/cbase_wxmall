@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!--<van-button type="primary">主要按钮</van-button>-->
     <keep-alive>
       <router-view v-wechat-title="$route.meta.title" :img-set="imgUrl" v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
@@ -12,7 +11,7 @@
     name: 'app',
     data () {
       return {
-        imgUrl:require('./static/logo.png'),
+        imgUrl:require('../static/logo.png'),
       }
     },
     mounted(){

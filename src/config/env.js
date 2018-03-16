@@ -9,7 +9,7 @@ import YDUI from 'vue-ydui'
 import store from '../store'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
-axios.defaults.baseURL = 'http://joewee.mynatapp.cc';//''
+axios.defaults.baseURL = 'http://joewee.mynatapp.cc';//'http://192.168.1.129:8008'
 axios.defaults.headers.token = store.getters.token;
 /*
  * 拦截器*/

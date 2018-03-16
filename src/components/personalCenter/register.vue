@@ -36,7 +36,6 @@
 </template>
 <script type="text/babel">
   import {baseHttp} from '../../config/env'
-  import eventBus from '../../config/eventbus'
   import  md5 from 'js-md5'
   const vm= {
     data() {
@@ -49,10 +48,7 @@
       }
     },
     methods: {
-      fetchDate(){
-      },
       gotoback(){
-        this.$emit('choiceHospital','111');
         this.$router;
         this.$router.go(-1);
       },
@@ -118,10 +114,6 @@
     mounted(){
 
     },
-    watch: {
-      // 如果路由有变化，会再次执行该方法
-      "$route": "fetchDate"
-    }
   }
   export default vm;
 </script>

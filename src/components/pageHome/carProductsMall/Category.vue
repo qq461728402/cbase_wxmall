@@ -101,7 +101,7 @@
               }
             }
             that.categories=data.categories;
-//            that.$store.dispatch('setCategoryList', that.categories);
+            that.$store.dispatch('setCategoryList', that.categories);
           }
         })
       },
@@ -183,10 +183,6 @@
   }
 </style>
 <style scoped>
-  img[lazy=loading] {
-    background: url(~@/assets/img/default.png);
-    background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;
-  }
   img[lazy=loaded] {
 
   }

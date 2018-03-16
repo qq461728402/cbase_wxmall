@@ -21,8 +21,7 @@
       </yd-flexbox>
     </div>
     <!--banner-->
-    <!--*:style="{minHeight: bl+'px'}"*-->
-    <yd-slider autoplay="3000"  style="height: 4.14rem" id="my_banner">
+    <yd-slider autoplay="3000"  style="height:3.5rem" id="my_banner">
       <yd-slider-item v-for="item,index in banner.items" :key="index">
         <img v-lazy="item.img">
       </yd-slider-item>
@@ -454,6 +453,6 @@
       background-color: #f5f5f5;
       background-size: 100% 100%;
      -moz-background-size:100% 100%;
-      height: 4.14rem;
+      height: 3.5rem;
   }
 </style>

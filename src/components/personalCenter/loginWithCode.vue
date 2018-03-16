@@ -47,13 +47,10 @@
         </span>
       </label>
     </div>
-
-    {{id}}
   </yd-layout>
 </template>
 <script type="text/babel">
   import {baseHttp,getCookie} from '../../config/env'
-  import eventBus from '../../config/eventbus'
   import {setStore,getStore} from '../../config/mUtils'
   import md5 from 'js-md5'
   const vm= {

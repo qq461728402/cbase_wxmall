@@ -39,7 +39,7 @@
         <h3>商品</h3>
         <ul class="por" slot="list">
           <li v-for="item in order.items" @click.stop="gotoProdcut(item)">
-            <goods :item="item" goodsType="submit" :isButton="order.canReturn&&item.canReturn" :showQuantity="true" @gotoAfterSales="gotoAfterSales"></goods>
+            <goods :item="item" goodsType="submit" :isButton="canReturn&&item.canReturn" :showQuantity="true" @gotoAfterSales="gotoAfterSales"></goods>
           </li>
         </ul>
         <div v-if="order.needService">
@@ -76,9 +76,11 @@
         <p style="font-size: 0.3rem"><strong>订单二维码</strong></p>
         <p style="color: gray">让门店扫一扫,节省您与门店对接时间</p>
       </div>
-      <div id="qrcode" ref="qrcode" style="padding-bottom: 0.2rem"></div>
+      <div style="margin-left:25%;width: 50%;">
+        <div id="qrcode" ref="qrcode" style="padding-bottom: 0.2rem;"></div>
+      </div>
     </yd-cell-group>
-
+    <div style="height: 1.2rem;width: 100%"></div>
     <div style="position:fixed;top:70%;right:0;z-index: 999;text-align: center;padding: 0.1rem;">
       <a href="tel:966888">
         <yd-icon name="kfdh" size=".6rem" color="#d81e06" custom></yd-icon>
@@ -479,9 +481,8 @@
     background: #fff;
     padding: 10px 16px;
     margin-top: 10px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.2rem;
   }
-
   .payinfo p span {
     line-height: 28px
   }
@@ -506,6 +507,10 @@
     content: "";
     display: table;
     clear: both
+  }
+  #qrcode img{
+    width: 50% !important;
+    height: 50% !important;
   }
 </style>
 <style>
