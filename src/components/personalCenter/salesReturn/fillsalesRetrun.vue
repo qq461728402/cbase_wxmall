@@ -137,6 +137,10 @@
         this.$router.go(-1);
       },
       submit(){
+        if(this.applyRequest.desc.length==0){
+          this.$dialog.toast({mes: '请输入问题描述!', timeout: 1000})
+           return;
+        }
         this.applyRequest.returnType=this.returnType;
         this.applyRequest.shippingType=this.shippingType;
         var quantity=0;
@@ -153,7 +157,6 @@
         }
         if (this.flag.length==0)return;
         const that=this;
-        console.log(this.applyRequest);
         var applyRefundAPI='/api/return/apply';//单品退
         var refundApplyOrder='/api/return/applyOrder';//整单退
         baseHttp(this,this.flag==1?refundApplyOrder:this.flag==2?applyRefundAPI:'',this.applyRequest,'post','申请中...',function (data){
@@ -200,6 +203,7 @@
     padding-bottom: .2rem;
   }
   .type button{
+    margin-right: 0.2rem;
     border-radius:0;
     background-color: #ffffff;
     color: #999999;

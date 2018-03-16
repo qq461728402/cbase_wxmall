@@ -9,7 +9,7 @@ import YDUI from 'vue-ydui'
 import store from '../store'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
-axios.defaults.baseURL = 'http://joewee.mynatapp.cc';
+axios.defaults.baseURL = 'http://192.168.1.129:8008';//'http://joewee.mynatapp.cc'
 axios.defaults.headers.token = store.getters.token;
 /*
  * 拦截器*/
@@ -38,7 +38,7 @@ export function baseHttp(ydui, url, par, method, loadmsg, callback) {
     timeout: 5000,
   }).then(function (response) {
     console.log(response.data);
-    if(response.data.code==200){
+     if(response.data.code==200){
       if (callback) {
         callback(response.data)
       }

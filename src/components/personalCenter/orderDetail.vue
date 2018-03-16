@@ -38,8 +38,8 @@
       <div>
         <h3>商品</h3>
         <ul class="por" slot="list">
-          <li v-for="item in order.items" @click="gotoProdcut(item)">
-            <goods :item="item" goodsType="submit" :showQuantity="true"></goods>
+          <li v-for="item in order.items" @click.stop="gotoProdcut(item)">
+            <goods :item="item" goodsType="submit" :isButton="order.canReturn&&item.canReturn" :showQuantity="true" @gotoAfterSales="gotoAfterSales"></goods>
           </li>
         </ul>
         <div v-if="order.needService">
@@ -331,13 +331,12 @@
         setStore("refundInfo",items);
         this.$router.push({ name: 'fillsalesRetrun',query:{orderId:this.orderId,flag:1}});
       },
-      /*单品申请退货*/
-      applyRefund(item){
+      gotoAfterSales(item){
         var itemlst = [item];
         var items = {'item': itemlst}
         items.number = this.info.number;
         setStore("refundInfo",items);
-        this.$router.push({ name: 'fillsalesRetrun',query:{orderId:this.orderId,flag:2}});
+        this.$router.push({ name: 'fillsalesRetrun',query:{orderId:item.skuId,flag:2}});
       },
     },
   }

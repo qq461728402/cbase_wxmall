@@ -31,23 +31,31 @@
             </van-col>
           </van-row>
         </div>
-
       </div>
     </div>
+    <van-row v-if="isButton==true">
+      <van-col :offset="12" span="11" style="text-align: right">
+        <van-button size="small" type="danger" @click.native.stop="gotoAfterSales(item)">申请售后</van-button>
+      </van-col>
+    </van-row>
   </div>
 </template>
 <script type="text/babel">
-  import {Col,Row} from 'vant';
+  import {Col,Row,Button} from 'vant';
   export default {
     components: {
+      [Button.name]:Button,
       [Row.name]:Row,
       [Col.name]:Col,
     },
     name: 'goods',
-    props: ['item','showQuantity','goodsType'],
+    props: ['item','showQuantity','goodsType','isButton'],
     methods: {
       gotoDetail(item){
         this.$emit('gotoDetail', item);
+      },
+      gotoAfterSales(item){
+        this.$emit('gotoAfterSales', item);
       }
     },
   }

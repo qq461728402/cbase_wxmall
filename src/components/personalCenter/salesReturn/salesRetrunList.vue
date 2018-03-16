@@ -5,27 +5,26 @@
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
-
     <yd-pullrefresh :callback="pullList" ref="pullrefreshDemo" >
       <yd-infinitescroll :callback="loadList" ref="infinitescrollDemo">
         <div slot="list"  class="or_1" v-for="item,index in refundlist" :key="index" @click="gotogoodsDetail(item)">
           <yd-cell-item>
-            <span slot="left" class="or_2">订单编号：{{item.orderNumber}}</span><!--退货编号-->
-            <span slot="right" class="or_3">{{item.orderStatus}}</span><!--退货状态-->
+            <span slot="left" class="or_2">服务单号：{{item.returnNumber}}</span>
+            <span slot="right" class="or_3">{{item.type=='MAINTENANCE'?'维修':item.type=='RETURN'?'退货':'换货'}}</span>
           </yd-cell-item>
-          <yd-flexbox>
-            <div class="or_4">
-              <img class="or_5" :src="item.url"><!--退货单图片-->
+          <div class="item">
+            <div class="thumb">
+              <img  :src="item.itemModel.imageUrl">
             </div>
-            <yd-flexbox-item class="or_6">
-              <yd-flexbox direction="vertical" class="or_7">
-                <yd-flexbox-item><span class="or_8">{{item.skuName}}</span></yd-flexbox-item><!--退货商品名-->
-                <yd-flexbox-item><span class="or_9">共{{item.quantity}}件</span><span class="or_10">&yen;{{item.totleFee}}</span></yd-flexbox-item><!--件数和价格-->
-                <!--<yd-flexbox-item><span class="or_11">安装门店：{{item.md_title}}</span></yd-flexbox-item><!--安装门店-->
-              </yd-flexbox>
-            </yd-flexbox-item>
-          </yd-flexbox>
-          <hr style="border: none;border-bottom:8px solid #f5f5f5;"/>
+            <div class="detail">
+              <div class="title">
+                {{item.itemModel.skuName}}
+              </div>
+            </div>
+          </div>
+          <div class="states">
+            <p>您的订单状态:<span>{{item.status=='PURCHASED'?'待审核':item.status=='CONFIRMED'?'已审核':item.status=='SHIPPED'?'已寄出':item.status=='CANCELED'?'已取消':'已完成'}}</span></p>
+          </div>
         </div>
         <!-- 数据全部加载完毕显示 -->
         <span slot="doneTip">我是有底线的</span>
@@ -36,13 +35,19 @@
       <img src="../../../assets/img/cleanOder.png">
       <p>您还没有售后订单</p>
     </div>
-
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '../../../config/env'
-  import  {getStore,removeStore,setStore} from '../../../config/mUtils'
+  import {baseHttp,getCookie} from '@/config/env'
+  import  {getStore,removeStore,setStore} from '@/config/mUtils'
+  import { Cell, CellGroup,Row, Col } from 'vant';
   const vm= {
+    components: {
+      [Cell.name]:Cell,
+      [CellGroup.name]:CellGroup,
+      [Row.name]:Row,
+      [Col.name]:Col,
+    },
     data() {
       return {
         type:'',
@@ -105,15 +110,16 @@
       /*进入商品详情*/
       gotogoodsDetail(item){
         setStore("returnInfo",item);
-        this.$router.push({ name: 'salesRetrunDetail'});
+        this.$router.push({ name: 'salesRetrunDetail',query:{retrunId:item.id}});
       },
     },
   }
   export default vm;
 </script>
 <style scoped>
-  div.or_1{
+  .or_1{
     background-color: #FFFFFF;
+    margin-bottom: 0.2rem;
   }
   span.or_2{
     color:#6e6f70;
@@ -121,39 +127,6 @@
   span.or_3{
     color:#d41d0f;
   }
-  div.or_4{
-    overflow:hidden;
-    padding: 0.15rem;
-    height: 1.8rem;
-    width: 1.8rem;
-  }
-  img.or_5{
-    height: 1.5rem;
-    width: 1.5rem
-  }
-
-  span.or_8{
-    font-size: 0.3rem;
-  }
-  span.or_9{
-    color: #6e6f70;
-    font-size: 0.25rem;
-    line-height: 0.5rem;
-  }
-  span.or_10{
-    color: #d41d0f;
-    font-size: 0.3rem;
-    line-height: 0.5rem;
-    float: right;
-    padding-right:.24rem;
-  }
-  span.or_11{
-    padding-right:.24rem;
-    color: #6e6f70;
-    font-size: .25rem;
-  }
-
-
   .noProduct {
     text-align: center;
     padding: 20% 0 0 0
@@ -177,13 +150,52 @@
     color: #df3448;
     margin-top: 10px
   }
+  .item{
+    padding: 0.2rem;
+  }
+   .item .thumb {
+    float: left;
+    position: relative;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: #f4f4f4;
+    text-align: center;
+  }
+  .item .thumb img {
+    vertical-align: middle;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    max-width: 100%;
+    max-height: 100%;
+    border: 0;
+  }
+  .item .detail {
+    position: relative;
+    font-size: 0.25rem;
+    height: 1.5rem;
+    margin-left: 1.8rem;
+  }
+  .item .title {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size: 0.28rem;
+  }
+  .states{
+    padding: 0.2rem;
+    font-size: 0.28rem;
+    background-color: #e1e1e1;
+    color:#6e6f70;
+  }
+  .states span{
+    color:#d41d0f;
+  }
+</style>
 
-</style>
-<style>
-  #salesRetrunlist div.yd-flexbox-item.or_6.yd-flexbox-item-center{
-    height:1.8rem
-  }
-  #salesRetrunlist div.yd-flexbox.or_7.yd-flexbox-vertical{
-    padding-top: 0.15rem
-  }
-</style>

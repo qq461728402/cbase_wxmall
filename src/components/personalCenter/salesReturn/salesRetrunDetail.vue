@@ -1,83 +1,73 @@
 <template>
   <yd-layout id="salesRetrunDetail">
-    <yd-navbar slot="navbar" title="退货订单详情" bgcolor="#d41d0f" color="#FFF">
+    <yd-navbar slot="navbar" title="售后订单详情" bgcolor="#d41d0f" color="#FFF">
       <router-link to="" slot="left" @click.native="gotoback()">
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
-
     <yd-cell-group>
       <yd-cell-item>
-        <span slot="left" class="or_2">订单编号：{{returnItem.orderNumber}}</span>
-        <span slot="right" style="color:#d41d0f">{{orderStatus}}</span>
+        <span slot="left" class="or_2">服务单号：{{orderInfo.returnNumber}}</span>
+        <span slot="right" style="color:#d41d0f">{{orderInfo.type=='MAINTENANCE'?'维修':orderInfo.type=='RETURN'?'退货':'换货'}}</span>
       </yd-cell-item>
-      <yd-flexbox v-for="item,index in returnItemList" :key="index">
-        <div class="or_4">
-          <img class="or_5" :src="item.imageUrl">
-        </div>
-        <yd-flexbox-item class="or_6">
-          <yd-flexbox direction="vertical" style="padding-right: 0.3rem">
-            <yd-flexbox-item><p class="or_8">{{item.skuName}}</p></yd-flexbox-item>
-            <yd-flexbox-item>
-              <yd-flexbox>
-                <yd-flexbox-item><span class="or_9" style="color: #d41d0f">&yen;{{item.salePrice}}</span></yd-flexbox-item>
-                <yd-flexbox-item style="text-align: right"><span class="or_9">x{{item.quantity}}</span></yd-flexbox-item><!--件数-->
-              </yd-flexbox>
-            </yd-flexbox-item>
-          </yd-flexbox>
-        </yd-flexbox-item>
-      </yd-flexbox>
+      <div style="padding: 0.2rem" v-if="orderInfo.itemModel">
+        <goods :item="orderInfo.itemModel" goodsType="submit" :showQuantity="false"></goods>
+      </div>
     </yd-cell-group>
-
-    <yd-cell-group style="margin-top: 0.2rem" v-if="returnItem.status!='PURCHASED'">
-      <yd-cell-item  type="label">
-        <span slot="left">收货人：{{orderInfo.name}}</span>
-        <span slot="right"></span>
-      </yd-cell-item>
-      <yd-cell-item  type="label">
-        <span slot="left">联系电话：{{orderInfo.phone}}</span>
-        <span slot="right"></span>
-      </yd-cell-item>
-      <yd-cell-item  type="label">
-        <span slot="left">收货地址：{{orderInfo.addr}}</span>
-        <span slot="right"></span>
-      </yd-cell-item>
+    <yd-cell-group style="margin-top: 0.2rem">
+      <div class="type"><p>服务类型:&nbsp;<span> {{orderInfo.status=='PURCHASED'?'待审核':orderInfo.status=='CONFIRMED'?'已审核':orderInfo.status=='SHIPPED'?'已寄出':orderInfo.status=='CANCELED'?'已取消':'已完成'}}</span></p></div>
+      <div class="type"><p>商品退回:&nbsp;<span> {{orderInfo.shippingType=='DELIVERY'?'快递':orderInfo.shippingType=='SELF_DELIVERY'?'送货到自提点':''}}</span></p></div>
     </yd-cell-group>
     <yd-cell-group style="margin-top: 0.2rem">
       <yd-cell-item  type="label">
-        <span slot="left">申请原因：</span>
-        <span slot="right">{{resons}}</span>
+        <span slot="left">问题描述：</span>
       </yd-cell-item>
       <yd-cell-item>
-        <yd-textarea slot="right" placeholder="问题详细描述！" readonly maxlength="100" v-model="descs"></yd-textarea>
-      </yd-cell-item>
-      <yd-cell-item v-if="1==2">
-        <span slot="left">用户名：</span>
-        <yd-input slot="right" v-model="returnItem.contactName" readonly placeholder="请输入用户名"></yd-input>
-      </yd-cell-item>
-      <yd-cell-item v-if="1==2">
-        <span slot="left">手机号：</span>
-        <yd-input slot="right" v-model="returnItem.contactPhone" readonly placeholder="请输入手机号码"></yd-input>
+        <yd-textarea slot="right" placeholder="问题详细描述！" readonly  v-model="descs"></yd-textarea>
       </yd-cell-item>
     </yd-cell-group>
 
-    <yd-cell-group style="margin-top: 0.2rem" v-if="canship==true">
+    <yd-cell-group style="margin-top: 0.2rem" v-if="orderInfo.status!='PURCHASED'&&orderInfo.status!='CANCELED'">
+      <yd-cell-item  type="label">
+        <span slot="left">收货人：{{orderInfo.contact}}</span>
+        <span slot="right"></span>
+      </yd-cell-item>
+      <yd-cell-item  type="label">
+        <span slot="left">联系电话：{{orderInfo.contactPhone}}</span>
+        <span slot="right"></span>
+      </yd-cell-item>
+      <yd-cell-item  type="label">
+        <span slot="left">收货地址：{{orderInfo.contactAddr}}</span>
+        <span slot="right"></span>
+      </yd-cell-item>
+      <yd-cell-item  type="label" v-if="orderInfo.status=='SHIPPED'">
+        <span slot="left">快递单号：{{orderInfo.shipNumber}}</span>
+        <span slot="right"></span>
+      </yd-cell-item>
+    </yd-cell-group>
+    <yd-cell-group style="margin-top: 0.2rem" v-if="orderInfo.status=='CONFIRMED'&&orderInfo.shippingType=='DELIVERY'">
       <yd-cell-item>
         <span slot="left">快递单号：</span>
         <yd-input slot="right" v-model="kddh"  placeholder="请填写快递单号"></yd-input>
       </yd-cell-item>
     </yd-cell-group>
-    <yd-button-group v-if="canship==true">
-      <yd-button @click.native="openConfrim" size="large" class="thlb7">提交</yd-button>
-    </yd-button-group>
+    <van-button v-if="orderInfo.status=='CONFIRMED'&&orderInfo.shippingType=='DELIVERY'" type="primary" bottom-action @click.native="openConfrim">提交</van-button>
+    <van-button v-if="orderInfo.status=='PURCHASED'" type="primary" bottom-action @click.native="cancel">取消售后</van-button>
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '../../../config/env'
-  import  {getStore,removeStore} from '../../../config/mUtils'
+  import {baseHttp,getCookie} from '@/config/env'
+  import  {getStore,removeStore} from '@/config/mUtils'
+  import { Button} from 'vant';
+  import  goods from '@/views/goods'
   const vm= {
+    components: {
+      goods,
+      [Button.name]:Button,
+    },
     data() {
       return {
+        returnId:'',
         orderInfo:{},
         returnItem: {},
         kddh: '',
@@ -89,7 +79,7 @@
       }
     },
     mounted(){
-      this.returnItem = getStore("returnInfo");
+      this.returnId=this.$route.query.retrunId;
       this.getOrder();
     },
     methods:{
@@ -98,17 +88,12 @@
       },
       getOrder(){
         const  that =this;
-        baseHttp(this,'/api/refund/order',{'orderId':this.returnItem.orderId},'get','加载中...',function (data) {
-          that.returnItemList=data.order.items;
-          that.orderStatus=data.orderStatus;
-          that.orderInfo=data.info;
-          that.canship=data.canship;
-          var returns= data.info.message.split("|");
-          if(returns.length==2){
-            that.resons=returns[0];
-            that.descs=returns[1];
-          }else{
-            that.descs=returns[0];
+        baseHttp(this,'/api/return/return',{'returnId':this.returnId},'get','加载中...',function (data) {
+          if(data.return){
+            if(data.return.desc){
+              that.descs=data.return.desc;
+            }
+            that.orderInfo=data.return;
           }
         })
       },
@@ -121,7 +106,20 @@
           return;
         }
         const  that =this;
-        baseHttp(this, '/api/refund/return', {'orderId': this.returnItem.orderId, 'shipNumber': this.kddh}, 'post', '正在处理中...', function (data) {
+        baseHttp(this, '/api/return/deliver', {'returnId': this.returnId, 'shipNumber': this.kddh}, 'post', '正在处理中...', function (data) {
+          that.$dialog.toast({
+            mes: '取消成功!',
+            timeout: 1000,
+            icon: 'success',
+            callback: function () {
+              that.gotoback();
+            }
+          });
+        })
+      },
+      cancel(){
+        const  that =this;
+        baseHttp(this, '/api/return/cancel', {'returnId': this.returnId}, 'post', '正在处理中...', function (data) {
           that.$dialog.toast({
             mes: '处理成功!',
             timeout: 1000,
@@ -137,72 +135,20 @@
   export default vm;
 </script>
 <style scoped>
-  div.or_1{
-    background-color: #FFFFFF;
-  }
   span.or_2{
     color:#6e6f70;
   }
-  span.or_3{
-    color:#d41d0f;
+  .type{
+    padding: 0.2rem;
   }
-  div.or_4{
-    overflow:hidden;
-    padding: 0.15rem;
-    height: 1.8rem;
-    width: 1.8rem;
-  }
-  img.or_5{
-    height: 1.5rem;
-    width: 1.5rem
-  }
-
-  span.or_8{
+  .type p{
+    padding-left: 0.24rem;
     font-size: 0.3rem;
   }
-  span.or_9{
-    color: #6e6f70;
-    font-size: 0.25rem;
-    line-height: 0.5rem;
-  }
-  span.or_10{
+  .type span{
     color: #d41d0f;
-    font-size: 0.3rem;
-    line-height: 0.5rem;
-    float: right;
-    padding-right:.24rem;
+     font-size: 0.25rem;
   }
-  span.or_11{
-    padding-right:.24rem;
-    color: #6e6f70;
-    font-size: .25rem;
-  }
-
-
-  .noProduct {
-    text-align: center;
-    padding: 20% 0 0 0
-  }
-  .noProduct img {
-    width: 1.5rem;
-    height: 1.5rem
-  }
-  .noProduct p {
-    font-size: 13px;
-    color: #666;
-    line-height: 40px
-  }
-  .noProduct a {
-    display: inline-block;
-    width: 100px;
-    height: 30px;
-    line-height: 30px;
-    border: 1px solid #df3448;
-    border-radius: 2px;
-    color: #df3448;
-    margin-top: 10px
-  }
-
 </style>
 <style>
   #salesRetrunDetail div.yd-flexbox-item.or_6.yd-flexbox-item-center{

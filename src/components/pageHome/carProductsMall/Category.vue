@@ -184,14 +184,14 @@
 </style>
 <style scoped>
   img[lazy=loading] {
-    background: url('../../../assets/img/default.png');
+    background: url(~@/assets/img/default.png);
     background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;
   }
   img[lazy=loaded] {
 
   }
   img[lazy=error] {
-    background: url('../../../assets/img/default.png');
+    background: url(~@/assets/img/default.png);
     background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;
   }
 </style>

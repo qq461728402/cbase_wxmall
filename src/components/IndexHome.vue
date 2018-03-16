@@ -22,14 +22,14 @@
     </div>
     <!--banner-->
     <!--*:style="{minHeight: bl+'px'}"*-->
-    <yd-slider autoplay="3000"  style="min-height: 130px" id="my_banner">
+    <yd-slider autoplay="3000"  style="height: 4.14rem" id="my_banner">
       <yd-slider-item v-for="item,index in banner.items" :key="index">
         <img v-lazy="item.img">
       </yd-slider-item>
     </yd-slider>
     <yd-grids-group :rows="5" v-if="primaryMenu.code" id="primaryMenu">
       <yd-grids-item @click.native="gotoinsurance(item)" v-for="item,index in primaryMenu.items" :key="index">
-        <img slot="icon" :src="item.img" style="height: 100%">
+        <img slot="icon" v-lazy="item.img"  style="height: 100%">
         <span slot="text" style="display: block;font-size: .25rem;color: #000000;" v-cloak>{{item.title}}</span>
       </yd-grids-item>
     </yd-grids-group>
@@ -38,7 +38,7 @@
     </div>
     <yd-grids-group :rows="5" v-if="secondaryMenu.code" id="secondaryMenu">
       <yd-grids-item @click.native="gotocarproduct(item)" v-for="item,index in secondaryMenu.items" :key="index">
-        <img slot="icon" :src="item.img" style="height: 100%;">
+        <img slot="icon" v-lazy="item.img" style="height: 100%;">
         <span slot="text" style="font-size: 0.25rem">{{item.title}}</span>
       </yd-grids-item>
     </yd-grids-group>
@@ -445,5 +445,15 @@
   }
   #rowSpans .yd-grids-2:before {
     border-bottom: 0px;
+  }
+  #primaryMenu img[lazy=error] {
+    background: url(~@/assets/img/default.png);
+    background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;
+  }
+  #my_banner img[lazy=error] {
+      background-color: #f5f5f5;
+      background-size: 100% 100%;
+     -moz-background-size:100% 100%;
+      height: 4.14rem;
   }
 </style>
