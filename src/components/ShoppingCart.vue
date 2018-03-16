@@ -73,7 +73,6 @@
   const vm= {
     data() {
       return {
-        isCookie:getStore("token").length>0?true:false,
         showtext: true,
         removeShopping: '',
         carts: [],

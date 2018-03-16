@@ -7,6 +7,7 @@ import router from '../router'
 import VueAxios from 'vue-axios'
 import YDUI from 'vue-ydui'
 import store from '../store'
+import {removeStore} from './mUtils'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
 axios.defaults.baseURL = 'http://joewee.mynatapp.cc';//'http://192.168.1.129:8008'
@@ -20,7 +21,6 @@ axios.interceptors.response.use(response =>{
   }
   return response;
 });
-import {removeStore} from './mUtils'
 export  const  uploadURL=axios.defaults.baseURL+'/api/file/upload';
 /*par 参数
  *url 接口地址

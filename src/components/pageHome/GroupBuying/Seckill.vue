@@ -106,6 +106,7 @@
               }else if(item==sortTime){
                 that.startTimes.push({name:dates,des:'抢购进行中...',type:(i+1),seckillTime:item});
                 that.seckillTime=item/1000;
+                that.selettype=i+1;
                 that.loadList(item);
               }
               else {

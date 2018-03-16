@@ -81,7 +81,6 @@
         <p style="color: #cdcdcd;font-size: 0.3rem">没有券</p>
       </div>
     </div>
-
   </yd-layout>
 </template>
 <script type="text/babel">
@@ -148,7 +147,6 @@
         }
       },
     },
-
   }
   export default vm;
 </script>
