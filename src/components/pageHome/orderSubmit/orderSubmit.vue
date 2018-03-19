@@ -185,9 +185,9 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {getStore,removeStore} from '../../../config/mUtils'
-  import {baseHttp,formatDate,isEmptyObject} from '../../../config/env'
-  import {wexinPay,wftPay} from '../../../config/weichatPay'
+  import {getStore,removeStore} from '@/config/mUtils'
+  import {baseHttp,formatDate,isEmptyObject} from '@/config/env'
+  import {wexinPay,wftPay} from '@/config/weichatPay'
   import { mapGetters } from 'vuex'
   import { Row, Col,Cell, CellGroup } from 'vant';
   import goods from '../../../views/goods'
@@ -473,23 +473,24 @@
         const that = this;
         baseHttp(this, '/api/order/prePay', data, 'post', '提交中...', function (data) {
           that.payInfo = data.payInfo;
-          wftPay(data.payInfo,function (res) {
-            if (res.err_msg == "get_brand_wcpay_request:ok") {
-              that.$router.replace({ name: 'orderSuccess', params: { payMoney:that.paytotalFee}})
-            }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
-              that.$router.replace({ name: 'myOderList', query: { type:2}})
-            }else if(res.err_msg =="get_brand_wcpay_request:fail"){
-              that.$dialog.toast({
-                mes: '支付失败! 请重新支付',
-                timeout: 2000,
-              });
-            }
-          },function (fail) {
-            that.$dialog.toast({
-              mes: '支付失败! 请重新支付',
-              timeout: 2000,
-            });
-          })
+          window.location.href ="https://pay.swiftpass.cn/pay/jspay?token_id="+that.payInfo.token_id+"&showwxtitle=1";
+//          wftPay(data.payInfo,function (res) {
+//            if (res.err_msg == "get_brand_wcpay_request:ok") {
+//              that.$router.replace({ name: 'orderSuccess', params: { payMoney:that.paytotalFee}})
+//            }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
+//              that.$router.replace({ name: 'myOderList', query: { type:2}})
+//            }else if(res.err_msg =="get_brand_wcpay_request:fail"){
+//              that.$dialog.toast({
+//                mes: '支付失败! 请重新支付',
+//                timeout: 2000,
+//              });
+//            }
+//          },function (fail) {
+//            that.$dialog.toast({
+//              mes: '支付失败! 请重新支付',
+//              timeout: 2000,
+//            });
+//          })
         });
       },
     },

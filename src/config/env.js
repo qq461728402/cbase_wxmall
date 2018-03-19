@@ -35,7 +35,7 @@ export function baseHttp(ydui, url, par, method, loadmsg, callback) {
     url: url,
     params:par,
     data:par,
-    timeout: 5000,
+    timeout: 10000,
   }).then(function (response) {
     console.log(response.data);
      if(response.data.code==200){
