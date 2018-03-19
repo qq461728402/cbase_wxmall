@@ -2,7 +2,7 @@
   <div class="personal">
     <yd-navbar slot="navbar" title="个人中心" bgcolor="#d41d0f" color="#FFF">
     </yd-navbar>
-    <div class="mine_hearder" :style="bg" @click="gotouser()">
+    <div class="mine_hearder" @click="gotouser()">
       <div class="user_icon">
          <img :src="userInfo.avatar">
       </div>
@@ -124,9 +124,9 @@
         ordernum:{'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'REFUNDING':0,'NOT_COMMENT':0,'RETURN':0},
         shearView:false,
         shearData:{},
-        bg:{
+        /*bg:{
           backgroundImage: "url(" + require("../assets/img/personbg.png") + ")",
-        }
+        }*/
       }
     },
     activated(){
@@ -234,6 +234,9 @@
   .mine_hearder{
     height: 2.8rem;
     line-height: 2.8rem;
+    background: linear-gradient(90deg,#eb3c3c,#ff7459);
+    box-shadow:0 2px 5px rgba(255,98,98,.4);
+    width: 100%;
   }
   .mine_hearder .user_icon{
     float: left;
