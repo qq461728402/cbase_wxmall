@@ -114,16 +114,18 @@ export  function openLocation(data,storeInfo,cb,errorCb) {
 }
 //威富通支付
 export  function wftPay(data,cb,errorCb) {
-   let appId = data.appId;
-   let timestamp = data.timestamp;
-   let nonceStr = data.nonceStr;
-   let paySign = data.paySign;
+   var payInfo =JSON.parse(data.pay_info);
+   let appId = payInfo.appId;
+   let timestamp = payInfo.timeStamp;
+   let nonceStr = payInfo.nonceStr;
+   let paySign = payInfo.paySign;
+   let signType=payInfo.signType;
    WeixinJSBridge.invoke('getBrandWCPayRequest',{
      "appId" : appId, //公众号名称，由商户传入
      "timeStamp":timestamp, //时间戳，自1970 年以来的秒数
      "nonceStr" : nonceStr, //随机串
-     "package" : data.package,
-     "signType" : "MD5", //微信签名方式:
+     "package" : payInfo.package,
+     "signType" : signType, //微信签名方式:
      "paySign" : paySign //微信签名
    },function(res){
      if(res.err_msg == "get_brand_wcpay_request:ok" ) {
