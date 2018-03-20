@@ -183,23 +183,25 @@
         const that = this;
         baseHttp(this, '/api/order/prePay', data, 'post', '提交中...', function (data) {
           that.payInfo = data.payInfo;
-          wftPay(data.payInfo,function (res) {
-            if (res.err_msg == "get_brand_wcpay_request:ok") {
-              that.$router.replace({ name: 'orderSuccess', params: { payMoney:that.paytotalFee}})
-            }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
-
-            }else if(res.err_msg =="get_brand_wcpay_request:fail"){
-              that.$dialog.toast({
-                mes: '支付失败! 请重新支付',
-                timeout: 2000,
-              });
-            }
-          },function (fail) {
-            that.$dialog.toast({
-              mes: '支付失败! 请重新支付',
-              timeout: 2000,
-            });
-          })
+          that.$store.dispatch('setrouter',this.$route.fullPath);
+          that.$router.push({ name: 'orderpay', query: { token_id: that.payInfo.token_id }})
+//          wftPay(data.payInfo,function (res) {
+//            if (res.err_msg == "get_brand_wcpay_request:ok") {
+//              that.$router.replace({ name: 'orderSuccess', params: { payMoney:that.paytotalFee}})
+//            }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
+//
+//            }else if(res.err_msg =="get_brand_wcpay_request:fail"){
+//              that.$dialog.toast({
+//                mes: '支付失败! 请重新支付',
+//                timeout: 2000,
+//              });
+//            }
+//          },function (fail) {
+//            that.$dialog.toast({
+//              mes: '支付失败! 请重新支付',
+//              timeout: 2000,
+//            });
+//          })
         });
       },
     },

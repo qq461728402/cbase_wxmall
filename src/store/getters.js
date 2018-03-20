@@ -13,5 +13,6 @@ const getters= {
   quantity:state => state.basicStorage.quantity,
   invoice:state => state.basicStorage.invoice,
   userInfo:state => state.basicStorage.userInfo,
+  router:state => state.basicStorage.router,
 }
 export default getters;

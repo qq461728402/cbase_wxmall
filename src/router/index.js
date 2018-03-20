@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/store'
 Vue.use(Router)
 const Stores =resolve =>require(['../components/stores.vue'],resolve);//懒加载
 const IndexHome = r => require.ensure([], () => r(require('../components/IndexHome')), 'IndexHome')//懒加载
@@ -12,6 +13,8 @@ const ReviewsList = r => require.ensure([], () => r(require('../components/pageH
 const OrderSubmit = r => require.ensure([], () => r(require('../components/pageHome/orderSubmit/orderSubmit')), 'OrderSubmit')//订单提交
 
 const InvoiceInfo = r => require.ensure([], () => r(require('../components/pageHome/orderSubmit/invoiceInfo')), 'InvoiceInfo')//发票信息填写
+
+const OrderPay = r => require.ensure([], () => r(require('../components/pageHome/orderSubmit/orderpay')), 'OrderPay')//支付界面
 
 const GetCoupons = r => require.ensure([], () => r(require('../components/pageHome/coupons/getcoupons')), 'GetCoupons')//获取优惠券
 const Maintain = r => require.ensure([], () => r(require('../components/pageHome/maintain/maintainPackage')), 'Maintain')//保养
@@ -79,11 +82,17 @@ const router = new Router({
     {path:"/home/productsList",name:'productsList',component:ProductsList,meta:{title:'商品列表',keepAlive:false}},
     {path:"/home/productsDetail",name:'productsDetail',component:ProductsDetail,meta:{title:'商品详情',keepAlive:false}},
     {path:"/home/reviewsList",name:'reviewsList',component:ReviewsList,meta:{title:'评论列表',keepAlive:false}},
-    {path:"/home/orderSubmit",name:'orderSubmit',component:OrderSubmit,meta:{title:'订单提交',keepAlive:false},
-    // beforeEnter:(to, from, next) => {
-    //     from.path == '/home/orderSuccess' ? next({replace: true,path:'/'}) :next();
-    //   },
-     },
+    {path:"/home/orderSubmit",name:'orderSubmit',component:OrderSubmit,meta:{title:'订单提交',keepAlive:false}},
+    {path:"/home/orderpay",name:'orderpay',component:OrderPay,meta:{title:'订单支付',keepAlive:false},
+      // beforeEnter:(to, from, next) => {
+      //   if(from.path=='/home/orderSuccess'){
+      //     console.log(store.getters.router);
+      //     next({path:store.getters.router});
+      //   }else{
+      //     next();
+      //   }
+      // },
+    },
     {path:"/home/invoiceInfo",name:'invoiceInfo',component:InvoiceInfo,meta:{title:'发票信息',keepAlive:false}},
     {path:"/home/protocol",name:'protocol',component:Protocol,meta:{title:'退换货须知',keepAlive:true}},
     {path:"/home/orderSuccess",name:'orderSuccess',component:OrderSuccess,meta:{title:'订单支付成功',keepAlive:false}},

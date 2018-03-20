@@ -13,7 +13,7 @@
       </div>
     </yd-flexbox>
     <div align="center" class="gohome">
-      <link to="/"><a>回到首页</a></link>
+      <router-link :to="{path:'/home'}" replace>回到首页</router-link>
     </div>
     <div align="center" style="padding-top: .5rem;">
       <yd-button size="large" type="danger" @click.native="gotoOrder()" style="width: 80%;border: 1px solid #D9D9D9;background-color: #FFFFFF;color: #000000;font-size: .3rem;height: .8rem;">查看订单</yd-button>
@@ -28,8 +28,8 @@
       }
     },
     mounted(){
-      if(this.$route.params.payMoney) {
-        this.payMoney=abs(this.$route.params.payMoney);
+      if(this.$route.query.payMoney) {
+        this.payMoney=this.abs(this.$route.query.payMoney);
       }
     },
     methods:{
@@ -37,7 +37,7 @@
         this.$router.go(-1);
       },
       gotoOrder(){
-        this.$router.push({ path: '/personalCenter'});
+        this.$router.replace({ path: '/personalCenter/myOderList',query: { type: 1 }});
       },
       abs(val){
         var str = (val/100).toFixed(2) + '';

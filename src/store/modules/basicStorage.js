@@ -18,8 +18,12 @@ const basicStorage={
       taxNumber:'',
       invoiceinfos:'商品明细'
     },//发票信息存储
+    router:'/',//支付路由
   },
   mutations:{
+    SET_ROUTER:(state,router) => {
+      state.router=router;
+    },
      SET_CITYNAME:(state,cityName) =>{
         state.cityName=cityName;
      },
@@ -46,6 +50,9 @@ const basicStorage={
     },
   },
   actions: {
+    setrouter({commit},router){
+      commit('SET_ROUTER',router);
+    },
     setCategoryList({commit},list){
       commit('SET_CATELIST',list);
     },
