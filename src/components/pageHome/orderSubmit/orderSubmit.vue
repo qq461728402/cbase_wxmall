@@ -473,7 +473,7 @@
         const that = this;
         baseHttp(this, '/api/order/prePay', data, 'post', '提交中...', function (data) {
           that.payInfo = data.payInfo;
-          that.$store.dispatch('setrouter',this.$route.fullPath);
+          that.$store.dispatch('setrouter',that.$route.fullPath);
           that.$router.replace({ name: 'orderpay', query: { token_id: that.payInfo.token_id }})
 //          window.location.href =  "https://pay.swiftpass.cn/pay/jspay?token_id="+that.payInfo.token_id+"&showwxtitle=1";
 //          wftPay(data.payInfo,function (res) {

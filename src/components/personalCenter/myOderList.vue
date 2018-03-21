@@ -184,7 +184,7 @@
         baseHttp(this, '/api/order/prePay', data, 'post', '提交中...', function (data) {
           alert('111111');
           that.payInfo = data.payInfo;
-          that.$store.dispatch('setrouter',this.$route.fullPath);
+          that.$store.dispatch('setrouter',that.$route.fullPath);
           that.$router.push({ name: 'orderpay', query: { token_id: that.payInfo.token_id }})
 //          wftPay(data.payInfo,function (res) {
 //            if (res.err_msg == "get_brand_wcpay_request:ok") {
