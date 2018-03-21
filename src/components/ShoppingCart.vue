@@ -11,9 +11,7 @@
     <div class="noProduct" v-if="showNoProduct==true">
       <img src="../assets/img/shopCar.png">
       <p>您的购物车是空的</p>
-      <link to="/">
-        <a>回到首页</a>
-      </link>
+      <router-link :to="{path:'/home'}" replace>回到首页</router-link>
     </div>
     <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
       <div style="margin-top: .2rem;background-color: #FFFFFF;" v-for="cart in carts">

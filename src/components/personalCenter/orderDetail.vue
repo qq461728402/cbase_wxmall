@@ -219,6 +219,15 @@
       },
       /*取消订单*/
       cancleOrder(){
+        this.$dialog.confirm({
+          title: '温馨提示',
+          mes: '您是否确定取消订单！',
+          opts: () => {
+            this.sureCancleOrder;
+          }
+        });
+      },
+      sureCancleOrder(){
         const  that =this;
         baseHttp(this, '/api/order/cancel', {'orderId': this.orderId}, 'post', '取消中...', function (data) {
           that.$dialog.toast({
@@ -226,7 +235,7 @@
             timeout: 1000,
             icon: 'success',
             callback: function () {
-                that.gotoback();
+              that.gotoback();
             }
           });
         })
