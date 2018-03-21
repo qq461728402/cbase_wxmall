@@ -219,11 +219,12 @@
       },
       /*取消订单*/
       cancleOrder(){
+        const  that =this;
         this.$dialog.confirm({
           title: '温馨提示',
           mes: '您是否确定取消订单！',
           opts: () => {
-            this.sureCancleOrder;
+            that.sureCancleOrder();
           }
         });
       },

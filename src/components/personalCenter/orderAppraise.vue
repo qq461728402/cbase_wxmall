@@ -34,7 +34,7 @@
             :credentials="false"
             :crop="false"
             :data="item.data"
-            :compress="70"
+            :compress="50"
             :multiple-size="5"
             @imageuploading="imageuploading"
             @imageuploaded="imageuploaded"

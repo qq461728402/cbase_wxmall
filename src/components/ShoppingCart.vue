@@ -31,7 +31,7 @@
                   </yd-flexbox-item>
                   <yd-flexbox-item>
                     <span style="background-color: #d41d0f;padding:0.05rem 0.1rem;color: #fff;border-radius: 0.05rem" v-if="item.shippingType=='DELIVERY'||item.shippingType=='BOTH'">快递</span>
-                    <span style="background-color: #d41d0f;padding:0.05rem 0.1rem;color: #fff;border-radius: 0.05rem" v-if="item.shippingType=='SELF_DELIVERY'||item.shippingType=='BOTH'">到店服务</span>
+                    <span style="background-color: #d41d0f;padding:0.05rem 0.1rem;color: #fff;border-radius: 0.05rem" v-if="item.shippingType=='SELF_DELIVERY'||item.shippingType=='BOTH'">门店自提</span>
                   </yd-flexbox-item>
                   <yd-flexbox-item style="height: 0.7rem">
                     <span style="color: #d41d0f;font-size: 0.25rem;line-height: 0.6rem">&yen;{{item.price}}</span>

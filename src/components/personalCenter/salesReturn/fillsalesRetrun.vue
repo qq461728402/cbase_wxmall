@@ -41,7 +41,7 @@
         <yd-grids-item v-for="imgs,index1 in upImages" :key="index1">
           <div slot="else" style="text-align: center;" >
             <img :src="imgs.url" style="height: 1.2rem;max-width: 1.2rem">
-            <img src="@/assets/img/delete.png" style="height: 0.3rem;width: 0.3rem;position: absolute;right: 0rem" @click="delImage(index)">
+            <img src="@/assets/img/delete.png" style="height: 0.3rem;width: 0.3rem;position: absolute;right: 0rem" @click="delImage(index1)">
           </div>
         </yd-grids-item>
         <yd-grids-item v-if="upLoad==true">
@@ -52,10 +52,8 @@
         <yd-grids-item type="a">
           <vue-core-image-upload slot="else" style="text-align: center;"
                                  inputOfFile="file"
-                                 :credentials="false"
-                                 :crop="false"
                                  :data="data"
-                                 :compress="70"
+                                 :compress="10"
                                  :multiple-size="5"
                                  @imageuploading="imageuploading"
                                  @imageuploaded="imageuploaded"
