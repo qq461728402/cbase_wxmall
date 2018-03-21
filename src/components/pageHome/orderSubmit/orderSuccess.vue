@@ -21,6 +21,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
+  import {getStore,removeStore} from '@/config/mUtils'
   const vm= {
     data() {
       return {
@@ -31,6 +32,7 @@
       if(this.$route.query.payMoney) {
         this.payMoney=this.abs(this.$route.query.payMoney);
       }
+      removeStore("oderInfo");
     },
     methods:{
       gotoback(){

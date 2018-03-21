@@ -182,10 +182,10 @@
       perPay(data){
         const that = this;
         baseHttp(this, '/api/order/prePay', data, 'post', '提交中...', function (data) {
-          alert('111111');
           that.payInfo = data.payInfo;
-          that.$store.dispatch('setrouter',that.$route.fullPath);
-          that.$router.push({ name: 'orderpay', query: { token_id: that.payInfo.token_id }})
+          window.location.href =  "https://pay.swiftpass.cn/pay/jspay?token_id="+that.payInfo.token_id+"&showwxtitle=1";
+//          that.$store.dispatch('setrouter',that.$route.fullPath);
+//          that.$router.push({ name: 'orderpay', query: { token_id: that.payInfo.token_id }})
 //          wftPay(data.payInfo,function (res) {
 //            if (res.err_msg == "get_brand_wcpay_request:ok") {
 //              that.$router.replace({ name: 'orderSuccess', params: { payMoney:that.paytotalFee}})
