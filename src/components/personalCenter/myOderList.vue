@@ -182,6 +182,7 @@
       perPay(data){
         const that = this;
         baseHttp(this, '/api/order/prePay', data, 'post', '提交中...', function (data) {
+          alert('111111');
           that.payInfo = data.payInfo;
           that.$store.dispatch('setrouter',this.$route.fullPath);
           that.$router.push({ name: 'orderpay', query: { token_id: that.payInfo.token_id }})
