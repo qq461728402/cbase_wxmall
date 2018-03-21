@@ -10,7 +10,7 @@ import store from '../store'
 import {removeStore} from './mUtils'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
-axios.defaults.baseURL = 'http://joewee.mynatapp.cc';//http://weixin.e-cbest.com/mall
+axios.defaults.baseURL = 'http://weixin.e-cbest.com/mall';//http://joewee.mynatapp.cc
 axios.defaults.headers.token = store.getters.token;
 /*
  * 拦截器*/

@@ -12,29 +12,6 @@
     </div>
     <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
       <integral :list="items" :theme="theme" @gotoDetail="gotoDetail"></integral>
-      <!--<ul class="bulk_goods">-->
-        <!--<li class="goods-item" v-for="item, key in items" :key="key" @click="gotoDetail(item)">-->
-          <!--<div class="thumb center-img">-->
-            <!--<img :src="item.skuModel.image">-->
-            <!--&lt;!&ndash;<span class="num">2人团</span>&ndash;&gt;-->
-            <!--&lt;!&ndash;<i class="sell-out sell-out-60" v-if="1==2"></i>&ndash;&gt;-->
-          <!--</div>-->
-          <!--<div class="detail">-->
-            <!--<div class="goods-info">-->
-              <!--<div class="title">{{item.skuModel.skuName}}</div>-->
-              <!--<div class="meta">-->
-                <!--<div class="price pull-left">-->
-                    <!--<span>{{item.skuModel.bonusPoints}}积分</span>-->
-                    <!--<span class="del_price"><em>¥</em>{{item.skuModel.salePrice}}</span>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="from-shop">-->
-              <!--<van-button style="border: 1px solid red;color: red" size="normal" class="pull-right">立即兑换</van-button>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</li>-->
-      <!--</ul>-->
     </yd-pullrefresh>
   </yd-layout>
 </template>

@@ -8,7 +8,7 @@
     <yd-tab slot="navbar" :callback="switchlist">
       <yd-tab-panel label="全部"  tabkey="ALL" :active="type==1"></yd-tab-panel>
       <yd-tab-panel :label="ordernum.PURCHASED>0?'待付款('+ordernum.PURCHASED+')':'待付款'" tabkey="PURCHASED" :active="type==2"></yd-tab-panel>
-      <yd-tab-panel :label="(ordernum.SHIPPED+ordernum.CONFIRMED)>0?'待收货('+(ordernum.SHIPPED+ordernum.CONFIRMED)+')':'待收货'" tabkey="SHIPPED" :active="type==3"></yd-tab-panel>
+      <yd-tab-panel :label="(ordernum.PAID+ordernum.SHIPPED+ordernum.CONFIRMED)>0?'待收货('+(ordernum.SHIPPED+ordernum.CONFIRMED+ordernum.PAID)+')':'待收货'" tabkey="SHIPPED" :active="type==3"></yd-tab-panel>
       <yd-tab-panel :label="ordernum.NOT_COMMENT>0?'待评价('+ordernum.NOT_COMMENT+')':'待评价'" tabkey="NOT_COMMENT" :active="type==4"></yd-tab-panel>
       <yd-tab-panel label="已完成" tabkey="FINISHED" :active="type==5"></yd-tab-panel>
     </yd-tab>
@@ -64,7 +64,7 @@
         page: 1,
         pageSize: 10,
         statuses:'',
-        ordernum:{'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0},
+        ordernum:{'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'PAID':0},
         oderlist:[],
         payInfo:{},
       }
@@ -82,7 +82,7 @@
       }else if(this.type==5){
         this.statuses='FINISHED';
       }
-      this.ordernum={'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'NOT_COMMENT':0};
+      this.ordernum={'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'NOT_COMMENT':0,'PAID':0};
       this.getOrderStatus();
       this.page=1;
       this.orderslist();

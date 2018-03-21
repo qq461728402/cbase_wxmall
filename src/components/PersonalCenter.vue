@@ -32,7 +32,7 @@
       </yd-grids-item>
       <yd-grids-item @click.native="gotoallorder(3)">
         <yd-icon slot="icon" name="daishouhuo" color="#5181ee" custom></yd-icon>
-        <div slot="else" v-if="ordernum.SHIPPED+ordernum.CONFIRMED>0"><yd-badge slot="badge" type="danger" style="position:absolute;right: 0.1rem;top: 0.2rem;background-color: #d41d0f;">{{ordernum.SHIPPED+ordernum.CONFIRMED}}</yd-badge></div>
+        <div slot="else" v-if="(ordernum.SHIPPED+ordernum.CONFIRMED+ordernum.PAID)>0"><yd-badge slot="badge" type="danger" style="position:absolute;right: 0.1rem;top: 0.2rem;background-color: #d41d0f;">{{ordernum.SHIPPED+ordernum.CONFIRMED+ordernum.PAID}}</yd-badge></div>
         <span slot="text" style="color: #666666">待收货</span>
       </yd-grids-item>
       <yd-grids-item @click.native="gotoallorder(4)">
@@ -121,7 +121,7 @@
         isCookie:getStore("token").length>0?true:false,
         isshowbounds:false,
         bonusPointsHistories:[],
-        ordernum:{'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'REFUNDING':0,'NOT_COMMENT':0,'RETURN':0},
+        ordernum:{'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'REFUNDING':0,'NOT_COMMENT':0,'RETURN':0,'PAID':0},
         shearView:false,
         shearData:{},
         /*bg:{

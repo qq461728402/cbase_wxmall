@@ -6,13 +6,12 @@ const path = require('path')
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://joewee.mynatapp.cc',//http://weixin.e-cbest.com/mall
+        target: 'http://weixin.e-cbest.com/mall',//http://joewee.mynatapp.cc
         changeOrigin: true,
         pathRewrite: {'^/api' : ''},
         onProxyReq (proxyReq, req, res) {
