@@ -52,6 +52,7 @@
         <yd-grids-item type="a">
           <vue-core-image-upload slot="else" style="text-align: center;"
                                  inputOfFile="file"
+                                 inputAccept="image/*"
                                  :data="data"
                                  :compress="10"
                                  :multiple-size="5"
