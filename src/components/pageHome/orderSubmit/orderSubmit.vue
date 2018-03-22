@@ -314,7 +314,7 @@
       /*确认订单信息*/
       confirmOder(isFirst){
         var oderInfo = this.getorderInfo;
-        oderInfo.serviceShop = this.orderData.serviceShop;
+        oderInfo.shippingType = this.orderData.shippingType;
         if (this.address.lastName.length > 0) {
           oderInfo.lastName = this.address.lastName;
           oderInfo.primaryPhone = this.address.phonePrimary;
@@ -333,7 +333,7 @@
             that.endDate=that.getEndDate(data.orderData.preorderTime);
           }
           if(isFirst==true){
-            that.shippingType=data.orderData.shippingType
+            that.shippingType=data.orderData.shippingType;
           }
           if (that.oderdefault.payments.length > 0) {
             that.orderData.payment = that.oderdefault.payments[0].id;
@@ -344,7 +344,6 @@
       couponsOder(){
         var oderInfo = this.getorderInfo;;
         const that = this;
-        oderInfo.serviceShop = this.orderData.serviceShop;
         baseHttp(this, '/api/order/coupons', {'data': JSON.stringify(oderInfo)}, 'post', '', function (data) {
           if (data.availableCount)that.availableCount = data.availableCount;
           if (data.available)that.available = data.available
@@ -420,6 +419,7 @@
           this.$dialog.toast({mes: '请选择支付方式', timeout: 1000});
           return;
         }
+        this.orderData.shippingType=this.distribut;
         this.orderData.invoiceTitle = this.invoice.invoiceTitle;
         this.orderData.taxNumber =this.invoice.taxNumber;
         this.orderData.invoiceType = this.invoice.invoiceType;
