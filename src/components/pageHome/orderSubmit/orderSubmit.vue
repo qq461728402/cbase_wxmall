@@ -256,13 +256,8 @@
       },
       distribut:{
         handler:function (val,oldval) {
-            if(val=='DELIVERY'){
-              this.storeName = "";
-              this.orderData.serviceShop = '';
-              this.confirmOder();
-            }else{
-              this.confirmOder();
-            }
+          this.orderData.shippingType=val;
+          this.confirmOder(false);
         }
       },
       unitCheckbox: {
