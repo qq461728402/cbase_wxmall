@@ -29,7 +29,7 @@
       </yd-cell-item>
       <yd-cell-item arrow type="label">
         <span slot="left">配送方式</span>
-        <select slot="right" class="main_3" v-model="distribut" v-if="orderData.shippingType=='BOTH'">
+        <select slot="right" class="main_3" v-model="distribut" v-if="shippingType=='BOTH'">
           <option v-for="item in distribution" :value='item.type'>{{item.name}}</option>
         </select>
         <span slot="right" v-else  style="font-size: 0.3rem">
@@ -55,7 +55,7 @@
         <span slot="right"> <yd-spinner :max="bonusPoints>(orderData.subTotal+orderData.serviceFee-couponsMoney)?(orderData.subTotal+orderData.serviceFee-couponsMoney):bonusPoints" unit="1" v-model="bonusPointsUsed"></yd-spinner> </span>
       </yd-cell-item>
       <yd-cell-item>
-        <yd-textarea slot="right" :placeholder="(carInfo==false&&isNeedService==true)?'请输入留言(必填)':'请输入留言(选填)'" v-model="msg" maxlength="30"></yd-textarea>
+        <yd-textarea slot="right" placeholder="请输入留言(选填)" v-model="msg" maxlength="30"></yd-textarea>
       </yd-cell-item>
     </yd-cell-group>
     <div class="products">
@@ -206,6 +206,7 @@
     },
     data() {
       return {
+        shippingType:'',
         distribut:'DELIVERY',
         distribution:[{'type':'DELIVERY','name':'快递'},{'type':'SELF_DELIVERY','name':'门店自提'}],
         checkbox1:true,
@@ -229,7 +230,6 @@
         unitCheckbox: false,
         msg: '',
         storeName: '',
-        isNeedService: false,
         isBonusPointsUsed:false,
         bonusPointsUsed:0,
         bonusPoints:0,
@@ -257,12 +257,10 @@
       distribut:{
         handler:function (val,oldval) {
             if(val=='DELIVERY'){
-              this.isNeedService==false;
               this.storeName = "";
               this.orderData.serviceShop = '';
               this.confirmOder();
             }else{
-              this.isNeedService==true;
               this.confirmOder();
             }
         }
@@ -315,14 +313,13 @@
             that.bonusPointsUsed=data.bonusPoints;
           }
           if(!data.carInfo)that.carInfo=false;else that.carInfo=true;
-          that.confirmOder();
+          that.confirmOder(true);
         })
       },
       /*确认订单信息*/
-      confirmOder(){
+      confirmOder(isFirst){
         var oderInfo = this.getorderInfo;
         oderInfo.serviceShop = this.orderData.serviceShop;
-        oderInfo.isNeedService=this.isNeedService;
         if (this.address.lastName.length > 0) {
           oderInfo.lastName = this.address.lastName;
           oderInfo.primaryPhone = this.address.phonePrimary;
@@ -340,8 +337,8 @@
             that.startDate= formatDate(day3,'yyyy-MM-dd');
             that.endDate=that.getEndDate(data.orderData.preorderTime);
           }
-          if (data.orderData.shippingType != 'BOTH') {
-            that.isNeedService = data.orderData.shippingType != 'DELIVERY';
+          if(isFirst==true){
+            that.shippingType=data.orderData.shippingType
           }
           if (that.oderdefault.payments.length > 0) {
             that.orderData.payment = that.oderdefault.payments[0].id;
@@ -353,7 +350,6 @@
         var oderInfo = this.getorderInfo;;
         const that = this;
         oderInfo.serviceShop = this.orderData.serviceShop;
-        oderInfo.isNeedService = this.isNeedService;
         baseHttp(this, '/api/order/coupons', {'data': JSON.stringify(oderInfo)}, 'post', '', function (data) {
           if (data.availableCount)that.availableCount = data.availableCount;
           if (data.available)that.available = data.available
@@ -418,12 +414,11 @@
       },
       /*去支付*/
       gotoplay() {
-        this.orderData.isNeedService = this.isNeedService;
         if(this.checkbox1==false){
           this.$dialog.toast({mes: '请确认用户须知', timeout: 1000});
           return;
         }
-        if (this.address.lastName.length == 0 && this.orderData.isNeedService == false) {
+        if (this.address.lastName.length == 0) {
           this.$dialog.toast({mes: '请选择地址', timeout: 1000});
           return;
         } else if (this.orderData.payment.length == 0) {
