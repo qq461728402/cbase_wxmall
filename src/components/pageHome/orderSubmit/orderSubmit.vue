@@ -433,10 +433,6 @@
         this.orderData.invoiceTitle = this.invoice.invoiceTitle;
         this.orderData.taxNumber =this.invoice.taxNumber;
         this.orderData.invoiceType = this.invoice.invoiceType;
-        if(this.carInfo==false&&this.msg.length==0&&this.orderData.isNeedService == true){
-          this.$dialog.toast({mes: '请输入留言', timeout: 1000});
-          return;
-        }
         this.orderData.isBonusPointsUsed=this.isBonusPointsUsed;
         if(this.isBonusPointsUsed==false){
           this.orderData.bonusPointsUsed=0;

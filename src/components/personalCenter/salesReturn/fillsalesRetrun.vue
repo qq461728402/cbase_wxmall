@@ -5,7 +5,6 @@
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
-
     <div class="service">本次售后服务由<em>重庆百货</em>为您提供</div>
     <yd-cell-group>
       <yd-cell-item>
@@ -54,7 +53,7 @@
                                  inputOfFile="file"
                                  inputAccept="image/*"
                                  :data="data"
-                                 :compress="10"
+                                 :compress="70"
                                  :multiple-size="5"
                                  @imageuploading="imageuploading"
                                  @imageuploaded="imageuploaded"

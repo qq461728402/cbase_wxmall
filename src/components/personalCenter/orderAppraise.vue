@@ -31,10 +31,11 @@
         <yd-grids-item type="a">
           <vue-core-image-upload slot="else" style="text-align: center;"
             inputOfFile="file"
+            inputAccept="image/*"
             :credentials="false"
             :crop="false"
             :data="item.data"
-            :compress="50"
+            :compress="70"
             :multiple-size="5"
             @imageuploading="imageuploading"
             @imageuploaded="imageuploaded"

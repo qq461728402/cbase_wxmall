@@ -16,7 +16,8 @@
             :data="tag"
             @imageuploaded="imageuploaded"
             :max-file-size="5242880"
-            :compress="50"
+            :compress="70"
+            inputAccept="image/*"
             :url="uploadURL">
             <img :src="userInfo.avatar" class="messimg" style="height: 0.8rem;width: 0.8rem" >
           </vue-core-image-upload>
