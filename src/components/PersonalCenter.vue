@@ -80,9 +80,9 @@
         <yd-icon slot="icon" name="duihuan" size=".35rem" color="#ffaa00" custom></yd-icon>
         <span slot="left">兑换专区</span>
       </yd-cell-item>
-      <yd-cell-item arrow @click.native="introduct" type="a" v-if="1==2">
+      <yd-cell-item arrow @click.native="introduct" type="a">
         <yd-icon slot="icon" name="guanyu" size=".35rem" color="#2e4057" custom></yd-icon>
-        <span slot="left">关于重庆百货</span>
+        <span slot="left">关于大坪商都</span>
       </yd-cell-item>
       <yd-cell-item arrow type="a" href="tel:023-88520999">
         <yd-icon slot="icon" name="kefu" size=".35rem" color="#ff003e" custom></yd-icon>
@@ -162,10 +162,6 @@
       },
       /*兑换*/
       exchange() {
-
-      },
-      /*关于*/
-      introduct() {
 
       },
       gotoGitfs(){
