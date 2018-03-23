@@ -215,7 +215,7 @@
         startDate: '2018-1-1',
         endDate: '2018-1-1',
         orderDate: '',
-        orderData: {},
+        orderData: {total:0.0},
         oderdefault: {},
         address: {'lastName': '', 'phonePrimary': ''},
         chooseCoupon: false,
@@ -257,7 +257,8 @@
       distribut:{
         handler:function (val,oldval) {
           this.orderData.shippingType=val;
-          this.confirmOder(false);
+          console.log(val);
+          this.confirmOder();
         }
       },
       unitCheckbox: {
@@ -308,11 +309,11 @@
             that.bonusPointsUsed=data.bonusPoints;
           }
           if(!data.carInfo)that.carInfo=false;else that.carInfo=true;
-          that.confirmOder(true);
+          that.confirmOder();
         })
       },
       /*确认订单信息*/
-      confirmOder(isFirst){
+      confirmOder(){
         var oderInfo = this.getorderInfo;
         oderInfo.shippingType = this.orderData.shippingType;
         if (this.address.lastName.length > 0) {
@@ -332,9 +333,8 @@
             that.startDate= formatDate(day3,'yyyy-MM-dd');
             that.endDate=that.getEndDate(data.orderData.preorderTime);
           }
-          if(isFirst==true){
-            that.shippingType=data.orderData.shippingType;
-          }
+          that.shippingType=data.shippingOptions;
+          that.distribut=that.orderData.shippingType;
           if (that.oderdefault.payments.length > 0) {
             that.orderData.payment = that.oderdefault.payments[0].id;
           }

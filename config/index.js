@@ -3,18 +3,18 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
-
+const devEnv = require('./dev.env')
 module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-      '/api': {
-        target: 'http://weixin.e-cbest.com/mall',//http://joewee.mynatapp.cc
+    proxyTable: devEnv.OPEN_PROXY === false ? {} : {
+      '/proxyApi': {
+        target: 'http://weixin.e-cbest.com/mall',
         changeOrigin: true,
-        pathRewrite: {'^/api' : ''},
-        onProxyReq (proxyReq, req, res) {
+        pathRewrite: {
+          '^/proxyApi': '/'
         }
       }
     },

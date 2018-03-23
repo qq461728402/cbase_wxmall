@@ -110,7 +110,8 @@
       if(this.flag==1){
         this.applyRequest.orderId=this.$route.query.orderId;
       }else{
-        this.applyRequest.skuId=this.$route.query.orderId;
+        this.applyRequest.orderId=this.$route.query.orderId;
+        this.applyRequest.skuId=this.$route.query.skuId;
       }
       this.applyRequest.desc='';
       this.orderId = this.$route.query.orderId;

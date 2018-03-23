@@ -351,7 +351,7 @@
         var items = {'item': itemlst}
         items.number = this.info.number;
         setStore("refundInfo",items);
-        this.$router.push({ name: 'fillsalesRetrun',query:{orderId:item.skuId,flag:2}});
+        this.$router.push({ name: 'fillsalesRetrun',query:{orderId:this.orderId,skuId:item.skuId,flag:2}});
       },
     },
   }
