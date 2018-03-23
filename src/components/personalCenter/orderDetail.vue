@@ -82,7 +82,7 @@
     </yd-cell-group>
     <div style="height: 1.2rem;width: 100%"></div>
     <div style="position:fixed;top:70%;right:0;z-index: 999;text-align: center;padding: 0.1rem;">
-      <a href="tel:966888">
+      <a href="tel:023-88520999">
         <yd-icon name="kfdh" size=".6rem" color="#d81e06" custom></yd-icon>
       </a>
     </div>

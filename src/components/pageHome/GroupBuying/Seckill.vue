@@ -28,7 +28,7 @@
       </yd-countdown></van-col>
     </van-row>
 
-    <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
+    <yd-pullrefresh :callback="starttimes" ref="pullrefreshDemo">
       <ul class="bulk_goods">
         <li class="goods-item" v-for="item, key in promotions" :key="key" @click="gotoDetail(item)">
           <div class="thumb center-img">
@@ -89,6 +89,7 @@
         const that = this;
         baseHttp(this, '/api/promotion/seckill/starttimes', {'store':'1'}, 'get', '加载中...', function (data) {
           if(data.startTimes){
+            that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
             that.startTimes=[];
             data.startTimes= data.startTimes.sort();//排序
             var sortTime=0;
@@ -125,7 +126,6 @@
                that.promotions=data.model.promotions;
              }
           }
-          that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
         })
       },
       gotoDetail(item){

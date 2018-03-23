@@ -80,14 +80,14 @@
         <yd-icon slot="icon" name="duihuan" size=".35rem" color="#ffaa00" custom></yd-icon>
         <span slot="left">兑换专区</span>
       </yd-cell-item>
-      <yd-cell-item arrow @click.native="introduct" type="a">
+      <yd-cell-item arrow @click.native="introduct" type="a" v-if="1==2">
         <yd-icon slot="icon" name="guanyu" size=".35rem" color="#2e4057" custom></yd-icon>
         <span slot="left">关于重庆百货</span>
       </yd-cell-item>
-      <yd-cell-item arrow type="a" href="tel:966888">
+      <yd-cell-item arrow type="a" href="tel:023-88520999">
         <yd-icon slot="icon" name="kefu" size=".35rem" color="#ff003e" custom></yd-icon>
         <span slot="left">客服帮助</span>
-        <span slot="right" style="font-size: .3rem;">966888</span>
+        <span slot="right" style="font-size: .3rem;">023-88520999</span>
       </yd-cell-item>
       <yd-popup v-model="isshowbounds" position="bottom" height="60%">
         <div style="height: 1rem;line-height: 1rem;border-bottom: 1px solid #edeeef" slot="top">
