@@ -70,7 +70,7 @@
         </swiper>
         <!-- swiper -->
       </div>
-      <div v-else-if="codeitem.template=='rowSpan'" class="codeitemView">
+      <div v-else-if="codeitem.template=='rowSpan'&&codeitem.items.length>=5" class="codeitemView">
         <div class="codeitemTitle">
           <span class="line"></span>
           <span class="txt"><yd-icon name="discount" size=".3rem" color="#999"></yd-icon>{{codeitem.title}}</span>
