@@ -26,18 +26,18 @@ const cookieMsg={
       }
     },
     SET_TOKEN:(state)=>{
-      setStore('token','eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MjE3NzA1NzUsInN1YiI6IntcInVpZFwiOjIsXCJzY29wZVwiOlwiQUxMXCJ9IiwiaXNzIjoiTUFMTCJ9.3y6Bmg0eW-0QqyuUXKxWJEehDNR5crZasv58Rm8B4-g');
-       state.token=getStore('token');
-      // var tokenstr=getToken('token');
-      // if(tokenstr.length>0){
-      //   state.token=getToken('token');
-      //   if(getToken('token')){
-      //     setStore('token',tokenstr);
-      //     removeToken('token');
-      //   }
-      // }else{
-      //   state.token=getStore('token');
-      // }
+      // setStore('token','eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MjE3NzQyOTIsInN1YiI6IntcInVpZFwiOjIsXCJzY29wZVwiOlwiQUxMXCJ9IiwiaXNzIjoiTUFMTCJ9.anQwWhs3u861vB0Fc8F1sLhIOY6C8d_zQkieO4fp3OE');
+      //  state.token=getStore('token');
+      var tokenstr=getToken('token');
+      if(tokenstr.length>0){
+        state.token=getToken('token');
+        if(getToken('token')){
+          setStore('token',tokenstr);
+          removeToken('token');
+        }
+      }else{
+        state.token=getStore('token');
+      }
     },
     SET_UID:(state)=>{
       var tokenuid=getToken('uid');

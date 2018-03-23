@@ -45,12 +45,13 @@
             <button style="line-height: 0.6rem;margin-right: 0.2rem;border: none;" v-for="securityitem in securitylst"><yd-icon name="gouxuan" size=".3rem" color="#ff7723"  custom></yd-icon>{{securityitem}}</button>
           </div>
         </yd-cell-group>
-        <yd-cell-group id="info">
+        <yd-cell-group id="storeInfos">
           <yd-cell-item>
             <span slot="left" class="spxq14">商家</span>
             <span slot="left" class="spxq16">{{product.storeName}}</span>
           </yd-cell-item>
         </yd-cell-group>
+
       </swiper-slide>
       <swiper-slide style="background-color: white" id="proDes">
         <van-cell-group>
@@ -502,37 +503,6 @@
     color:#D41D0F;
     font-size: .25rem;
   }
-
-    #natureCotainer.nature-container.spxq10{
-      margin-left: 15px;
-      background-color: white;
-      margin-top:13px;
-
-    }
-    .part-note-msg{
-      line-height: 23px;
-      float: left;
-    }
-    .part-note-msg.spxq11{
-      color: rgb(129, 131, 142);
-    }
-    .selectBtn {
-      color: red;
-      border: 1px solid #f00 !important;
-    }
-
-    .noslectBtn {
-      color: #999;
-      border: 1px dashed #666 !important;
-    }
-    .pro-size{
-      background-color: white;
-      margin-top:0.2rem;
-
-    }
-    .pro-size.spxq12{
-      padding-left: 15px;
-    }
     .spxq14{
       color: rgb(129, 131, 142);
     }
@@ -559,41 +529,8 @@
     em.xqjge2{
       font-size: .4rem;
     }
-    .pj_12.yd-btn-block.yd-btn-primary {
-      margin-top: 0px;
-      background-color: #FFFFFF;
-      color: #8f8f94;
-      font-size: .3rem;
-    }
-    .gwl1 {
-      width: 15%;
-      float: left;
-      margin-top: 5px;
-    }
     #proDetail .yd-tabbar-item.gwul2.yd-tabbar-active {
       color: rgb(151, 151, 151);
-    }
-    .ljgm1.yd-btn.yd-btn-warning{
-      width: 20%;
-      height: 50px;
-      float: right;
-      background-color: red;
-      border: none;
-      border-radius: 0;
-      margin-top: 1px;
-    }
-    .jrgwc1.yd-btn.yd-btn-warning{
-      width: 20%;
-      height: 50px;
-      float: right;
-      border: none;
-      border-radius: 0;
-      margin-top: 1px;
-    }
-    .jrgwc2.yd-btn.yd-btn-primary{
-      margin: 30px;
-      background-color: #FFFFFF;
-      height: 50%;
     }
     .pj_9 {
       margin-left: 1.2rem;
@@ -617,10 +554,10 @@
   #reviews .yd-cell-item.qbpj {
     border-bottom: 8px solid #f5f5f5;
   }
-  #info .yd-cell:after {
+  #storeInfos .yd-cell:after {
     border-bottom: 0px;
   }
-  #info .yd-cell-item {
+  #storeInfos .yd-cell-item {
     max-height: 0.8rem;
     margin-bottom: 0.2rem;
   }
@@ -634,8 +571,4 @@
   #proDes .van-hairline--top-bottom::after{
     border-width:0 1px 1px 1px;
   }
-
-</style>
-<style>
-
 </style>

@@ -207,7 +207,7 @@
     data() {
       return {
         shippingType:'',
-        distribut:'DELIVERY',
+        distribut:'',
         distribution:[{'type':'DELIVERY','name':'快递'},{'type':'SELF_DELIVERY','name':'门店自提'}],
         checkbox1:true,
         getorderInfo:{},
@@ -257,7 +257,6 @@
       distribut:{
         handler:function (val,oldval) {
           this.orderData.shippingType=val;
-          console.log(val);
           this.confirmOder();
         }
       },
@@ -333,8 +332,8 @@
             that.startDate= formatDate(day3,'yyyy-MM-dd');
             that.endDate=that.getEndDate(data.orderData.preorderTime);
           }
-          that.shippingType=data.shippingOptions;
           that.distribut=that.orderData.shippingType;
+          that.shippingType=data.shippingOptions;
           if (that.oderdefault.payments.length > 0) {
             that.orderData.payment = that.oderdefault.payments[0].id;
           }
