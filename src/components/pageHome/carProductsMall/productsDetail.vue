@@ -69,7 +69,7 @@
           <van-cell>
             <span  class="qbpj1"><em style="color: #D41D0F;font-size: .5rem;">|</em>&nbsp;商品详情</span>
           </van-cell>
-          <img  v-for="item,imgindex in descriptions" :key="imgindex" v-lazy="item" style="width: 100%;" @click="showPreviewDetail(imgindex)">
+          <img  v-for="item,imgindex in descriptions" :key="imgindex"  :src="item"  style="width: 100%;" @click="showPreviewDetail(imgindex)">
         </van-cell-group>
       </swiper-slide>
       <swiper-slide id="reviews">
