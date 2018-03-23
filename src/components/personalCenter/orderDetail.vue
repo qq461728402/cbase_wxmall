@@ -91,7 +91,7 @@
             <span slot="right">
             	<yd-button type="hollow" v-if="canCancel==true" class="order_3" @click.native="cancleOrder()">取消订单</yd-button>
 				<yd-button type="hollow" v-if="canRefund==true" class="order_3" @click.native="canclePayOrder()">申请退款</yd-button>
-				<yd-button type="danger" v-if="canReturn==true" class="order_3" color="#fff" @click.native="applyRefundAll()">申请售后</yd-button>
+				<!--<yd-button type="danger" v-if="canReturn==true" class="order_3" color="#fff" @click.native="applyRefundAll()">申请售后</yd-button>-->
 				<yd-button type="danger" v-if="canConfirm==true" class="order_3"  color="#fff" @click.native="affirmOrder()">{{info.needService==true?'待服务':'确认收货'}}
         </yd-button>
             	<yd-button type="danger" v-if="canPay==true" color="#fff" class="order_3" @click.native="payOrder()">立即支付</yd-button>

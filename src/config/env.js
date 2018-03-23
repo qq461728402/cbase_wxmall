@@ -16,7 +16,7 @@ axios.defaults.headers.token = store.getters.token;
  * 拦截器*/
 axios.interceptors.response.use(response =>{
   if (response.data && response.data.code === 401) { // 401, token失效
-    router.push({ name: 'loginWithCode'});
+    // router.push({ name: 'loginWithCode'});
     removeStore('userInfo');
   }
   return response;

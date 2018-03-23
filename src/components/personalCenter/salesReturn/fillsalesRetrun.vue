@@ -48,7 +48,7 @@
             <icon name="wait" spin :scale="7"></icon>
           </div>
         </yd-grids-item>
-        <yd-grids-item type="a">
+        <yd-grids-item type="a" v-if="1==2">
           <vue-core-image-upload slot="else" style="text-align: center;"
                                  inputOfFile="file"
                                  inputAccept="image/*"
