@@ -175,6 +175,7 @@
       getoderDetail(){
         const  that =this;
         baseHttp(this, '/api/order/order', {'orderId': this.orderId}, 'get', '加载中...', function (data) {
+          console.log(111);
           if (data.info) {
             that.info = data.info;
             that.qrcode.make(data.info.number);
@@ -201,7 +202,7 @@
             that.canCancel = data.canCancel;//是否可以申请取消订单
           }
           if (data.canRefund) {
-            vues.canRefund = data.canRefund;//是否可以申请退款(发货前)，
+            that.canRefund = data.canRefund;//是否可以申请退款(发货前)，
           }
           if (data.canConfirm) {
             that.canConfirm = data.canConfirm;//是否可以确认收货
@@ -257,6 +258,16 @@
       },
       /*申请退款*/
       canclePayOrder(){
+        const  that =this;
+        this.$dialog.confirm({
+          title: '温馨提示',
+          mes: '您是否确定退款！',
+          opts: () => {
+            that.surecarRefund();
+          }
+        });
+      },
+      surecarRefund(){
         const  that=this;
         baseHttp(this, '/wechat/pay/refund', {'orderId': this.orderId}, 'post', '申请中...', function (data) {
           that.$dialog.toast({
