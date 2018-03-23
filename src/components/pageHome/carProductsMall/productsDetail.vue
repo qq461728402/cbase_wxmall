@@ -12,13 +12,12 @@
     </yd-tab>
     <swiper :options="swiperOption" ref="mySwiper" id="mySwipers" style="margin-bottom: 1.2rem">
       <swiper-slide>
-        <swiper :options="swiperOption1" ref="myImageSwiper" :style="{height:screenWidth+'px'}" id="img">
+        <swiper :options="swiperOption1" ref="myImageSwiper" :style="{height:screenWidth+'px'}">
           <swiper-slide class="thumb"  v-for="item,index in previewlist" :key="index">
             <img :src="item.src"  @click="showPreview(index)"/>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
-
           <div class="spxq1">
             <p class="spxq2">{{product.skuName}}</p>
             <p class="spxq3" style="color:#D41D0F;font-size: .25rem;">{{product.longDescription}}</p>
@@ -69,7 +68,7 @@
           <van-cell>
             <span  class="qbpj1"><em style="color: #D41D0F;font-size: .5rem;">|</em>&nbsp;商品详情</span>
           </van-cell>
-          <img  v-for="item,imgindex in descriptions" :key="imgindex"  :src="item"  style="width: 100%;" @click="showPreviewDetail(imgindex)">
+          <img  v-for="item,imgindex in descriptions" :key="imgindex"  v-lazy="item"  style="width: 100%;" @click="showPreviewDetail(imgindex)">
         </van-cell-group>
       </swiper-slide>
       <swiper-slide id="reviews">
@@ -292,12 +291,7 @@
       },
       switchlist(label,tabkey){
         this.tabkey = tabkey;
-        if (tabkey==1){
-         if(!this.param.greade){
-            this.productDesc();
-         }
-        }
-        else if(tabkey==2){
+        if(tabkey==2){
           if(this.reviewslist.length==0){
             this.reviews();
           }
@@ -473,6 +467,7 @@
     vertical-align: middle;
   }
   .thumb {
+    height: 100%;
     width: 100%;
     background-color: #ffffff;
     text-align: center;
@@ -539,6 +534,12 @@
     .pj_9 img:not(:first-child){
       margin-left: 0.1rem;
     }
+    .pj_12{
+      margin-top: 0;
+      font-size: 0.25rem;
+      background-color: #ffffff;
+      color: #8f8f94;
+    }
     .xqpjtp1 {
       float: left;
       width: 1.55rem;
@@ -561,9 +562,7 @@
     max-height: 0.8rem;
     margin-bottom: 0.2rem;
   }
-  #img .swiper-container-autoheight, .swiper-container-autoheight .swiper-slide{
-    height: 100%;
-  }
+
   #reviews .yd-cell-item:not(:last-child):after{
     border-bottom:0px;
   }
