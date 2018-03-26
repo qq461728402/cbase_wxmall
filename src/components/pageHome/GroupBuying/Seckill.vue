@@ -41,7 +41,7 @@
             <div class="from-shop">
               <van-row style="line-height: 30px">
                 <van-col span="8" class="price"> <span><em>¥</em>{{item.price}}</span></van-col>
-                <van-col offset="8" span="8"><van-button :disabled="item.avaliable==false" type="danger" size="small" class="pull-right">{{item.avaliable==false?'活动结束':'立即抢购'}}</van-button></van-col>
+                <van-col offset="8" span="8"><van-button :disabled="item.status!='START'" type="danger" size="small" class="pull-right">{{item.status=='NOTSTART'?'未开枪':item.status=='START'?'立即抢购':item.status=='END'?'已结束':'已抢空'}}</van-button></van-col>
               </van-row>
               <van-row>
                 <van-col span="8" class="del_price"><span><em>¥</em>{{item.salePrice}}</span></van-col>
@@ -129,7 +129,7 @@
         })
       },
       gotoDetail(item){
-        if(item.avaliable==false){
+        if(item.status!=START){
           return;
         }
         this.$router.push({path: '/home/GroupBuyDetail',query:{'promotionId':item.promotionId,'promotionType':'SECKILL'}})

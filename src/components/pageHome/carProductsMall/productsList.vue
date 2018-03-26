@@ -86,7 +86,9 @@
       if(this.$route.query.categoryId){
         this.categoryId = this.$route.query.categoryId;
       }
-      if(this.$route.query.queryKey){this.queryKey=this.$route.query.queryKey;}
+      if(this.$route.query.queryKey) {
+        this.queryKey=this.$route.query.queryKey;
+      }
       this.page=1;
       this.products();
     },
@@ -108,7 +110,7 @@
       },
       mallbrands(){
         const that=this;
-        baseHttp(this,'/api/mall/brands',{},'get','',function (data){
+        baseHttp(this,'/api/mall/category/brands',{'category':this.categoryId},'get','',function (data){
           that.screenlist=data.brands;
         })
       },

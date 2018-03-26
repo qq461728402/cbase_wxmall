@@ -95,7 +95,6 @@
       getCartsQuantity(){
         const that = this;
         baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
-          console.log(data.quantity);
           if (data.quantity>-1) {
             that.$store.dispatch('setQuantity',data.quantity);
           }

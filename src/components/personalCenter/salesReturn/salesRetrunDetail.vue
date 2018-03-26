@@ -16,7 +16,7 @@
     </yd-cell-group>
     <yd-cell-group style="margin-top: 0.2rem">
       <div class="type"><p>服务类型:&nbsp;<span> {{orderInfo.status=='PURCHASED'?'待审核':orderInfo.status=='CONFIRMED'?'已审核':orderInfo.status=='SHIPPED'?'已寄出':orderInfo.status=='CANCELED'?'已取消':'已完成'}}</span></p></div>
-      <div class="type"><p>商品退回:&nbsp;<span> {{orderInfo.shippingType=='DELIVERY'?'快递':orderInfo.shippingType=='SELF_DELIVERY'?'送货到自提点':''}}</span></p></div>
+      <div class="type"><p>商品退回:&nbsp;<span> {{orderInfo.shippingType=='DELIVERY'?'快递':orderInfo.shippingType=='SELF_DELIVERY'?'送货至门店':''}}</span></p></div>
     </yd-cell-group>
     <yd-cell-group style="margin-top: 0.2rem">
       <yd-cell-item  type="label">
@@ -29,15 +29,15 @@
 
     <yd-cell-group style="margin-top: 0.2rem" v-if="orderInfo.status!='PURCHASED'&&orderInfo.status!='CANCELED'">
       <yd-cell-item  type="label">
-        <span slot="left">收货人：{{orderInfo.contact}}</span>
+        <span slot="left">收货人：{{orderInfo.shipName}}</span>
         <span slot="right"></span>
       </yd-cell-item>
       <yd-cell-item  type="label">
-        <span slot="left">联系电话：{{orderInfo.contactPhone}}</span>
+        <span slot="left">联系电话：{{orderInfo.shipPhone}}</span>
         <span slot="right"></span>
       </yd-cell-item>
       <yd-cell-item  type="label">
-        <span slot="left">收货地址：{{orderInfo.contactAddr}}</span>
+        <span slot="left">收货地址：{{orderInfo.shipAddr}}</span>
         <span slot="right"></span>
       </yd-cell-item>
       <yd-cell-item  type="label" v-if="orderInfo.status=='SHIPPED'">

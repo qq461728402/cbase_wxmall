@@ -8,7 +8,7 @@ const basicStorage={
     configList:[],//首页存储
     categoryList:[],//分类列表
     goodsList:[],//商品列表
-    quantity:'',//存储购物车数量
+    quantity:'0',//存储购物车数量
     userInfo:{
       bonus:0,//用户积分
     },
