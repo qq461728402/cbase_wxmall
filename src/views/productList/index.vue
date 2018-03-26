@@ -3,7 +3,7 @@
   <ul class="bulk_goods">
     <li class="goods-item" v-for="item, key in productlist" :key="key" @click="gotoDetail(item)">
       <div class="thumb">
-        <img :src="item.url">
+        <img v-lazy="item.url">
         <i class="sell-out sell-out-60" v-if="item.isAvalible==false"></i>
       </div>
       <div class="detail">
