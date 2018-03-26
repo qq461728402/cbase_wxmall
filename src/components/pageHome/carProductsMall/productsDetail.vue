@@ -95,10 +95,10 @@
             <span  class="qbpj1"><em style="color: #D41D0F;font-size: .5rem;">|</em>&nbsp;商品规格</span>
           </van-cell>
           <van-cell>
-            <van-col span="12" style="border-right: 1px solid #f5f5f5;border-bottom: 1px solid #f5f5f5;">等级{{param.greade}}</van-col>
-            <van-col span="12" style="border-bottom: 1px solid #f5f5f5;padding-left: 0.2rem">规格{{param.model}}</van-col>
-            <van-col span="12" style="border-right: 1px solid #f5f5f5;padding-right: 0.2rem">单位{{param.unit}}</van-col>
-            <van-col span="12" style="padding-left: 0.2rem">产地{{param.place}}</van-col>
+            <van-col span="12" style="border-right: 1px solid #f5f5f5;border-bottom: 1px solid #f5f5f5;">等级:{{param.greade}}</van-col>
+            <van-col span="12" style="border-bottom: 1px solid #f5f5f5;padding-left: 0.2rem">规格:{{param.model}}</van-col>
+            <van-col span="12" style="border-right: 1px solid #f5f5f5;padding-right: 0.2rem">单位:{{param.unit}}</van-col>
+            <van-col span="12" style="padding-left: 0.2rem">产地:{{param.place}}</van-col>
           </van-cell>
         </van-cell-group>
         <van-cell-group>

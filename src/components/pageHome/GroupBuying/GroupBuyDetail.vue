@@ -51,10 +51,10 @@
         商品详情
       </van-cell>
       <van-cell>
-        <van-col span="12" style="border-right: 1px solid #f5f5f5;border-bottom: 1px solid #f5f5f5;">等级{{param.greade}}</van-col>
-        <van-col span="12" style="border-bottom: 1px solid #f5f5f5;padding-left: 0.2rem">规格{{param.model}}</van-col>
-        <van-col span="12" style="border-right: 1px solid #f5f5f5;padding-right: 0.2rem">单位{{param.unit}}</van-col>
-        <van-col span="12" style="padding-left: 0.2rem">产地{{param.place}}</van-col>
+        <van-col span="12" style="border-right: 1px solid #f5f5f5;border-bottom: 1px solid #f5f5f5;">等级:{{param.greade}}</van-col>
+        <van-col span="12" style="border-bottom: 1px solid #f5f5f5;padding-left: 0.2rem">规格:{{param.model}}</van-col>
+        <van-col span="12" style="border-right: 1px solid #f5f5f5;padding-right: 0.2rem">单位:{{param.unit}}</van-col>
+        <van-col span="12" style="padding-left: 0.2rem">产地:{{param.place}}</van-col>
       </van-cell>
       <van-cell style="padding: 0px;margin: 0;line-height: normal">
         <div class="detal">
@@ -166,39 +166,18 @@
       },
       getDetail(){
         const  that =this;
-        baseHttp(this, '/api/promotion/detail', {'promotionId': this.promotionId}, 'get', '加载中...', function (data) {
-          var tree=[];
+        baseHttp(this, '/api/promotion/promotion', {'promotionId': this.promotionId}, 'get', '加载中...', function (data) {
           var promotion=data.promotion;
           if(promotion.limit==true){
             that.quota=promotion.limitQuantity;
           }
           that.formatPrice(promotion.endTime);
-          if(promotion.attrs){
-            promotion.attrs.forEach(function (item) {
-              var treelst={};
-              for(var key in item){
-                treelst.k=key;
-                treelst.k_s=key;
-                treelst.v=[];
-                for(var vkey in item[key]){
-                  treelst.v.push({id:item[key][vkey],name:item[key][vkey]});
-                }
-              }
-              tree.push(treelst);
-            })
-            that.sku.tree=tree;
+          if(promotion.productOptions){
+            that.sku.tree=promotion.productOptions;
           }
-          if(promotion.skuModels){
+          if(promotion.skus){
             that.sku.none_sku=false;
-            promotion.skuModels.forEach(function (item) {
-              for (var key in item.attrs){
-                eval("item."+key+"=\""+item.attrs[key]+"\"");
-              }
-              item.id=item.skuId;
-              item.stock_num=item.stock;
-              item.price=item.price*100;
-            })
-            that.sku.list=promotion.skuModels;
+            that.sku.list=promotion.skus;
           }
           if(promotion.skuModel){
             that.skuModel=promotion.skuModel;

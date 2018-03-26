@@ -129,7 +129,7 @@
         })
       },
       gotoDetail(item){
-        if(item.status!=START){
+        if(item.status!='START'){
           return;
         }
         this.$router.push({path: '/home/GroupBuyDetail',query:{'promotionId':item.promotionId,'promotionType':'SECKILL'}})
