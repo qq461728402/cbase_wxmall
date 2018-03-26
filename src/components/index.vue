@@ -1,5 +1,5 @@
 <template>
-  <yd-layout>
+  <yd-layout :class="{'nohight':currentPath=='/shoppingCart','ishight':currentPath!='/shoppingCart'}">
     <keep-alive>
       <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
@@ -76,5 +76,16 @@
   export default vm;
 </script>
 <style>
+  .nohight{
 
+  }
+  .nohight >section:after{
+    height: 0px !important;
+  }
+  .ishight{
+
+  }
+  .ishight >section:after{
+    height: .5rem !important;
+  }
 </style>

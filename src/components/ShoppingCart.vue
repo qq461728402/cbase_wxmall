@@ -382,7 +382,6 @@
   #shopcar .yd-cell:after {
     border-bottom: none;
   }
-
   #shopcar .yd-checkbox-text {
     margin-left: 0;
   }
