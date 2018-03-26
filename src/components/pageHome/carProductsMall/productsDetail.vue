@@ -30,6 +30,7 @@
               </yd-flexbox-item>
             </yd-flexbox>
           </div>
+<<<<<<< HEAD
           <div v-if="product.skuAssociation.service&&product.skuAssociation.service.length>0">
             <span style="color: #7f828f;float: left;padding-top: 0.1rem;">服务:&nbsp;&nbsp;</span>
             <yd-flexbox>
@@ -39,6 +40,8 @@
             </yd-flexbox>
           </div>
         </div>
+=======
+>>>>>>> 2ad03d4e12064eb2fa34e142f91d050a9fd605b8
         <yd-cell-group id="security" @click.native="gotoSecurityDeatil()" style="margin-top: 0.2rem" v-if="1==2">
           <div style="padding: 0.2rem 0.2rem">
             <button style="line-height: 0.6rem;margin-right: 0.2rem;border: none;" v-for="securityitem in securitylst"><yd-icon name="gouxuan" size=".3rem" color="#ff7723"  custom></yd-icon>{{securityitem}}</button>
@@ -115,7 +118,11 @@
         <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
           <yd-infinitescroll :callback="loadMore" ref="infinitescrollDemo">
             <ul style="background-color: #fff" slot="list">
+<<<<<<< HEAD
               <li v-for="item in reviewsAlllist" style="border-bottom: 1px solid #ebeced">
+=======
+                 <li v-for="item in reviewsAlllist" style="border-bottom: 1px solid #ebeced">
+>>>>>>> 2ad03d4e12064eb2fa34e142f91d050a9fd605b8
                 <yd-flexbox style="padding-top: 0.2rem">
                   <div style="width: 1rem;height: 1rem;overflow: hidden;border-radius: 50%;border: 1px solid #edeeef;margin-left: 0.2rem ">
                     <img :src="item.avatar" style="width: 100%;height: 100%;"></div>
@@ -143,7 +150,11 @@
               </li>
             </ul>
             <span slot="doneTip">我是有底线的</span>
+<<<<<<< HEAD
           </yd-infinitescroll>
+=======
+         </yd-infinitescroll>
+>>>>>>> 2ad03d4e12064eb2fa34e142f91d050a9fd605b8
         </yd-pullrefresh>
         <!--<yd-button size="large" class="pj_12" @click.native="gotoReview()">查看全部评论</yd-button>-->
       </swiper-slide>
@@ -552,61 +563,61 @@
     color:#D41D0F;
     font-size: .25rem;
   }
-  .spxq14{
-    color: rgb(129, 131, 142);
-  }
-  .spxq16{
-    margin-left: 10px;
-  }
-  .qbpj1 {
-    color: #8f8f94;
-    font-size: 0.28rem;
-  }
-  .security{
-    padding: 0 0.2rem;
-  }
-  .security li{
-    padding: 0.2rem;
-  }
-  .security li:not(:last-child){
-    border-bottom: 1px solid #ebf0f1;
-  }
-  .xqjge1{
-    color: red;
-    margin-top: 0.1rem;
-  }
-  em.xqjge2{
-    font-size: .4rem;
-  }
-  #proDetail .yd-tabbar-item.gwul2.yd-tabbar-active {
-    color: rgb(151, 151, 151);
-  }
-  .pj_9 {
-    margin-left: 1.2rem;
-    margin-top: .2rem;
-  }
-  .pj_9 img:not(:first-child){
-    margin-left: 0.1rem;
-  }
-  .pj_12{
-    margin-top: 0;
-    font-size: 0.25rem;
-    background-color: #ffffff;
-    color: #8f8f94;
-  }
-  .xqpjtp1 {
-    float: left;
-    width: 1.55rem;
-    height: 1.55rem;
-    padding-right: .1rem;
-    padding-top: .1rem;
-  }
-  .reviews ul{
-    background-color: #ffffff;
-  }
-  .reviews ul li:not(:last-child){
-    border-bottom: 1px solid #ebeced
-  }
+    .spxq14{
+      color: rgb(129, 131, 142);
+    }
+    .spxq16{
+      margin-left: 10px;
+    }
+    .qbpj1 {
+      color: #8f8f94;
+      font-size: 0.28rem;
+    }
+    .security{
+      padding: 0 0.2rem;
+    }
+    .security li{
+      padding: 0.2rem;
+    }
+    .security li:not(:last-child){
+      border-bottom: 1px solid #ebf0f1;
+    }
+    .xqjge1{
+      color: red;
+      margin-top: 0.1rem;
+    }
+    em.xqjge2{
+      font-size: .4rem;
+    }
+    #proDetail .yd-tabbar-item.gwul2.yd-tabbar-active {
+      color: rgb(151, 151, 151);
+    }
+    .pj_9 {
+      margin-left: 1.2rem;
+      margin-top: .2rem;
+    }
+    .pj_9 img:not(:first-child){
+      margin-left: 0.1rem;
+    }
+    .pj_12{
+      margin-top: 0;
+      font-size: 0.25rem;
+      background-color: #ffffff;
+      color: #8f8f94;
+    }
+    .xqpjtp1 {
+      float: left;
+      width: 1.55rem;
+      height: 1.55rem;
+      padding-right: .1rem;
+      padding-top: .1rem;
+    }
+    .reviews ul{
+      background-color: #ffffff;
+    }
+    .reviews ul li:not(:last-child){
+      border-bottom: 1px solid #ebeced
+    }
 </style>
 <style>
   #proDetail .swiper-pagination-bullet-active{
