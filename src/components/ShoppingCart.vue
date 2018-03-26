@@ -1,5 +1,5 @@
 <template>
-  <div id="shopcar">
+  <yd-layout id="shopcar">
     <yd-navbar slot="navbar" title="购物车" bgcolor="#d41d0f" color="#FFF">
     </yd-navbar>
     <yd-cell-group slot="navbar">
@@ -46,7 +46,7 @@
         </yd-checklist>
       </div>
     </yd-pullrefresh>
-    <yd-cell-group style="position: absolute;bottom: 0px;width: 100%" v-if="carts.length!=0">
+    <yd-cell-group slot="tabbar" v-if="carts.length!=0">
       <yd-cell-item>
             <span slot="left">
             	<yd-flexbox>
@@ -62,7 +62,7 @@
             </span>
       </yd-cell-item>
     </yd-cell-group>
-  </div>
+  </yd-layout>
 </template>
 <script type="text/babel">
   import {getCookie,baseHttp} from "../config/env"
