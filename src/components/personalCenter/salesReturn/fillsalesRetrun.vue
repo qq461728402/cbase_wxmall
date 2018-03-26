@@ -18,8 +18,8 @@
     <yd-cell-group style="margin-top: 0.2rem;border-bottom: 1px solid #eeeeee;">
       <div class="type">
         <p>服务类型</p>
-        <yd-button :class="{anniu:returnType=='MAINTENANCE'}" @click.native="returnType='MAINTENANCE'">维修</yd-button>
         <yd-button :class="{anniu:returnType=='RETURN'}" @click.native="returnType='RETURN'">退货</yd-button>
+        <yd-button :class="{anniu:returnType=='MAINTENANCE'}" @click.native="returnType='MAINTENANCE'">维修</yd-button>
         <yd-button :class="{anniu:returnType=='EXCHANGE'}" @click.native="returnType='EXCHANGE'">换货</yd-button>
       </div>
       <yd-cell-item v-if="1==2">
@@ -68,8 +68,8 @@
     <yd-cell-group style="margin-top: 0.2rem;border-bottom: 1px solid #eeeeee;">
       <div class="type">
         <p>商品退回方式</p>
+        <yd-button :class="{anniu:shippingType=='SELF_DELIVERY'}" @click.native="shippingType='SELF_DELIVERY'">送货至门店</yd-button>
         <yd-button :class="{anniu:shippingType=='DELIVERY'}" @click.native="shippingType='DELIVERY'">快递至商城</yd-button>
-        <yd-button :class="{anniu:shippingType=='SELF_DELIVERY'}" @click.native="shippingType='SELF_DELIVERY'">送货至自提点</yd-button>
         <p style="color: #999999;padding-top: .2rem!important;font-size: 0.23rem">商品寄回地址将在审核通过后以短信形式告知，或在申请记录中查询。商城不收取快递附加费。</p>
       </div>
     </yd-cell-group>
@@ -91,8 +91,8 @@
     data() {
       return {
         data:{tag:'return'},
-        returnType:'MAINTENANCE',//默认维修 RETURN  MAINTENANCE EXCHANGE
-        shippingType:'DELIVERY',//默认快递 DELIVERY：快递 SELF_DELIVERY：送货到自提点
+        returnType:'RETURN',//默认维修 RETURN  MAINTENANCE EXCHANGE
+        shippingType:'SELF_DELIVERY',//默认快递 DELIVERY：快递 SELF_DELIVERY：送货到自提点
         orderItems:{},
         orderId:'',
         dess:'',

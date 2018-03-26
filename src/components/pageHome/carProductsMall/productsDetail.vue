@@ -39,18 +39,55 @@
               </yd-flexbox>
             </div>
           </div>
-        <yd-cell-group id="security" @click.native="gotoSecurityDeatil()" style="margin-top: 0.2rem">
+        <yd-cell-group id="security" @click.native="gotoSecurityDeatil()" style="margin-top: 0.2rem" v-if="1==2">
           <div style="padding: 0.2rem 0.2rem">
             <button style="line-height: 0.6rem;margin-right: 0.2rem;border: none;" v-for="securityitem in securitylst"><yd-icon name="gouxuan" size=".3rem" color="#ff7723"  custom></yd-icon>{{securityitem}}</button>
           </div>
         </yd-cell-group>
-        <yd-cell-group id="storeInfos">
+        <yd-cell-group id="storeInfos" style="margin-top: 0.2rem;margin-bottom: 0">
           <yd-cell-item>
             <span slot="left" class="spxq14">商家</span>
             <span slot="left" class="spxq16">{{product.storeName}}</span>
           </yd-cell-item>
         </yd-cell-group>
-
+        <van-cell>
+          <span  class="qbpj1">评价</span>
+        </van-cell>
+        <van-cell class="reviews"  v-if="reviewslist.length>0">
+          <ul>
+            <li v-for="item in reviewslist">
+              <yd-flexbox style="padding-top: 0.2rem">
+                <div style="width: 1rem;height: 1rem;overflow: hidden;border-radius: 50%;border: 1px solid #edeeef;margin-left: 0.2rem ">
+                  <img :src="item.avatar" style="width: 100%;height: 100%;"></div>
+                <yd-flexbox-item style="margin-left: 0.2rem">
+                  <yd-flexbox direction="vertical">
+                    <yd-flexbox-item style="line-height: 0.6rem;font-size: 0.3rem">{{item.name}}</yd-flexbox-item>
+                    <yd-flexbox-item><yd-rate v-model="item.level" size=".3rem" :readonly="true" color="#d41d0f" active-color="#d41d0f"></yd-rate></yd-flexbox-item>
+                  </yd-flexbox>
+                </yd-flexbox-item>
+                <div style="padding-right: .3rem;color: #9a9b9c">{{item.date}}</div>
+              </yd-flexbox>
+              <yd-flexbox style="margin-left: 1.4rem;margin-top: 0.2rem">
+                <div style="color: #666869">{{item.desc}}</div><!--用户评论-->
+              </yd-flexbox>
+              <yd-flexbox style="margin-bottom: 0.2rem">
+                <yd-lightbox class="pj_9">
+                  <yd-lightbox-img v-for="src,srcindex in item.reviewImgs" :key="srcindex" :src="src" class="xqpjtp1"></yd-lightbox-img>
+                </yd-lightbox>
+              </yd-flexbox>
+              <div style="padding: .1rem;" v-if="item.childrens &&item.childrens.length>0">
+                <p style="background-color: #edeeef;padding: .2rem;" v-for="huifu in item.childrens">
+                  <span style="color: rgb(255, 125, 73);" >官方回复：</span>{{huifu.desc}}
+                </p>
+              </div>
+            </li>
+          </ul>
+        </van-cell>
+        <van-cell>
+          <van-col offise="1" span="11" style="">共<span style="color: #f00;">{{reviewCount}}</span> 评论</van-col>
+          <van-col span="12" style="text-align: right" @click.native="switchlist('1',2)">查看更多<div class="yd-cell-arrow" style="float: right">
+          </div></van-col>
+        </van-cell>
       </swiper-slide>
       <swiper-slide style="background-color: white" id="proDes">
         <van-cell-group>
@@ -73,42 +110,47 @@
       </swiper-slide>
       <swiper-slide id="reviews">
         <yd-cell-item class="qbpj" style="background-color: #fff">
-          <span slot="left" class="qbpj1">全部评价(<span style="color: #d41d0f">{{reviewCount>0?reviewCount:0}}</span>)</span>
+          <span slot="left" class="qbpj1">全部评论(<span style="color: #d41d0f">{{reviewCount}}</span>)</span>
         </yd-cell-item>
-        <ul style="background-color: #fff">
-          <li v-for="item in reviewslist" style="border-bottom: 1px solid #ebeced">
-            <yd-flexbox style="padding-top: 0.2rem">
-              <div style="width: 1rem;height: 1rem;overflow: hidden;border-radius: 50%;border: 1px solid #edeeef;margin-left: 0.2rem ">
-                <img :src="item.avatar" style="width: 100%;height: 100%;"></div>
-              <yd-flexbox-item style="margin-left: 0.2rem">
-                <yd-flexbox direction="vertical">
-                  <yd-flexbox-item style="line-height: 0.6rem;font-size: 0.3rem">{{item.name}}</yd-flexbox-item>
-                  <yd-flexbox-item><yd-rate v-model="item.level" size=".3rem" :readonly="true" color="#d41d0f" active-color="#d41d0f"></yd-rate></yd-flexbox-item>
+        <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
+          <yd-infinitescroll :callback="loadMore" ref="infinitescrollDemo">
+            <ul style="background-color: #fff" slot="list">
+                 <li v-for="item in reviewsAlllist" style="border-bottom: 1px solid #ebeced">
+                <yd-flexbox style="padding-top: 0.2rem">
+                  <div style="width: 1rem;height: 1rem;overflow: hidden;border-radius: 50%;border: 1px solid #edeeef;margin-left: 0.2rem ">
+                    <img :src="item.avatar" style="width: 100%;height: 100%;"></div>
+                  <yd-flexbox-item style="margin-left: 0.2rem">
+                    <yd-flexbox direction="vertical">
+                      <yd-flexbox-item style="line-height: 0.6rem;font-size: 0.3rem">{{item.name}}</yd-flexbox-item>
+                      <yd-flexbox-item><yd-rate v-model="item.level" size=".3rem" :readonly="true" color="#d41d0f" active-color="#d41d0f"></yd-rate></yd-flexbox-item>
+                    </yd-flexbox>
+                  </yd-flexbox-item>
+                  <div style="padding-right: .3rem;color: #9a9b9c">{{item.date}}</div>
                 </yd-flexbox>
-              </yd-flexbox-item>
-              <div style="padding-right: .3rem;color: #9a9b9c">{{item.date}}</div>
-            </yd-flexbox>
-            <yd-flexbox style="margin-left: 1.4rem;margin-top: 0.2rem">
-              <div style="color: #666869">{{item.desc}}</div><!--用户评论-->
-            </yd-flexbox>
-            <yd-flexbox style="margin-bottom: 0.2rem">
-              <yd-lightbox class="pj_9">
-                <yd-lightbox-img v-for="src,srcindex in item.reviewImgs" :key="srcindex" :src="src" class="xqpjtp1"></yd-lightbox-img>
-              </yd-lightbox>
-            </yd-flexbox>
-            <div style="padding: .1rem;" v-if="item.childrens.length>0">
-              <p style="background-color: #edeeef;padding: .2rem;" v-for="huifu in item.childrens">
-                <span style="color: rgb(255, 125, 73);" >官方回复：</span>{{huifu.desc}}
-              </p>
-            </div>
-          </li>
-        </ul>
-        <yd-button size="large" class="pj_12" @click.native="gotoReview()">查看全部评论</yd-button>
+                <yd-flexbox style="margin-left: 1.4rem;margin-top: 0.2rem">
+                  <div style="color: #666869">{{item.desc}}</div><!--用户评论-->
+                </yd-flexbox>
+                <yd-flexbox style="margin-bottom: 0.2rem">
+                  <yd-lightbox class="pj_9">
+                    <yd-lightbox-img v-for="src,srcindex in item.reviewImgs" :key="srcindex" :src="src" class="xqpjtp1"></yd-lightbox-img>
+                  </yd-lightbox>
+                </yd-flexbox>
+                <div style="padding: .1rem;" v-if="item.childrens &&item.childrens.length>0">
+                  <p style="background-color: #edeeef;padding: .2rem;" v-for="huifu in item.childrens">
+                    <span style="color: rgb(255, 125, 73);" >官方回复：</span>{{huifu.desc}}
+                  </p>
+                </div>
+              </li>
+            </ul>
+            <span slot="doneTip">我是有底线的</span>
+         </yd-infinitescroll>
+        </yd-pullrefresh>
+        <!--<yd-button size="large" class="pj_12" @click.native="gotoReview()">查看全部评论</yd-button>-->
       </swiper-slide>
     </swiper>
     <van-goods-action slot="tabbar" style="z-index: 1">
       <van-goods-action-mini-btn icon="chat" text="客服" @click="onClickMiniBtn" />
-      <van-goods-action-mini-btn icon="cart" text="购物车" @click="gotoCar()" :info="quantity+''" />
+      <van-goods-action-mini-btn icon="cart" text="购物车" @click="gotoCar()" :info="$store.state.basicStorage.quantity+''" />
       <van-goods-action-big-btn  v-if="product.isAvalible==true" text="加入购物车" @click="shopping(1)"/>
       <van-goods-action-big-btn  v-if="product.isAvalible==true" text="立即购买" @click="shopping(2)" primary />
       <van-goods-action-big-btn  v-if="product.isAvalible==false" text="库存不足"/>
@@ -161,6 +203,7 @@
   import {baseHttp} from  '../../../config/env'
   import {setStore,getStore} from '../../../config/mUtils'
   import Vue from 'vue'
+  import { mapGetters } from 'vuex'
   import {
     GoodsAction,
     GoodsActionBigBtn,
@@ -173,6 +216,11 @@
     ImagePreview
   } from 'vant';
   const vm= {
+    computed: {
+      ...mapGetters([
+        'quantity',
+      ])
+    },
     components: {
       swiper,
       swiperSlide,
@@ -222,17 +270,16 @@
         skuid:'',//获取选择产品的sku
         price:0,//获取选择产品的价格
         guidePrice:0,
-        quantity: 0,
         spinner4: 1,//产品数量
         show2: false,
         securityView:false,
         descriptions: [],//图文列表
         previewlist:[],
         param:{},
-        reviews1:{},
         images:{},
-        reviewslist:[],//评价数据
-        reviewCount:'',//评价总条数
+        reviewslist:[],//获取部分评价数据
+        reviewsAlllist:[],//获取全部评价
+        reviewCount:'0',//评价总条数
         securitylst:['正品保障','正规发票','自营门店'],
         swiperOption:{
           autoHeight: true, //高度随内容变化
@@ -269,9 +316,6 @@
         })()
       }
       this.productId =this.$route.query.skuId;
-      if(this.isCookie==true){
-        this.getCartsQuantity();
-      }
       this.productDetail();
     },
     methods:{
@@ -286,14 +330,14 @@
       getCartsQuantity(){
         const that = this;
         baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
-          if (data.quantity)that.quantity = data.quantity;
+          if (data.quantity)that.$store.dispatch('setQuantity',data.quantity);
         })
       },
       switchlist(label,tabkey){
         this.tabkey = tabkey;
         if(tabkey==2){
-          if(this.reviewslist.length==0){
-            this.reviews();
+          if(this.reviewsAlllist.length==0){
+            this.loadList(false);
           }
         }
         this.swiper.slideTo(tabkey, 500, true)
@@ -301,7 +345,7 @@
       /*产品详情*/
       productDetail(){
         const that=this;
-        baseHttp(this, '/api/mall/productDetail', {'skuId': this.productId}, 'get', '加载中...', function (data) {
+        baseHttp(this, '/api/mall/skuDetail', {'skuId': this.productId}, 'get', '加载中...', function (data) {
           that.product = data.product;
           if(data.product){
             that.defaultSkuId= data.product.skuId;
@@ -312,7 +356,9 @@
             that.sku.price=data.product.price;
             that.sku.collection_id=data.product.skuId;
             that.goods.title=data.product.skuName;
-            that.goodsId=data.product.skuId
+            that.goodsId=data.product.skuId;
+            that.sku.none_sku=data.product.noneSku;
+            that.sku.hide_stock=data.product.hideStock;
           }
           var previewlist1=[];
           if(data.product.images){
@@ -322,34 +368,11 @@
             });
           }
           that.previewlist=previewlist1;
-
           if(data.skus){
-            that.sku.none_sku=false;
-            data.skus.forEach(function (item) {
-              for (var key in item.attrs){
-                eval("item."+key+"=\""+item.attrs[key]+"\"");
-              }
-              item.id=item.skuId;
-              item.stock_num=item.stock;
-              item.price=item.price*100;
-            })
             that.sku.list=data.skus;
           }
-          var tree=[];
           if(data.productOptions){
-            data.productOptions.forEach(function (item) {
-              var treelst={};
-              for(var key in item){
-                treelst.k=key;
-                treelst.k_s=key;
-                treelst.v=[];
-                for(var vkey in item[key]){
-                  treelst.v.push({id:item[key][vkey],name:item[key][vkey]});
-                }
-              }
-              tree.push(treelst);
-            })
-            that.sku.tree=tree;
+            that.sku.tree =data.productOptions;
           }
           that.productDesc();
         })
@@ -364,19 +387,49 @@
             that.$nextTick(function() {
               that.swiper.update();
             })
-
+          that.reviews();
         })
       },
       /*获取部分评论*/
       reviews(){
         const  that =this;
         baseHttp(this, '/api/mall/reviews', {'skuId': this.productId, 'page': 1, 'pageSize': '3'}, 'get', '加载中...', function (data) {
-          that.reviews1=data;
           if(data.reviews){
             that.reviewslist=data.reviews;
           }
           if(data.reviewCount)that.reviewCount=data.reviewCount;
         })
+      },
+      /*获取全部评论*/
+      reviews1(isref){
+        const that = this;
+        baseHttp(this, '/api/mall/reviews', {'skuId': this.productId, 'page': this.page, 'pageSize': '10'}, 'get',(this.page==1&&isref==false)?'加载中...':'', function (data) {
+          if (data.reviewCount)that.reviewCount = data.reviewCount;
+          if (that.page == 1) {
+            if (data.reviews){
+              that.reviewsAlllist =data.reviews;
+            }
+            that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
+            that.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.reInit');
+          } else {
+            if (data.reviews)that.reviewsAlllist = that.reviewsAlllist.concat(data.reviews);
+            if (data.reviews && data.reviews.length != that.pageSize) {
+              that.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.loadedDone');
+            } else {
+              that.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.finishLoad');
+            }
+          }
+        })
+      },
+      /*刷新列表*/
+      loadList(){
+        this.page = 1;
+        this.reviews1(true);
+      },
+      /*加载更多*/
+      loadMore(){
+        this.page = this.page + 1;
+        this.reviews1(true);
       },
       gotoSecurityDeatil(){
         this.securityView=!this.securityView;
@@ -392,7 +445,7 @@
         var  that =this;
         baseHttp(this,'/api/carts/addToCarts',{'skuId':skuId,'quantity':skuData.selectedNum,'merchantId':this.product.merchantId},'post','',function (data){
           that.showBase=false;
-          that.quantity=parseInt(that.quantity)+1;
+           that.getCartsQuantity();
         });
       },
       gotoCar(){
@@ -435,8 +488,9 @@
       gotoReview(){
         this.$router.push({ name: 'reviewsList',query:{skuId:this.productId},meta:{title:'评价列表'}});
       },
+      //客服电话
       onClickMiniBtn(){
-
+        window.location.href = 'tel://023-88520999'
       },
       //图片预览
       showPreview(index){
@@ -546,6 +600,12 @@
       height: 1.55rem;
       padding-right: .1rem;
       padding-top: .1rem;
+    }
+    .reviews ul{
+      background-color: #ffffff;
+    }
+    .reviews ul li:not(:last-child){
+      border-bottom: 1px solid #ebeced
     }
 </style>
 <style>
