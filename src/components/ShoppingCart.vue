@@ -95,7 +95,6 @@
       getCartsQuantity(){
         const that = this;
         baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
-          console.log(data.quantity);
           if (data.quantity>-1) {
             that.$store.dispatch('setQuantity',data.quantity);
           }
@@ -205,9 +204,9 @@
           if (cart.selectitem) {
             cart.selectitem.forEach(function (skuId) {
               cart.items.forEach(function (item) {
-                  if(item.skuId==skuId){
-                    allMoney += parseFloat(item.price) * parseFloat(item.quantity);
-                  }
+                if(item.skuId==skuId){
+                  allMoney += parseFloat(item.price) * parseFloat(item.quantity);
+                }
               })
             })
           }

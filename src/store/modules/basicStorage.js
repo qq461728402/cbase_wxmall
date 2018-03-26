@@ -8,7 +8,7 @@ const basicStorage={
     configList:[],//首页存储
     categoryList:[],//分类列表
     goodsList:[],//商品列表
-    quantity:'',//存储购物车数量
+    quantity:'0',//存储购物车数量
     userInfo:{
       bonus:0,//用户积分
     },
@@ -24,21 +24,21 @@ const basicStorage={
     SET_ROUTER:(state,router) => {
       state.router=router;
     },
-     SET_CITYNAME:(state,cityName) =>{
-        state.cityName=cityName;
-     },
-     SET_LOACTINGCITY:(state,cityName)=>{
-        state.locatingCity=cityName;
-     },
-     SET_CATELIST:(state,list)=>{
-       state.categoryList=list;
-     },
-     SET_GOODSLIST:(state,list,categoryId)=>{
-       state.goodsList.unshift({'id':categoryId,'list':list});
-     },
-     SET_CONFIGLIST:(state,list) => {
-        state.configList=list;
-     },
+    SET_CITYNAME:(state,cityName) =>{
+      state.cityName=cityName;
+    },
+    SET_LOACTINGCITY:(state,cityName)=>{
+      state.locatingCity=cityName;
+    },
+    SET_CATELIST:(state,list)=>{
+      state.categoryList=list;
+    },
+    SET_GOODSLIST:(state,list,categoryId)=>{
+      state.goodsList.unshift({'id':categoryId,'list':list});
+    },
+    SET_CONFIGLIST:(state,list) => {
+      state.configList=list;
+    },
     SET_QUANTITY:(state,quantity) =>{
       state.quantity=quantity;
     },

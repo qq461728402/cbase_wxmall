@@ -33,7 +33,7 @@
                 <yd-lightbox-img v-for="src,srcindex in item.reviewImgs" :key="srcindex" :src="src" class="xqpjtp1"></yd-lightbox-img>
               </yd-lightbox>
             </yd-flexbox>
-            <div style="padding: .1rem;" v-if="item.childrens.length>0">
+            <div style="padding: .1rem;" v-if="item.childrens && item.childrens.length>0">
               <p style="background-color: #edeeef;padding: .2rem;" v-for="huifu in item.childrens">
                 <span style="color: rgb(255, 125, 73);" >官方回复：</span>{{huifu.desc}}
               </p>

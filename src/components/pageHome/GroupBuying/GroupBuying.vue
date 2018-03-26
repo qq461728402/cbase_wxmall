@@ -6,8 +6,12 @@
       </router-link>
     </yd-navbar>
     <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
-    <goodlist :goodlist="items" @gotoDetail="gotoDetail"></goodlist>
+      <goodlist :goodlist="items" @gotoDetail="gotoDetail"></goodlist>
     </yd-pullrefresh>
+    <div class="noProduct" v-if="items.length==0&&showNoProduct==true">
+      <img src="../../../assets/img/groups.png">
+      <p>暂无团购项目</p>
+    </div>
   </yd-layout>
 </template>
 <script type="text/babel">
@@ -22,6 +26,7 @@
     data() {
       return {
         items:[],
+        showNoProduct:false,
       }
     },
     mounted(){
@@ -31,7 +36,10 @@
       loadList() {
         const that = this;
         baseHttp(this, '/api/promotion/list', {'promotionType': 'GROUPON'}, 'get', '加载中...', function (data) {
-          that.items = data.promotions;
+          if(data.promotions) {
+            that.items =data.promotions ;
+          }
+          that.showNoProduct=true;
           that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
         })
       },
@@ -45,3 +53,31 @@
   }
   export default vm;
 </script>
+<style scoped>
+  .noProduct {
+    text-align: center;
+    padding: 20% 0 0 0
+  }
+
+  .noProduct img {
+    width: 70px;
+    height: 70px
+  }
+
+  .noProduct p {
+    font-size: 13px;
+    color: #666;
+    line-height: 40px
+  }
+
+  .noProduct a {
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #df3448;
+    border-radius: 2px;
+    color: #df3448;
+    margin-top: 10px
+  }
+</style>

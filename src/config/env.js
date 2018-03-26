@@ -18,6 +18,8 @@ axios.interceptors.response.use(response =>{
   if (response.data && response.data.code === 401) { // 401, token失效
     // router.push({ name: 'loginWithCode'});
     removeStore('userInfo');
+  }else if(response.data && response.data.code === 500){
+    console.log(response.request.responseURL);
   }
   return response;
 });
@@ -38,7 +40,7 @@ export function baseHttp(ydui, url, par, method, loadmsg, callback) {
     timeout: 10000,
   }).then(function (response) {
     console.log(response.data);
-     if(response.data.code==200){
+    if(response.data.code==200){
       if (callback) {
         callback(response.data)
       }

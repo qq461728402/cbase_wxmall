@@ -9,14 +9,14 @@
       <li :class="{'yd-scrollnav-current':selettype==item.type}" style="color: rgb(245, 245, 245);" v-for="item in startTimes" @click="switchlist(item.type,$event)">
         <div style="width: 100%;display:table;margin: auto;height: 0.9rem;text-align: center">
           <div style="vertical-align:middle;display:table-cell;">
-              <p style="font-size: 0.25rem">{{item.name}}</p>
-              <p style="font-size: 0.2rem">{{item.des}}</p>
-            </div>
+            <p style="font-size: 0.25rem">{{item.name}}</p>
+            <p style="font-size: 0.2rem">{{item.des}}</p>
+          </div>
         </div>
       </li>
     </ul>
     <div style="display: block">
-       <img src="http://image.bitauto.com/dealer/news/1601163/3e0c97c8-d392-44c8-9671-4039491f0749.jpg" style="width: 100%">
+      <img src="http://image.bitauto.com/dealer/news/1601163/3e0c97c8-d392-44c8-9671-4039491f0749.jpg" style="width: 100%">
     </div>
     <van-row style="line-height: 30px;background-color: #E9E9E9">
       <van-col offset="1" span="8"><span style="font-size: 0.25rem;color: #d41d0f">疯狂抢购&nbsp;限时秒杀</span></van-col>
@@ -41,7 +41,7 @@
             <div class="from-shop">
               <van-row style="line-height: 30px">
                 <van-col span="8" class="price"> <span><em>¥</em>{{item.price}}</span></van-col>
-                <van-col offset="8" span="8"><van-button :disabled="item.avaliable==false" type="danger" size="small" class="pull-right">{{item.avaliable==false?'活动结束':'立即抢购'}}</van-button></van-col>
+                <van-col offset="8" span="8"><van-button :disabled="item.status!='START'" type="danger" size="small" class="pull-right">{{item.status=='NOTSTART'?'未开枪':item.status=='START'?'立即抢购':item.status=='END'?'已结束':'已抢空'}}</van-button></van-col>
               </van-row>
               <van-row>
                 <van-col span="8" class="del_price"><span><em>¥</em>{{item.salePrice}}</span></van-col>
@@ -94,9 +94,9 @@
             data.startTimes= data.startTimes.sort();//排序
             var sortTime=0;
             data.startTimes.forEach(function (item) {
-                if(data.currentTime>item) {
-                    sortTime=item;
-                }
+              if(data.currentTime>item) {
+                sortTime=item;
+              }
             });
             var i=0;
             data.startTimes.forEach(function (item) {
@@ -122,14 +122,14 @@
         const that = this;
         baseHttp(this, '/api/promotion/seckill/model', {'startTime': startTime,'store':'1'}, 'get', '加载中...', function (data) {
           if(data.model){
-             if(data.model.promotions){
-               that.promotions=data.model.promotions;
-             }
+            if(data.model.promotions){
+              that.promotions=data.model.promotions;
+            }
           }
         })
       },
       gotoDetail(item){
-        if(item.avaliable==false){
+        if(item.status!=START){
           return;
         }
         this.$router.push({path: '/home/GroupBuyDetail',query:{'promotionId':item.promotionId,'promotionType':'SECKILL'}})

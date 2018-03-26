@@ -23,7 +23,7 @@
     <!--banner-->
     <yd-slider autoplay="3000"  style="height:3.5rem" id="my_banner">
       <yd-slider-item v-for="item,index in banner.items" :key="index">
-        <img v-lazy="item.img">
+        <img :src="item.img">
       </yd-slider-item>
     </yd-slider>
     <yd-grids-group :rows="5" v-if="primaryMenu.code" id="primaryMenu">
@@ -108,7 +108,7 @@
         </div>
         <div style="overflow: hidden; min-height: 100px">
           <div v-for="item in codeitem.items" @click="gotofluid(item)">
-            <img :src="item.img" style="width: 100%;border-bottom: 10px solid #f5f5f5;"/>
+            <img :src="item.img" style="width: 100%;"/>
           </div>
         </div>
       </div>
@@ -229,25 +229,13 @@
       },
 //    车品商城
       gotocarproduct(item){
-        var url = item.url;
-        var index = url.lastIndexOf("\?");
-        url = url.substring(index + 1, url.length);
-        var theRequest = new Object();
-        var strs = url.split("&");
-        for (var i = 0; i < strs.length; i++) {
-          theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-        }
-        console.log(theRequest);
-        this.$router.push({path: 'home/carProducts', query: {categoryId: theRequest.categoryId}})
+        console.log(item);
+        this.$router.push({path: item.url});
       },
 //  进入领券中心
       gotofluid(item){
         console.log(item);
-        if (item.title == '领券入口') {
-          this.$router.push({path: '/home/getcoupons'});
-        } else if (item.title == '保养专区2') {
-          this.$router.push({path: '/home/maintain', query: {categoryId: 144, brandId: 10}});
-        }
+        this.$router.push({path: item.url});
       },
       gotocarlist(){
         this.$router.push({path: 'home/CarChoose'})
@@ -450,9 +438,9 @@
     background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;
   }
   #my_banner img[lazy=error] {
-      background-color: #f5f5f5;
-      background-size: 100% 100%;
-     -moz-background-size:100% 100%;
-      height: 3.5rem;
+    background-color: #f5f5f5;
+    background-size: 100% 100%;
+    -moz-background-size:100% 100%;
+    height: 3.5rem;
   }
 </style>

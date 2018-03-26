@@ -27,7 +27,7 @@
               <span><em>{%m}</em></span>时
               <span><em>{%s}</em></span>秒
             </yd-countdown>
-        </div>
+          </div>
         </van-col>
       </van-cell>
       <van-cell>
@@ -41,14 +41,14 @@
         <!--<van-col span="14" style="text-align: right;color:#9c9c9c">剩余：{{skuModel.stock}}</van-col>-->
       </van-cell>
     </van-cell-group>
-    <van-cell-group style="margin-top: 0.2rem">
+    <van-cell-group style="margin-top: 0.2rem" v-if="1==2">
       <van-cell>
         <button class="security" v-for="securityitem in securitylst"><yd-icon name="gouxuan" size=".3rem" color="#ff7723"  custom></yd-icon>{{securityitem}}</button>
       </van-cell>
     </van-cell-group>
     <van-cell-group style="margin-top: 0.2rem;margin-bottom: 1.5rem">
       <van-cell>
-         商品详情
+        商品详情
       </van-cell>
       <van-cell>
         <van-col span="12" style="border-right: 1px solid #f5f5f5;border-bottom: 1px solid #f5f5f5;">等级{{param.greade}}</van-col>
@@ -322,10 +322,10 @@
     padding-bottom: 5px;
   }
   #times span{
-     color: #ff002c;
-     background-color: #ffffff;
-     border-radius: 2px;
-     padding: 0 2px;
+    color: #ff002c;
+    background-color: #ffffff;
+    border-radius: 2px;
+    padding: 0 2px;
   }
   .security{
     line-height: 0.6rem;

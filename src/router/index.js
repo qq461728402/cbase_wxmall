@@ -72,7 +72,7 @@ const router = new Router({
     {path: "*", redirect: '/home'},
     {path: '/index', name: 'index',component: Index, meta:{title:'重庆百货',keepAlive:true},
       children:[
-        {path:'/home',name:'home',component:IndexHome,meta:{title:'首页',keepAlive:true}},
+        {path:'/home',name:'home',component:IndexHome,meta:{title:'重庆百货',keepAlive:true}},
         {path:'/category',name:'category',component:CarProducts,meta:{title:'商品分类',keepAlive:true}},
         {path:'/shoppingCart',name:'shoppingCart',component:ShoppingCart,meta:{title:'购物车',keepAlive:true}},
         {path:'/personalCenter',name:'personalCenter',component:PersonalCenter,meta:{title:'个人中心',keepAlive:true}},
@@ -125,15 +125,15 @@ const router = new Router({
     {path:'/personalCenter/aboutUs',name:'aboutUs',component:AboutUs,meta:{title:'关于新世纪大坪商都',keepAlive:true}},
     {path:'/personalCenter/loginWithCode',name:'loginWithCode',component:LoginWithCode,meta:{title:'登录'},
       children:[ {path:'/personalCenter/register/:userId',name:'register',component:register,meta:{title:'注册'}},
-                 {path:'/personalCenter/userProtocol',name:'userProtocol',component:userProtocol,meta:{title:'用户协议'}},]},
+        {path:'/personalCenter/userProtocol',name:'userProtocol',component:userProtocol,meta:{title:'用户协议'}},]},
 
     {path:'/home/MyPoints',name:'MyPoints',component:MyPoints,meta:{title:'积分中心',keepAlive:true}},
     {path:'/home/PointsList',name:'PointsList',component:PointsList,meta:{title:'积分中心',keepAlive:true}},
     {path:'/home/PointsDetail',name:'PointsDetail',component:PointsDetail,meta:{title:'商品详情',keepAlive:false}},
 
-	  {path:'/home/GroupBuying',name:'GroupBuying',component:GroupBuying,meta:{title:'团购频道',keepAlive:true}},
+    {path:'/home/GroupBuying',name:'GroupBuying',component:GroupBuying,meta:{title:'团购频道',keepAlive:true}},
     {path:'/home/GroupBuyDetail',name:'GroupBuyDetail',component:GroupBuyDetail,meta:{title:'商品详情',keepAlive:false}},
-	  {path:'/home/Seckill',name:'Seckill',component:Seckill,meta:{title:'限时秒杀',keepAlive:true}},
+    {path:'/home/Seckill',name:'Seckill',component:Seckill,meta:{title:'限时秒杀',keepAlive:true}},
   ],
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
