@@ -153,7 +153,7 @@
       <van-goods-action-mini-btn icon="cart" text="购物车" @click="gotoCar()" :info="$store.state.basicStorage.quantity+''" />
       <van-goods-action-big-btn  v-if="product.isAvalible==true" text="加入购物车" @click="shopping(1)"/>
       <van-goods-action-big-btn  v-if="product.isAvalible==true" text="立即购买" @click="shopping(2)" primary />
-      <van-goods-action-big-btn  v-if="product.isAvalible==false" text="库存不足"/>
+      <van-goods-action-big-btn  v-if="product.isAvalible==false" text="库存不足" />
     </van-goods-action>
 
     <yd-popup v-model="securityView" position="bottom" height="40%" style="z-index: 50;">
