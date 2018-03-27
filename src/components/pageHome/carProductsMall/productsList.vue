@@ -107,6 +107,7 @@
           vm.xl='#6d6d6d';
           vm.zh='#ff0000';
           vm.jg='#6d6d6d';
+          vm.list=[];
           vm.sortType=0;
           vm.page=1;
           vm.products();
