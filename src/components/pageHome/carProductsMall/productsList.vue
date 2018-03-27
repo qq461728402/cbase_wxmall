@@ -83,15 +83,33 @@
       }
     },
     mounted(){
-      if(this.$route.query.categoryId){
-        this.categoryId = this.$route.query.categoryId;
-      }
-      if(this.$route.query.queryKey) {
-        this.queryKey=this.$route.query.queryKey;
-      }
-      this.page=1;
-      this.products();
+      const _this=this;
+      document.getElementById("scrollView").addEventListener('scroll',()=> {
+        var top = document.getElementById("scrollView").scrollTop;
+        _this.$store.dispatch('setscrollPosion',top);
+      })
     },
+    beforeRouteEnter(to, from, next) {
+      next(function (vm) {
+        if(from.name!='productsDetail'){
+          if(vm.$route.query.categoryId){
+            vm.categoryId = vm.$route.query.categoryId;
+          }
+          if(vm.$route.query.queryKey) {
+            vm.queryKey=vm.$route.query.queryKey;
+          }
+          vm.xl='#6d6d6d';
+          vm.zh='#ff0000';
+          vm.jg='#6d6d6d';
+          vm.sortType=0;
+          vm.page=1;
+          vm.products();
+        }else{
+          document.getElementById("scrollView").scrollTop=vm.scrollPosion;
+        }
+      })
+    },
+
     methods:{
       gotoback(){
         this.$router.go(-2);
@@ -138,6 +156,8 @@
               that.list=data.skus;
               that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
               that.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.reInit');
+            }else{
+              that.list=[];
             }
           }else{
             if(data.skus){

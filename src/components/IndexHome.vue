@@ -181,7 +181,6 @@
           vm.cityname = cityname;
         }
         vm.searchValue='';
-        vm.getConfig();
       });
     },
     methods: {

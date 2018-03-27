@@ -12,6 +12,7 @@ const basicStorage={
     userInfo:{
       bonus:0,//用户积分
     },
+    scrollPosion:0,
     invoice:{
       invoiceType:'NO',
       invoiceTitle:'',
@@ -23,6 +24,9 @@ const basicStorage={
   mutations:{
     SET_ROUTER:(state,router) => {
       state.router=router;
+    },
+    SET_SCROLLPOSION:(state,scrollPosion) =>{
+      state.scrollPosion=scrollPosion;
     },
     SET_CITYNAME:(state,cityName) =>{
       state.cityName=cityName;
@@ -50,6 +54,9 @@ const basicStorage={
     },
   },
   actions: {
+    setscrollPosion({commit},scrollPosion){
+      commit('SET_SCROLLPOSION',scrollPosion)
+    },
     setrouter({commit},router){
       commit('SET_ROUTER',router);
     },
