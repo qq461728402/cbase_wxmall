@@ -15,9 +15,9 @@
         </div>
       </li>
     </ul>
-    <div style="display: block">
-      <img src="http://image.bitauto.com/dealer/news/1601163/3e0c97c8-d392-44c8-9671-4039491f0749.jpg" style="width: 100%">
-    </div>
+    <!--<div style="display: block">-->
+      <!--<img src="http://image.bitauto.com/dealer/news/1601163/3e0c97c8-d392-44c8-9671-4039491f0749.jpg" style="width: 100%">-->
+    <!--</div>-->
     <van-row style="line-height: 30px;background-color: #E9E9E9">
       <van-col offset="1" span="8"><span style="font-size: 0.25rem;color: #d41d0f">疯狂抢购&nbsp;限时秒杀</span></van-col>
       <van-col offset="5" span="9" style="text-align: right"> <yd-countdown :time="seckillTime"  done-text="正在抢购" id="times">
