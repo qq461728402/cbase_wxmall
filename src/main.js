@@ -12,7 +12,8 @@ import VueAxios from 'vue-axios'
 import VueWechatTitle from 'vue-wechat-title'
 import Icon from 'vue-svg-icon/Icon.vue'
 import VueLazyload from 'vue-lazyload'
-import "@/assets/fonts/iconfont.css";
+import "@/assets/js/ydui.flexible.js"
+import "@/assets/fonts/iconfont.css"
 import 'babel-polyfill'
 Vue.config.productionTip = false
 Vue.use(YDUI);

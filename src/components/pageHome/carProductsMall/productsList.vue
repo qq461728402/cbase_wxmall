@@ -59,7 +59,13 @@
 <script type="text/babel">
   import {baseHttp} from '../../../config/env'
   import productlist from '../../../views/productList'
+  import { mapGetters } from 'vuex'
   const vm= {
+    computed: {
+      ...mapGetters([
+        'scrollPosion',
+      ])
+    },
     components: {
       productlist
     },
