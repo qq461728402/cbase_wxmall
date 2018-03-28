@@ -15,7 +15,6 @@
       </yd-list-other>
     </yd-list-item>
   </yd-list>
-
 </template>
 <script type="text/babel">
   import {Button} from 'vant';

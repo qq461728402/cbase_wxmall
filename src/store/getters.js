@@ -15,5 +15,7 @@ const getters= {
   userInfo:state => state.basicStorage.userInfo,
   router:state => state.basicStorage.router,
   scrollPosion:state =>state.basicStorage.scrollPosion,
+  indexhomeScroll:state =>state.basicStorage.indexhomeScroll,
+
 }
 export default getters;

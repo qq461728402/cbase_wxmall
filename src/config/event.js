@@ -1,10 +1,11 @@
 /**
  * Created by dx on 18/2/27.
  */
+
 function $id(id) {
   return document.getElementById(id);
 }
-function bindEvent() {
+function bindEvent(vm) {
   if($id("my_search")){
     var sea = $id("my_search");
     /*banner对象*/
@@ -26,6 +27,7 @@ function bindEvent() {
         var op = top / height * 0.85;
         sea.style.background = "rgba(201,21,35," + op + ")";
       }
+      vm.$store.dispatch('setindexhomeScroll',top);
     });
   }
 

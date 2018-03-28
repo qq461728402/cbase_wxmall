@@ -13,6 +13,7 @@ const basicStorage={
       bonus:0,//用户积分
     },
     scrollPosion:0,
+    indexhomeScroll:0,
     invoice:{
       invoiceType:'NO',
       invoiceTitle:'',
@@ -24,6 +25,9 @@ const basicStorage={
   mutations:{
     SET_ROUTER:(state,router) => {
       state.router=router;
+    },
+    SET_INDEXHOMESCROLL:(state,indexhomeScroll) =>{
+      state.indexhomeScroll=indexhomeScroll;
     },
     SET_SCROLLPOSION:(state,scrollPosion) =>{
       state.scrollPosion=scrollPosion;
@@ -54,6 +58,9 @@ const basicStorage={
     },
   },
   actions: {
+    setindexhomeScroll({commit},indexhomeScroll){
+      commit('SET_INDEXHOMESCROLL',indexhomeScroll)
+    },
     setscrollPosion({commit},scrollPosion){
       commit('SET_SCROLLPOSION',scrollPosion)
     },

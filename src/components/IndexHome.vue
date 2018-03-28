@@ -123,6 +123,7 @@
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import {getLocation} from '../config/weichatPay'
   import {bindEvent} from '../config/event'
+  import { mapGetters } from 'vuex'
   export default {
     name: 'IndexHome',
     components: {
@@ -143,8 +144,6 @@
         gridViewlst: [],
         coupon: {},
         signatureInfo: {},
-        quantity: 0,
-        tops: '0rem',
         searchValue: '',
         swiperOption: {
           navigation: {
@@ -161,12 +160,15 @@
 
     },
     computed: {
+      ...mapGetters([
+        'indexhomeScroll',
+      ]),
       swiper() {
         return this.$refs.mySwiper.swiper
       }
     },
     mounted(){
-      bindEvent();
+      bindEvent(this);
       var cityname=this.$store.state.basicStorage.cityName;
       if (cityname.length>0) {
         this.cityname =cityname;
@@ -181,6 +183,7 @@
           vm.cityname = cityname;
         }
         vm.searchValue='';
+        document.getElementById("scrollView").scrollTop=vm.indexhomeScroll;
       });
     },
     methods: {
@@ -190,6 +193,9 @@
         baseHttp(this, '/api/index/config', {}, 'get', storeConfig.length>0?'':'加载中...', function (data) {
           that.config = data.config;
           that.$store.dispatch('setConfig',data.config);
+          if(data.config.title){
+            document.title=data.config.title;
+          }
           if (that.config instanceof Array) {
             that.config.forEach(function (item) {
               if ("banner" == item.code) {
@@ -228,7 +234,6 @@
       },
 //    车品商城
       gotocarproduct(item){
-        console.log(item);
         this.$router.push({path: item.url});
       },
 //  进入领券中心

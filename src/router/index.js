@@ -70,9 +70,9 @@ const router = new Router({
   // mode: 'history',
   routes: [
     {path: "*", redirect: '/home'},
-    {path: '/index', name: 'index',component: Index, meta:{title:'重庆百货',keepAlive:true},
+    {path: '/index', name: 'index',component: Index, meta:{keepAlive:true},
       children:[
-        {path:'/home',name:'home',component:IndexHome,meta:{title:'重庆百货',keepAlive:true}},
+        {path:'/home',name:'home',component:IndexHome,meta:{keepAlive:true}},
         {path:'/category',name:'category',component:CarProducts,meta:{title:'商品分类',keepAlive:true}},
         {path:'/shoppingCart',name:'shoppingCart',component:ShoppingCart,meta:{title:'购物车',keepAlive:true}},
         {path:'/personalCenter',name:'personalCenter',component:PersonalCenter,meta:{title:'个人中心',keepAlive:true}},

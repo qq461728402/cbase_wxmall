@@ -1,8 +1,8 @@
 <template>
-  <yd-layout id="shopcar">
+  <div id="shopcar">
     <yd-navbar slot="navbar" title="购物车" bgcolor="#d41d0f" color="#FFF">
     </yd-navbar>
-    <yd-cell-group slot="navbar">
+    <yd-cell-group class="yd-navbar-fixed">
       <yd-cell-item>
         <span slot="left" style="text-align: center;">购物车</span>
         <span slot="right" type="button" @click="editorShopping" style="font-size: .3rem;">{{ showtext ? '编辑' : '完成' }}</span>
@@ -14,7 +14,7 @@
       <router-link :to="{path:'/home'}" replace>回到首页</router-link>
     </div>
     <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
-      <div style="margin-top: .2rem;background-color: #FFFFFF;" v-for="cart in carts">
+      <div style="margin-top: .2rem;background-color: #FFFFFF;margin-bottom: 2rem" v-for="cart in carts">
         <div style="padding-left:12px;margin-bottom: 10px;padding-top: .2rem;">
           <yd-checkbox v-model="cart.allCheck" shape="circle" color="#d41d0f" :id="cart.ref" :change="checkAll"><i style="color: #333333;font-size: .3rem;">{{cart.storeName}}</i></yd-checkbox>
         </div>
@@ -46,7 +46,7 @@
         </yd-checklist>
       </div>
     </yd-pullrefresh>
-    <yd-cell-group slot="tabbar" v-if="carts.length!=0">
+    <yd-cell-group class="yd-tabbar-fixed" v-if="carts.length!=0" >
       <yd-cell-item>
             <span slot="left">
             	<yd-flexbox>
@@ -62,7 +62,7 @@
             </span>
       </yd-cell-item>
     </yd-cell-group>
-  </yd-layout>
+  </div>
 </template>
 <script type="text/babel">
   import {getCookie,baseHttp} from "../config/env"
@@ -376,7 +376,10 @@
     border: 0;
     vertical-align: middle;
   }
-
+  .yd-tabbar-fixed{
+    width: 100%;
+    bottom: 1rem;
+  }
 </style>
 <style>
   #shopcar .yd-cell:after {
