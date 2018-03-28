@@ -8,13 +8,13 @@
         <span slot="right" type="button" @click="editorShopping" style="font-size: .3rem;">{{ showtext ? '编辑' : '完成' }}</span>
       </yd-cell-item>
     </yd-cell-group>
-    <div class="noProduct" v-if="showNoProduct==true">
+    <div class="yd-view noProduct" v-if="showNoProduct==true">
       <img src="../assets/img/shopCar.png">
       <p>您的购物车是空的</p>
       <router-link :to="{path:'/home'}" replace>回到首页</router-link>
     </div>
-    <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
-      <div style="margin-top: .2rem;background-color: #FFFFFF;margin-bottom: 2rem" v-for="cart in carts">
+    <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo" class="yd-view">
+      <div style="margin-top: .2rem;background-color: #FFFFFF;" v-for="cart in carts">
         <div style="padding-left:12px;margin-bottom: 10px;padding-top: .2rem;">
           <yd-checkbox v-model="cart.allCheck" shape="circle" color="#d41d0f" :id="cart.ref" :change="checkAll"><i style="color: #333333;font-size: .3rem;">{{cart.storeName}}</i></yd-checkbox>
         </div>
