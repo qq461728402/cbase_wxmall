@@ -21,7 +21,7 @@
     "js-qrcode": "^1.0.0",
     "lrz": "^4.9.40",
     "style-loader": "^0.19.1",
-    "vant": "^0.12.11",
+    "vant": "^1.0.3",
     "vue": "^2.5.2",
     "vue-awesome-swiper": "^3.1.0",
     "vue-axios": "^2.0.2",

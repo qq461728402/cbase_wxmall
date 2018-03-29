@@ -53,7 +53,7 @@
         productId: '',
         page: 1,
         reviewslist: [],
-        reviewCount: [],
+        reviewCount: '0',
       }
     },
     mounted(){

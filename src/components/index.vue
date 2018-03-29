@@ -9,7 +9,7 @@
         <yd-icon name="shouye" slot="icon" size="0.54rem" custom></yd-icon>
       </yd-tabbar-item>
       <yd-tabbar-item title="分类" link="/category" :active="'/category'==currentPath">
-        <yd-icon slot="icon" size="0.54rem" name="fenlei1" custom></yd-icon>
+        <yd-icon slot="icon" size="0.54rem" name="fenlei" custom></yd-icon>
       </yd-tabbar-item>
       <yd-tabbar-item title="购物车" type="a" @click.native="gotoCars()" :active="'/shoppingCart'==currentPath">
         <yd-icon name="gouwuche" slot="icon" size="0.54rem" custom></yd-icon>

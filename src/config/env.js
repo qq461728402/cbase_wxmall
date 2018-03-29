@@ -10,13 +10,12 @@ import store from '../store'
 import {removeStore} from './mUtils'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
-axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://weixin.e-cbest.com/mall';//
+axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://joewee.mynatapp.cc/mall';//
 axios.defaults.headers.token = store.getters.token;
 /*
  * 拦截器*/
 axios.interceptors.response.use(response =>{
   if (response.data && response.data.code === 401) { // 401, token失效
-    // router.push({ name: 'loginWithCode'});
     removeStore('userInfo');
   }else if(response.data && response.data.code === 500){
     console.log(response.request.responseURL);
@@ -39,7 +38,6 @@ export function baseHttp(ydui, url, par, method, loadmsg, callback) {
     data:par,
     timeout: 10000,
   }).then(function (response) {
-    console.log(response.data);
     if(response.data.code==200){
       if (callback) {
         callback(response.data)

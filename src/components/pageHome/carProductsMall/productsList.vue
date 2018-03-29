@@ -5,6 +5,20 @@
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
+    <div slot="navbar" id="my_search" style="background-color: #ffffff">
+      <yd-flexbox style="margin:8px 0;margin-left: 20px">
+        <yd-flexbox-item id="searchId">
+          <form action="javascript:return true;">
+            <span class="icon_search"></span>
+            <input type="search" class="search" placeholder="点击搜索"  @keyup.13="search()" v-model="queryKey">
+          </form>
+        </yd-flexbox-item>
+        <div class="classification" @click="changeClass">
+          <yd-icon slot="icon" name="changyongfenlei" size=".42rem" custom color="#666666" v-if="theme==1"></yd-icon>
+          <yd-icon slot="icon" name="liebiao" size=".42rem" custom color="#666666" v-else-if="theme==4"></yd-icon>
+        </div>
+      </yd-flexbox>
+    </div>
     <yd-flexbox slot="navbar">
       <yd-flexbox-item>
         <yd-button size="large" type="hollow" bgcolor="#fff" :color="zh"  @click.native="comprehensive()">综合
@@ -29,11 +43,15 @@
     <!--描述：商品列表-->
     <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
       <yd-infinitescroll :callback="loadMore" ref="infinitescrollDemo">
-        <productlist slot="list" :productlist="list" @gotoDetail="gotoDetail"></productlist>
+        <productlist slot="list" :productlist="list" :theme="theme"  @gotoDetail="gotoDetail"></productlist>
         <span slot="doneTip">我是有底线的</span>
       </yd-infinitescroll>
     </yd-pullrefresh>
     <yd-popup v-model="show4" position="right" width="70%">
+
+
+
+
       <div class="splb2">
         <p class="splb3">价格区间</p>
         <div>
@@ -71,6 +89,7 @@
     },
     data() {
       return {
+        theme:1,
         categoryId:'',
         page:1,
         pageSize:10,
@@ -98,9 +117,11 @@
     beforeRouteEnter(to, from, next) {
       next(function (vm) {
         if(from.name!='productsDetail'){
+          vm.categoryId='';
           if(vm.$route.query.categoryId){
             vm.categoryId = vm.$route.query.categoryId;
           }
+          vm.queryKey='';
           if(vm.$route.query.queryKey) {
             vm.queryKey=vm.$route.query.queryKey;
           }
@@ -121,6 +142,13 @@
       gotoback(){
         this.$router.go(-2);
       },
+      changeClass(){
+        if(this.theme==1){
+          this.theme=4;
+        }else{
+          this.theme=1;
+        }
+      },
       /*筛选*/
       screenIng(){
         this.show4=!this.show4;
@@ -136,7 +164,8 @@
       mallbrands(){
         const that=this;
         baseHttp(this,'/api/mall/category/brands',{'category':this.categoryId},'get','',function (data){
-          that.screenlist=data.brands;
+          console.log(1234);
+          that.screenlist=data.prands;
         })
       },
       products(){
@@ -220,7 +249,6 @@
         this.$router.push({ name: 'productsDetail',query:{skuId:item.skuId}});
       }
     },
-
   }
   export default vm;
 </script>
@@ -251,6 +279,39 @@
   }
   .splb6{
     margin-top: 60px;
+  }
+  .icon_search {
+    background: url(../../../assets/img/search.png) no-repeat;
+    background-size: 20px 20px;
+  }
+  #searchId form .search {
+    width: 100%;
+    height: 30px;
+    border-radius: 15px;
+    padding-left: 0.6rem;
+    padding-right:0.2rem;
+  }
+  #searchId input{
+    border: none;
+    resize: none;
+    outline: none;
+    -webkit-appearance: none;
+    background-color: #f5f5f5;
+  }
+  #searchId form .icon_search {
+    display: block;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 30px;
+    top: 13px;
+  }
+  .classification{
+    width: 15%;
+    height: 30px;
+    line-height: 30px;
+    text-align: right;
+    padding-right: 10px;
   }
 </style>
 <style>

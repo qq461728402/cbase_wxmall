@@ -79,21 +79,31 @@
         </div>
         <div class="rowSpan">
           <div class="rowSpanLeft">
-            <img :src="codeitem.items[0].img" @click="gotofluid(codeitem.items[0])"/>
+            <div style="margin-left: 5%;margin-right: 5%;width: 90%;height: 100%">
+              <div class="thumb">
+                <img :src="codeitem.items[0].img" @click="gotofluid(codeitem.items[0])"/>
+              </div>
+            </div>
           </div>
-          <div class="rowSpanRigth" id="rowSpans">
-            <div class="yd-grids-2">
-              <div class="yd-grids-item" style="height: 1.1rem; padding: 0px; overflow: hidden;border-bottom: 1px solid #ebeced !important;">
-                <img :src="codeitem.items[1].img" style="width: 100%;" @click="gotofluid(codeitem.items[1])">
+          <div class="rowSpanRight">
+            <div style="width: 45%;height: 50%;float: left; margin-right: 5%">
+              <div class="thumb">
+                <img :src="codeitem.items[2].img" @click="gotofluid(codeitem.items[2])"/>
               </div>
-              <div class="yd-grids-item" style="height: 1.1rem; padding: 0px; overflow: hidden;border-bottom: 1px solid #ebeced !important;">
-                <img :src="codeitem.items[2].img" style="width: 100%;" @click="gotofluid(codeitem.items[2])">
+            </div>
+            <div style="width: 45%;height: 50%;float: left;margin-right: 5%">
+              <div class="thumb">
+                <img :src="codeitem.items[3].img" @click="gotofluid(codeitem.items[3])"/>
               </div>
-              <div class="yd-grids-item" style="height: 1.1rem; padding: 0px; overflow: hidden;">
-                <img :src="codeitem.items[3].img" style="width: 100%;" @click="gotofluid(codeitem.items[3])">
+            </div>
+            <div style="width: 45%;height: 50%;float: left;margin-right: 5%">
+              <div class="thumb">
+                <img :src="codeitem.items[4].img" @click="gotofluid(codeitem.items[4])"/>
               </div>
-              <div class="yd-grids-item" style="height: 1.1rem; padding: 0px; overflow: hidden;">
-                <img :src="codeitem.items[4].img" style="width: 100%;" @click="gotofluid(codeitem.items[4])">
+            </div>
+            <div style="width: 45%;height: 50%;float: left;margin-right: 5%">
+              <div class="thumb">
+                <img :src="codeitem.items[1].img" @click="gotofluid(codeitem.items[1])"/>
               </div>
             </div>
           </div>
@@ -163,6 +173,9 @@
       swiper() {
         return this.$refs.mySwiper.swiper
       },
+      ...mapGetters([
+        'indexhomeScroll',
+      ])
     },
     mounted(){
       bindEvent(this);
@@ -342,26 +355,36 @@
   }
   .rowSpan {
     overflow: hidden;
+    height: 2.5rem;
     border-bottom: 1px solid #ebeced;
   }
   .rowSpanLeft {
     width: 40%;
     float: left;
-    border-right: 1px solid #ebeced;
-    text-align: center;
-    margin: 0 auto;
-    height: 2.2rem;
+    height: 100%;
   }
-  .rowSpanLeft img {
+  .rowSpan .thumb{
     width: 100%;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
   }
-  .rowSpanRigth {
+  .rowSpan .thumb img {
+    border-radius: 0.2rem;
+    vertical-align: middle;
+    position: absolute;
+    margin: auto;
+    left: 0rem;
+    right: 0rem;
+    top: 0rem;
+    bottom: 0rem;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .rowSpanRight {
     width: 60%;
     float: right;
-    height: 2.2rem;
-  }
-  .rowSpanRigth img {
-    width: 100%;
+    height: 100%;
   }
   .icon_search {
     background: url(../assets/img/search.png) no-repeat;
@@ -433,9 +456,6 @@
   #gridView .swiper-button-prev {
     background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAmCAYAAAAm56DSAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDE0IDc5LjE1Njc5NywgMjAxNC8wOC8yMC0wOTo1MzowMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTQgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjFFNzFBRjFDQ0I2MDExRTc5ODY2RDlDQkFCRkI3NjZFIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjFFNzFBRjFEQ0I2MDExRTc5ODY2RDlDQkFCRkI3NjZFIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MUU3MUFGMUFDQjYwMTFFNzk4NjZEOUNCQUJGQjc2NkUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MUU3MUFGMUJDQjYwMTFFNzk4NjZEOUNCQUJGQjc2NkUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6+zIFGAAABDUlEQVR42mJkYGAwZqASYGKgIhg1bNSw4W/YmjVr1ECYYsP27t1rHBgYOEtDQ0MdmzwLsQZduXLFV1NTs/jAgQPFzs7OZ8l2Gcyg9evXp+EyiCiXvX37toGbm1tt8uTJUQUFBc/wqWUhxqD8/Pz0mTNnfiYrNtPT03l//PixjIWFhZdYg0CAEVtJ+/jx4zQpKamorKwsX2INwmkYzEAJCQnfjRs3FoeEhNyiKNHKysrOunnz5ixQusKVSIl2GXKyUFdXTwMZrKOjs5mi7AQyAORVUDoDGUyRy5DzpL+/f++LFy82g4KAorwJioScnJwoUVFRB1DkUJQ3QQCaTNIp9uZosT1q2KhhdDUMIMAAeoFsxdIhoU8AAAAASUVORK5CYII=") !important;
     left: 0 !important;
-  }
-  #rowSpans .yd-grids-2:before {
-    border-bottom: 0px;
   }
   #primaryMenu img[lazy=error] {
     background: url(~@/assets/img/default.png);

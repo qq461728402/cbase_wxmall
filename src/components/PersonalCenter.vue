@@ -43,7 +43,7 @@
         <span slot="text" style="color: #666666">已完成</span>
       </yd-grids-item>
       <yd-grids-item @click.native="gotoReturnOrder()">
-        <yd-icon slot="icon" name="shouhou" color="#5181ee" custom></yd-icon>
+        <yd-icon slot="icon" name="tuikuanshouhou" color="#5181ee" custom></yd-icon>
         <div slot="else" v-if="ordernum.RETURN"><yd-badge slot="badge" type="danger" style="position:absolute;right: 0.1rem;top: 0.2rem;">{{ordernum.RETURN}}</yd-badge></div>
         <span slot="text" style="color: #666666">售后/服务</span>
       </yd-grids-item>
