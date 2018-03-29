@@ -217,7 +217,7 @@
       },
       /**跳转至详情**/
       gotoDetail(item){
-        this.$router.push({ name: 'productsDetail',query:{skuId:item.skuId},meta:{title:'商品详情'}});
+        this.$router.push({ name: 'productsDetail',query:{skuId:item.skuId}});
       }
     },
 

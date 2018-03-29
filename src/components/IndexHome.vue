@@ -160,12 +160,9 @@
 
     },
     computed: {
-      ...mapGetters([
-        'indexhomeScroll',
-      ]),
       swiper() {
         return this.$refs.mySwiper.swiper
-      }
+      },
     },
     mounted(){
       bindEvent(this);
@@ -193,8 +190,8 @@
         baseHttp(this, '/api/index/config', {}, 'get', storeConfig.length>0?'':'加载中...', function (data) {
           that.config = data.config;
           that.$store.dispatch('setConfig',data.config);
-          if(data.config.title){
-            document.title=data.config.title;
+          if(data.title){
+            document.title=data.title;
           }
           if (that.config instanceof Array) {
             that.config.forEach(function (item) {
@@ -249,6 +246,9 @@
       },
       signature(){
         const that = this;
+        if (window.location.href.indexOf('home/')!=-1){
+          return;
+        }
         baseHttp(this, '/wechat/jsapi/signature', {'url': window.location.href}, 'post', '', function (data) {
           if (data.signature) {
             that.signatureInfo = data.signature;

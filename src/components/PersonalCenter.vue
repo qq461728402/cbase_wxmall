@@ -1,7 +1,5 @@
 <template id="personal">
   <div class="personal">
-    <yd-navbar slot="navbar" title="个人中心" bgcolor="#d41d0f" color="#FFF">
-    </yd-navbar>
     <div class="mine_hearder" @click="gotouser()">
       <div class="user_icon">
          <img :src="userInfo.avatar">
@@ -185,11 +183,9 @@
         this.$router.push({ name: 'aboutUs'});
       },
     },
-    mounted(){
-      if(this.isCookie==true){
-        this.getOrderStatus();
-      }
-    },
+//    mounted(){
+//      this.getOrderStatus();
+//    },
   }
   export default vm;
 </script>
