@@ -48,28 +48,29 @@
       </yd-infinitescroll>
     </yd-pullrefresh>
     <yd-popup v-model="show4" position="right" width="70%">
-
-
-
-
-      <div class="splb2">
+      <div class="splb2" style="margin-bottom: 1rem" slot="top">
         <p class="splb3">价格区间</p>
         <div>
           <input class="splb4" type="number" v-model="minPrice"  placeholder="最高价" style="border-radius: 3px;">
           <input class="splb5" type="number" v-model="maxPrice" placeholder="最低价" style="border-radius: 3px;">
         </div>
-        <div class="splb6">
-
-        </div>
       </div>
       <div class="splb2">
         <p class="splb3">品牌</p>
-        <yd-checkbox-group v-model="selectscreenlist" color="#d41d0f">
-          <yd-checkbox :val="item.brandId" shape="circle" v-for="item,index in screenlist" :key="index">{{item.brandName}}</yd-checkbox>
-        </yd-checkbox-group>
+        <ul v-for="item,index in screenlist" :key="index" class="brandlist">
+          <li class="firstli">
+            <p>{{index}}</p>
+          </li>
+          <li v-for="brand,brandindex in item" :key="brandindex"  class="brandName">
+            <div style="padding: 0.2rem 0">
+              <p>{{brand.brandName}}</p>
+            </div>
+          </li>
+        </ul>
       </div>
-      <div style="margin-top: 2rem;">
-        <yd-button size="large" type="danger" bgcolor="#d41d0f" color="#ffffff" style="width: 80%;margin-left:10%;font-size: .3rem;" @click.native="screenOk()">确定</yd-button>
+      <div slot="bottom">
+        <yd-button size="large" type="hollow" class="screeningButton">重置</yd-button>
+        <yd-button size="large" type="danger" bgcolor="#d41d0f" color="#ffffff" class="screeningButton" @click.native="screenOk()">确定</yd-button>
       </div>
     </yd-popup>
   </yd-layout>
@@ -255,6 +256,7 @@
 <style scoped>
   .splb2{
     margin:15px;
+    display: block;
     background-color: #FFFFFF;
   }
   .splb3{
@@ -313,10 +315,30 @@
     text-align: right;
     padding-right: 10px;
   }
+  .screeningButton{
+    width: 50%;font-size: .3rem;float: left;border-radius:0px
+  }
+  .brandlist{
+    background-color: #ffffff;
+  }
+  .brandlist li{
+    border-bottom: 1px solid #e3e3e3;
+  }
+  .brandlist .firstli{
+    background-color: #f5f5f5;
+    padding:0.1rem 0;
+    color: #999;
+    padding-left: 0.2rem
+  }
+  .brandlist .brandName{
+    padding-left: 0.2rem;
+    background-color: #ffffff;
+  }
 </style>
 <style>
   #prolist .yd-btn-block{
     margin-top: 0px;
     font-size: 0.27rem;
+    border-radius:0px
   }
 </style>
