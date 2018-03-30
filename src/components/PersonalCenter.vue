@@ -61,7 +61,7 @@
         <span slot="right" style="font-size: .3rem;"></span>
       </yd-cell-item>
       <yd-cell-item type="a" @click.native="gotobonushistroy()">
-        <yd-icon slot="icon" name="jfxx" size=".35rem" color="#ff003e" custom></yd-icon>
+        <yd-icon slot="icon" name="jifen" size=".35rem" color="#ff003e" custom></yd-icon>
         <span slot="left">积分商城</span>
         <span slot="right">{{userInfo.bonus?userInfo.bonus:'0'}}积分</span>
       </yd-cell-item>
@@ -74,7 +74,7 @@
         <yd-icon slot="icon" name="tuijian" size=".35rem" color="#ffaa00" custom></yd-icon>
         <span slot="left">推荐好友</span>
       </yd-cell-item>
-      <yd-cell-item arrow @click.native="exchange" type="a" href="#">
+      <yd-cell-item arrow type="a" @click.native="exchange" v-if="1==2" >
         <yd-icon slot="icon" name="duihuan" size=".35rem" color="#ffaa00" custom></yd-icon>
         <span slot="left">兑换专区</span>
       </yd-cell-item>
@@ -87,19 +87,6 @@
         <span slot="left">客服帮助</span>
         <span slot="right" style="font-size: .3rem;">023-88520999</span>
       </yd-cell-item>
-      <yd-popup v-model="isshowbounds" position="bottom" height="60%">
-        <div style="height: 1rem;line-height: 1rem;border-bottom: 1px solid #edeeef" slot="top">
-          <span style="font-size: 0.3rem;color: #666;padding-left: 0.2rem">积分历史</span>
-          <div class="close" @click="isshowwl=false"></div>
-        </div>
-        <yd-timeline>
-          <yd-timeline-item v-for="item,index in bonusPointsHistories" :key="index">
-            <p>{{item.updatedReason}}</p>
-            <p style="margin-top: 10px;" :class="{'grstyle':item.updatedType=='DECREMENT','redstyle':item.updatedType=='INCREMENT'}">{{item.updatedType=='DECREMENT'?'-':item.updatedType=='INCREMENT'?'+':''}}{{item.updatedValue}} <span>&nbsp;&nbsp;&nbsp;{{item.updatedTimestamp|formatDate1}}</span> </p>
-          </yd-timeline-item>
-        </yd-timeline>
-      </yd-popup>
-
     </yd-cell-group>
   </div>
 </template>
@@ -117,7 +104,6 @@
     data() {
       return {
         isCookie:getStore("token").length>0?true:false,
-        isshowbounds:false,
         bonusPointsHistories:[],
         ordernum:{'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'REFUNDING':0,'NOT_COMMENT':0,'RETURN':0,'PAID':0},
         shearView:false,
