@@ -10,7 +10,7 @@ import store from '../store'
 import {removeStore} from './mUtils'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
-axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://joewee.mynatapp.cc/mall';//
+axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://joewee.mynatapp.cc/mall';//weixin.e-cbest.com/mall
 axios.defaults.headers.token = store.getters.token;
 /*
  * 拦截器*/
