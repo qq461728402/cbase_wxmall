@@ -1,23 +1,26 @@
 <!--商品列表-->
 <template>
-  <yd-list :theme="theme" id="productlist">
-    <yd-list-item v-for="item, key in productlist" :key="key" @click.native="gotoDetail(item)" >
-      <div slot="img">
-        <img v-lazy="item.url">
-        <i class="sell-out" v-if="item.isAvalible==false"></i>
-      </div>
-      <span slot="title" style="font-weight: normal;color: #000;">{{item.skuName}}</span>
-      <yd-list-other slot="other">
-        <div>
-          <span class="demo-list-price" style="color: red;"><em>¥</em>{{item.salePrices}}</span>
-          <span class="demo-list-del-price" style="font-size: .2rem;text-decoration:line-through"><em>¥</em>{{item.retailPrices}}</span>
+  <div id="productlist">
+    <yd-list  :theme="theme">
+      <yd-list-item v-for="item, key in productlist" :key="key" @click.native="gotoDetail(item)" >
+        <div slot="img">
+          <img v-lazy="item.url">
+          <i class="sell-out" v-if="item.isAvalible==false"></i>
         </div>
-        <div>
-          <span style="color: #6e6f70;">已售&nbsp<span style="color:#ff7d49">{{item.salesCount?item.salesCount:'0'}}</span> |&nbsp;<span style="color: #6e6f70;">评论</span>&nbsp;<span style="color:#ff7d49 ">{{item.reviewCount?item.reviewCount:'0'}}</span></span><span v-if="item.isAvalible==false" style="font-weight: bold;color: #d41d0f;">{{(item.unAvalibleReson)}}</span>
-        </div>
-      </yd-list-other>
-    </yd-list-item>
-  </yd-list>
+        <span slot="title" style="font-weight: normal;color: #000;">{{item.skuName}}</span>
+        <yd-list-other slot="other">
+          <div>
+            <span class="demo-list-price" style="color: red;"><em>¥</em>{{item.salePrices}}</span>
+            <span class="demo-list-del-price" style="font-size: .2rem;text-decoration:line-through"><em>¥</em>{{item.retailPrices}}</span>
+          </div>
+          <div>
+            <span style="color: #6e6f70;">已售&nbsp<span style="color:#ff7d49">{{item.salesCount?item.salesCount:'0'}}</span> |&nbsp;<span style="color: #6e6f70;">评论</span>&nbsp;<span style="color:#ff7d49 ">{{item.reviewCount?item.reviewCount:'0'}}</span></span><span v-if="item.isAvalible==false" style="font-weight: bold;color: #d41d0f;">{{(item.unAvalibleReson)}}</span>
+          </div>
+        </yd-list-other>
+      </yd-list-item>
+    </yd-list>
+  </div>
+
 </template>
 <script type="text/babel">
   import {Col,Row} from 'vant';
@@ -52,7 +55,11 @@
    #productlist .yd-list-img{
     position:relative;
   }
-   .yd-list-theme4 .yd-list-item .yd-list-title{
-     height: 1.34rem;
+   #productlist .yd-list-theme4 .yd-list-item .yd-list-title{
+     height: 1rem;
+   }
+   #productlist .yd-list-theme4 .yd-list-item .yd-list-img{
+     width:1.5rem;
+     padding:0.75rem 0;
    }
 </style>

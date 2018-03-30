@@ -14,8 +14,8 @@
           </form>
         </yd-flexbox-item>
         <div class="classification" @click="changeClass">
-          <yd-icon slot="icon" name="changyongfenlei" size=".42rem" custom color="#666666" v-if="theme==1"></yd-icon>
-          <yd-icon slot="icon" name="liebiao" size=".42rem" custom color="#666666" v-else-if="theme==4"></yd-icon>
+          <yd-icon slot="icon" name="changyongfenlei" size=".42rem" custom color="#dcdcdc" v-if="theme==1"></yd-icon>
+          <yd-icon slot="icon" name="liebiao" size=".42rem" custom color="#dcdcdc" v-else-if="theme==4"></yd-icon>
         </div>
       </yd-flexbox>
     </div>
@@ -55,21 +55,21 @@
           <input class="splb5" type="number" v-model="maxPrice" placeholder="最低价" style="border-radius: 3px;">
         </div>
       </div>
-      <div class="splb2">
+      <div class="splb2" style="margin-bottom: 1rem">
         <p class="splb3">品牌</p>
         <ul v-for="item,index in screenlist" :key="index" class="brandlist">
           <li class="firstli">
             <p>{{index}}</p>
           </li>
-          <li v-for="brand,brandindex in item" :key="brandindex"  class="brandName">
-            <div style="padding: 0.2rem 0">
-              <p>{{brand.brandName}}</p>
+          <li v-for="(brand,brandindex) in item" :key="brandindex"  class="brandName">
+            <div style="padding: 0.2rem 0" @click="brand.select=!brand.select">
+              <p style="width: 90%" :class="{'color':brand.select==true}">{{brand.brandName}}</p><yd-icon slot="icon" name="gou" size=".25rem" custom color="#d41d0f" v-if="brand.select==true"></yd-icon>
             </div>
           </li>
         </ul>
       </div>
       <div slot="bottom">
-        <yd-button size="large" type="hollow" class="screeningButton">重置</yd-button>
+        <yd-button size="large" type="hollow" class="screeningButton" @click.native="reset()">重置</yd-button>
         <yd-button size="large" type="danger" bgcolor="#d41d0f" color="#ffffff" class="screeningButton" @click.native="screenOk()">确定</yd-button>
       </div>
     </yd-popup>
@@ -150,22 +150,50 @@
           this.theme=1;
         }
       },
+      search(){
+        this.loadList();
+      },
       /*筛选*/
       screenIng(){
         this.show4=!this.show4;
-        if(this.screenlist.length>0){
+        var arr= Object.keys(this.screenlist)
+        if(arr.length>0){
           return;
+        }else{
+          this.mallbrands();
         }
-        this.mallbrands();
+      },
+      /*重置*/
+      reset(){
+        for (var key in this.screenlist){
+          this.screenlist[key].forEach(function (item) {
+            item.select=false;
+          });
+        }
+        this.maxPrice=""
+        this.minPrice="";
       },
       screenOk(){
         this.show4=!this.show4;
+        var brandIds=[];
+        for (var key in this.screenlist){
+          this.screenlist[key].forEach(function (item) {
+            if( item.select==true){
+              brandIds.push(item.brandId);
+            }
+          });
+        }
+        this.selectscreenlist=brandIds;
         this.loadList();
       },
       mallbrands(){
         const that=this;
         baseHttp(this,'/api/mall/category/brands',{'category':this.categoryId},'get','',function (data){
-          console.log(1234);
+          for (var key in data.prands){
+            data.prands[key].forEach(function (item) {
+                item.select=false;
+            });
+          }
           that.screenlist=data.prands;
         })
       },
@@ -262,6 +290,8 @@
   .splb3{
     background-color: #FFFFFF;
     color: #000000;
+    font-size: 0.28rem;
+    margin-bottom: 0.2rem;
   }
   .splb4{
     border: 1px solid #D9D9D9;
@@ -333,6 +363,11 @@
   .brandlist .brandName{
     padding-left: 0.2rem;
     background-color: #ffffff;
+    color: #000;
+  }
+  .brandlist .brandName .color{
+    color:#d41d0f;
+    float: left;
   }
 </style>
 <style>
