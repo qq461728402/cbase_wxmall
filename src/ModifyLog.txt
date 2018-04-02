@@ -1,0 +1,6 @@
+vant 1.0.3 tabs/index.js 修改
+if (scrollTop > elBottomToPageTop) {
+        this.position = 'page-top';//修改了粘性布局
+}
+
+vue-core-image-upload 压缩方式 增加 canvas-helper.js
