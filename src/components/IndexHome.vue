@@ -122,6 +122,11 @@
           </div>
         </div>
       </div>
+      <div v-else-if="codeitem.template=='list'">
+
+
+
+      </div>
     </div>
     <yd-backtop></yd-backtop>
   </div>
@@ -142,6 +147,7 @@
     },
     data () {
       return {
+        title:'',
         bl:'',
         mySwiper: '',
         cityname: '',
@@ -192,6 +198,9 @@
         if (cityname.length>0) {
           vm.cityname = cityname;
         }
+        if(vm.title){
+          document.title=vm.title;
+        }
         vm.searchValue='';
         document.getElementById("scrollView").scrollTop=vm.indexhomeScroll;
       });
@@ -204,6 +213,7 @@
           that.config = data.config;
           that.$store.dispatch('setConfig',data.config);
           if(data.title){
+            that.title=data.title;
             document.title=data.title;
           }
           if (that.config instanceof Array) {

@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <keep-alive>
-      <router-view v-wechat-title="$route.meta.title" :img-set="imgUrl" v-if="$route.meta.keepAlive"></router-view>
+      <router-view v-wechat-title="$route.meta.title"  v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
-    <router-view v-wechat-title="$route.meta.title" :img-set="imgUrl" v-if="!$route.meta.keepAlive"></router-view>
+    <router-view v-wechat-title="$route.meta.title" img-set="'/static/favicon.ico'" v-if="!$route.meta.keepAlive"></router-view>
   </div>
 </template>
 <script>
