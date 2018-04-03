@@ -1,6 +1,6 @@
 <template>
   <yd-layout :class="{'nohight':currentPath=='/shoppingCart','ishight':currentPath!='/shoppingCart'}">
-    <div style="min-height: 100%;height: auto">
+    <div style="height: 100%">
       <keep-alive>
         <router-view v-if="$route.meta.keepAlive"></router-view>
       </keep-alive>
