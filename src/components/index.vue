@@ -1,9 +1,11 @@
 <template>
   <yd-layout :class="{'nohight':currentPath=='/shoppingCart','ishight':currentPath!='/shoppingCart'}">
-    <keep-alive>
-      <router-view v-if="$route.meta.keepAlive"></router-view>
-    </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <div style="min-height: 100%;height: auto">
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
+    </div>
     <yd-tabbar slot="tabbar" activeColor="#d41d0f">
       <yd-tabbar-item title="首页" link="/home" :active="'/home'==currentPath">
         <yd-icon name="shouye" slot="icon" size="0.54rem" custom></yd-icon>
