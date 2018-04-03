@@ -77,29 +77,29 @@
         </div>
         <div class="rowSpan">
           <div class="rowSpanLeft">
-            <div style="margin-left: 5%;margin-right: 5%;width: 90%;height: 100%">
+            <div style="width: 100%;height: 100%">
               <div class="thumb">
                 <img :src="codeitem.items[0].img" @click="gotofluid(codeitem.items[0])"/>
               </div>
             </div>
           </div>
           <div class="rowSpanRight">
-            <div style="width: 45%;height: 47.5%;float: left; margin-right: 5%;margin-bottom: 2.5%">
+            <div style="margin-left: 5%; width: 45%;height: 47.5%;float: left;margin-bottom: 2.5%">
               <div class="thumb">
                 <img :src="codeitem.items[2].img" @click="gotofluid(codeitem.items[2])"/>
               </div>
             </div>
-            <div style="width: 45%;height: 47.5%;float: left; margin-right: 5%;margin-bottom: 2.5%">
+            <div style="margin-left: 5%;width: 45%;height: 47.5%;float: left;margin-bottom: 2.5%">
               <div class="thumb">
                 <img :src="codeitem.items[3].img" @click="gotofluid(codeitem.items[3])"/>
               </div>
             </div>
-            <div style="width: 45%;height: 47.5%;float: left;margin-right: 5%;">
+            <div style="margin-left: 5%; width: 45%;height: 47.5%;float: left;">
               <div class="thumb">
                 <img :src="codeitem.items[4].img" @click="gotofluid(codeitem.items[4])"/>
               </div>
             </div>
-            <div style="width: 45%;height: 47.5%;float: left;margin-right: 5%;">
+            <div style="margin-left: 5%;width: 45%;height: 47.5%;float: left;">
               <div class="thumb">
                 <img :src="codeitem.items[1].img" @click="gotofluid(codeitem.items[1])"/>
               </div>
@@ -365,7 +365,7 @@
     overflow: hidden;
     height: 3.5rem;
     border-bottom: 1px solid #ebeced;
-    padding: .2rem 0;
+    padding: 2%;
   }
   .rowSpanLeft {
     width: 36%;
@@ -425,7 +425,7 @@
     bottom: 1.5rem;
   }
   #home .yd-grids-icon{
-    height:.78rem
+    height:.9rem
   }
   #home .yd-grids-item{
     padding:0.2rem 0;
