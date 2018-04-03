@@ -1,9 +1,7 @@
 <template>
   <div id="home" style="background-color: #fff">
-    <yd-navbar slot="navbar" title="首页" bgcolor="#d41d0f" color="#FFF">
-    </yd-navbar>
-    <div style="text-align: center;background-color:rgba(212, 29, 15, 0);position: fixed;width: 100%;max-width: 750px; z-index: 55" id="my_search">
-      <yd-flexbox style="margin:8px 0">
+    <div style="text-align: center;background-color:rgba(212, 29, 15, 0);position: fixed;width: 100%;max-width: 750px; z-index: 101;" id="my_search" >
+      <yd-flexbox style="margin:8px 0;">
         <div style="width: 22%;height: 30px;line-height: 30px" @click="gotocitychoose">
           <span class="city">{{cityname.length==0?'重庆市':cityname.substring(0,3)}}</span>
         </div>
@@ -86,22 +84,22 @@
             </div>
           </div>
           <div class="rowSpanRight">
-            <div style="width: 45%;height: 50%;float: left; margin-right: 5%">
+            <div style="width: 45%;height: 47.5%;float: left; margin-right: 5%;margin-bottom: 2.5%">
               <div class="thumb">
                 <img :src="codeitem.items[2].img" @click="gotofluid(codeitem.items[2])"/>
               </div>
             </div>
-            <div style="width: 45%;height: 50%;float: left;margin-right: 5%">
+            <div style="width: 45%;height: 47.5%;float: left; margin-right: 5%;margin-bottom: 2.5%">
               <div class="thumb">
                 <img :src="codeitem.items[3].img" @click="gotofluid(codeitem.items[3])"/>
               </div>
             </div>
-            <div style="width: 45%;height: 50%;float: left;margin-right: 5%">
+            <div style="width: 45%;height: 47.5%;float: left;margin-right: 5%;">
               <div class="thumb">
                 <img :src="codeitem.items[4].img" @click="gotofluid(codeitem.items[4])"/>
               </div>
             </div>
-            <div style="width: 45%;height: 50%;float: left;margin-right: 5%">
+            <div style="width: 45%;height: 47.5%;float: left;margin-right: 5%;">
               <div class="thumb">
                 <img :src="codeitem.items[1].img" @click="gotofluid(codeitem.items[1])"/>
               </div>
@@ -365,11 +363,12 @@
   }
   .rowSpan {
     overflow: hidden;
-    height: 2.5rem;
+    height: 3.5rem;
     border-bottom: 1px solid #ebeced;
+    padding: .2rem 0;
   }
   .rowSpanLeft {
-    width: 40%;
+    width: 36%;
     float: left;
     height: 100%;
   }
@@ -378,9 +377,10 @@
     position: relative;
     overflow: hidden;
     height: 100%;
+    background-color: #f5f5f5;
+    border-radius: 0.2rem;
   }
   .rowSpan .thumb img {
-    border-radius: 0.2rem;
     vertical-align: middle;
     position: absolute;
     margin: auto;
@@ -392,7 +392,7 @@
     max-height: 100%;
   }
   .rowSpanRight {
-    width: 60%;
+    width: 64%;
     float: right;
     height: 100%;
   }
@@ -424,7 +424,12 @@
   #home .yd-backtop {
     bottom: 1.5rem;
   }
-
+  #home .yd-grids-icon{
+    height:.78rem
+  }
+  #home .yd-grids-item{
+    padding:0.2rem 0;
+  }
   #primaryMenu .yd-grids-5 .yd-grids-item:not(:nth-child(5n)):before {
     border-right: none;
   }
