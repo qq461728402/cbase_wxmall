@@ -36,7 +36,7 @@
           <span class="storeName"> {{product.storeName}} </span>
       </van-cell>
     </van-cell-group>
-    <van-tabs :active="active" swipeable  sticky :duration="0.5" style="background-color: #ffffff;margin-bottom: 1rem" id="tabs">
+    <van-tabs :active="active" swipeable  sticky :duration="0.5" style="background-color: #ffffff;margin-bottom: 1rem;z-index: 1" id="tabs">
       <van-tab  title="商品详情">
         <van-cell-group>
           <van-cell>
