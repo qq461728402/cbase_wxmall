@@ -10,7 +10,7 @@
         <yd-flexbox-item id="searchId">
           <form action="javascript:return true;">
             <span class="icon_search"></span>
-            <input type="search" class="search" placeholder="点击搜索"  @keyup.13="search()" v-model="queryKey">
+            <input type="search" class="search" placeholder="点击搜索"  @keyup.enter="search()" v-model="queryKey">
           </form>
         </yd-flexbox-item>
         <div class="classification" @click="changeClass">
