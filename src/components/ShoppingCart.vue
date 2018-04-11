@@ -36,8 +36,12 @@
                   <yd-flexbox-item style="height: 0.7rem">
                     <span style="color: #d41d0f;font-size: 0.25rem;line-height: 0.6rem">&yen;{{item.price}}</span>
                         	<span style="float: right; margin-right: .3rem;">
-                              <van-stepper v-model="item.quantity" :min="1"  @plus="select(item,true)" @minus="select(item,false)"/>
-                        	</span>
+                              <div class="van-stepper">
+                                  <button class="van-stepper__stepper van-stepper__minus" :class="{'van-stepper__minus--disabled':item.quantity<=1}"
+                                          @click="select(item,false)"></button>
+                                  <input type="number" class="van-stepper__input" v-model="item.quantity">
+                                  <button class="van-stepper__stepper van-stepper__plus" @click="select(item,true)"></button>
+                              </div></span>
                   </yd-flexbox-item>
                 </yd-flexbox>
               </yd-flexbox-item>
@@ -90,7 +94,6 @@
       carts: {
         handler: function (val, oldval) {
           this.calculate();
-          this.getCartsQuantity();
         },
         deep: true,
       }
@@ -131,14 +134,27 @@
         })
       },
       select(item, flg){
-        baseHttp1(this, '/api/carts/cartsUpdate', item, 'post', '', function (data) {
-          if (data.code!=200){
-            if(flg==true){
-              item.quantity=item.quantity-1;
-            }else{
-              item.quantity=item.quantity+1;
-            }
+          var tempitem={};
+          for(var key in item){
+              tempitem[key]=item[key];
           }
+          if (tempitem.quantity<=1&&flg==false){
+              item.quantity=1;
+              return;
+          }
+          if (flg==false){
+              tempitem.quantity--;
+          }else{
+              tempitem.quantity++;
+          }
+          const  that=this;
+          baseHttp(this, '/api/carts/cartsUpdate', tempitem, 'post', '', function (data) {
+              if(flg==true){
+                  item.quantity++;
+              }else{
+                  item.quantity--;
+              }
+              that.getCartsQuantity();
         });
       },
       /*获取购物车详情*/
@@ -185,7 +201,8 @@
         }
         var cartItemIds = cartItemIdLst.join(",");
         baseHttp(this, '/api/carts/cartsDelete', {'cartItemIds': cartItemIds}, 'post', '删除中...', function (data) {
-          that.loadList()
+          that.loadList();
+            that.getCartsQuantity();
         });
       },
       /*计算金额*/
@@ -269,6 +286,7 @@
     },
     activated(){
       this.showtext= true;
+      this.getCartsQuantity();
       this.getShopCarts(false);
     },
 //    mounted(){
