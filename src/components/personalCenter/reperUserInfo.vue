@@ -34,7 +34,7 @@
       </yd-cell-item>
       <yd-cell-item>
         <span slot="left">手机号：</span>
-        <yd-input slot="right"  placeholder="请输入手机号码" v-model="userInfo.phone" disabled :show-clear-icon="false"></yd-input>
+        <yd-input slot="right"  placeholder="请输入手机号码" v-model="userInfo.phone"  :show-clear-icon="false"></yd-input>
       </yd-cell-item>
       <yd-cell-item>
         <span slot="left">性别：</span>

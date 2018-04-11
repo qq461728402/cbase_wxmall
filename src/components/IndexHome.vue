@@ -86,22 +86,22 @@
           <div class="rowSpanRight">
             <div style="margin-left: 5%; width: 45%;height: 47.5%;float: left;margin-bottom: 2.5%">
               <div class="thumb">
-                <img :src="codeitem.items[2].img" @click="gotofluid(codeitem.items[2])"/>
+                <img :src="codeitem.items[1].img" @click="gotofluid(codeitem.items[1])"/>
               </div>
             </div>
             <div style="margin-left: 5%;width: 45%;height: 47.5%;float: left;margin-bottom: 2.5%">
               <div class="thumb">
-                <img :src="codeitem.items[3].img" @click="gotofluid(codeitem.items[3])"/>
+                <img :src="codeitem.items[2].img" @click="gotofluid(codeitem.items[2])"/>
               </div>
             </div>
             <div style="margin-left: 5%; width: 45%;height: 47.5%;float: left;">
               <div class="thumb">
-                <img :src="codeitem.items[4].img" @click="gotofluid(codeitem.items[4])"/>
+                <img :src="codeitem.items[3].img" @click="gotofluid(codeitem.items[3])"/>
               </div>
             </div>
             <div style="margin-left: 5%;width: 45%;height: 47.5%;float: left;">
               <div class="thumb">
-                <img :src="codeitem.items[1].img" @click="gotofluid(codeitem.items[1])"/>
+                <img :src="codeitem.items[4].img" @click="gotofluid(codeitem.items[4])"/>
               </div>
             </div>
           </div>
