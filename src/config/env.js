@@ -61,6 +61,39 @@ export function baseHttp(ydui, url, par, method, loadmsg, callback) {
   })
 }
 
+
+export function baseHttp1(ydui, url, par, method, loadmsg, callback) {
+  if (loadmsg.length != 0) {
+    ydui.$dialog.loading.open(loadmsg);
+  }
+  axios({
+    method: method,
+    url: url,
+    params:par,
+    data:par,
+    timeout: 10000,
+  }).then(function (response) {
+    if(response.data.code!=200){
+      ydui.$dialog.toast({
+        mes: response.data.msg,
+        timeout: 2000,
+      });
+    }
+    if (callback) {
+      callback(response.data)
+    }
+    ydui.$dialog.loading.close();
+  }).catch(function (error) {
+    console.log(error);
+    ydui.$dialog.loading.close();
+    // ydui.$dialog.toast({
+    //   mes: error,
+    //   timeout: 1000,
+    //   icon: 'error',
+    // });
+  })
+}
+
 /*
  获取Cookie是否存在
  */

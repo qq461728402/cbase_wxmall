@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: devEnv.OPEN_PROXY === false ? {} : {
       '/proxyApi': {
-        target: 'http://joewee.mynatapp.cc/mall',//weixin.e-cbest.com/mall
+        target: 'http://weixin.e-cbest.com/mall',//
         changeOrigin: true,
         pathRewrite: {
           '^/proxyApi': '/'

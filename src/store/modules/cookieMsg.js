@@ -26,7 +26,7 @@ const cookieMsg={
       }
     },
     SET_TOKEN:(state)=>{
-      // setStore('token','eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MjIzOTg2MDgsInN1YiI6IntcInVpZFwiOjUsXCJzY29wZVwiOlwiQUxMXCJ9IiwiaXNzIjoiTUFMTCJ9.7fLO5supVk4ItS20MzIMtmFVXFAjjKuOCM7ObhtO8nw');
+      // setStore('token','eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MjM0MjcxNTQsInN1YiI6IntcInVpZFwiOjIsXCJzY29wZVwiOlwiQUxMXCJ9IiwiaXNzIjoiTUFMTCJ9.wr-LxT4oQa4i7lPjfv2HTVJf3oHMy-2y4WUFrqb4ZMw');
       //  state.token=getStore('token');
       var tokenstr=getToken('token');
       if(tokenstr.length>0){

@@ -21,13 +21,13 @@
         <hr style="border: none; border-bottom: 1px solid #D9D9D9;"/>
         <yd-checklist color="#d41d0f" :label="false" v-model="cart.selectitem" :ref="cart.ref" :callback="change(cart.ref,cart.selectitem)" slot="list">
           <yd-checklist-item :val="item.skuId" v-for="(item,index) in cart.items" :key="index">
-            <yd-flexbox @click.native.stop="gotoDetail(item)">
-              <div class="thumb center-img">
+            <yd-flexbox >
+              <div class="thumb center-img" @click="gotoDetail(item)">
                 <img :src="item.url">
               </div>
               <yd-flexbox-item>
-                <yd-flexbox direction="vertical" style="padding-top: 0.15rem">
-                  <yd-flexbox-item style="min-height: 0.6rem"><span style="overflow:hidden; text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;font-size: 0.28rem">{{item.name}}</span>
+                <yd-flexbox direction="vertical" style="padding-top: 0.15rem" >
+                  <yd-flexbox-item style="min-height: 0.6rem" @click.native="gotoDetail(item)"><span style="overflow:hidden; text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;font-size: 0.28rem">{{item.name}}</span>
                   </yd-flexbox-item>
                   <yd-flexbox-item>
                     <span style="background-color: #d41d0f;padding:0.05rem 0.1rem;color: #fff;border-radius: 0.05rem" v-if="item.shippingType=='DELIVERY'||item.shippingType=='BOTH'">快递</span>
@@ -36,7 +36,7 @@
                   <yd-flexbox-item style="height: 0.7rem">
                     <span style="color: #d41d0f;font-size: 0.25rem;line-height: 0.6rem">&yen;{{item.price}}</span>
                         	<span style="float: right; margin-right: .3rem;">
-                                <span class="yd-spinner" style="height: 0.6rem; width: 2rem;"><a @click.stop="select(item,false)"></a> <input type="number" pattern="[0-9]*" placeholder="" class="yd-spinner-input" v-model="item.quantity"> <a @click.stop="select(item,true)"></a></span>
+                              <van-stepper v-model="item.quantity" :min="1"  @plus="select(item,true)" @minus="select(item,false)"/>
                         	</span>
                   </yd-flexbox-item>
                 </yd-flexbox>
@@ -65,10 +65,14 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {getCookie,baseHttp} from "../config/env"
+  import {getCookie,baseHttp,baseHttp1} from "../config/env"
   import {getStore,setStore} from "../config/mUtils"
   import { mapGetters } from 'vuex'
+  import { Stepper } from 'vant';
   const vm= {
+    components: {
+      [Stepper.name]: Stepper
+    },
     data() {
       return {
         showtext: true,
@@ -127,25 +131,13 @@
         })
       },
       select(item, flg){
-        var tempitem={};
-        for(var key in item){
-          tempitem[key]=item[key];
-        }
-        if(flg==true){
-          tempitem.quantity=item.quantity+1;
-        }
-        else{
-          if(tempitem.quantity<=1){
-            return;
-          }
-          tempitem.quantity=tempitem.quantity-1;
-        }
-        const that = this;
-        baseHttp(this, '/api/carts/cartsUpdate', tempitem, 'post', '', function (data) {
-          if(flg==true){
-            item.quantity=item.quantity+1;
-          }else{
-            item.quantity=item.quantity-1;
+        baseHttp1(this, '/api/carts/cartsUpdate', item, 'post', '', function (data) {
+          if (data.code!=200){
+            if(flg==true){
+              item.quantity=item.quantity-1;
+            }else{
+              item.quantity=item.quantity+1;
+            }
           }
         });
       },
@@ -276,6 +268,7 @@
       },
     },
     activated(){
+      this.showtext= true;
       this.getShopCarts(false);
     },
 //    mounted(){
