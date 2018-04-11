@@ -156,8 +156,9 @@
       /*筛选*/
       screenIng(){
         this.show4=!this.show4;
+        console.log(1234);
         var arr= Object.keys(this.screenlist)
-        if(arr.length>0){
+        if(arr&&arr.length>0){
           return;
         }else{
           this.mallbrands();
