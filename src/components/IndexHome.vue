@@ -197,12 +197,13 @@
       ])
     },
     mounted(){
-      this.$store.dispatch('getToken');
       bindEvent(this);
       var cityname=this.$store.state.basicStorage.cityName;
       if (cityname.length>0) {
         this.cityname =cityname;
       }
+      this.getuserInfo();
+      this.getCartsQuantity();
       this.signature();
       this.getConfig();
     },
@@ -290,6 +291,24 @@
           if (data.signature) {
             that.signatureInfo = data.signature;
             that.getLocation();
+          }
+        })
+      },
+      /*获取购物车数量*/
+      getCartsQuantity(){
+        const that = this;
+        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
+          if (data.quantity >= 0) {
+            that.$store.dispatch('setQuantity', data.quantity);
+          }
+        })
+      },
+      /*获取用户信息*/
+      getuserInfo(){
+        const that = this;
+        baseHttp(this, '/api/personal/info', {}, 'get', '', function (data) {
+          if (data) {
+            that.$store.dispatch('setUserInfo', data.info);
           }
         })
       },

@@ -126,6 +126,7 @@
           if(vm.$route.query.queryKey) {
             vm.queryKey=vm.$route.query.queryKey;
           }
+          vm.show4=false;
           vm.xl='#6d6d6d';
           vm.zh='#ff0000';
           vm.jg='#6d6d6d';
