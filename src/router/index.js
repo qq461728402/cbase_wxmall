@@ -66,18 +66,14 @@ const Seckill = resolve => require.ensure([], () => resolve(require('../componen
 
 
 const router = new Router({
-  hashbang:false,
-  // mode: 'history',
+   // hashbang:false,
+   // mode: 'history',
   routes: [
     {path: "*", redirect: '/home'},
-    {path: '/index', name: 'index',component: Index, meta:{keepAlive:true},
-      children:[
-        {path:'/home',name:'home',component:IndexHome,meta:{keepAlive:true}},
-        {path:'/category',name:'category',component:CarProducts,meta:{title:'商品分类',keepAlive:true}},
-        {path:'/shoppingCart',name:'shoppingCart',component:ShoppingCart,meta:{title:'购物车',keepAlive:true}},
-        {path:'/personalCenter',name:'personalCenter',component:PersonalCenter,meta:{title:'个人中心',keepAlive:true}},
-      ]
-    },
+    {path:'/home',name:'home',component:IndexHome,meta:{keepAlive:true}},
+    {path:'/category',name:'category',component:CarProducts,meta:{title:'商品分类',keepAlive:true}},
+    {path:'/shoppingCart',name:'shoppingCart',component:ShoppingCart,meta:{title:'购物车',keepAlive:true}},
+    {path:'/personalCenter',name:'personalCenter',component:PersonalCenter,meta:{title:'个人中心',keepAlive:true}},
     {path:'/home/chooseCity',name:'chooseCity',component:ChooseCity,meta:{title:'选择城市',keepAlive:true}},
     {path:"/home/productsList",name:'productsList',component:ProductsList,meta:{title:'商品列表',keepAlive:true}},
     {path:"/home/productsDetail",name:'productsDetail',component:ProductsDetail,meta:{title:'商品详情',keepAlive:false}},

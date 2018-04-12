@@ -54,6 +54,7 @@
 <style>
    #productlist .yd-list-img{
     position:relative;
+     background-color: #ffffff;
   }
    #productlist .yd-list-theme4 .yd-list-item .yd-list-title{
      height: 1rem;

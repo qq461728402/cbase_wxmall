@@ -1,12 +1,13 @@
 <template>
   <div id="app">
     <keep-alive>
-      <router-view v-wechat-title="$route.meta.title"  v-if="$route.meta.keepAlive"></router-view>
+      <router-view v-wechat-title="$route.meta.title" :img-set="imgUrl"  v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
-    <router-view v-wechat-title="$route.meta.title" img-set="/static/favicon.ico" v-if="!$route.meta.keepAlive"></router-view>
+    <router-view v-wechat-title="$route.meta.title" :img-set="imgUrl" v-if="!$route.meta.keepAlive"></router-view>
   </div>
 </template>
-<script>
+<script type="text/ecmascript-6">
+  import {baseHttp} from '@/config/env'
   export default{
     name: 'app',
     data () {
@@ -15,10 +16,40 @@
       }
     },
     mounted(){
+      this.getuserInfo();
       this.$store.dispatch('getAvatar');
       this.$store.dispatch('getToken');
       this.$store.dispatch('getUid');
       this.$store.dispatch('getUname');
+    },
+    methods: {
+      /*获取购物车数量*/
+      getCartsQuantity(){
+        const that = this;
+        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
+          if (data.quantity >= 0) {
+            that.$store.dispatch('setQuantity', data.quantity);
+          }
+        })
+      },
+      /*获取用户信息*/
+      getuserInfo(){
+        const that = this;
+        baseHttp(this, '/api/personal/info', {}, 'get', '', function (data) {
+          if (data) {
+            that.$store.dispatch('setUserInfo', data.info);
+          }
+        })
+      },
+    },
+    watch: {
+      "$route"(to, from) {
+        const currentRouter = this.$router.currentRoute.fullPath;
+        console.log(currentRouter);
+        if(to.name=='/home'||to.name=='/category'||to.name=='/shoppingCart'||to.name=='/personalCenter'){
+          this.getCartsQuantity();
+        }
+      }
     },
   }
 </script>

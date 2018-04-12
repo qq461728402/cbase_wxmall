@@ -66,6 +66,21 @@
             </span>
       </yd-cell-item>
     </yd-cell-group>
+    <yd-tabbar slot="tabbar" activeColor="#d41d0f">
+      <yd-tabbar-item title="首页"  link="/home">
+        <yd-icon name="shouye" slot="icon" size="0.54rem" custom></yd-icon>
+      </yd-tabbar-item>
+      <yd-tabbar-item title="分类" link="/category" >
+        <yd-icon slot="icon" size="0.54rem" name="fenlei" custom></yd-icon>
+      </yd-tabbar-item>
+      <yd-tabbar-item title="购物车" type="a" active>
+        <yd-icon name="gouwuche" slot="icon" size="0.54rem" custom></yd-icon>
+        <yd-badge slot="badge" type="danger" v-if="quantity!=0" style="background-color: #d41d0f;">{{quantity}}</yd-badge>
+      </yd-tabbar-item>
+      <yd-tabbar-item title="个人中心" link="/personalCenter">
+        <yd-icon name="ucenter" slot="icon" size="0.54rem"></yd-icon>
+      </yd-tabbar-item>
+    </yd-tabbar>
   </yd-layout>
 </template>
 <script type="text/babel">
@@ -77,6 +92,11 @@
     components: {
       [Stepper.name]: Stepper
     },
+    computed: {
+      ...mapGetters([
+        'quantity'
+      ])
+    },
     data() {
       return {
         showtext: true,
@@ -84,7 +104,6 @@
         carts: [],
         isCheckAll: true,
         allCheck: true,
-        quantity: 0,//购物车数量
         totalMoney: 0.0,
         carInfo: {},
         showNoProduct:false,
@@ -138,7 +157,7 @@
           for(var key in item){
               tempitem[key]=item[key];
           }
-          if (tempitem.quantity<=1&&flg==false){
+          if (tempitem.quantity<=1){
               item.quantity=1;
               return;
           }
@@ -154,7 +173,10 @@
               }else{
                   item.quantity--;
               }
-              that.getCartsQuantity();
+            if (item.quantity<=1) {
+              item.quantity = 1;
+            }
+            that.getCartsQuantity();
         });
       },
       /*获取购物车详情*/

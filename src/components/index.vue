@@ -1,10 +1,10 @@
 <template>
-  <yd-layout :class="{'nohight':currentPath=='/shoppingCart','ishight':currentPath!='/shoppingCart'}">
+  <yd-layout>
     <div style="height: 100%">
-      <keep-alive>
-        <router-view v-if="$route.meta.keepAlive"></router-view>
-      </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive"></router-view>
+      <!--<keep-alive>-->
+        <!--<router-view v-if="$route.meta.keepAlive"></router-view>-->
+      <!--</keep-alive>-->
+      <router-view></router-view>
     </div>
     <yd-tabbar slot="tabbar" activeColor="#d41d0f">
       <yd-tabbar-item title="首页" link="/home" :active="'/home'==currentPath">
@@ -71,6 +71,7 @@
         if(to.name=='/home'||to.name=='/category'||to.name=='/shoppingCart'||to.name=='/personalCenter'){
           this.getCartsQuantity();
         }
+
         this.currentPath=this.$route.path;
       }
     }
