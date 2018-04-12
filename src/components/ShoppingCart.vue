@@ -168,14 +168,7 @@
           }
           const  that=this;
           baseHttp(this, '/api/carts/cartsUpdate', tempitem, 'post', '修改中...', function (data) {
-              if(flg==true){
-                  item.quantity++;
-              }else{
-                  item.quantity--;
-              }
-            if (item.quantity<=1) {
-              item.quantity = 1;
-            }
+            item.quantity = data.quantity;
             that.getCartsQuantity();
         });
       },
