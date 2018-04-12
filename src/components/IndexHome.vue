@@ -197,6 +197,7 @@
       ])
     },
     mounted(){
+      this.$store.dispatch('getToken');
       bindEvent(this);
       var cityname=this.$store.state.basicStorage.cityName;
       if (cityname.length>0) {

@@ -11,6 +11,7 @@ import {removeStore} from './mUtils'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
 axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://weixin.e-cbest.com/mall';//
+store.dispatch('getToken');
 axios.defaults.headers.token = store.getters.token;
 /*
  * 拦截器*/

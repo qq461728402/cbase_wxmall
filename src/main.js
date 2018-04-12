@@ -32,6 +32,8 @@ new Vue({
   components: { App }
 })
 
+
+
 Vue.filter('dateYY', function(value) {
   if (!value) { return ''};
   var str = "" + value;
