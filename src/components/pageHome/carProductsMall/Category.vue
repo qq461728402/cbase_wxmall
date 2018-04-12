@@ -45,9 +45,11 @@
   import {baseHttp} from '../../../config/env'
   import { mapGetters } from 'vuex'
   const vm= {
-    ...mapGetters([
-      'quantity'
-    ]),
+    computed: {
+      ...mapGetters([
+        'quantity'
+      ])
+    },
     data() {
       return {
         initindex:0,
