@@ -157,7 +157,7 @@
           for(var key in item){
               tempitem[key]=item[key];
           }
-          if (tempitem.quantity<=1){
+          if (tempitem.quantity<=1&&flg==false){
               item.quantity=1;
               return;
           }
