@@ -39,7 +39,7 @@
                               <div class="van-stepper">
                                   <button class="van-stepper__stepper van-stepper__minus" :class="{'van-stepper__minus--disabled':item.quantity<=1}"
                                           @click="select(item,false)"></button>
-                                  <input type="number" class="van-stepper__input" v-model="item.quantity">
+                                  <input type="number" readonly class="van-stepper__input" v-model="item.quantity">
                                   <button class="van-stepper__stepper van-stepper__plus" @click="select(item,true)"></button>
                               </div></span>
                   </yd-flexbox-item>
