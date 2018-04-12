@@ -16,11 +16,11 @@
       }
     },
     mounted(){
-      this.getuserInfo();
       this.$store.dispatch('getAvatar');
       this.$store.dispatch('getToken');
       this.$store.dispatch('getUid');
       this.$store.dispatch('getUname');
+      this.getuserInfo();
     },
     methods: {
       /*获取购物车数量*/
