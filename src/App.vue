@@ -20,8 +20,6 @@
       this.$store.dispatch('getToken');
       this.$store.dispatch('getUid');
       this.$store.dispatch('getUname');
-      this.getuserInfo();
-      this.getCartsQuantity();
     },
     methods: {
       /*获取购物车数量*/
@@ -30,15 +28,6 @@
         baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
           if (data.quantity >= 0) {
             that.$store.dispatch('setQuantity', data.quantity);
-          }
-        })
-      },
-      /*获取用户信息*/
-      getuserInfo(){
-        const that = this;
-        baseHttp(this, '/api/personal/info', {}, 'get', '', function (data) {
-          if (data) {
-            that.$store.dispatch('setUserInfo', data.info);
           }
         })
       },
