@@ -8,11 +8,13 @@
 </template>
 <script type="text/ecmascript-6">
   import {baseHttp} from '@/config/env'
+  import {getLocation} from '@/config/weichatPay'
   export default{
     name: 'app',
     data () {
       return {
         imgUrl:require('../static/logo.png'),
+        signatureInfo:{}
       }
     },
     mounted(){
@@ -32,16 +34,29 @@
           }
         })
       },
+      getLocation(){
+        const that = this;
+        getLocation(this.signatureInfo, function (success) {})
+      },
+      signature(){
+        const that = this;
+        baseHttp(this, '/wechat/jsapi/signature', {'url': window.location.href}, 'post', '', function (data) {
+          if (data.signature) {
+            that.signatureInfo = data.signature;
+            that.getLocation();
+          }
+        })
+      },
     },
     watch: {
       "$route"(to, from) {
         const currentRouter = this.$router.currentRoute.fullPath;
-        alert(window.location.href);
         this.$store.dispatch('setshearUrl',window.location.href);
         this.$store.dispatch('setshearTitle',document.title);
         if(to.name=='/home'||to.name=='/category'||to.name=='/shoppingCart'||to.name=='/personalCenter'){
           this.getCartsQuantity();
         }
+        this.signature();
       }
     },
   }
