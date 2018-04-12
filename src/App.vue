@@ -36,6 +36,7 @@
     watch: {
       "$route"(to, from) {
         const currentRouter = this.$router.currentRoute.fullPath;
+        alert(window.location.href);
         this.$store.dispatch('setshearUrl',window.location.href);
         this.$store.dispatch('setshearTitle',document.title);
         if(to.name=='/home'||to.name=='/category'||to.name=='/shoppingCart'||to.name=='/personalCenter'){
