@@ -18,8 +18,8 @@
     <van-row style="line-height: 30px;background-color: #E9E9E9">
       <van-col offset="1" span="8"><span style="font-size: 0.25rem;color: #d41d0f">疯狂抢购&nbsp;限时秒杀</span></van-col>
       <van-col offset="1" span="13" style="text-align: right">
-        <span style="color:#d41d0f">{{flag==1?'距开始':flag==2?'距结束':''}} </span>
-        <yd-countdown :time="seckillTime"  id="times"  :callback="starttimes">
+        <span style="color:#d41d0f">{{flag==1?'距开始':flag==2?'距结束':'已结束'}} </span>
+        <yd-countdown v-if="flag!=3" :time="seckillTime"  id="times"  :callback="starttimes">
           <span><em>{%d}</em></span>天
           <span><em>{%h}</em></span>小时
           <span><em>{%m}</em></span>时
@@ -67,7 +67,7 @@
     data() {
       return {
         showpivot:false,
-        selettype:1,//默认为第一个
+        selettype:0,//默认为第一个
         startTimes:[],
         promotions:[],//所有的列表
         seckillTime:'',//秒杀时间
@@ -84,7 +84,9 @@
         this.selettype=key;
         this.flag=this.startTimes[key-1].flag;
         var seckillTime =this.startTimes[key-1].seckillTime;
-        document.getElementById('scroll').scrollLeft=e.currentTarget.offsetLeft-10;
+        if (e){
+          document.getElementById('scroll').scrollLeft=e.currentTarget.offsetLeft-10;
+        }
         this.loadList(seckillTime);
       },
       starttimes(){
@@ -118,6 +120,9 @@
               }
               i++;
             })
+            if (that.selettype==0){
+              that.switchlist(1,);
+            }
           }
         })
       },
