@@ -74,13 +74,13 @@ export  function getLocation(data,cb,errorCb) {
       }
     });
     wx.onMenuShareTimeline({
-      title: $store.getters.shearTitle, // 分享标题
-      link: $store.getters.shearUrl, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+      title: store.getters.shearTitle, // 分享标题
+      link: store.getters.shearUrl, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
       imgUrl: '', // 分享图标
     })
     wx.onMenuShareAppMessage({
-      title: $store.getters.shearTitle, // 分享标题
-      link: $store.getters.shearUrl, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+      title: store.getters.shearTitle, // 分享标题
+      link: store.getters.shearUrl, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
       imgUrl: '', // 分享图标
     })
   });
