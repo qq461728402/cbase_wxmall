@@ -16,6 +16,7 @@ const getters= {
   router:state => state.basicStorage.router,
   scrollPosion:state =>state.basicStorage.scrollPosion,
   indexhomeScroll:state =>state.basicStorage.indexhomeScroll,
-
+  shearUrl:state =>state.basicStorage.shearUrl,
+  shearTitle:state =>state.basicStorage.shearTitle
 }
 export default getters;

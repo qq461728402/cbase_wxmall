@@ -9,6 +9,8 @@ const basicStorage={
     categoryList:[],//分类列表
     goodsList:[],//商品列表
     quantity:'0',//存储购物车数量
+    shearUrl:window.location.href,
+    shearTitle:document.title,
     userInfo:{
       bonus:0,//用户积分
     },
@@ -23,9 +25,16 @@ const basicStorage={
     router:'/',//支付路由
   },
   mutations:{
+    SET_SHEARURL:(state,shearUrl) => {
+      state.shearUrl=shearUrl;
+    },
+    SET_SHEARTITLE:(state,shearTitle) => {
+      state.shearTitle=shearTitle;
+    },
     SET_ROUTER:(state,router) => {
       state.router=router;
     },
+
     SET_INDEXHOMESCROLL:(state,indexhomeScroll) =>{
       state.indexhomeScroll=indexhomeScroll;
     },
@@ -58,6 +67,12 @@ const basicStorage={
     },
   },
   actions: {
+    setshearTitle({commit},shearTitle){
+      commit('SET_SHEARTITLE',shearTitle)
+    },
+    setshearUrl({commit},shearUrl){
+      commit('SET_SHEARURL',shearUrl)
+    },
     setindexhomeScroll({commit},indexhomeScroll){
       commit('SET_INDEXHOMESCROLL',indexhomeScroll)
     },

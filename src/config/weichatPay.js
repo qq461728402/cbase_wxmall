@@ -1,6 +1,7 @@
 /**
  * Created by dx on 18/1/22.
  */
+import store from '../store'
 //微信支付方法（点击按键调用）
 let wx = require('weixin-js-sdk');
 /*
@@ -54,12 +55,12 @@ export  function getLocation(data,cb,errorCb) {
   let nonceStr = data.nonceStr;
   let signature = data.signature;
   wx.config({
-    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
     appId: appId, // 必填，公众号的唯一标识
     timestamp: timestamp, // 必填，生成签名的时间戳
     nonceStr: nonceStr, // 必填，生成签名的随机串
     signature: signature, // 必填，签名，见附录1
-    jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    jsApiList: ['getLocation','onMenuShareAppMessage','onMenuShareTimeline'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
   });
   wx.ready(function(){
     wx.getLocation({
@@ -72,6 +73,16 @@ export  function getLocation(data,cb,errorCb) {
         errorCb(res);
       }
     });
+    wx.onMenuShareTimeline({
+      title: $store.getters.shearTitle, // 分享标题
+      link: $store.getters.shearUrl, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+      imgUrl: '', // 分享图标
+    })
+    wx.onMenuShareAppMessage({
+      title: $store.getters.shearTitle, // 分享标题
+      link: $store.getters.shearUrl, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+      imgUrl: '', // 分享图标
+    })
   });
   wx.error(function(res) {
     // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。

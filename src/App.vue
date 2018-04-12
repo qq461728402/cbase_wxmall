@@ -20,6 +20,7 @@
       this.$store.dispatch('getToken');
       this.$store.dispatch('getUid');
       this.$store.dispatch('getUname');
+      setshearUrl
     },
     methods: {
       /*获取购物车数量*/
@@ -35,7 +36,8 @@
     watch: {
       "$route"(to, from) {
         const currentRouter = this.$router.currentRoute.fullPath;
-        console.log(currentRouter);
+        this.$store.dispatch('setshearUrl',window.location.href);
+        this.$store.dispatch('setshearTitle',document.title);
         if(to.name=='/home'||to.name=='/category'||to.name=='/shoppingCart'||to.name=='/personalCenter'){
           this.getCartsQuantity();
         }
