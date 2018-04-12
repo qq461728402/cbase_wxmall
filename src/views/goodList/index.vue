@@ -2,16 +2,16 @@
 <template>
   <ul class="bulk_goods">
     <li class="goods-item" v-for="item, key in goodlist" :key="key" @click="gotoDetail(item)">
-      <div class="thumb center-img badge">
-        <img :src="item.skuModel.image">
+      <div class="thumb center-img">
+        <img :src="item.image">
         <span class="num" v-if="1==2">2人团</span>
         <i class="sell-out sell-out-60" v-if="1==2"></i>
       </div>
       <div class="detail">
         <div class="goods-info">
-          <div class="title">{{item.skuModel.skuName}}</div>
+          <div class="title">{{item.skuName}}</div>
           <div class="meta">
-            <div class="price pull-left"><span><em>¥</em>{{item.skuModel.price}}</span> <span class="del_price"><em>¥</em>{{item.skuModel.salePrice}}</span></div>
+            <div class="price pull-left"><span><em>¥</em>{{item.price}}</span> <span class="del_price"><em>¥</em>{{item.salePrice}}</span></div>
           </div>
         </div>
         <div class="from-shop">

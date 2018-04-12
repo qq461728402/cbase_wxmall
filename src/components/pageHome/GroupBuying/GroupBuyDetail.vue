@@ -150,6 +150,7 @@
 
     mounted(){
       this.promotionId =this.$route.query.promotionId;
+      this.promotionSkuId =this.$route.query.promotionSkuId;
       this.promotionType =this.$route.query.promotionType;
       const  that =this;
       window.onresize = () => {
@@ -166,7 +167,7 @@
       },
       getDetail(){
         const  that =this;
-        baseHttp(this, '/api/promotion/promotion', {'promotionId': this.promotionId}, 'get', '加载中...', function (data) {
+        baseHttp(this, '/api/promotion/promotion', {'promotionSkuId': this.promotionSkuId}, 'get', '加载中...', function (data) {
           var promotion=data.promotion;
           if(promotion.limit==true){
             that.quota=promotion.limitQuantity;
@@ -179,14 +180,14 @@
             that.sku.none_sku=false;
             that.sku.list=promotion.skus;
           }
-          if(promotion.skuModel){
-            that.skuModel=promotion.skuModel;
-            that.sku.stock_num=promotion.skuModel.stock;
-            that.sku.price=promotion.skuModel.price;
-            that.sku.collection_id=promotion.skuModel.skuId;
-            that.goods.picture=promotion.skuModel.image;
-            that.goods.title=promotion.skuModel.skuName;
-            that.goodsId=promotion.skuModel.skuId
+          if(promotion){
+            that.skuModel=promotion;
+            that.sku.stock_num=promotion.stock;
+            that.sku.price=promotion.price;
+            that.sku.collection_id=promotion.productSkuId;
+            that.goods.picture=promotion.image;
+            that.goods.title=promotion.skuName;
+            that.goodsId=promotion.productSkuId
           }
           that.productDesc();
         })
@@ -194,7 +195,7 @@
       /*商品图文描述*/
       productDesc(){
         const  that =this;
-        baseHttp(this, '/api/mall/productDesc', {'skuId': this.skuModel.skuId}, 'get', '', function (data) {
+        baseHttp(this, '/api/mall/productDesc', {'skuId': this.skuModel.productSkuId}, 'get', '', function (data) {
           if(data.images){
             if(data.images.descriptions) that.descriptions = data.images.descriptions;
             if(data.images.param) that.param=data.images.param;

@@ -156,7 +156,6 @@
       /*筛选*/
       screenIng(){
         this.show4=!this.show4;
-        console.log(1234);
         var arr= Object.keys(this.screenlist)
         if(arr&&arr.length>0){
           return;
@@ -189,13 +188,13 @@
       },
       mallbrands(){
         const that=this;
-        baseHttp(this,'/api/mall/category/brands',{'category':this.categoryId},'get','',function (data){
-          for (var key in data.prands){
-            data.prands[key].forEach(function (item) {
+        baseHttp(this,'/api/brand/store/brands',{store:'1'},'get','',function (data){
+          for (var key in data.brands){
+            data.brands[key].forEach(function (item) {
                 item.select=false;
             });
           }
-          that.screenlist=data.prands;
+          that.screenlist=data.brands;
         })
       },
       products(){

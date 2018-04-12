@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: devEnv.OPEN_PROXY === false ? {} : {
       '/proxyApi': {
-        target: 'http://weixin.e-cbest.com/mall',//
+        target: 'http://192.168.1.130:8080/mall',//
         changeOrigin: true,
         pathRewrite: {
           '^/proxyApi': '/'
@@ -19,7 +19,7 @@ module.exports = {
       }
     },
     // Various Dev Server settings
-    host: '192.168.1.159', // can be overwritten by process.env.HOST
+    host: 'localhost', // can be overwritten by process.env.HOST
     port: 8889, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

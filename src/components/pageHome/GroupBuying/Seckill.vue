@@ -15,19 +15,18 @@
         </div>
       </li>
     </ul>
-    <!--<div style="display: block">-->
-      <!--<img src="http://image.bitauto.com/dealer/news/1601163/3e0c97c8-d392-44c8-9671-4039491f0749.jpg" style="width: 100%">-->
-    <!--</div>-->
     <van-row style="line-height: 30px;background-color: #E9E9E9">
       <van-col offset="1" span="8"><span style="font-size: 0.25rem;color: #d41d0f">疯狂抢购&nbsp;限时秒杀</span></van-col>
-      <van-col offset="5" span="9" style="text-align: right"> <yd-countdown :time="seckillTime"  done-text="正在抢购" id="times">
-        <span><em>{%d}</em></span>天
-        <span><em>{%h}</em></span>小时
-        <span><em>{%m}</em></span>时
-        <span><em>{%s}</em></span>秒
-      </yd-countdown></van-col>
+      <van-col offset="1" span="13" style="text-align: right">
+        <span style="color:#d41d0f">{{flag==1?'距开始':flag==2?'距结束':''}} </span>
+        <yd-countdown :time="seckillTime"  id="times"  :callback="starttimes">
+          <span><em>{%d}</em></span>天
+          <span><em>{%h}</em></span>小时
+          <span><em>{%m}</em></span>时
+          <span><em>{%s}</em></span>秒
+        </yd-countdown>
+      </van-col>
     </van-row>
-
     <yd-pullrefresh :callback="starttimes" ref="pullrefreshDemo">
       <ul class="bulk_goods">
         <li class="goods-item" v-for="item, key in promotions" :key="key" @click="gotoDetail(item)">
@@ -44,9 +43,9 @@
                 <van-col offset="8" span="8"><van-button :disabled="item.status!='START'" type="danger" size="small" class="pull-right">{{item.status=='NOTSTART'?'未开枪':item.status=='START'?'立即抢购':item.status=='END'?'已结束':'已抢空'}}</van-button></van-col>
               </van-row>
               <van-row>
-                <van-col span="8" class="del_price"><span><em>¥</em>{{item.salePrice}}</span></van-col>
-                <van-col span="8" style="text-align: right;font-size: 0.2rem;color: #999;">已售{{((item.stock-item.stockAvaliable)/item.stock*100).toFixed(2)}}%</van-col>
-                <van-col span="7" offset="1" style="margin-top: 7px"><van-progress :show-pivot="showpivot" color="#ed5050" :percentage="(item.stock-item.stockAvaliable)/item.stock*100" /></van-col>
+                <van-col span="8" class="del_price" v-if="item.salePrice"><span><em>¥</em>{{item.salePrice}}</span></van-col>
+                <van-col span="8" style="text-align: right;font-size: 0.2rem;color: #999;">已售{{((item.stockAvalible)/item.stock*100).toFixed(2)}}%</van-col>
+                <van-col span="7" offset="1" style="margin-top: 7px"><van-progress :show-pivot="showpivot" color="#ed5050" :percentage="(item.stockAvalible)/item.stock*100" /></van-col>
               </van-row>
             </div>
           </div>
@@ -72,6 +71,9 @@
         startTimes:[],
         promotions:[],//所有的列表
         seckillTime:'',//秒杀时间
+        endTime:'',
+        flag:1,//1表示 未开始 2 进行中... 3 已结束
+        startTime:'',
       }
     },
     mounted(){
@@ -80,38 +82,39 @@
     methods: {
       switchlist(key,e) {
         this.selettype=key;
+        this.flag=this.startTimes[key-1].flag;
         var seckillTime =this.startTimes[key-1].seckillTime;
-        this.seckillTime=seckillTime/1000;
         document.getElementById('scroll').scrollLeft=e.currentTarget.offsetLeft-10;
         this.loadList(seckillTime);
       },
       starttimes(){
         const that = this;
-        baseHttp(this, '/api/promotion/seckill/starttimes', {'store':'1'}, 'get', '加载中...', function (data) {
-          if(data.startTimes){
-            that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
+        baseHttp(this, '/api/promotion/seckill/times', {'store':'1'}, 'get', '加载中...', function (data) {
+          var currentTime = Date.parse(new Date());
+          if(data.currentTime){
+            currentTime=data.currentTime;
+          }
+          if(data.seckillTimes){
             that.startTimes=[];
-            data.startTimes= data.startTimes.sort();//排序
-            var sortTime=0;
-            data.startTimes.forEach(function (item) {
-              if(data.currentTime>item) {
-                sortTime=item;
-              }
-            });
+            that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
             var i=0;
-            data.startTimes.forEach(function (item) {
-              var date = new Date(item);
+            data.seckillTimes.forEach(function (item) {
+              var startTime=item.startTime;
+              var date = new Date(startTime);
               var dates = (date.getHours()<10?'0'+date.getHours():date.getHours()) + ':'+ (date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes());
-              if(item<sortTime){
-                that.startTimes.push({name:dates,des:'已开抢',type:(i+1),seckillTime:item});
-              }else if(item==sortTime){
-                that.startTimes.push({name:dates,des:'抢购进行中...',type:(i+1),seckillTime:item});
-                that.seckillTime=item/1000;
+              if (item.startTime<currentTime&&item.endTime>currentTime){
+                  //进行中...
+                that.startTimes.push({name:dates,des:'抢购进行中...',type:(i+1),seckillTime:item.startTime,flag:2});
                 that.selettype=i+1;
-                that.loadList(item);
+                that.flag=2;
+                that.loadList(item.startTime);
+              }else if (item.startTime>=currentTime){
+                  //未开始
+                that.startTimes.push({name:dates,des:'未开始',type:(i+1),seckillTime:item.startTime,flag:1});
               }
-              else {
-                that.startTimes.push({name:dates,des:'未开始',type:(i+1),seckillTime:item});
+              else if (item.endTime<=currentTime){
+                  //已经结束
+                that.startTimes.push({name:dates,des:'已结束',type:(i+1),seckillTime:item.startTime,flag:3});
               }
               i++;
             })
@@ -120,10 +123,21 @@
       },
       loadList(startTime) {
         const that = this;
-        baseHttp(this, '/api/promotion/seckill/model', {'startTime': startTime,'store':'1'}, 'get', '加载中...', function (data) {
+        baseHttp(this, '/api/promotion/seckill/list', {'startTime': startTime,'store':'1'}, 'get', '加载中...', function (data) {
           if(data.model){
             if(data.model.promotions){
               that.promotions=data.model.promotions;
+            }
+            if (data.model.endTime){
+              that.endTime=data.model.endTime;
+            }
+            if (data.model.startTime){
+              that.startTime=data.model.startTime;
+            }
+            if(that.flag==2){
+              that.seckillTime=that.endTime;
+            }else if(that.flag==1){
+              that.seckillTime=that.startTime;
             }
           }
         })
@@ -132,7 +146,7 @@
         if(item.status!='START'){
           return;
         }
-        this.$router.push({path: '/home/GroupBuyDetail',query:{'promotionId':item.promotionId,'promotionType':'SECKILL'}})
+        this.$router.push({path: '/home/GroupBuyDetail',query:{'promotionId':item.promotionId,'promotionSkuId':item.promotionSkuId,'promotionType':'SECKILL'}})
       }
     },
     activated(){

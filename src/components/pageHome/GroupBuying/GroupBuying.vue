@@ -44,7 +44,7 @@
         })
       },
       gotoDetail(item){
-        this.$router.push({path: '/home/GroupBuyDetail',query:{'promotionId':item.promotionId,'promotionType':'GROUPON'}})
+        this.$router.push({path: '/home/GroupBuyDetail',query:{'promotionId':item.promotionId,'promotionSkuId':item.promotionSkuId,'promotionType':'GROUPON'}})
       }
     },
     activated(){
