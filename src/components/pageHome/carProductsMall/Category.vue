@@ -50,7 +50,6 @@
     ]),
     data() {
       return {
-        quantity:0,
         initindex:0,
         nums:10,
         categories:[],

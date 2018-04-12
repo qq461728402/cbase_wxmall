@@ -21,6 +21,7 @@
       this.$store.dispatch('getUid');
       this.$store.dispatch('getUname');
       this.getuserInfo();
+      this.getCartsQuantity();
     },
     methods: {
       /*获取购物车数量*/
