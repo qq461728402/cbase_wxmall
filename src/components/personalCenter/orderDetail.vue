@@ -22,7 +22,7 @@
           <p>收货地址<i style="float: right;">{{info.addr}}</i></p>
           <p>支付方式<i style="float: right;">{{info.payType}}</i></p>
           <p v-if="info.preorderTime">预约时间<i style="float: right;">{{info.preorderTime | dateYY}}</i></p>
-          <p>配送方式<i style="float: right;">{{info.deliverType}}</i></p>
+          <p>配送方式<i style="float: right;">{{info.shippingType}}</i></p>
           <p v-if="info.needInvoice">发票类型<i style="float: right;">纸质发票</i></p>
           <p v-if="info.needInvoice">发票抬头<i style="float: right;">{{info.invocieType=='PERSONAL'?'个人:':info.invocieType=='COMPANY'?'公司:':'无需发票'}}
             {{info.invocieType!='NO'?info.invoiceTitle:''}}
