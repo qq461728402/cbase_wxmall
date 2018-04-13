@@ -10,7 +10,7 @@ export const setStore = (name, content) => {
   if (typeof content !== 'string') {
     content = JSON.stringify(content);
   }
-  window.localStorage.setItem(name, content);
+  window.sessionStorage.setItem(name, content);
 }
 
 /**
@@ -18,7 +18,7 @@ export const setStore = (name, content) => {
  */
 export const getStore = name => {
   if (!name) return;
-   var getStr=window.localStorage.getItem(name)!=undefined?window.localStorage.getItem(name):'';
+   var getStr=window.sessionStorage.getItem(name)!=undefined?window.sessionStorage.getItem(name):'';
    return getStr;
 }
 
@@ -27,7 +27,7 @@ export const getStore = name => {
  */
 export const removeStore = name => {
   if (!name) return;
-  window.localStorage.removeItem(name);
+  window.sessionStorage.removeItem(name);
 }
 export function getToken(name) {
   return Cookies.get(name)?Cookies.get(name):'';
