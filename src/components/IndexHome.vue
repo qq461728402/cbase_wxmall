@@ -230,6 +230,7 @@
           if(data.title){
             that.title=data.title;
             document.title=data.title;
+            that.$store.dispatch('setshearTitle',data.title);
           }
           if (that.config instanceof Array) {
             that.config.forEach(function (item) {

@@ -10,9 +10,22 @@ const cookieMsg={
     avatar:'',
     token:'',
     uid:'',
-    uname:''
+    uname:'',
+    store:'',
   },
   mutations:{
+    SET_STORE:(state)=>{
+      var avatarstr=getToken('store');
+      if(avatarstr.length>0){
+        state.store=getToken('store');
+        if(getToken('store')){
+          setStore('store',avatarstr);
+          removeToken('store');
+        }
+      }else{
+        state.avatar=getStore('avatar');
+      }
+    },
     SET_AVATAR:(state)=>{
       var avatarstr=getToken('avatar');
       if(avatarstr.length>0){
@@ -76,7 +89,11 @@ const cookieMsg={
     },
     getUname({commit}){
       commit('SET_UNAME');
-    }
+    },
+    getStore({commit}){
+      commit('SET_STORE');
+    },
+
   }
 }
 export  default cookieMsg;

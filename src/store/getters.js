@@ -8,6 +8,7 @@ const getters= {
   token:state => state.cookieMsg.token,
   uid:state => state.cookieMsg.uid,
   uname:state => state.cookieMsg.uname,
+  store:state => state.cookieMsg.store,
   cityName:state => state.basicStorage.cityName,
   locatingCity:state => state.basicStorage.locatingCity,
   quantity:state => state.basicStorage.quantity,
@@ -18,5 +19,6 @@ const getters= {
   indexhomeScroll:state =>state.basicStorage.indexhomeScroll,
   shearUrl:state =>state.basicStorage.shearUrl,
   shearTitle:state =>state.basicStorage.shearTitle
+  
 }
 export default getters;

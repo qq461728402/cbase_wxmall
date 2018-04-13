@@ -8,7 +8,8 @@
 </template>
 <script type="text/ecmascript-6">
   import {baseHttp} from '@/config/env'
-  import {getLocation} from '@/config/weichatPay'
+  import {shearUrl} from '@/config/weichatPay'
+  import axios from 'axios'
   export default{
     name: 'app',
     data () {
@@ -22,7 +23,7 @@
       this.$store.dispatch('getToken');
       this.$store.dispatch('getUid');
       this.$store.dispatch('getUname');
-      setshearUrl
+      this.$store.dispatch('getStore');
     },
     methods: {
       /*获取购物车数量*/
@@ -34,16 +35,12 @@
           }
         })
       },
-      getLocation(){
-        const that = this;
-        getLocation(this.signatureInfo, function (success) {})
-      },
-      signature(){
+      signature(link,title){
         const that = this;
         baseHttp(this, '/wechat/jsapi/signature', {'url': window.location.href}, 'post', '', function (data) {
           if (data.signature) {
             that.signatureInfo = data.signature;
-            that.getLocation();
+            shearUrl(this.signatureInfo,link,title)
           }
         })
       },
@@ -51,12 +48,25 @@
     watch: {
       "$route"(to, from) {
         const currentRouter = this.$router.currentRoute.fullPath;
-        this.$store.dispatch('setshearUrl',window.location.href);
-        this.$store.dispatch('setshearTitle',document.title);
+        var link = axios.defaults.baseURL+'/'+this.$store.getters.store+"/proxy?url="+currentRouter;
+        var title=this.$store.getters.shearTitle;
+        if (this.$router.currentRoute.meta.title){
+           title=this.$router.currentRoute.meta.title;
+        }
         if(to.name=='/home'||to.name=='/category'||to.name=='/shoppingCart'||to.name=='/personalCenter'){
           this.getCartsQuantity();
         }
-        this.signature();
+        let wx = require('weixin-js-sdk');
+        wx.onMenuShareTimeline({
+          title: title, // 分享标题
+          link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        })
+        wx.onMenuShareAppMessage({
+          desc: link,   // 分享描述
+          title: title, // 分享标题
+          link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        })
+
       }
     },
   }

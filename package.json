@@ -38,7 +38,7 @@
     "vue-wechat-title": "^2.0.4",
     "vue-ydui": "^1.1.8",
     "vuex": "^3.0.1",
-    "vux": "^2.7.0",
+    "vux-loader": "^1.2.7",
     "weixin-js-sdk": "^1.2.0"
   },
   "devDependencies": {
