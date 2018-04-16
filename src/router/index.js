@@ -109,7 +109,7 @@ const router = new Router({
     {path:'/personalCenter/giftList',name:'giftList',component:GiftList,meta:{title:'礼品列表',keepAlive:true}},
     {path:'/personalCenter/giftAppoint',name:'giftAppoint',component:GiftAppoint,meta:{title:'礼品预约',keepAlive:false}},
     {path:'/personalCenter/myCoupons',name:'myCoupons',component:MyCoupons,meta:{title:'我的优惠券',keepAlive:false}},
-    {path:'/personalCenter/aboutUs',name:'aboutUs',component:AboutUs,meta:{title:'关于新世纪大坪商都',keepAlive:true}},
+    {path:'/personalCenter/aboutUs',name:'aboutUs',component:AboutUs,meta:{title:'关于',keepAlive:true}},
     {path:'/personalCenter/loginWithCode',name:'loginWithCode',component:LoginWithCode,meta:{title:'登录'},
       children:[ {path:'/personalCenter/register/:userId',name:'register',component:register,meta:{title:'注册'}},
         {path:'/personalCenter/userProtocol',name:'userProtocol',component:userProtocol,meta:{title:'用户协议'}},]},

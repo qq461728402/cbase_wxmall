@@ -1,6 +1,6 @@
 <template>
   <yd-layout style="background-color: white">
-    <yd-navbar slot="navbar" title="关于新世纪大坪商都" bgcolor="#d41d0f" color="#FFF">
+    <yd-navbar slot="navbar" title="关于" bgcolor="#d41d0f" color="#FFF">
       <router-link to="" slot="left" @click.native="gotoback()">
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
