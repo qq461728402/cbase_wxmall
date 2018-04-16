@@ -12,6 +12,7 @@ const cookieMsg={
     uid:'',
     uname:'',
     store:'',
+  
   },
   mutations:{
     SET_STORE:(state)=>{

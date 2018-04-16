@@ -80,7 +80,7 @@
       </yd-cell-item>
       <yd-cell-item arrow @click.native="introduct" type="a">
         <yd-icon slot="icon" name="guanyu" size=".35rem" color="#2e4057" custom></yd-icon>
-        <span slot="left">关于大坪商都</span>
+        <span slot="left">{{title?title:'关于'}}</span>
       </yd-cell-item>
       <yd-cell-item arrow type="a" href="tel:023-88520999">
         <yd-icon slot="icon" name="kefu" size=".35rem" color="#ff003e" custom></yd-icon>
@@ -115,7 +115,8 @@
     computed: {
       ...mapGetters([
         'userInfo',
-        'quantity'
+        'quantity',
+        'title'
       ])
     },
     data() {

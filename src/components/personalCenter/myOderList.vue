@@ -108,7 +108,7 @@
         })
       },
       orderslist(){
-        var pars={page:this.page,pageSize:this.pageSize,store:1};
+        var pars={page:this.page,pageSize:this.pageSize,store:this.$store.getters.store};
         if(this.statuses.length!=0&&this.statuses!='NOT_COMMENT'){
           pars.status=this.statuses;
         }
