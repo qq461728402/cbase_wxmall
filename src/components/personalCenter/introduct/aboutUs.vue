@@ -23,7 +23,7 @@
       aboutus(){
         baseHttp(this,'/api/store/baseInfo',{'merchantId':this.$store.getters.store},'get','',data=>{
           if(data){
-            this.html=data;
+            this.html=data.storeDesc;
           }
         })
       },
