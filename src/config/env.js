@@ -10,7 +10,7 @@ import store from '../store'
 import {removeStore} from './mUtils'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
-axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://joewee.mynatapp.cc/mall';//http://weixin.e-cbest.com/mall
+axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://weixin.e-cbest.com/mall';//http://joewee.mynatapp.cc/mall
 store.dispatch('getToken');
 axios.defaults.headers.token = store.getters.token;
 /*
@@ -37,7 +37,7 @@ export function baseHttp(ydui, url, par, method, loadmsg, callback) {
     url: url,
     params:par,
     data:par,
-    timeout: 10000,
+    timeout: 15000,
   }).then(function (response) {
     if(response.data.code==200){
       if (callback) {
@@ -72,7 +72,7 @@ export function baseHttp1(ydui, url, par, method, loadmsg, callback) {
     url: url,
     params:par,
     data:par,
-    timeout: 10000,
+    timeout: 15000,
   }).then(function (response) {
     if(response.data.code!=200){
       ydui.$dialog.toast({

@@ -23,10 +23,14 @@ const basicStorage={
       invoiceinfos:'商品明细'
     },//发票信息存储
     router:'/',//支付路由
+    title:'',
   },
   mutations:{
     SET_SHEARURL:(state,shearUrl) => {
       state.shearUrl=shearUrl;
+    },
+    SET_TITLE:(state,title) =>{
+      state.title=title;
     },
     SET_SHEARTITLE:(state,shearTitle) => {
       state.shearTitle=shearTitle;
@@ -72,6 +76,9 @@ const basicStorage={
     },
     setshearUrl({commit},shearUrl){
       commit('SET_SHEARURL',shearUrl)
+    },
+    setTitle({commit},title){
+      commit('SET_TITLE',title)
     },
     setindexhomeScroll({commit},indexhomeScroll){
       commit('SET_INDEXHOMESCROLL',indexhomeScroll)

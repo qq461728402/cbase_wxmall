@@ -189,7 +189,7 @@
       },
       mallbrands(){
         const that=this;
-        baseHttp(this,'/api/brand/store/brands',{store:'1'},'get','',function (data){
+        baseHttp(this,'/api/brand/store/brands',{store:this.$store.getters.store},'get','',function (data){
           for (var key in data.brands){
             data.brands[key].forEach(function (item) {
                 item.select=false;
