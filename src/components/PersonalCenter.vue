@@ -82,10 +82,10 @@
         <yd-icon slot="icon" name="guanyu" size=".35rem" color="#2e4057" custom></yd-icon>
         <span slot="left">{{title?title:'关于'}}</span>
       </yd-cell-item>
-      <yd-cell-item arrow type="a" href="tel:023-88520999">
+      <yd-cell-item arrow type="a" :href="'tel:'+tel">
         <yd-icon slot="icon" name="kefu" size=".35rem" color="#ff003e" custom></yd-icon>
         <span slot="left">客服帮助</span>
-        <span slot="right" style="font-size: .3rem;">023-88520999</span>
+        <span slot="right" style="font-size: .3rem;">{{tel}}</span>
       </yd-cell-item>
     </yd-cell-group>
 
@@ -121,6 +121,7 @@
     },
     data() {
       return {
+        tel:'',
         isCookie:getStore("token").length>0?true:false,
         bonusPointsHistories:[],
         ordernum:{'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'REFUNDING':0,'NOT_COMMENT':0,'RETURN':0,'PAID':0},
@@ -132,6 +133,8 @@
       }
     },
     activated(){
+      var baseInfo=this.$store.getters.baseInfo;
+      this.tel=baseInfo.storePhone;
       this.getOrderStatus();
     },
     methods:{

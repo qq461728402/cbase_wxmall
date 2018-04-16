@@ -24,6 +24,7 @@
       this.$store.dispatch('getUid');
       this.$store.dispatch('getUname');
       this.$store.dispatch('getStore');
+      this.baseInfo();
     },
     methods: {
       /*获取购物车数量*/
@@ -32,6 +33,13 @@
         baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
           if (data.quantity >= 0) {
             that.$store.dispatch('setQuantity', data.quantity);
+          }
+        })
+      },
+      baseInfo(){
+        baseHttp(this,'/api/store/baseInfo',{'merchantId':this.$store.getters.store},'get','',data=>{
+          if(data){
+            this.$store.dispatch('setbaseInfo',data);
           }
         })
       },

@@ -9,7 +9,6 @@
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
-  import {baseHttp} from '@/config/env'
   const vm = {
     data() {
       return {
@@ -17,16 +16,10 @@
       }
     },
     mounted(){
-      this.aboutus();
+      var baseInfo=this.$store.getters.baseInfo;
+      this.html=baseInfo.storeDesc;
     },
     methods: {
-      aboutus(){
-        baseHttp(this,'/api/store/baseInfo',{'merchantId':this.$store.getters.store},'get','',data=>{
-          if(data){
-            this.html=data.storeDesc;
-          }
-        })
-      },
       gotoback(){
         this.$router.go(-1);
       },

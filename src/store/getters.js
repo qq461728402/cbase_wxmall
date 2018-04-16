@@ -20,5 +20,6 @@ const getters= {
   shearUrl:state =>state.basicStorage.shearUrl,
   shearTitle:state =>state.basicStorage.shearTitle,
   title:state => state.basicStorage.title,
+  baseInfo:state =>state.basicStorage.baseInfo
 }
 export default getters;

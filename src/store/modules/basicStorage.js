@@ -24,8 +24,15 @@ const basicStorage={
     },//发票信息存储
     router:'/',//支付路由
     title:'',
+    baseInfo:{
+      storePhone:'',
+      storeDesc:'',
+    },
   },
   mutations:{
+    SET_BASEINFO:(state,baseinfo) =>{
+      state.baseInfo=baseinfo;
+    },
     SET_SHEARURL:(state,shearUrl) => {
       state.shearUrl=shearUrl;
     },
@@ -71,6 +78,9 @@ const basicStorage={
     },
   },
   actions: {
+    setbaseInfo:({commit},baseinfo) =>{
+      commit('SET_BASEINFO',baseinfo)
+    },
     setshearTitle({commit},shearTitle){
       commit('SET_SHEARTITLE',shearTitle)
     },

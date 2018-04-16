@@ -12,7 +12,7 @@
           </form>
         </yd-flexbox-item>
         <div style="width: 15%;height: 30px;line-height: 30px">
-          <a href="tel:023-88520999">
+          <a :href="'tel:'+tel">
             <yd-icon slot="icon" name="kefu" size=".42rem" custom color="#ffffff"></yd-icon>
           </a>
         </div>
@@ -120,11 +120,6 @@
           </div>
         </div>
       </div>
-      <div v-else-if="codeitem.template=='list'">
-
-
-
-      </div>
     </div>
     <yd-backtop></yd-backtop>
     <yd-tabbar slot="tabbar" activeColor="#d41d0f">
@@ -160,6 +155,7 @@
     },
     data () {
       return {
+        tel:'',
         title:'',
         bl:'',
         mySwiper: '',
@@ -197,6 +193,8 @@
       ])
     },
     mounted(){
+      var baseInfo=this.$store.getters.baseInfo;
+      this.tel=baseInfo.storePhone;
       bindEvent(this);
       var cityname=this.$store.state.basicStorage.cityName;
       if (cityname.length>0) {
@@ -230,7 +228,6 @@
           if(data.title){
             that.title=data.title;
             document.title=data.title;
-            that.$store.dispatch('setshearTitle',data.title);
             that.$store.dispatch('setTitle',data.title);
           }
           if (that.config instanceof Array) {

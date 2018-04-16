@@ -370,7 +370,8 @@
       },
       //客服电话
       onClickMiniBtn(){
-        window.location.href = 'tel://023-88520999'
+        var baseInfo=this.$store.getters.baseInfo;
+        window.location.href = 'tel://'+baseInfo.storePhone;
       },
       //图片预览
       showPreview(index){
