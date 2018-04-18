@@ -121,14 +121,18 @@
         </div>
       </div>
     </div>
-    <div v-if="hotproductsList.length>0">
-      <div class="codeitemTitle">
-        <span style="color:#d41d0f"> <yd-icon name="hothuorererexiao" size=".3rem" color="#d41d0f" custom></yd-icon>热销商品</span>
+    <div v-if="hotproductsList.length>0" style="background-color: #f5f5f5">
+      <div class="codeitemTitle" style="background-color: #ffffff">
+        <span class="line"></span>
+        <span class="txt"><yd-icon name="hothuorererexiao" size=".3rem" color="#d41d0f"  custom></yd-icon>热销商品</span>
+        </span>
+        </span><span class="line"></span>
         <span style="position: absolute;right: .3rem;padding: 0 0 0 0.2rem" @click="gotoHotList">更多<yd-icon name="youjiantou" size=".2rem" color="#d41d0f" custom></yd-icon></span>
       </div>
       <div>
-        <productlist :productlist="hotproductsList" theme="1"  @gotoDetail="gotoDetail"></productlist>
+        <hotProductList :productlist="hotproductsList" theme="1"  @gotoDetail="gotoDetail"></hotProductList>
       </div>
+      <div class="yd-list-donetip"><span>我是有底线的</span></div>
     </div>
     <yd-backtop></yd-backtop>
     <yd-tabbar slot="tabbar" activeColor="#d41d0f">
@@ -156,13 +160,13 @@
   import {getLocation} from '@/config/weichatPay'
   import {bindEvent} from '@/config/event'
   import { mapGetters } from 'vuex'
-  import productlist from '@/views/productList'
+  import hotProductList from '@/views/hotProductList/hotindex'
   export default {
     name: 'IndexHome',
     components: {
       swiper,
       swiperSlide,
-      productlist
+      hotProductList
     },
     data () {
       return {
@@ -466,7 +470,9 @@
   #home .yd-cell-box {
     margin-bottom: 0px;
   }
-
+  #home .yd-scrollview:after{
+    height:0
+  }
   #home .yd-cell:after {
     border-bottom: 0px
   }
