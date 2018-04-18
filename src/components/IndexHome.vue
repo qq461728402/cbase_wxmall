@@ -121,6 +121,15 @@
         </div>
       </div>
     </div>
+    <div v-if="hotproductsList.length>0">
+      <div class="codeitemTitle">
+        <span style="color:#d41d0f"> <yd-icon name="hothuorererexiao" size=".3rem" color="#d41d0f" custom></yd-icon>热销商品</span>
+        <span style="position: absolute;right: .3rem;padding: 0 0 0 0.2rem" @click="gotoHotList">更多<yd-icon name="youjiantou" size=".2rem" color="#d41d0f" custom></yd-icon></span>
+      </div>
+      <div>
+        <productlist :productlist="hotproductsList" theme="1"  @gotoDetail="gotoDetail"></productlist>
+      </div>
+    </div>
     <yd-backtop></yd-backtop>
     <yd-tabbar slot="tabbar" activeColor="#d41d0f">
       <yd-tabbar-item title="首页" type="a" active>
@@ -140,21 +149,24 @@
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
-  import {baseHttp} from '../config/env'
-  import {setStore, getStore} from '../config/mUtils'
+  import {baseHttp} from '@/config/env'
+  import {setStore, getStore} from '@/config/mUtils'
   import 'swiper/dist/css/swiper.css'
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
-  import {getLocation} from '../config/weichatPay'
-  import {bindEvent} from '../config/event'
+  import {getLocation} from '@/config/weichatPay'
+  import {bindEvent} from '@/config/event'
   import { mapGetters } from 'vuex'
+  import productlist from '@/views/productList'
   export default {
     name: 'IndexHome',
     components: {
       swiper,
-      swiperSlide
+      swiperSlide,
+      productlist
     },
     data () {
       return {
+        hotproductsList:[],
         tel:'',
         title:'',
         bl:'',
@@ -249,7 +261,18 @@
               }
             })
           }
+          that.gethotproducts();
         })
+      },
+      gethotproducts(){
+        baseHttp(this, '/api/mall/hot/products', {'store':this.$store.getters.store,'page':1,'pageSize':20}, 'get','', data=>{
+            if (data &&data.skus){
+              this.hotproductsList=data.skus;
+            }
+        })
+      },
+      gotoDetail(item){
+        this.$router.push({ name: 'productsDetail',query:{skuId:item.skuId}});
       },
       gotoindex(){
         this.$router.push({path: 'stores'})
@@ -333,6 +356,10 @@
           function (fail) {
             console.log(fail);
           })
+      },
+      //进入热销商品
+      gotoHotList(){
+        this.$router.push({path: 'home/hotProductsList'})
       }
     }
   }

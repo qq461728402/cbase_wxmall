@@ -52,6 +52,7 @@ const StoresDetail = resolve => require.ensure([], () => resolve(require('../com
 
 const Index = resolve => require.ensure([], () => resolve(require('../components/Index')), 'Index')
 
+const HotPro = resolve => require.ensure([], () => resolve(require('../components/pageHome/carProductsMall/hotProductsList')), 'HotPro')
 
 
 const MyPoints = resolve => require.ensure([], () => resolve(require('../components/pageHome/MyPoints/MyPoints')), 'MyPoints')
@@ -121,6 +122,7 @@ const router = new Router({
     {path:'/home/GroupBuying',name:'GroupBuying',component:GroupBuying,meta:{title:'团购频道',keepAlive:true}},
     {path:'/home/GroupBuyDetail',name:'GroupBuyDetail',component:GroupBuyDetail,meta:{title:'商品详情',keepAlive:false}},
     {path:'/home/Seckill',name:'Seckill',component:Seckill,meta:{title:'限时秒杀',keepAlive:true}},
+    {path:'/home/hotProductsList',name:'hotProductsList',component:HotPro,meta:{title:'热销商品',keepAlive:true}},
   ],
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {

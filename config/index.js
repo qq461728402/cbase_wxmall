@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: devEnv.OPEN_PROXY === false ? {} : {
       '/proxyApi': {
-        target: 'http://weixin.e-cbest.com/mall',//
+        target: 'http://192.168.1.129:8008/mall',//
         changeOrigin: true,
         pathRewrite: {
           '^/proxyApi': '/'
