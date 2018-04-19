@@ -65,9 +65,9 @@
         <span slot="left">积分商城</span>
         <span slot="right">{{userInfo.bonus?userInfo.bonus:'0'}}积分</span>
       </yd-cell-item>
-      <yd-cell-item arrow type="a" @click.native="gotoGitfs()" v-if="1==2">
-        <yd-icon slot="icon" name="mylp" size=".35rem" color="#ffaa00" custom></yd-icon>
-        <span slot="left">我的礼品</span>
+      <yd-cell-item arrow type="a" @click.native="gotoGitfs()" >
+        <yd-icon slot="icon" name="huiyuanzhongxin" size=".35rem" color="#ffaa00" custom></yd-icon>
+        <span slot="left">会员中心</span>
       </yd-cell-item>
 
       <yd-cell-item arrow type="a" v-if="1==2">
@@ -170,7 +170,7 @@
 
       },
       gotoGitfs(){
-        this.$router.push({ name: 'giftList'});
+        this.$router.push({ path: '/User/Card'});
       },
       gotobonushistroy(){
         this.$router.push({ name: 'PointsList'});
