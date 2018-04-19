@@ -1,6 +1,9 @@
 /**
  * Created by dx on 18/1/22.
  */
+import axios from 'axios'
+import router from '@/router'
+import store from '@/store'
 //微信支付方法（点击按键调用）
 let wx = require('weixin-js-sdk');
 /*
@@ -70,6 +73,22 @@ export  function getLocation(data,cb,errorCb) {
         errorCb(res);
       }
     });
+    const currentRouter = router.currentRoute.fullPath;
+    var link = axios.defaults.baseURL+'/'+store.getters.store+"/proxy?url="+currentRouter;
+    var title=store.getters.shearTitle;
+    if (router.currentRoute.meta.title){
+      title=router.currentRoute.meta.title;
+    }
+    wx.onMenuShareTimeline({
+      title: title, // 分享标题
+      link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+    })
+    wx.onMenuShareAppMessage({
+      desc: link,   // 分享描述
+      title: title, // 分享标题
+      link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+    })
+
   });
   wx.error(function(res) {
     // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。

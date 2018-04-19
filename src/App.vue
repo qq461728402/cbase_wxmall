@@ -55,14 +55,15 @@
     },
     watch: {
       "$route"(to, from) {
+
+        if(to.name=='/home'||to.name=='/category'||to.name=='/shoppingCart'||to.name=='/personalCenter'){
+          this.getCartsQuantity();
+        }
         const currentRouter = this.$router.currentRoute.fullPath;
         var link = axios.defaults.baseURL+'/'+this.$store.getters.store+"/proxy?url="+currentRouter;
         var title=this.$store.getters.shearTitle;
         if (this.$router.currentRoute.meta.title){
-           title=this.$router.currentRoute.meta.title;
-        }
-        if(to.name=='/home'||to.name=='/category'||to.name=='/shoppingCart'||to.name=='/personalCenter'){
-          this.getCartsQuantity();
+          title=this.$router.currentRoute.meta.title;
         }
         let wx = require('weixin-js-sdk');
         wx.onMenuShareTimeline({
@@ -74,7 +75,6 @@
           title: title, // 分享标题
           link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
         })
-
       }
     },
   }
