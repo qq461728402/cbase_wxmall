@@ -170,7 +170,8 @@
 
       },
       gotoGitfs(){
-        this.$router.push({ path: '/User/Card'});
+        window.location.href='http://weixin.e-cbest.com/mall/'+this.$store.getters.store+'/customer/center';
+//        this.$router.push({ path: '/User/Card'});
       },
       gotobonushistroy(){
         this.$router.push({ name: 'PointsList'});
