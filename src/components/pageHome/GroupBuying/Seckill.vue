@@ -22,7 +22,7 @@
         <yd-countdown v-if="flag!=3" :time="seckillTime"  id="times"  :callback="starttimes">
           <span><em>{%d}</em></span>天
           <span><em>{%h}</em></span>小时
-          <span><em>{%m}</em></span>时
+          <span><em>{%m}</em></span>分
           <span><em>{%s}</em></span>秒
         </yd-countdown>
       </van-col>
