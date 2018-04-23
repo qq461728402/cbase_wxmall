@@ -69,7 +69,10 @@
                 isShow: false,
             }
         },
-        mounted(){
+//        mounted(){
+//            this.loyalty();
+//        },
+        activated(){
             this.loyalty();
         },
         methods: {
