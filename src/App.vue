@@ -55,7 +55,6 @@
     },
     watch: {
       "$route"(to, from) {
-
         if(to.name=='/home'||to.name=='/category'||to.name=='/shoppingCart'||to.name=='/personalCenter'){
           this.getCartsQuantity();
         }

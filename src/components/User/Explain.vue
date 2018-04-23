@@ -20,7 +20,6 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import axios from 'axios';
   const vm= {
     data() {
       return {
@@ -32,18 +31,9 @@
     },
     methods:{
       getshuju() {
-        axios.get("../../static/Explain.json").then((response) => {
-          this.items = response.data.items;
-          const _list = response.data.items;
-          this.$dialog.toast({
-            mes: _list.length > 0 ? '为您更新了' + _list.length + '条内容' : '已是最新内容'
-          });
-          this.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
-        }).catch( error => { console.log(error); });
-      },
+
+      }
     },
-
-
   }
   export default vm;
 </script>

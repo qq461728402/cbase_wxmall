@@ -68,8 +68,6 @@ const Seckill = resolve => require.ensure([], () => resolve(require('../componen
 const Card = resolve => require.ensure([], () => resolve(require('../components/User/Card')), 'Card')//会员中心
 const Explain = resolve => require.ensure([], () => resolve(require('../components/User/Explain')), 'Explain')//会员积分使用说明
 const Binding = resolve => require.ensure([], () => resolve(require('../components/User/Binding')), 'Binding')//会员卡绑定
-const Show = resolve => require.ensure([], () => resolve(require('../components/User/Show')), 'Show')//会员展示
-
 
 const router = new Router({
    // hashbang:false,
@@ -127,11 +125,9 @@ const router = new Router({
     {path:'/home/GroupBuying',name:'GroupBuying',component:GroupBuying,meta:{title:'团购频道',keepAlive:true}},
     {path:'/home/GroupBuyDetail',name:'GroupBuyDetail',component:GroupBuyDetail,meta:{title:'商品详情',keepAlive:false}},
     {path:'/home/Seckill',name:'Seckill',component:Seckill,meta:{title:'限时秒杀',keepAlive:true}},
-
-	{path:'/User/Card',name:'Card',component:Card,meta:{title:'会员中心',keepAlive:true}},
+	{path:'/User/Card',name:'Card',component:Card,meta:{title:'会员中心',keepAlive:false}},
     {path:'/User/Explain',name:'Explain',component:Explain,meta:{title:'积分使用说明',keepAlive:true}},
-    {path:'/User/Binding',name:'Binding',component:Binding,meta:{title:'会员卡绑定',keepAlive:true}},
-    {path:'/User/Show',name:'Show',component:Show,meta:{title:'会员卡显示',keepAlive:true}},
+    {path:'/User/Binding',name:'Binding',component:Binding,meta:{title:'会员卡绑定',keepAlive:false}},
     {path:'/home/hotProductsList',name:'hotProductsList',component:HotPro,meta:{title:'热销商品',keepAlive:true}},
   ],
   scrollBehavior (to, from, savedPosition) {

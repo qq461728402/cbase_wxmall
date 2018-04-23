@@ -5,22 +5,22 @@
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
-    <ul class="yd-scrollnav-tab-item" style="color: rgb(255, 0, 0); height: 0.9rem;" id="scroll" slot="navbar">
+    <ul class="yd-scrollnav-tab-item" style="color: rgb(255, 0, 0); height: 0.9rem;" id="scroll" slot="navbar" v-if="tablist.length>1">
       <li :class="{'yd-scrollnav-current':selettype==item.type}" style="color: rgb(51, 51, 51);" v-for="item in tablist" @click="switchlist(item.type,$event)"><i></i><span>{{item.name}}</span></li>
     </ul>
-
     <yd-pullrefresh :callback="pullList" ref="pullrefreshDemo" >
       <yd-infinitescroll :callback="loadList" ref="infinitescrollDemo">
-        <div slot="list" v-for="item in couponslist">
-          <yd-flexbox style="background-size: 100% 100%;" :style='bg' >
+        <div slot="list" v-for="item in couponslist" style="margin: 0.2rem;">
+          <yd-flexbox style="background-size: 100% 100%;border-radius: 0.15rem" :style='bg' >
             <div  style="overflow:hidden; padding: 0.15rem;height: 1.8rem;width: 1.8rem;">
-              <img src="../../../assets/img/defuletCoupons1.png" style="height: 1.5rem;width: 1.5rem;border: 1px solid #f2f2f2" v-if="!item.img">
-              <img :src="item.img" style="height: 1.5rem;width: 1.5rem" v-else>
+              <img src="@/assets/img/defuletCoupons1.png" style="height: 1.5rem;width: 1.5rem;border: 1px solid #f2f2f2" v-if="!item.imgUrl">
+              <img :src="item.imgUrl" style="height: 1.5rem;width: 1.5rem" v-else>
             </div>
             <yd-flexbox-item style="height:1.8rem;">
               <yd-flexbox direction="vertical" style="padding-top: 0.15rem">
                 <yd-flexbox-item><p style="font-size: 0.3rem;font-weight: bold;height: 1rem">{{item.description}}</p></yd-flexbox-item>
-                <yd-flexbox-item><span style="font-size: 0.4rem;color: #f00;padding-right: 0.2rem">{{item.discount}}</span><span style="color: #f00;background-color:#ffebdb;padding: 0.05rem;font-size: 0.25rem">{{item.orderRequirement>0?'满'+item.orderRequirement+'可用':'无金额门槛'}}</span> </yd-flexbox-item>
+                <yd-flexbox-item><span style="font-size: 0.4rem;color: #f00;padding-right: 0.2rem">{{item.discount}}</span><span style="color: #f00;background-color:#ffebdb;padding: 0.05rem;font-size: 0.25rem">{{item.orderRequirement>0?'满'+item.orderRequirement+'可用':'无金额门槛'}}</span>
+                </yd-flexbox-item>
               </yd-flexbox>
             </yd-flexbox-item>
             <div align="center">
@@ -30,7 +30,7 @@
                 </yd-progressbar>
               </div>
               <div style="width: 1.6rem; text-align: center;padding-bottom: .15rem;">
-                <yd-button type="danger" style="font-size: .2rem;" bgcolor="#f13130" color="#ffffff" @click.native="getCoupos(item)">点击领取</yd-button>
+                <yd-button type="danger" style="font-size: .25rem;width: 1rem" bgcolor="#f13130" color="#ffffff" @click.native="getCoupos(item)">{{(item.bonusPoints&&item.bonusPoints>0)?(item.bonusPoints+'积分'):'立即领取'}}</yd-button>
               </div>
             </div>
           </yd-flexbox>
@@ -56,8 +56,8 @@
         couponnum:{},
         couponslist:[],
         count:1,
-        selettype:'CASH_COUPON',
-        tablist:[{type:'CASH_COUPON',name:'代金券'},{type:'DISCOUNT_COUPON',name:'满减券'},{type:'SKU_COUPON',name:'单品券'},{type:'CATEGORY_COUPON',name:'品类券'},{type:'MERCHANT_COUPON',name:'商铺券'}],
+        selettype:'OFFLINE_COUPON',
+        tablist:[{type:'OFFLINE_COUPON',name:'代金券'}],
         bg:{
             background: "url(" + require("../../../assets/img/bj.jpg") + ")",
         }
