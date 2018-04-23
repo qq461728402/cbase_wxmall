@@ -121,21 +121,19 @@
 <style>
     .g-header .m-content {
         height: 4rem;
-        background: url('../../assets/img/vip.png'), linear-gradient(-45deg, #ac7c37 0, #5f3b07 100%);
+        background: url('../../assets/img/vip.png'), linear-gradient(-135deg, #e48b0b 0, #9e620a 100%);
         background-size: 100% 100%;
         box-shadow: 0 0 0.4rem 0 rgba(0, 0, 0, .15);
         border-radius: .1rem;
         position: relative;
         overflow: hidden;
-        margin: .3rem .3rem .3rem .3rem;
+        margin: .3rem;
     }
-
     .g-header .m-info {
         padding-top: .8rem;
         padding-left: .4rem;
         overflow: hidden;
     }
-
     .g-header .u-avatarUrl {
         float: left;
     }
