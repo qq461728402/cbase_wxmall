@@ -2,10 +2,10 @@
   <div class="show">
     <p>
       <yd-icon name="error-outline" @click.native="close" style="color: #999999;position: fixed;left: 10px;top: 10px;"></yd-icon>
-      <img src="@/assets/xinjian/zm.png" style="width: 80%;border-radius: 10px;" @click="showToggle" v-show="isShow" />
+      <img v-if="background&&background.length>0" :src="background" style="width: 80%;border-radius: 10px;" @click="showToggle"/>
+      <img v-else-if="isload&&background.length==0" src="@/assets/xinjian/zm.png" style="width: 80%;border-radius: 10px;" @click="showToggle"/>
       <i v-if="isShow" style="position: fixed;font-style: normal;bottom: 20%;font-size: 13px;display: block;color: white; text-shadow: black 0.1em 0.1em 0.2em">会员卡号：{{txm}}</i>
       <barcode :value="value" :options="options" v-if="isShow&&value.length>0" style="width: 70%;position: fixed;"></barcode>
-      <img src="@/assets/xinjian/fm.png" style="width: 80%;border-radius: 10px;" @click="showToggle" v-if="!isShow"/>
       <span v-html="description" style="position: absolute;right: 15%;left: 15%;top: 2rem;font-size: 0.35rem;font-weight: 500" v-if="!isShow"></span>
     </p>
   </div>
@@ -20,9 +20,11 @@
     data() {
       return {
         isShow:true,
+        isload:false,
         value:'',
         description:'',
         txm:'',
+        background:'',
         options:{width: 5, height: 150, displayValue:false},
       }
     },
@@ -48,7 +50,9 @@
         baseHttp(this, '/api/customer/dynamicCardNumber', {}, 'get', '生成条形码...', data => {
           if (data && data.code == 200) {
             this.value = data.cardNumber;
+            this.isload=true;
             this.description=data.description;
+            this.background=data.background;
           }
         })
       },

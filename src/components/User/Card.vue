@@ -5,8 +5,8 @@
             <div class="m-content" @click="show">
                 <img :src="iscarInfo.background" class="back_img" v-if="iscarInfo.background&&iscarInfo.background.length>0">
                 <img v-else src="../../assets/img/vipCard.jpg" class="back_img">
-                <div style="position: absolute;top: 0.2rem;right:0.2rem;font-size: 0.3rem;color: #ffffff">
-                    {{iscarInfo.storeName}}
+                <div style="position: absolute;top: 0.2rem;right:0.2rem;font-size: 0.3rem;color: #ffffff;height: 0.5rem;line-height: 0.5rem">
+                    <img :src="iscarInfo.logo" v-if="iscarInfo.logo&&iscarInfo.logo.length>0">{{iscarInfo.storeName}}
                 </div>
                 <div class="m-info" v-if="iscarInfo.loyaltyNumber.length>0">
                     <div class="u-avatarUrl">
@@ -71,6 +71,7 @@
                     couponQuantity:0,
                     avatar:'',
                     background:'',
+                    logo:'',
                 },
                 isShow: false,
                 isload:false,
@@ -275,7 +276,7 @@
         text-align: center;
     }
     .back_img{
-        position: absolute;left: 0;right: 0;top: 0;bottom: 0;z-index:-1
+        position: absolute;left: 0;right: 0;top: 0;bottom: 0;z-index:-1;
+        width:100%
     }
-
 </style>

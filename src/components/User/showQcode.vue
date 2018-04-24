@@ -6,7 +6,7 @@
           <p style="font-size: 0.4rem"><strong>优惠券支付</strong></p>
           <p style="color: gray">让门店扫一扫,进行支付</p>
         </div>
-        <div id="barcode">
+        <div id="barcode" v-if="consumeCode.length>0">
           <barcode :value="consumeCode" :options="options"></barcode>
         </div>
         <div style="margin-left:20%;width: 60%;margin-top: 0.4rem">
@@ -40,9 +40,8 @@
     },
     data() {
       return {
-        value:'1234',
         couponId:'',
-        consumeCode:'0000',
+        consumeCode:'',
         qrcode:'',
         expiredTime:'',
         detail:'',

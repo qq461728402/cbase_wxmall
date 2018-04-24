@@ -19,7 +19,9 @@ store.dispatch('getToken');
 axios.interceptors.response.use(response =>{
   if (response.data && response.data.code === 401) { // 401, token失效
     removeStore('userInfo');
-    window.location.href=response.data.loginUrl;
+    if (response.data.loginUrl&&response.data.loginUrl.length>0){
+      window.location.href=response.data.loginUrl;
+    }
   }else if(response.data && response.data.code === 500){
     console.log(response.request.responseURL);
   }
