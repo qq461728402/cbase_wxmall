@@ -14,7 +14,7 @@
 
     <div v-if="state==1">
       <ul class="coupon" v-if="unusedlist.length!=0">
-        <li v-for="item in unusedlist">
+        <li v-for="item in unusedlist" @click="showQcode(item)">
           <yd-flexbox style="height: 1.5rem">
             <div style="height: 100%;padding: 0.2rem;width:2rem" class="couponBg">
               <p style="font-size: .3rem; font-weight: bold;color: #ffffff;">￥<em style="font-size: 0.6rem">{{item.discount}}</em> </p>
@@ -146,6 +146,10 @@
           this.getexpired();
         }
       },
+      //展示条形码
+      showQcode(item){
+        this.$router.push({ path: '/home/showCoupons',query:{couponId:item.id}});
+      }
     },
   }
   export default vm;

@@ -1,12 +1,12 @@
 <template>
   <div class="show">
-    <div style="margin: 0.2rem;background-color: #ffffff;border-radius: 0.1rem">
+    <div style="margin: 0.2rem;border-radius: 0.1rem; position: absolute; top: 50%;">
       <yd-cell-group style="text-align: center;">
         <div style="padding: 0.2rem;">
           <p style="font-size: 0.3rem"><strong>展示优惠券</strong></p>
           <p style="color: gray">让门店扫一扫,节省您与门店对接时间</p>
         </div>
-        <div>
+        <div style="width: 80%;margin-left: 10%">
           <barcode :value="value" :options="options" style="width: 70%;position: fixed;"></barcode>
         </div>
         <div style="margin-left:25%;width: 50%;">
@@ -65,6 +65,6 @@
 </script>
 <style scoped>
   .show{
-    position: absolute;left: 0;right:0;bottom: 0;top: 0;z-index:9
+    position:relative;left: 0;right:0;bottom: 0;top: 0;z-index:9
   }
 </style>

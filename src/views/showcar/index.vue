@@ -6,6 +6,7 @@
       <i v-if="isShow" style="position: fixed;font-style: normal;bottom: 20%;font-size: 13px;display: block;color: white; text-shadow: black 0.1em 0.1em 0.2em">会员卡号：{{txm}}</i>
       <barcode :value="value" :options="options" v-if="isShow&&value.length>0" style="width: 70%;position: fixed;"></barcode>
       <img src="@/assets/xinjian/fm.png" style="width: 80%;border-radius: 10px;" @click="showToggle" v-if="!isShow"/>
+      <span v-html="description" style="position: absolute;right: 15%;left: 15%;top: 2rem;font-size: 0.35rem;font-weight: 500" v-if="!isShow"></span>
     </p>
   </div>
 </template>
@@ -20,6 +21,7 @@
       return {
         isShow:true,
         value:'',
+        description:'',
         txm:'',
         options:{width: 5, height: 150, displayValue:false},
       }
@@ -46,6 +48,7 @@
         baseHttp(this, '/api/customer/dynamicCardNumber', {}, 'get', '生成条形码...', data => {
           if (data && data.code == 200) {
             this.value = data.cardNumber;
+            this.description=data.description;
           }
         })
       },
@@ -67,11 +70,6 @@
     margin: 0;
     padding: 0;
   }
-  html {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
   p {
     position: fixed;
     left: 0;
@@ -91,5 +89,10 @@
       transform-origin: 0 0;
       transform: rotateZ(90deg) translateY(-100%);
     }
+  }
+  .fmc{
+    background-image:linear-gradient(-135deg, #e48b0b 0, #9e620a 100%);
+    width: 100%;
+    height: 100%;
   }
 </style>

@@ -30,7 +30,7 @@
                 </yd-progressbar>
               </div>
               <div style="width: 1.6rem; text-align: center;padding-bottom: .15rem;">
-                <yd-button type="danger" style="font-size: .25rem;width: 1rem" bgcolor="#f13130" color="#ffffff" @click.native="getCoupos(item)">{{(item.bonusPoints&&item.bonusPoints>0)?(item.bonusPoints+'积分'):'立即领取'}}</yd-button>
+                <yd-button type="danger" style="font-size: .25rem;width: 1rem" bgcolor="#f13130" color="#ffffff" @click.native.stop="getCoupos(item)">{{(item.bonusPoints&&item.bonusPoints>0)?(item.bonusPoints+'积分'):'立即领取'}}</yd-button>
               </div>
             </div>
           </yd-flexbox>
@@ -136,7 +136,8 @@
           });
           item.quantityAvailable=item.quantityAvailable-1;
         })
-      }
+      },
+
     },
   }
   export default vm;

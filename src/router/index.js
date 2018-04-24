@@ -68,6 +68,8 @@ const Seckill = resolve => require.ensure([], () => resolve(require('../componen
 const Card = resolve => require.ensure([], () => resolve(require('../components/User/Card')), 'Card')//会员中心
 const Explain = resolve => require.ensure([], () => resolve(require('../components/User/Explain')), 'Explain')//会员积分使用说明
 const Binding = resolve => require.ensure([], () => resolve(require('../components/User/Binding')), 'Binding')//会员卡绑定
+const showQcode = resolve => require.ensure([], () => resolve(require('../components/User/showQcode')), 'showQcode')//优惠券条形码
+
 
 const router = new Router({
    // hashbang:false,
@@ -128,7 +130,10 @@ const router = new Router({
 	{path:'/User/Card',name:'Card',component:Card,meta:{title:'会员中心',keepAlive:true}},
     {path:'/User/Explain',name:'Explain',component:Explain,meta:{title:'积分使用说明',keepAlive:true}},
     {path:'/User/Binding',name:'Binding',component:Binding,meta:{title:'会员卡绑定',keepAlive:false}},
+    {path:'/home/showCoupons',name:'qcode',component:showQcode,mata:{title:'优惠券兑换',keepAlive:false}},
+      
     {path:'/home/hotProductsList',name:'hotProductsList',component:HotPro,meta:{title:'热销商品',keepAlive:true}},
+      
   ],
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {

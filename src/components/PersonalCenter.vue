@@ -122,7 +122,6 @@
     data() {
       return {
         tel:'',
-        isCookie:getStore("token").length>0?true:false,
         bonusPointsHistories:[],
         ordernum:{'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'REFUNDING':0,'NOT_COMMENT':0,'RETURN':0,'PAID':0},
         shearView:false,
@@ -170,7 +169,6 @@
 
       },
       gotoGitfs(){
-//        window.location.href='http://weixin.e-cbest.com/mall/'+this.$store.getters.store+'/customer/center';
         this.$router.push({ path: '/User/Card'});
       },
       gotobonushistroy(){
