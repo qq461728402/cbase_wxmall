@@ -11,7 +11,7 @@ import {removeStore} from './mUtils'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
 axios.defaults.withCredentials=true;
-axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://weixin.e-cbest.com/mall';//http://joewee.mynatapp.cc/mall
+axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://weixin.e-cbest.com/test';//http://joewee.mynatapp.cc/mall
 store.dispatch('getToken');
 // axios.defaults.headers.token = store.getters.token;
 /*

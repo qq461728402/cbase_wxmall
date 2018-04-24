@@ -15,17 +15,8 @@ const cookieMsg={
   
   },
   mutations:{
-    SET_STORE:(state)=>{
-      var avatarstr=getToken('store');
-      if(avatarstr.length>0){
-        state.store=getToken('store');
-        if(getToken('store')){
-          setStore('store',avatarstr);
-          removeToken('store');
-        }
-      }else{
-        state.avatar=getStore('avatar');
-      }
+    SET_STORE:(state,store)=>{
+      state.store=store;
     },
     SET_AVATAR:(state)=>{
       var avatarstr=getToken('avatar');
@@ -91,8 +82,8 @@ const cookieMsg={
     getUname({commit}){
       commit('SET_UNAME');
     },
-    getStore({commit}){
-      commit('SET_STORE');
+    getStore({commit},store){
+      commit('SET_STORE',store);
     },
 
   }

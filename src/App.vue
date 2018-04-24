@@ -23,7 +23,6 @@
       this.$store.dispatch('getToken');
       this.$store.dispatch('getUid');
       this.$store.dispatch('getUname');
-      this.$store.dispatch('getStore');
       this.baseInfo();
     },
     methods: {
@@ -37,9 +36,10 @@
         })
       },
       baseInfo(){
-        baseHttp(this,'/api/store/baseInfo',{'merchantId':this.$store.getters.store},'get','',data=>{
-          if(data){
+        baseHttp(this,'/api/store/storeInfo',{},'get','',data=>{
+          if(data&&data.code==200){
             this.$store.dispatch('setbaseInfo',data);
+            this.$store.dispatch('getStore', data.storeId);
           }
         })
       },

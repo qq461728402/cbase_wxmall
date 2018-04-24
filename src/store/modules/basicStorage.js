@@ -27,6 +27,8 @@ const basicStorage={
     baseInfo:{
       storePhone:'',
       storeDesc:'',
+      storeName:'',
+      storeId:'',
     },
   },
   mutations:{

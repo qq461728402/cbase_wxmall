@@ -15,7 +15,7 @@
                         <div class="u-nickname">{{'姓名:' + iscarInfo.customerName}}</div>
                     </div>
                 </div>
-                <div v-else style="position: absolute;bottom: 0;width: 100%">
+                <div v-else-if="isload" style="position: absolute;bottom: 0;width: 100%">
                     <div class="yd-cell-item" style="background-color: #000;color: #fff" @click.stop="binding">
                         <div class="yd-cell-left"><span class="yd-cell-icon"><i class="icon-custom-vip" style="font-size: 0.35rem; color: rgb(255, 255, 255);"></i></span> <span style="color: #fff">点击开通会员卡</span>
                         </div>
@@ -25,7 +25,7 @@
             </div>
         </div>
         <yd-cell-group>
-            <yd-cell-item arrow>
+            <yd-cell-item arrow v-if="false">
                 <yd-icon slot="icon" name="shu" size=".35rem" color="#2e4057" custom></yd-icon>
                 <span slot="left">会员卡特权</span>
             </yd-cell-item>
@@ -36,6 +36,7 @@
             <yd-cell-item arrow @click.native="mycoupons">
                 <yd-icon slot="icon" name="youhuiquan2" size=".35rem" color="#2e4057" custom></yd-icon>
                 <span slot="left">我的优惠券</span>
+                <span slot="right" v-if="iscarInfo.couponQuantity>0">可用<span style="color: red">{{iscarInfo.couponQuantity}}</span>张</span>
             </yd-cell-item>
             <yd-cell-item arrow @click.native="exchange">
                 <yd-icon slot="icon" name="duihuan" size=".35rem" color="#2e4057" custom></yd-icon>
@@ -65,20 +66,21 @@
                     storeName: '',
                     bonusPoints: '',
                     other: '',
+                    couponQuantity:0,
                 },
                 isShow: false,
+                isload:false,
             }
         },
-//        mounted(){
-//            this.loyalty();
-//        },
         activated(){
+            this.isShow=false;
             this.loyalty();
         },
         methods: {
             //获取会员卡信息
             loyalty(){
                 baseHttp(this, '/api/customer/loyalty', {}, 'get', '', data => {
+                    this.isload=true;
                     if (data && data.code == 200) {
                         this.iscarInfo = data;
                     }
