@@ -33,7 +33,6 @@ export function baseHttp(ydui, url, par, method, loadmsg, callback) {
   if (loadmsg.length != 0) {
     ydui.$dialog.loading.open(loadmsg);
   }
-
   axios({
     method: method,
     url: url,

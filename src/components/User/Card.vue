@@ -8,14 +8,14 @@
                 </div>
                 <div class="m-info" v-if="iscarInfo.loyaltyNumber.length>0">
                     <div class="u-avatarUrl">
-                        <img src="@/assets/xinjian/cardtouxiang.jpg">
+                        <img :src="iscarInfo.avatar">
                     </div>
                     <div class="m-right">
                         <div class="u-nickname">{{'卡号:' + iscarInfo.loyaltyNumber}}</div><!--会员卡卡号-->
                         <div class="u-nickname">{{'姓名:' + iscarInfo.customerName}}</div>
                     </div>
                 </div>
-                <div v-else-if="isload" style="position: absolute;bottom: 0;width: 100%">
+                <div v-else-if="isload&&iscarInfo.loyaltyNumber.length==0" style="position: absolute;bottom: 0;width: 100%">
                     <div class="yd-cell-item" style="background-color: #000;color: #fff" @click.stop="binding">
                         <div class="yd-cell-left"><span class="yd-cell-icon"><i class="icon-custom-vip" style="font-size: 0.35rem; color: rgb(255, 255, 255);"></i></span> <span style="color: #fff">点击开通会员卡</span>
                         </div>
@@ -53,7 +53,7 @@
 </template>
 <script type="text/ecmascript-6">
     import show from '@/views/showcar'
-    import {baseHttp} from "@/config/env"
+    import {baseHttp1} from "@/config/env"
     export default {
         components: {
             show
@@ -67,6 +67,7 @@
                     bonusPoints: '',
                     other: '',
                     couponQuantity:0,
+                    avatar:'',
                 },
                 isShow: false,
                 isload:false,
@@ -79,7 +80,7 @@
         methods: {
             //获取会员卡信息
             loyalty(){
-                baseHttp(this, '/api/customer/loyalty', {}, 'get', '', data => {
+                baseHttp1(this, '/api/customer/loyalty', {}, 'get', '', data => {
                     this.isload=true;
                     if (data && data.code == 200) {
                         this.iscarInfo = data;

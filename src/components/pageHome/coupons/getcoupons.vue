@@ -116,9 +116,21 @@
       },
       /* 点击领取优惠券*/
       getCoupos(item){
-        const  that =this;
-        baseHttp(this,'/api/coupon/get',{'couponId':item.id},'get','正在领取',function (data){
-          that.$dialog.toast({
+        if (item.bonusPoints>0){
+          this.$dialog.confirm({
+            title: '温馨提示',
+            mes: '您确定积分兑换优惠券',
+            opts: () => {
+              this.sureCoupos(item);
+            }
+          });
+        }else{
+          this.sureCoupos(item);
+        }
+      },
+      sureCoupos(item){
+        baseHttp(this,'/api/coupon/get',{'couponId':item.id},'get','正在领取', data => {
+          this.$dialog.toast({
             mes: '领取成功!',
             timeout: 2000,
           });
