@@ -34,8 +34,12 @@
     },
     filters: {
       formatDate(time) {
-        var date = new Date(time);
-        return formatDate(date, 'yyyy-MM-dd hh:mm');
+        if(time&&time.length>0){
+          var date = new Date(time);
+          return formatDate(date, 'yyyy-MM-dd hh:mm');
+        }else{
+          return '';
+        }
       }
     },
     data() {
