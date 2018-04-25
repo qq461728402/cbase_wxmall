@@ -11,7 +11,7 @@
           <span style="line-height: 0.5rem">{{address.lastName}}</span>
           <span style="line-height: 0.5rem">{{address.phonePrimary}}</span>
           <span style="border:1px solid #d41d0f;border-radius: 2px;padding: 2px 5px;color: #d41d0f;font-size: 0.2rem">默认</span>
-          <p class="areaInfo">{{address.addressStateName+address.addressCityName+ address.addressDistrictName+ address.addressStreet}}</p>
+          <p class="areaInfo">{{joinaddress}}</p>
         </div>
         <span class="choose"></span>
       </div>
@@ -195,7 +195,15 @@
     computed: {
       ...mapGetters([
         'invoice',
-      ])
+      ]),
+      //获取收货地址
+      joinaddress(){
+        if (this.address.addressStateName){
+          return this.address.addressStateName+this.address.addressCityName+ this.address.addressDistrictName+ this.address.addressStreet;
+        }else {
+          return '';
+        }
+      }
     },
     components: {
       goods,

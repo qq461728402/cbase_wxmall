@@ -11,7 +11,7 @@
           <span style="line-height: 0.5rem">{{address.lastName}}</span>
           <span style="line-height: 0.5rem">{{address.phonePrimary}}</span>
           <span style="border:1px solid #d41d0f;border-radius: 2px;padding: 2px 5px;color: #d41d0f;font-size: 0.2rem">默认</span>
-          <p class="areaInfo">{{address.addressStateName+address.addressCityName+ address.addressDistrictName+ address.addressStreet}}</p>
+          <p class="areaInfo">{{getaddress}}</p>
         </div>
         <span class="choose"></span>
       </div>
@@ -27,7 +27,7 @@
       </yd-cell-item>
       <yd-cell-item arrow type="label">
         <span slot="left">配送方式</span>
-        <select slot="right" class="main_3" v-model="distribut" v-if="shippingType=='BOTH'">
+        <select slot="right" class="main_3" v-model="distribut" v-if="orderData.shippingType=='BOTH'">
           <option v-for="item in distribution" :value='item.type'>{{item.name}}</option>
         </select>
         <span slot="right" v-else  style="font-size: 0.3rem">
@@ -45,62 +45,15 @@
       <div>
         <h3>商品</h3>
         <ul class="por" slot="list">
-          <li v-for="item in orderData.items">
-            <goods :item="item" goodsType="submit" :showQuantity="true"></goods>
+          <li>
+            <pointGoods :item="orderData"></pointGoods>
           </li>
         </ul>
-        <div v-if="orderData.gifts&&orderData.gifts.length>0">
-          <h3>赠品</h3>
-          <ul class="sever">
-            <li v-for="gift in orderData.gifts">
-              <yd-flexbox style="margin-left: 16px">
-                <yd-flexbox-item>
-                  <div class="titlediv">
-                    <p>{{gift.skuName}}</p>
-                    <p style="color: #999">{{gift.description}}</p>
-                  </div>
-                </yd-flexbox-item>
-                <div style="margin-right: 0.2rem;width: 1rem;text-align: right" class="titlediv">
-                  <p style="color: #df3448">&yen;{{gift.salePrice}}</p>
-                  <p style="color: #999">×{{gift.quantity}}</p>
-                </div>
-              </yd-flexbox>
-            </li>
-          </ul>
-        </div>
-        <div v-if="orderData.needService">
-          <h3>服务</h3>
-          <ul class="sever">
-            <li v-for="service in orderData.services">
-              <yd-flexbox style="margin-left: 16px">
-                <yd-flexbox-item>
-                  <div class="titlediv">
-                    <p>{{service.serviceName}}</p>
-                    <p style="color: #999">{{service.description}}</p>
-                  </div>
-                </yd-flexbox-item>
-                <div style="margin-right: 0.2rem;width: 1rem;text-align: right" class="titlediv">
-                  <p style="color: #df3448">&yen;{{service.servicePrice}}</p>
-                  <p style="color: #999">×{{service.quantity}}</p>
-                </div>
-              </yd-flexbox>
-            </li>
-          </ul>
-        </div>
       </div>
     </div>
-    <div class="payinfo">
-      <p><span class="label">商品总额</span> <span class="price">&yen;{{orderData.subTotal}}</span></p>
-      <p><span class="label">服务费</span> <span class="price">&yen;{{orderData.serviceFee}}</span></p>
-      <p><span class="label">运费</span> <span class="price">&yen;{{orderData.shipmentFee}}</span></p>
-      <div style="padding-top: 0.3rem"  id="hyxz">
-        <yd-checkbox  v-model="checkbox1" shape="circle" color="#d41d0f" size="16"></yd-checkbox><span style="font-size: 12px;text-decoration:underline;color: #d41d0f" @click="gotopro()">《退换货须知》</span>
-      </div>
-    </div>
-    <div style="margin-bottom: 1.5rem"></div>
     <div slot="tabbar" class="submitorder">
-      <div style="width: 60%;text-align: left;padding-left: 0.2rem">实付款:&yen;<span v-if="isBonusPointsUsed">{{orderData.total-couponsMoney- bonusPointsUsed}}</span><span v-else>{{orderData.total-couponsMoney}}</span> </div>
-      <div class="subbtn" style="width: 40%" @click="gotoplay">提交订单</div>
+      <div style="width: 60%;text-align: left;padding-left: 0.2rem">所需积分:<span>{{orderData.bounsPoints}}</span> </div>
+      <div class="subbtn" style="width: 40%" @click="gotoplay">积分兑换</div>
     </div>
   </yd-layout>
 </template>
@@ -110,15 +63,23 @@
   import {wexinPay,wftPay} from '@/config/weichatPay'
   import { mapGetters } from 'vuex'
   import { Row, Col,Cell, CellGroup } from 'vant';
-  import goods from '@/views/goods'
+  import pointGoods from '@/views/pointGoods'
   const vm= {
     computed: {
       ...mapGetters([
         'invoice',
-      ])
+      ]),
+      //拼接地址
+      getaddress(){
+          if (this.address.addressStateName&&this.address.addressStateName.length>0){
+           return  this.address.addressStateName+this.address.addressCityName+ this.address.addressDistrictName+ this.address.addressStreet;
+          }else{
+            return '';
+          }
+      },
     },
     components: {
-      goods,
+      pointGoods,
       [Row.name]:Row,
       [Col.name]:Col,
       [Cell.name]:Cell,
@@ -126,49 +87,24 @@
     },
     data() {
       return {
-        shippingType:'',
         distribut:'',
         distribution:[{'type':'DELIVERY','name':'快递'},{'type':'SELF_DELIVERY','name':'门店自提'}],
         checkbox1:true,
         getorderInfo:{},
         spinner1:1,
-        startDate: '2018-1-1',
-        endDate: '2018-1-1',
         orderDate: '',
-        orderData: {total:0.0},
+        orderData: {
+          bounsPoints:0,
+          shippingType:'BOTH',
+        },
         oderdefault: {},
         address: {'lastName': '', 'phonePrimary': ''},
         chooseCoupon: false,
         oderdefault: {},
-        availableCount: 0,//可用优惠券
-        available: [],
-        unavailable: [],
-        couponsMoney: 0.0,
         msg: '',
-        storeName: '',
-        isBonusPointsUsed:false,
-        bonusPointsUsed:0,
-        bonusPoints:0,
         payInfo: {},
-        tabkey:'1',
         paytotalFee:0,
-        carInfo:false,
       }
-    },
-    filters: {
-      formatDate: function (value) {
-        if (!value) return ''
-        var date = new Date(value);
-        return formatDate(date,'yyyy-MM-dd');
-      }
-    },
-    watch: {
-      distribut:{
-        handler:function (val,oldval) {
-          this.orderData.shippingType=val;
-          this.confirmOder();
-        }
-      },
     },
     mounted(){
       if(getStore("oderInfo").length>0){
@@ -210,22 +146,13 @@
           oderInfo.state = this.address.addressState;
           oderInfo.street = this.address.addressStreet;
         }
-        baseHttp(this, '/api/promotion/exchange/confirm', {'data': JSON.stringify(oderInfo)}, 'post', '', data => {
-          this.orderData = data.orderData;
-          that.distribut=that.orderData.shippingType;
-          that.shippingType=data.shippingOptions;
-          if (that.oderdefault.payments.length > 0) {
-            that.orderData.payment = that.oderdefault.payments[0].id;
-          }
+        baseHttp(this, '/api/promotion/exchange/confirm', {'data': JSON.stringify(oderInfo)}, 'get', '', data => {
+          this.orderData = data.data;
         })
       },
       gotoAddress(){
         this.$router.push({name:'addressList'});
       },
-      mshowfp() {
-        this.$router.push({name: 'invoiceInfo'})
-      },
-
       switchlist(label, tabkey){
         this.tabkey=tabkey;
       },
@@ -236,60 +163,37 @@
       gotoback(){
         this.$router.go(-1);
       },
-      /*去支付*/
+
+      /*获取用户信息*/
+      getuserInfo(){
+        baseHttp(this, '/api/personal/info', {}, 'get', '', data => {
+          if (data) {
+            this.$store.dispatch('setUserInfo', data.info);
+          }
+        })
+      },
+      /*去兑换*/
       gotoplay() {
-        if(this.checkbox1==false){
-          this.$dialog.toast({mes: '请确认用户须知', timeout: 1000});
-          return;
-        }
         if (this.address.lastName.length == 0) {
           this.$dialog.toast({mes: '请选择地址', timeout: 1000});
           return;
-        } else if (this.orderData.payment.length == 0) {
-          this.$dialog.toast({mes: '请选择支付方式', timeout: 1000});
-          return;
         }
-        this.orderData.shippingType=this.distribut;
-        this.orderData.invoiceTitle = this.invoice.invoiceTitle;
-        this.orderData.taxNumber =this.invoice.taxNumber;
-        this.orderData.invoiceType = this.invoice.invoiceType;
-        this.orderData.isBonusPointsUsed=this.isBonusPointsUsed;
-        if(this.isBonusPointsUsed==false){
-          this.orderData.bonusPointsUsed=0;
-        }else{
-          this.orderData.bonusPointsUsed=this.bonusPointsUsed;
-        }
-        this.orderData.msg = this.msg;
-        this.orderData.preorderTime = this.orderDate;
-        this.orderData.coupons = [];
-        const that = this;
-        this.selectCoupons.forEach(function (item) {
-          that.orderData.coupons.push(item.code);
-        });
-        this.orderData.lastname = this.address.lastName;
-        this.orderData.primaryPhone = this.address.phonePrimary;
-        this.orderData.city = this.address.addressCity;
-        this.orderData.district = this.address.addressDistrict;
-        this.orderData.state = this.address.addressState;
-        this.orderData.street = this.address.addressStreet;
-        baseHttp(this, '/api/order/checkout', {'data': JSON.stringify(this.orderData)}, 'post', '提交中...', function ( data) {
-          that.paytotalFee=data.total_fee;
-          if(data.total_fee){
-            if (data.total_fee==0){
-              this.$router.replace({ name: 'myOderList', query: { type: 1 }})
-            }else{
-              that.perPay(data);
-            }
-          }else{
-            this.$router.replace({ name: 'myOderList', query: { type: 1 }})
+        this.$dialog.confirm({
+          title: '温馨提示',
+          mes: '您确定兑换此商品',
+          opts: () => {
+            baseHttp(this, '/api/promotion/exchange', {'data': JSON.stringify(this.orderData)}, 'post', '提交中...',data=> {
+              this.$dialog.toast({
+                mes: '兑换成功',
+                timeout: 1500,
+                icon: 'success',
+                callback: ()=>{
+                  this.getuserInfo();
+                  this.$router.replace({ name: 'myOderList', query: { type: 1 }})
+                }
+              });
+            });
           }
-        });
-      },
-      perPay(data){
-        const that = this;
-        baseHttp(this, '/api/order/prePay', data, 'post', '提交中...', function (data) {
-          that.payInfo = data.payInfo;
-          window.location.href =  "https://pay.swiftpass.cn/pay/jspay?token_id="+that.payInfo.token_id+"&showwxtitle=1";
         });
       },
     },

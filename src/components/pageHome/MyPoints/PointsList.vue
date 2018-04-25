@@ -38,10 +38,9 @@
     },
     methods:{
       loadList() {
-        const that = this;
-        baseHttp(this, '/api/promotion/list', {'promotionType': 'EXCHANGE'}, 'get', '加载中...', function (data) {
-          that.items = data.promotions;
-          that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
+        baseHttp(this, '/api/promotion/list', {'promotionType': 'EXCHANGE'}, 'get', '加载中...', data=> {
+          this.items = data.promotions;
+          this.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
         })
       },
       //积分兑换

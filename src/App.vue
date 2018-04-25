@@ -15,7 +15,6 @@
     data () {
       return {
         imgUrl:require('../static/logo.png'),
-        signatureInfo:{}
       }
     },
     mounted(){
@@ -28,10 +27,9 @@
     methods: {
       /*获取购物车数量*/
       getCartsQuantity(){
-        const that = this;
-        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
+        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', data => {
           if (data.quantity >= 0) {
-            that.$store.dispatch('setQuantity', data.quantity);
+            this.$store.dispatch('setQuantity', data.quantity);
           }
         })
       },
@@ -40,15 +38,6 @@
           if(data&&data.code==200){
             this.$store.dispatch('setbaseInfo',data);
             this.$store.dispatch('getStore', data.storeId);
-          }
-        })
-      },
-      signature(link,title){
-        const that = this;
-        baseHttp(this, '/wechat/jsapi/signature', {'url': window.location.href}, 'post', '', function (data) {
-          if (data.signature) {
-            that.signatureInfo = data.signature;
-            shearUrl(this.signatureInfo,link,title)
           }
         })
       },
@@ -66,13 +55,13 @@
         }
         let wx = require('weixin-js-sdk');
         wx.onMenuShareTimeline({
-          title: title, // 分享标题
-          link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          title: title,
+          link: link,
         })
         wx.onMenuShareAppMessage({
-          desc: link,   // 分享描述
-          title: title, // 分享标题
-          link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          desc: link,
+          title: title,
+          link: link,
         })
       }
     },

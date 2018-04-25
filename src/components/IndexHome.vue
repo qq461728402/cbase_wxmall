@@ -331,10 +331,9 @@
       },
       /*获取用户信息*/
       getuserInfo(){
-        const that = this;
-        baseHttp(this, '/api/personal/info', {}, 'get', '', function (data) {
+        baseHttp(this, '/api/personal/info', {}, 'get', '', data => {
           if (data) {
-            that.$store.dispatch('setUserInfo', data.info);
+            this.$store.dispatch('setUserInfo', data.info);
           }
         })
       },
