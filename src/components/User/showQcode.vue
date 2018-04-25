@@ -45,7 +45,7 @@
         qrcode:'',
         expiredTime:0,
         detail:'',
-        options:{width: 3, height: 80, displayValue:false},
+        options:{width: 3, height: 80, displayValue:true},
       }
     },
     created(){
