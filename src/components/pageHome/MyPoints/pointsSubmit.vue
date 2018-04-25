@@ -164,12 +164,12 @@
       gotoback(){
         this.$router.go(-1);
       },
-
       /*获取用户信息*/
       getuserInfo(){
         baseHttp(this, '/api/personal/info', {}, 'get', '', data => {
           if (data) {
             this.$store.dispatch('setUserInfo', data.info);
+            this.$router.go(-1);
           }
         })
       },
@@ -190,7 +190,6 @@
                 icon: 'success',
                 callback: ()=>{
                   this.getuserInfo();
-                  this.$router.replace({ name: 'myOderList', query: { type: 1 }})
                 }
               });
             });
