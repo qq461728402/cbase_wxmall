@@ -23,6 +23,7 @@
       this.$store.dispatch('getUid');
       this.$store.dispatch('getUname');
       this.baseInfo();
+      this.getuserInfo();
     },
     methods: {
       /*获取购物车数量*/
@@ -38,6 +39,14 @@
           if(data&&data.code==200){
             this.$store.dispatch('setbaseInfo',data);
             this.$store.dispatch('getStore', data.storeId);
+          }
+        })
+      },
+      /*获取用户信息*/
+      getuserInfo(){
+        baseHttp(this, '/api/personal/info', {}, 'get', '', data => {
+          if (data) {
+            this.$store.dispatch('setUserInfo', data.info);
           }
         })
       },

@@ -216,7 +216,6 @@
       if (cityname.length>0) {
         this.cityname =cityname;
       }
-      this.getuserInfo();
       this.getCartsQuantity();
       this.signature();
       this.getConfig();
@@ -326,14 +325,6 @@
         baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
           if (data.quantity >= 0) {
             that.$store.dispatch('setQuantity', data.quantity);
-          }
-        })
-      },
-      /*获取用户信息*/
-      getuserInfo(){
-        baseHttp(this, '/api/personal/info', {}, 'get', '', data => {
-          if (data) {
-            this.$store.dispatch('setUserInfo', data.info);
           }
         })
       },

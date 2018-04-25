@@ -96,6 +96,7 @@
         orderData: {
           bounsPoints:0,
           shippingType:'BOTH',
+          quantity:0,
         },
         oderdefault: {},
         address: {'lastName': '', 'phonePrimary': ''},
