@@ -89,7 +89,6 @@
   const vm= {
     data() {
       return {
-        isCookie:'',
         expiredlist:[],
         unusedlist:[],
         usedlist:[],

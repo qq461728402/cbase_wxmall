@@ -192,7 +192,6 @@
           resetSelectedSkuOnHide:true,//窗口隐藏时重置已选择的sku
         },
         isCarOrBuy:0,//1表示Car 2表示 buy
-        isCookie:getStore("token").length>0?true:false,
         goods: {
           title: '',
           picture: ''

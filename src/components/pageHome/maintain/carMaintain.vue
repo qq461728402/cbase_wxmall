@@ -115,7 +115,6 @@
         data: {},
         items: [],
         quantity: 0,
-        isCookie:false,
         type:'upkeep'
       }
     },
@@ -127,12 +126,8 @@
       if(this.$route.query.type) {
         this.type=this.$route.query.type;
       }
-      var tempUserInfo=getStore("userInfo");
-      this.isCookie=tempUserInfo.token?true:false;
       this.series();
-      if(this.isCookie==true){
-        this.getCartsQuantity();
-      }
+      this.getCartsQuantity();
     },
     methods: {
       gotoback(){

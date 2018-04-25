@@ -13,7 +13,7 @@
           <div id="qrcode" ref="qrcode" style="padding-bottom: 0.4rem;"></div>
         </div>
         <div style="padding-bottom: 0.4rem;">
-          <p>过期时间:{{expiredTime | formatDate}}<yd-icon slot="icon" name="shuaxin" size=".35rem" color="#2e4057" custom  style="margin-left: 0.2rem" @click.native="generate"></yd-icon></p>
+          <p v-if="expiredTime!=0">过期时间:{{expiredTime | formatDate}}<yd-icon slot="icon" name="shuaxin" size=".35rem" color="#2e4057" custom  style="margin-left: 0.2rem" @click.native="generate"></yd-icon></p>
         </div>
       </yd-cell-group>
       <yd-cell-group v-if="detail.length>0">
@@ -34,12 +34,8 @@
     },
     filters: {
       formatDate(time) {
-        if(time&&time.length>0){
-          var date = new Date(time);
-          return formatDate(date, 'yyyy-MM-dd hh:mm');
-        }else{
-          return '';
-        }
+        var date = new Date(time);
+        return formatDate(date, 'yyyy-MM-dd hh:mm');
       }
     },
     data() {
@@ -47,7 +43,7 @@
         couponId:'',
         consumeCode:'',
         qrcode:'',
-        expiredTime:'',
+        expiredTime:0,
         detail:'',
         options:{width: 3, height: 80, displayValue:false},
       }
@@ -78,7 +74,7 @@
           height: 100,
           colorDark: '#000000',
           colorLight: '#ffffff',
-          correctLevel   : 2,
+          correctLevel   : 3,
         });
       },
     },

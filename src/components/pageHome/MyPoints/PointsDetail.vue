@@ -16,22 +16,13 @@
         <p style="font-size: 12px;text-align: center;padding-top: 10px;color: #999999;">{{skuModel.skuDescription}}</p>
         <p style="text-align: center;padding-top: 10px">
           <em style="color: red;font-size: 16px;font-weight: bold">{{skuModel.bonusPoints}}积分</em>
-          <em style="text-decoration: line-through;font-size: 14px;color: #999999;">￥{{skuModel.salePrice}}</em>
+          <em style="text-decoration: line-through;font-size: 14px;color: #999999;" v-if="false">￥{{skuModel.salePrice}}</em>
         </p>
       </div>
     </van-cell-group>
     <van-cell-group style="margin-top: 0.2rem">
       <van-cell>
         <van-col span="10" style="color:#9c9c9c">剩余：{{skuModel.stock}}件</van-col>
-        <!--<van-col span="14" style="text-align: right;color:#9c9c9c">剩余：{{skuModel.stock}}</van-col>-->
-      </van-cell>
-    </van-cell-group>
-    <van-cell-group style="margin-top: 0.2rem">
-      <van-cell>
-        <button class="security" v-for="securityitem in securitylst">
-          <yd-icon name="gouxuan" size=".3rem" color="#ff7723" custom></yd-icon>
-          {{securityitem}}
-        </button>
       </van-cell>
     </van-cell-group>
     <van-cell-group style="margin-top: 0.2rem;margin-bottom: 1.2rem">
@@ -51,8 +42,7 @@
       </van-cell>
     </van-cell-group>
     <van-goods-action slot="tabbar">
-      <van-goods-action-mini-btn icon="chat" text="客服"/>
-      <van-goods-action-mini-btn icon="cart" text="购物车" @click="gotoCar()" :info="quantity+''"/>
+      <van-goods-action-mini-btn icon="chat" text="客服" @click="onClickMiniBtn"/>
       <van-goods-action-big-btn text="立即兑换" primary @click="showBase=!showBase"/>
     </van-goods-action>
     <van-sku slot="tabbar"
@@ -67,11 +57,12 @@
              @buy-clicked="gotoOder">
       <template slot="sku-header" slot-scope="props">
         <div class="van-sku-header van-hairline--bottom">
-          <div class="van-sku-header__img-wrap"><img :src="props.selectedSkuComb?props.selectedSkuComb.image:skuModel.image" class="van-sku__goods-img"></div>
+          <div class="van-sku-header__img-wrap"><img :src="skuModel.image" class="van-sku__goods-img"></div>
           <div class="van-sku-header__goods-info">
-            <div class="van-sku__goods-name van-ellipsis">{{props.selectedSkuComb?props.selectedSkuComb.skuName:skuModel.skuName}}</div>
-            <div class="van-sku__goods-price"><span class="van-sku__price-num">{{props.selectedSkuComb?props.selectedSkuComb.bonusPoints:skuModel.bonusPoints}}积分</span></div>
-            <span class="van-sku__close-icon" @click="props.skuEventBus.$emit('sku:close')"></span></div>
+            <div class="van-sku__goods-name van-ellipsis">{{skuModel.skuName}}</div>
+            <div class="van-sku__goods-price"><span class="van-sku__price-num">{{props.selectedSkuComb?props.selectedSkuComb.price:skuModel.bonusPoints}}积分</span></div>
+            <van-icon class="van-sku__close-icon" name="close" @click="props.skuEventBus.$emit('sku:close')"/>
+          </div>
         </div>
       </template>
       <template slot="sku-actions" slot-scope="props">
@@ -80,11 +71,10 @@
         </div>
       </template>
     </van-sku>
-
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {Swipe, SwipeItem, Cell, CellGroup, Col, GoodsAction, GoodsActionBigBtn, GoodsActionMiniBtn, Sku, Button, ImagePreview} from 'vant';
+  import {Swipe, SwipeItem, Cell, CellGroup, Col, GoodsAction, GoodsActionBigBtn, GoodsActionMiniBtn, Sku, Button, ImagePreview,Icon} from 'vant';
   import {setStore, getStore} from '../../../config/mUtils'
   import {baseHttp} from '../../../config/env'
   import {mapGetters} from 'vuex'
@@ -95,6 +85,7 @@
       ])
     },
     components: {
+      [Icon.name] :Icon,
       [Swipe.name]: Swipe,
       [SwipeItem.name]: SwipeItem,
       [Cell.name]: Cell,
@@ -111,7 +102,7 @@
       return {
         screenWidth: document.body.clientWidth,
         showBase: false,
-        promotionId: '',
+        promotionSkuId: '',
         securitylst: ['正品保障', '正规发票', '自营门店'],
         param: {},//商品规格
         descriptions: [],//商品图文
@@ -144,7 +135,7 @@
       }
     },
     mounted(){
-      this.promotionId = this.$route.query.promotionId;
+      this.promotionSkuId = this.$route.query.promotionSkuId;
       this.getDetail();
       const  that =this;
       window.onresize = () => {
@@ -160,48 +151,27 @@
       },
       getDetail(){
         const that = this;
-        baseHttp(this, '/api/promotion/detail', {'promotionId': this.promotionId}, 'get', '加载中...', function (data) {
-          var tree = [];
-          var promotion = data.promotion;
+        baseHttp(this, '/api/promotion/promotion', {'promotionSkuId': this.promotionSkuId}, 'get', '加载中...', function (data) {
+          var promotion=data.promotion;
           if(promotion.limit==true){
             that.quota=promotion.limitQuantity;
           }
           that.formatPrice(promotion.endTime);
-          if (promotion.attrs) {
-            promotion.attrs.forEach(function (item) {
-              var treelst = {};
-              for (var key in item) {
-                treelst.k = key;
-                treelst.k_s = key;
-                treelst.v = [];
-                for (var vkey in item[key]) {
-                  treelst.v.push({id: item[key][vkey], name: item[key][vkey]});
-                }
-              }
-              tree.push(treelst);
-            })
-            that.sku.tree = tree;
+          if(data.productOptions){
+            that.sku.tree=data.productOptions;
           }
-          if (promotion.skuModels) {
-            that.sku.none_sku = false;
-            promotion.skuModels.forEach(function (item) {
-              for (var key in item.attrs) {
-                eval("item." + key + "=\"" + item.attrs[key] + "\"");
-              }
-              item.id = item.skuId;
-              item.stock_num = item.stock;
-              item.price = item.price*100;
-            })
-            that.sku.list = promotion.skuModels;
+          if(data.skus){
+            that.sku.none_sku=false;
+            that.sku.list=data.skus;
           }
-          if (promotion.skuModel) {
-            that.skuModel = promotion.skuModel;
-            that.sku.stock_num = promotion.skuModel.stock;
-            that.sku.price = promotion.skuModel.price;
-            that.sku.collection_id = promotion.skuModel.skuId;
-            that.goods.picture = promotion.skuModel.image;
-            that.goods.title = promotion.skuModel.skuName;
-            that.goodsId = promotion.skuModel.skuId
+          if(promotion){
+            that.skuModel=promotion;
+            that.sku.stock_num=promotion.stock;
+            that.sku.price=promotion.price;
+            that.sku.collection_id=promotion.productSkuId;
+            that.goods.picture=promotion.image;
+            that.goods.title=promotion.skuName;
+            that.goodsId=promotion.productSkuId
           }
           that.productDesc();
         })
@@ -209,7 +179,7 @@
       /*商品图文描述*/
       productDesc(){
         const that = this;
-        baseHttp(this, '/api/mall/productDesc', {'skuId': this.skuModel.skuId}, 'get', '', function (data) {
+        baseHttp(this, '/api/mall/productDesc', {'skuId': this.skuModel.productSkuId}, 'get', '', function (data) {
           if (data.images) {
             if (data.images.descriptions) that.descriptions = data.images.descriptions;
             if (data.images.param) that.param = data.images.param;
@@ -237,31 +207,31 @@
         this.$router.push({name: 'shoppingCart', meta: {title: '购物车'}});
       },
       gotoOder(skuData){
+        console.log(skuData);
+        var oderInfo = {};
+        oderInfo.shippingType= this.skuModel.shippingType;
+        oderInfo.promotionId=this.skuModel.promotionId;
         var skuId = '';
+        var bonusPoints='';
         if (skuData.selectedSkuComb) {
           skuId = skuData.selectedSkuComb.id;
+          bonusPoints = skuData.selectedSkuComb.price;
         } else {
           skuId = skuData.goodsId;
+          bonusPoints=this.skuModel.bonusPoints
         }
-        var oderInfo = {};
-        var cityInfo = getStore('cityInfo');
-        if (cityInfo.cityName) {
-          oderInfo.location = cityInfo.cityName;
-        } else {
-          oderInfo.location = '重庆';
-        }
-        oderInfo.orderType = 'EXCHANGE';
-        var products = [];
-        var product = {};
-        product.skuId = skuId;
-        product.quantity = skuData.selectedNum;
-        product.appliedPromotionId=this.promotionId;
-        product.isPromotionApplied=true;
-        products.push(product);
-        oderInfo.products = products;
+        oderInfo.messages=skuData.messages.message_0;
+        oderInfo.productSkuId=skuId;
+        oderInfo.quantity = skuData.selectedNum;
+        oderInfo.bonusPoints=bonusPoints;
         setStore("oderInfo", oderInfo);
-        this.$router.push({name: 'orderSubmit'});
-      }
+        this.$router.push({name: 'PointsSubmit'});
+      },
+      //客服电话
+      onClickMiniBtn(){
+        var baseInfo=this.$store.getters.baseInfo;
+        window.location.href = 'tel://'+baseInfo.storePhone;
+      },
     },
   }
   export default vm;

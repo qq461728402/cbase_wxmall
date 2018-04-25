@@ -59,6 +59,10 @@ const MyPoints = resolve => require.ensure([], () => resolve(require('../compone
 const PointsList = resolve => require.ensure([], () => resolve(require('../components/pageHome/MyPoints/PointsList')), 'PointsList')
 const PointsDetail = resolve => require.ensure([], () => resolve(require('../components/pageHome/MyPoints/PointsDetail')), 'PointsDetail')
 
+const PointsSubmit = resolve => require.ensure([], () => resolve(require('../components/pageHome/MyPoints/pointsSubmit')), 'PointsSubmit')
+
+
+
 const GroupBuying = resolve => require.ensure([], () => resolve(require('../components/pageHome/GroupBuying/GroupBuying')), 'GroupBuying')//团购列表
 const GroupBuyDetail = resolve => require.ensure([], () => resolve(require('../components/pageHome/GroupBuying/GroupBuyDetail')), 'GroupBuyDetail')//团购详情
 
@@ -71,6 +75,8 @@ const Binding = resolve => require.ensure([], () => resolve(require('../componen
 const showQcode = resolve => require.ensure([], () => resolve(require('../components/User/showQcode')), 'showQcode')//优惠券条形码
 
 const manual = resolve => require.ensure([], () => resolve(require('../components/User/manual')), 'manual')//会员使用手册
+
+
 
 
 const router = new Router({
@@ -124,6 +130,7 @@ const router = new Router({
 
     {path:'/home/MyPoints',name:'MyPoints',component:MyPoints,meta:{title:'积分中心',keepAlive:true}},
     {path:'/home/PointsList',name:'PointsList',component:PointsList,meta:{title:'积分中心',keepAlive:true}},
+    {path:'/home/PointsSubmit',name:'PointsSubmit',component:PointsSubmit,meta:{title:'积分兑换',keepAlive:false}},
     {path:'/home/PointsDetail',name:'PointsDetail',component:PointsDetail,meta:{title:'商品详情',keepAlive:false}},
 
     {path:'/home/GroupBuying',name:'GroupBuying',component:GroupBuying,meta:{title:'团购频道',keepAlive:true}},

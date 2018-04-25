@@ -94,5 +94,4 @@
   .van-image-preview .van-swipe{
     background-color: white;
   }
-
 </style>

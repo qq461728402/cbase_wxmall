@@ -66,16 +66,12 @@
         quantity:0,
         stores:[],
         areas:[],
-        isCookie:false,
       }
     },
     activated(){
       this.loadList();
       var tempUserInfo=getStore("userInfo");
-      this.isCookie=tempUserInfo.token?true:false;
-      if(tempUserInfo.token){
-        this.getCartsQuantity();
-      }
+      this.getCartsQuantity();
     },
     mounted(){
 

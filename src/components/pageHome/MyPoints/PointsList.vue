@@ -15,10 +15,10 @@
     </yd-pullrefresh>
   </yd-layout>
 </template>
-<script type="text/babel">
-  import {baseHttp} from '../../../config/env'
+<script type="text/ecmascript-6">
+  import {baseHttp} from '@/config/env'
   import {Button} from 'vant';
-  import integral from '../../../views/integral'
+  import integral from '@/views/integral'
   import { mapGetters } from 'vuex'
   const vm= {
     computed: {
@@ -36,9 +36,6 @@
         items:[],
       }
     },
-    mounted(){
-      this.loadList();
-    },
     methods:{
       loadList() {
         const that = this;
@@ -49,7 +46,7 @@
       },
       //积分兑换
       gotoDetail(item){
-        this.$router.push({path: '/home/PointsDetail',query:{'promotionId':item.promotionId}})
+        this.$router.push({path: '/home/PointsDetail',query:{'promotionSkuId':item.promotionSkuId}})
       }
     },
     activated(){

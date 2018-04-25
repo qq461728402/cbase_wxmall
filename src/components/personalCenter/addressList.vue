@@ -35,9 +35,7 @@
 
     },
     activated(){
-      if(this.isCookie==true){
-        this.addressList();
-      }
+      this.addressList();
     },
     methods:{
       gotoback(){

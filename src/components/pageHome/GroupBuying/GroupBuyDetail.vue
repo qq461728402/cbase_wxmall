@@ -63,7 +63,7 @@
       </van-cell>
     </van-cell-group>
     <van-goods-action slot="tabbar">
-      <van-goods-action-mini-btn icon="chat" text="客服" />
+      <van-goods-action-mini-btn icon="chat" text="客服" @click="onClickMiniBtn"/>
       <van-goods-action-mini-btn icon="cart" text="购物车" @click="gotoCar()" :info="quantity+''"/>
       <van-goods-action-big-btn :text="(promotionType=='SECKILL'?'立即购买':'立即开团')" primary  @click="showBase=!showBase"/>
     </van-goods-action>
@@ -248,6 +248,11 @@
         setStore("oderInfo",oderInfo);
         this.$router.push({ name: 'orderSubmit'});
       }
+    },
+    //客服电话
+    onClickMiniBtn(){
+      var baseInfo=this.$store.getters.baseInfo;
+      window.location.href = 'tel://'+baseInfo.storePhone;
     },
   }
   export default vm;

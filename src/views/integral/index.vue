@@ -2,12 +2,12 @@
 <template>
   <yd-list :theme="theme" id="integral">
     <yd-list-item v-for="item, key in list" :key="key" @click.native="gotoDetail(item)" >
-      <img slot="img" :src="item.skuModel.image">
-      <span slot="title" style="font-weight: normal;color: #000;">{{item.skuModel.skuName}}</span>
+      <img slot="img" v-lazy="item.image">
+      <span slot="title" style="font-weight: normal;color: #000;">{{item.skuName}}</span>
       <yd-list-other slot="other">
         <div>
-          <span class="demo-list-price" style="color: red;">{{item.skuModel.bonusPoints}}积分</span>
-          <span class="demo-list-del-price" style="font-size: .2rem;text-decoration:line-through"><em>¥</em>{{item.skuModel.salePrice}}</span>
+          <span class="demo-list-price" style="color: red;">{{item.bonusPoints}}积分</span>
+          <span class="demo-list-del-price" style="font-size: .2rem;text-decoration:line-through" v-if="item.salePrice&&item.salePrice.length>0"><em>¥</em>{{item.salePrice}}</span>
         </div>
         <div>
           <van-button type="danger" size="small" class="pull-right">积分兑换</van-button>
