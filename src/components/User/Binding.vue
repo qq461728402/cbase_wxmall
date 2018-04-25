@@ -2,7 +2,7 @@
   <yd-layout id="binding">
     <yd-navbar slot="navbar" title="会员卡绑定" bgcolor="#d41d0f" color="#FFF">
     </yd-navbar>
-    <p class="car_title">{{$store.state.basicStorage.title}}</p>
+    <p class="car_title">重百新世纪</p>
     <yd-cell-group style="margin: 0.2rem" :title="!isregister ?'请输入会员卡信息完成绑定':'请输入您的信息,验证手机号,完成开卡。'">
       <yd-cell-item v-if="isregister">
         <span slot="left">姓名</span>
@@ -37,7 +37,7 @@
       </yd-cell-item>
     </yd-cell-group>
     <div class="login_2">
-        <yd-checkbox v-model="isdeal" color="#F00" size="16"><span style="line-height: 16px;font-size: 0.28rem">同意</span></yd-checkbox><span style="color:#d41d0f;font-size: 14px">《重百新世纪会员卡使用手册》</span>
+        <yd-checkbox v-model="isdeal" color="#F00" size="16"><span style="line-height: 16px;font-size: 0.28rem">同意</span></yd-checkbox><span style="color:#d41d0f;font-size: 14px" @click="gotomanual">《重百新世纪会员卡使用手册》</span>
     </div>
     <div style="text-align: center;margin-top: 0.6rem">
       <yd-button @click.native="gotoreg" style="background-color: #f44;width: 80%;height: 1rem;font-size: .3rem">{{isregister?'新会员注册':'会员卡绑定'}}</yd-button>
@@ -106,6 +106,13 @@
         });
       },
       gotoreg(){
+        if(this.isdeal==false){
+          this.$dialog.toast({
+            mes: '请同意会员卡使用手册',
+            timeout: 1000
+          });
+          return;
+        }
         if (this.isregister){
           this.registers();
         }else{
@@ -202,6 +209,9 @@
       gotoback(){
         this.$router.go(-1);
       },
+      gotomanual(){
+        this.$router.push({path:'/user/manual'});
+      },
     },
   }
   export default vm;
@@ -212,7 +222,7 @@
     font-size: 0.8rem;
     text-align: center;
     padding: 0.6rem 0;
-    color:#d41d0f;
+    color:#f44;
     font-weight: 500
   }
   .login_2{
@@ -223,7 +233,7 @@
     font-size: .3rem;
   }
   .login_4{
-    color: #d41d0f;
+    color: #f44;
   }
 </style>
 <style>

@@ -70,6 +70,8 @@ const Explain = resolve => require.ensure([], () => resolve(require('../componen
 const Binding = resolve => require.ensure([], () => resolve(require('../components/User/Binding')), 'Binding')//会员卡绑定
 const showQcode = resolve => require.ensure([], () => resolve(require('../components/User/showQcode')), 'showQcode')//优惠券条形码
 
+const manual = resolve => require.ensure([], () => resolve(require('../components/User/manual')), 'manual')//会员使用手册
+
 
 const router = new Router({
    // hashbang:false,
@@ -133,7 +135,7 @@ const router = new Router({
     {path:'/home/showCoupons',name:'qcode',component:showQcode,mata:{title:'优惠券兑换',keepAlive:false}},
       
     {path:'/home/hotProductsList',name:'hotProductsList',component:HotPro,meta:{title:'热销商品',keepAlive:true}},
-      
+    {path:'/user/manual',name:'manual',component:manual,meta:{title:'重百新世纪会员卡使用手册',keepAlive:true}},
   ],
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {

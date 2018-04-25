@@ -18,8 +18,8 @@
                     </div>
                 </div>
                 <div v-else-if="isload&&iscarInfo.loyaltyNumber.length==0" style="position: absolute;bottom: 0;width: 100%">
-                    <div class="yd-cell-item" style="background-color: #000;color: #fff" @click.stop="binding">
-                        <div class="yd-cell-left"><span class="yd-cell-icon"><i class="icon-custom-vip" style="font-size: 0.35rem; color: rgb(255, 255, 255);"></i></span> <span style="color: #fff">点击开通会员卡</span>
+                    <div class="yd-cell-item" style="background-color: #fff;color: #000" @click.stop="binding">
+                        <div class="yd-cell-left"><span class="yd-cell-icon"><i class="icon-custom-vip" style="font-size: 0.35rem; color: #000;"></i></span> <span style="color: #000">点击开通会员卡</span>
                         </div>
                         <div class="yd-cell-right yd-cell-arrow"></div>
                     </div>
@@ -109,7 +109,6 @@
             closecar(){
                 this.isShow=false;
             },
-
             //积分兑换
             exchange(){
                 this.$router.push({path:'/home/PointsList'});
