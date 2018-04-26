@@ -12,7 +12,9 @@
         <div class="meta" v-if="goodsType=='submit'">
           <van-row>
             <van-col span="12">
-              <div class="price"><span><em>¥</em>{{item.salePrice}}</span> <span class="del_price" v-if="item.salePrice"><em>¥</em>{{item.retailPrice}}</span>
+              <div class="price">
+                <span v-if="item.bonusPointsUsed&&item.bonusPointsUsed>0">{{item.bonusPointsUsed}}积分</span>
+                <span v-else><em>¥</em>{{item.salePrice}}</span> <span class="del_price" v-if="item.salePrice"><em>¥</em>{{item.retailPrice}}</span>
               </div>
             </van-col>
             <van-col span="11" style="text-align: right;font-size: 0.2rem;color: #999;">
@@ -23,7 +25,9 @@
         <div class="meta" v-else>
           <van-row>
             <van-col span="12">
-              <div class="price"><span><em>¥</em>{{item.totleFee}}</span> <span class="del_price" v-if="item.salePrice"><em>¥</em>{{item.salePrice}}</span>
+              <div class="price">
+                <span v-if="item.bonusPointsUsed&&item.bonusPointsUsed>0">{{item.bonusPointsUsed}}积分</span>
+                <span v-else><em>¥</em>{{item.totleFee}}</span> <span class="del_price" v-if="item.salePrice"><em>¥</em>{{item.salePrice}}</span>
               </div>
             </van-col>
             <van-col span="11" style="text-align: right;font-size: 0.2rem;color: #999;">

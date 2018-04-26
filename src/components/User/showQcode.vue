@@ -95,4 +95,7 @@
   #qcode .yd-cell{
     border-radius: 0.2rem;
   }
+  #qcode .yd-cell:after{
+    border-bottom: 0px;
+  }
 </style>

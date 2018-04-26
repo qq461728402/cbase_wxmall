@@ -63,7 +63,7 @@
         </div>
       </div>
     </div>
-    <div class="payinfo">
+    <div class="payinfo" v-if="order.orderType!='EXCHANGE'">
       <p><span class="label">商品总额</span> <span class="price">&yen;{{order.subTotal}}</span></p>
       <p><span class="label">服务费</span> <span class="price">&yen;{{order.serviceFee}}</span></p>
       <p><span class="label">运费</span> <span class="price">&yen;{{order.shipmentFee}}</span></p>
@@ -86,7 +86,7 @@
         <yd-icon name="kfdh" size=".6rem" color="#d81e06" custom></yd-icon>
       </a>
     </div>
-    <yd-cell-group slot="tabbar" style="margin-bottom: 0rem;" v-if="canCancel==true||canRefund==true||canReturn==true||canConfirm==true||canPay==true||canComment==true">
+    <yd-cell-group slot="tabbar" style="margin-bottom: 0rem;" v-if="(canCancel==true||canRefund==true||canReturn==true||canConfirm==true||canPay==true||canComment==true)&&order.orderType!='EXCHANGE'">
       <yd-cell-item type="a">
             <span slot="right">
             	<yd-button type="hollow" v-if="canCancel==true" class="order_3" @click.native="cancleOrder()">取消订单</yd-button>
@@ -190,6 +190,11 @@
             that.showQRCode = data.showQRCode;
           }
           if (data.order) {
+            if (data.order.orderType=='EXCHANGE'){
+              data.order.items.forEach(item =>{
+                item.bonusPointsUsed=data.order.bonusPointsUsed;
+              })
+            }
             that.order = data.order;
           }
           if (data.status) {

@@ -22,7 +22,8 @@
           <van-row class="orderHeard">
             <van-col span="12">
               <p class="orderNumber" style="margin-bottom: 0.2rem">状态:&nbsp;<span :class="{'cancleOrder':item.status=='CANCELED'}">{{item.orderStatus}}</span></p>
-              <p class="orderNumber">总价:&nbsp;<span style="color: #313131">&yen;{{item.totleFee}}</span></p>
+              <p class="orderNumber" v-if="item.orderType!='EXCHANGE'">总价:&nbsp;<span style="color: #313131">&yen;{{item.totleFee}}</span></p>
+              <p class="orderNumber" v-else>积分:&nbsp;<span style="color: #313131">{{item.bonusPointsUsed}}</span></p>
             </van-col>
             <van-col span="12" style="text-align: right;padding-right: .2rem;">
               <yd-button type="hollow" style="border: 1px solid #d41d0f;color: #d41d0f;height: .5rem;margin-top: 0.15rem" v-if="item.status=='PURCHASED'" @click.native.stop="gotoPay(item)">去支付</yd-button>
