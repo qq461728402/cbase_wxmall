@@ -3,7 +3,6 @@
  */
 import Vue from 'vue';
 import axios from 'axios'
-import router from '../router'
 import VueAxios from 'vue-axios'
 import YDUI from 'vue-ydui'
 import store from '../store'
