@@ -1,84 +1,65 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+const _import = require('./import-' + process.env.NODE_ENV)
 import store from '@/store'
 Vue.use(Router)
-const Stores =resolve =>require(['../components/stores.vue'],resolve);//懒加载
-const IndexHome = r => require.ensure([], () => r(require('../components/IndexHome')), 'IndexHome')//懒加载
-const ChooseCity = r => require.ensure([], () => r(require('../components/pageHome/chooseCity/chooseCity')), 'ChooseCity')//选择城市
-const CarProducts = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/category')), 'CarProducts')//车品商城
-const ProductsList = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/productsList')), 'ProductsList')//商品列表
-const ProductsDetail = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/productsDetail')), 'ProductsDetail')//商品详情
-const ReviewsList = r => require.ensure([], () => r(require('../components/pageHome/carProductsMall/reviewsList')), 'ReviewsList')//评价列表
 
-const OrderSubmit = r => require.ensure([], () => r(require('../components/pageHome/orderSubmit/orderSubmit')), 'OrderSubmit')//订单提交
-
-const InvoiceInfo = r => require.ensure([], () => r(require('../components/pageHome/orderSubmit/invoiceInfo')), 'InvoiceInfo')//发票信息填写
-
-const OrderPay = r => require.ensure([], () => r(require('../components/pageHome/orderSubmit/orderpay')), 'OrderPay')//支付界面
-
-const GetCoupons = r => require.ensure([], () => r(require('../components/pageHome/coupons/getcoupons')), 'GetCoupons')//获取优惠券
-const Maintain = r => require.ensure([], () => r(require('../components/pageHome/maintain/maintainPackage')), 'Maintain')//保养
-const CarMaintain = r => require.ensure([], () => r(require('../components/pageHome/maintain/carMaintain')), 'CarMaintain')//保养
-const ShoppingCart = r => require.ensure([], () => r(require('../components/ShoppingCart')), 'ShoppingCart')//购物车
-const PersonalCenter = r => require.ensure([], () => r(require('../components/PersonalCenter')), 'PersonalCenter')//个人中心
-const LoginWithCode = r => require.ensure([], () => r(require('../components/personalCenter/loginWithCode')), 'LoginWithCode')//用户登录
-const CarChoose = r => require.ensure([], () => r(require('../components/pageHome/carChoose')), 'CarChoose')//车辆选择
-const InsuranceList = r => require.ensure([], () => r(require('../components/pageHome/insurance/insuranceList')), 'InsuranceList')//保险
-const FillInformation = r => require.ensure([], () => r(require('../components/pageHome/insurance/fillInformation')), 'FillInformation')//保险信息填写
-const Insurance_type = r => require.ensure([], () => r(require('../components/pageHome/insurance/insurance_type')), 'Insurance_type')//保险报价
-const InsuranceSure = r => require.ensure([], () => r(require('../components/pageHome/insurance/insuranceSure')), 'InsuranceSure')//保险报价确定
-const ChooseCarInfo = r => require.ensure([], () => r(require('../components/pageHome/chooseCarInfo/chooseCarInfo')), 'ChooseCarInfo')//选择车辆
-const Protocol = r => require.ensure([], () => r(require('../components/pageHome/orderSubmit/protocol')), 'Protocol')//用户协议
-const OrderSuccess = r => require.ensure([], () => r(require('../components/pageHome/orderSubmit/orderSuccess')), 'OrderSuccess')//订单成功
-const register = resolve => require.ensure([], () => resolve(require('../components/personalCenter/register')), 'register')//注册
-const userProtocol = resolve => require.ensure([], () => resolve(require('../components/personalCenter/userProtocol')), 'userProtocol')//协议
-const UserInfo = resolve => require.ensure([], () => resolve(require('../components/personalCenter/userInfo')), 'UserInfo')//用户信息
-const RePerUserInfo = resolve => require.ensure([], () => resolve(require('../components/personalCenter/reperUserInfo')), 'RePerUserInfo')//修改用户信息
-const AddressList = resolve => require.ensure([], () => resolve(require('../components/personalCenter/addressList')), 'AddressList')//地址列表
-const AddAddress = resolve => require.ensure([], () => resolve(require('../components/personalCenter/addAddress')), 'AddAddress')//添加地址
-const MyCoupons = resolve => require.ensure([], () => resolve(require('../components/personalCenter/myCoupons')), 'MyCoupons')//优惠券
-const MyOderList = resolve => require.ensure([], () => resolve(require('../components/personalCenter/myOderList')), 'MyOderList')//我的订单
-const OrderDetail = resolve => require.ensure([], () => resolve(require('../components/personalCenter/orderDetail')), 'OrderDetail')//订单详情
-const OrderAppraise = resolve => require.ensure([], () => resolve(require('../components/personalCenter/orderAppraise')), 'OrderAppraise')//订单评价
-const FillsalesRetrun = resolve => require.ensure([], () => resolve(require('../components/personalCenter/salesReturn/fillsalesRetrun')), 'FillsalesRetrun')//退货订单
-const SalesRetrunList = resolve => require.ensure([], () => resolve(require('../components/personalCenter/salesReturn/salesRetrunList')), 'SalesRetrunList')//退货订单列表
-const SalesRetrunDetail = resolve => require.ensure([], () => resolve(require('../components/personalCenter/salesReturn/salesRetrunDetail')), 'SalesRetrunDetail')//退货订单详情
-const PolicyList = resolve => require.ensure([], () => resolve(require('../components/personalCenter/policy/policyList')), 'PolicyList')
-const PolicyDetail = resolve => require.ensure([], () => resolve(require('../components/personalCenter/policy/policyDetail')), 'PolicyDetail')
-const GiftList = resolve => require.ensure([], () => resolve(require('../components/personalCenter/gift/giftList')), 'GiftList')
-const GiftAppoint = resolve => require.ensure([], () => resolve(require('../components/personalCenter/gift/giftAppoint')), 'GiftAppoint')
-const AboutUs = resolve => require.ensure([], () => resolve(require('../components/personalCenter/introduct/aboutUs')), 'AboutUs')
-const StoresDetail = resolve => require.ensure([], () => resolve(require('../components/storesDetail')), 'StoresDetail')
-
-const Index = resolve => require.ensure([], () => resolve(require('../components/Index')), 'Index')
-
-const HotPro = resolve => require.ensure([], () => resolve(require('../components/pageHome/carProductsMall/hotProductsList')), 'HotPro')
-
-
-const MyPoints = resolve => require.ensure([], () => resolve(require('../components/pageHome/MyPoints/MyPoints')), 'MyPoints')
-const PointsList = resolve => require.ensure([], () => resolve(require('../components/pageHome/MyPoints/PointsList')), 'PointsList')
-const PointsDetail = resolve => require.ensure([], () => resolve(require('../components/pageHome/MyPoints/PointsDetail')), 'PointsDetail')
-
-const PointsSubmit = resolve => require.ensure([], () => resolve(require('../components/pageHome/MyPoints/pointsSubmit')), 'PointsSubmit')
-
-
-
-const GroupBuying = resolve => require.ensure([], () => resolve(require('../components/pageHome/GroupBuying/GroupBuying')), 'GroupBuying')//团购列表
-const GroupBuyDetail = resolve => require.ensure([], () => resolve(require('../components/pageHome/GroupBuying/GroupBuyDetail')), 'GroupBuyDetail')//团购详情
-
-
-const Seckill = resolve => require.ensure([], () => resolve(require('../components/pageHome/GroupBuying/Seckill')), 'Seckill')
-
-const Card = resolve => require.ensure([], () => resolve(require('../components/User/Card')), 'Card')//会员中心
-const Explain = resolve => require.ensure([], () => resolve(require('../components/User/Explain')), 'Explain')//会员积分使用说明
-const Binding = resolve => require.ensure([], () => resolve(require('../components/User/Binding')), 'Binding')//会员卡绑定
-const showQcode = resolve => require.ensure([], () => resolve(require('../components/User/showQcode')), 'showQcode')//优惠券条形码
-
-const manual = resolve => require.ensure([], () => resolve(require('../components/User/manual')), 'manual')//会员使用手册
-
-
-
-
+const Stores =  _import('stores');//懒加载
+const IndexHome = _import('IndexHome');//首页
+const ChooseCity =  r => require.ensure([], () => r(require('../components/pageHome/chooseCity/chooseCity')), 'ChooseCity')//选择城市
+const CarProducts = _import('pageHome/carProductsMall/Category');//车品商城
+const ProductsList = _import('pageHome/carProductsMall/productsList'); //商品列表
+const ProductsDetail = _import('pageHome/carProductsMall/productsDetail'); //商品详情
+const ReviewsList = _import('pageHome/carProductsMall/reviewsList'); //评价列表
+const OrderSubmit =_import('pageHome/orderSubmit/orderSubmit');//订单提交
+const InvoiceInfo =_import('pageHome/orderSubmit/invoiceInfo');//发票信息填写
+const OrderPay = _import('pageHome/orderSubmit/orderpay');//支付界面
+const GetCoupons =_import('pageHome/coupons/getcoupons');//获取优惠券
+const Maintain = _import('pageHome/maintain/maintainPackage');//保养
+const CarMaintain = _import('pageHome/maintain/carMaintain');//保养
+const ShoppingCart =_import('ShoppingCart');//购物车
+const PersonalCenter =_import('PersonalCenter');//个人中心
+const LoginWithCode = _import('personalCenter/loginWithCode');//用户登录
+const CarChoose = _import('pageHome/carChoose'); //车辆选择
+const InsuranceList = _import('pageHome/insurance/insuranceList');//保险
+const FillInformation = _import('pageHome/insurance/fillInformation'); //保险信息填写
+const Insurance_type = _import('pageHome/insurance/insurance_type');//保险报价
+const InsuranceSure = _import('pageHome/insurance/insuranceSure');//保险报价确定
+const ChooseCarInfo = _import('pageHome/chooseCarInfo/chooseCarInfo');//选择车辆
+const Protocol = _import('pageHome/orderSubmit/protocol'); //用户协议
+const OrderSuccess = _import('pageHome/orderSubmit/orderSuccess');//订单成功
+const register = _import('personalCenter/register');//注册
+const userProtocol = _import('personalCenter/userProtocol');//协议
+const UserInfo = _import('personalCenter/userInfo');//用户信息
+const RePerUserInfo = _import('personalCenter/reperUserInfo'); //修改用户信息
+const AddressList = _import('personalCenter/addressList'); //地址列表
+const AddAddress = _import('personalCenter/addAddress'); //添加地址
+const MyCoupons =  _import('personalCenter/myCoupons');//优惠券
+const MyOderList = _import('personalCenter/myOderList');//我的订单
+const OrderDetail = _import('personalCenter/orderDetail'); //订单详情
+const OrderAppraise = _import('personalCenter/orderAppraise');//订单评价
+const FillsalesRetrun = _import('personalCenter/salesReturn/fillsalesRetrun');//退货订单
+const SalesRetrunList = _import('personalCenter/salesReturn/salesRetrunList');//退货订单列表
+const SalesRetrunDetail = _import('personalCenter/salesReturn/salesRetrunDetail');//退货订单详情
+const PolicyList = _import('personalCenter/policy/policyList');//保单列表
+const PolicyDetail = _import('personalCenter/policy/policyDetail');//保单详情
+const GiftList = _import('personalCenter/gift/giftList');//礼物
+const GiftAppoint = _import('personalCenter/gift/giftAppoint');
+const AboutUs = _import('personalCenter/introduct/aboutUs');
+const StoresDetail = _import('storesDetail');
+const HotPro = _import('pageHome/carProductsMall/hotProductsList');
+const MyPoints = _import('pageHome/MyPoints/MyPoints');
+const PointsList = _import('pageHome/MyPoints/PointsList');
+const PointsDetail = _import('pageHome/MyPoints/PointsDetail');
+const PointsSubmit = _import('pageHome/MyPoints/pointsSubmit');
+const GroupBuying = _import('pageHome/GroupBuying/GroupBuying');//团购列表
+const GroupBuyDetail = _import('pageHome/GroupBuying/GroupBuyDetail');//团购详情
+const Seckill = _import('pageHome/GroupBuying/Seckill');
+const Card = _import('User/Card');//会员中心
+const Explain = _import('User/Explain');//会员积分使用说明
+const Binding = _import('User/Binding');//会员卡绑定
+const showQcode = _import('User/showQcode');//优惠券条形码
+const manual = _import('User/manual'); //会员使用手册
 const router = new Router({
    // hashbang:false,
    // mode: 'history',

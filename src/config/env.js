@@ -10,16 +10,16 @@ import {removeStore} from './mUtils'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
 axios.defaults.withCredentials=true;
-axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://weixin.e-cbest.com/mall';//http://joewee.mynatapp.cc/mall
+axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://192.168.199.189:8082/mall';//http://joewee.mynatapp.cc/mall
 store.dispatch('getToken');
 /*
  * 拦截器*/
 axios.interceptors.response.use(response =>{
   if (response.data && response.data.code === 401) { // 401, token失效
     removeStore('userInfo');
-    if (response.data.loginUrl&&response.data.loginUrl.length>0){
-      window.location.href=response.data.loginUrl;
-    }
+    // if (response.data.loginUrl&&response.data.loginUrl.length>0){
+    //   window.location.href=response.data.loginUrl;
+    // }
   }else if(response.data && response.data.code === 500){
     console.log(response.request.responseURL);
   }
