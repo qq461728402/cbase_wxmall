@@ -56,8 +56,8 @@
         couponnum:{},
         couponslist:[],
         count:1,
-        selettype:'OFFLINE_COUPON',
-        tablist:[{type:'OFFLINE_COUPON',name:'代金券'}],
+        selettype:'CASH_COUPON',
+        tablist:[{type:'CASH_COUPON',name:'现金券'}],
         bg:{
             background: "url(" + require("../../../assets/img/bj.jpg") + ")",
         }

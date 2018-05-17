@@ -40,13 +40,13 @@
       </yd-grids-item>
     </yd-grids-group>
     <!--coupon-->
-    <swiper :options="swiperOption1" style="padding-bottom: .15rem;padding-top: .15rem;border-bottom: 10px solid #f5f5f5;background-color: #fff">
+    <swiper :options="swiperOption1" style="padding-bottom: .15rem;padding-top: .15rem;border-bottom: 10px solid #f5f5f5;background-color: #fff;" id="coupon">
       <swiper-slide v-for="item,index in coupon.items" :key="index" width="100%">
-        <img style="width: 100%;" :src="item.img" @click="gotofluid(item)">
+        <img style="width: 100%;height: 100%" :src="item.img" @click="gotofluid(item)">
       </swiper-slide>
     </swiper>
     <div v-for="codeitem in config" style="background-color: #fff;">
-      <div v-if="codeitem.template=='gridView'&&codeitem.code!='brand'" class="codeitemView">
+      <div v-if="codeitem.code=='gridView'" class="codeitemView">
         <div class="codeitemTitle">
           <span class="line"></span>
           <span class="txt"><yd-icon name="discount" size=".3rem" color="#999"></yd-icon>{{codeitem.title}}</span>
@@ -68,7 +68,7 @@
         </swiper>
         <!-- swiper -->
       </div>
-      <div v-else-if="codeitem.template=='rowSpan'&&codeitem.items.length>=5" class="codeitemView">
+      <div v-else-if="codeitem.code=='rowSpan'&&codeitem.items.length>=5" class="codeitemView">
         <div class="codeitemTitle">
           <span class="line"></span>
           <span class="txt"><yd-icon name="discount" size=".3rem" color="#999"></yd-icon>{{codeitem.title}}</span>
@@ -107,7 +107,7 @@
           </div>
         </div>
       </div>
-      <div v-else-if="codeitem.template=='fluid'" class="codeitemView">
+      <div v-else-if="codeitem.code=='fluid'" class="codeitemView">
         <div class="codeitemTitle">
           <span class="line"></span>
           <span class="txt"><yd-icon name="discount" size=".3rem" color="#999"></yd-icon>{{codeitem.title}}</span>
@@ -255,7 +255,7 @@
                 that.secondaryMenu = item;
               } else if ("coupon" == item.code) {
                 that.coupon = item;
-              } else if ("gridView" == item.template && item.code != 'brand') {
+              } else if ("gridView" == item.code) {
                 var result = [];
                 for (var i = 0, len = item.items.length; i < len; i += 6) {
                   result.push(item.items.slice(i, i + 6));
@@ -268,9 +268,10 @@
         })
       },
       gethotproducts(){
-        baseHttp(this, '/api/mall/hot/products', {'store':this.$store.getters.store,'page':1,'pageSize':20}, 'get','', data=>{
-            if (data &&data.skus){
-              this.hotproductsList=data.skus;
+        baseHttp(this, '/admin/product/hotSku', {'store':this.$store.getters.store,'page':1,'pageSize':20}, 'get','', data=>{
+          console.log(data);
+          if (data.data &&data.data.recordList){
+              this.hotproductsList=data.data.recordList;
             }
         })
       },
@@ -321,8 +322,8 @@
       },
       /*获取购物车数量*/
       getCartsQuantity(){
-        const that = this;
-        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
+        return;
+        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', data=> {
           if (data.quantity >= 0) {
             that.$store.dispatch('setQuantity', data.quantity);
           }
@@ -538,5 +539,8 @@
     background-size: 100% 100%;
     -moz-background-size:100% 100%;
     height: 3.5rem;
+  }
+  #coupon .swiper-wrapper{
+    height: 100% !important;
   }
 </style>

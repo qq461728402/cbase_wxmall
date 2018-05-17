@@ -28,6 +28,7 @@
     methods: {
       /*获取购物车数量*/
       getCartsQuantity(){
+        return;
         baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', data => {
           if (data.quantity >= 0) {
             this.$store.dispatch('setQuantity', data.quantity);
@@ -35,6 +36,8 @@
         })
       },
       baseInfo(){
+        this.$store.dispatch('getStore', '1');
+        return;
         baseHttp(this,'/api/store/storeInfo',{},'get','',data=>{
           if(data&&data.code==200){
             this.$store.dispatch('setbaseInfo',data);

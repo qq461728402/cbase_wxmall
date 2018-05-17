@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 const _import = require('./import-' + process.env.NODE_ENV)
-import store from '@/store'
 Vue.use(Router)
-
 const Stores =  _import('stores');//懒加载
 const IndexHome = _import('IndexHome');//首页
 const ChooseCity =  r => require.ensure([], () => r(require('../components/pageHome/chooseCity/chooseCity')), 'ChooseCity')//选择城市
