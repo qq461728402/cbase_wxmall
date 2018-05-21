@@ -11,6 +11,7 @@ require('babel-polyfill');
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
+    "babel-polyfill":"babel-polyfill",//用来解决的兼容性
     app: ['babel-polyfill','./src/main.js']
   },
   output: {

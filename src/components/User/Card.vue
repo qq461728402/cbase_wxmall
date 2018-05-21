@@ -3,10 +3,10 @@
         <yd-navbar slot="navbar" title="会员中心" bgcolor="#d41d0f" color="#FFF"></yd-navbar>
         <div class="g-header" style="width: 100%;">
             <div class="m-content" @click="show">
-                <img :src="iscarInfo.background" class="back_img" v-if="iscarInfo.background&&iscarInfo.background.length>0">
-                <img v-else src="../../assets/img/vipCard.jpg" class="back_img">
-                <div style="position: absolute;top: 0.2rem;right:0.2rem;font-size: 0.3rem;color: #ffffff;height: 0.5rem;line-height: 0.5rem">
-                    <img :src="iscarInfo.logo" v-if="iscarInfo.logo&&iscarInfo.logo.length>0">{{iscarInfo.storeName}}
+                <img :src="iscarInfo.logo" class="back_img" v-if="iscarInfo.logo&&iscarInfo.logo.length>0">
+                <img v-else-if="isload" src="../../assets/img/vipCard.jpg" class="back_img">
+                <div style="position: absolute;top: 0.2rem;right:0.2rem;font-size: 0.3rem;color: #ffffff;height: 0.5rem;line-height: 0.5rem" v-if="1==2">
+                    <img :src="iscarInfo.logo" style="max-height: 100%" >{{iscarInfo.storeName}}
                 </div>
                 <div class="m-info" v-if="iscarInfo.loyaltyNumber.length>0">
                     <div class="u-avatarUrl">
@@ -62,6 +62,7 @@
         },
         data() {
             return {
+                loadIng:false,
                 iscarInfo: {
                     customerName: '',
                     loyaltyNumber: '',
