@@ -5,13 +5,11 @@ import Vue from 'vue';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import YDUI from 'vue-ydui'
-import store from '../store'
 import {removeStore} from './mUtils'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
 axios.defaults.withCredentials=true;
 axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://weixin.e-cbest.com/dqtest';//http://weixin.e-cbest.com/dqtest
-store.dispatch('getToken');
 /*
  * 拦截器*/
 axios.interceptors.response.use(response =>{
