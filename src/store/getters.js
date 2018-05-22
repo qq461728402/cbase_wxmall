@@ -13,13 +13,13 @@ const getters= {
   locatingCity:state => state.basicStorage.locatingCity,
   quantity:state => state.basicStorage.quantity,
   invoice:state => state.basicStorage.invoice,
-  userInfo:state => state.basicStorage.userInfo,
+  userInfo:state => state.customerInfo.userInfo,
   router:state => state.basicStorage.router,
   scrollPosion:state =>state.basicStorage.scrollPosion,
   indexhomeScroll:state =>state.basicStorage.indexhomeScroll,
   shearUrl:state =>state.basicStorage.shearUrl,
   shearTitle:state =>state.basicStorage.shearTitle,
   title:state => state.basicStorage.title,
-  baseInfo:state =>state.basicStorage.baseInfo
+  baseInfo:state =>state.basicStorage.baseInfo,
 }
 export default getters;

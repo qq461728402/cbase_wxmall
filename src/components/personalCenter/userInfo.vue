@@ -14,12 +14,12 @@
         <li class="link">
           <yd-flexbox>
             <div class="mess_1">
-              <img :src="userInfo.avatar" class="messimg" >
+              <img :src="customerinfo.avatar" class="messimg" >
             </div>
             <yd-flexbox-item class="mess_2">
               <yd-flexbox direction="vertical" class="mess_3">
-                <yd-flexbox-item><span class="name">姓名：{{userInfo.name}}</span></yd-flexbox-item>
-                <yd-flexbox-item><div class="title">手机：{{userInfo.phone}}</div></yd-flexbox-item>
+                <yd-flexbox-item><span class="name">姓名：{{customerinfo.customerNickname}}</span></yd-flexbox-item>
+                <yd-flexbox-item><div class="title">手机：{{customerinfo.customerPhone}}</div></yd-flexbox-item>
               </yd-flexbox>
             </yd-flexbox-item>
             <div class="yd-cell-arrow">
@@ -49,7 +49,7 @@
   const vm= {
     computed: {
       ...mapGetters([
-        'userInfo'
+        'customerinfo'
       ])
     },
     data() {

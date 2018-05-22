@@ -52,10 +52,9 @@
       }
     },
     mounted(){
-      const _this=this;
       document.getElementById("scrollView").addEventListener('scroll',()=> {
         var top = document.getElementById("scrollView").scrollTop;
-        _this.$store.dispatch('setscrollPosion',top);
+        this.$store.dispatch('setscrollPosion',top);
       })
     },
     beforeRouteEnter(to, from, next) {
@@ -97,26 +96,25 @@
         if(this.queryKey.length!=0){
           pars.queryKey=this.queryKey;
         }
-        const that=this;
-        baseHttp(this,'/api/mall/hot/products',pars,'get',this.page==1?'加载中...':'',function (data){
-          if(that.page==1){
-            if(data.skus) {
-              that.list=data.skus;
-              that.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
-              that.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.reInit');
+        baseHttp(this,'/admin/product/hotSku',pars,'get',this.page==1?'加载中...':'',data=>{
+          if(this.page==1){
+            if(data.data.recordList) {
+              this.list=data.data.recordList;
+              this.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
+              this.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.reInit');
             }else{
-              that.list=[];
+              this.list=[];
             }
           }else{
-            if(data.skus){
-              that.list=that.list.concat(data.skus);
-              if(data.skus&&that.page==data.totalPages){
-                that.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.loadedDone');
+            if(data.data.recordList){
+              this.list=[...this.list,...data.data.recordList];
+              if(data.data.recordList&&this.page==data.data.endIndex){
+                this.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.loadedDone');
               }else{
-                that.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.finishLoad');
+                this.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.finishLoad');
               }
             }else{
-              that.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.loadedDone');
+              this.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.loadedDone');
             }
           }
         })

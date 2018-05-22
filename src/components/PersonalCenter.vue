@@ -2,10 +2,10 @@
   <yd-layout class="personal">
     <div class="mine_hearder" @click="gotouser()">
       <div class="user_icon">
-         <img :src="userInfo.avatar">
+         <img :src="customerinfo.avatar">
       </div>
       <div class="user_detal">
-        <p class="user_name">{{userInfo.nickname}}</p>
+        <p class="user_name">{{customerinfo.customerNickname}}</p>
         <p class="user_des"> <yd-badge type="warning">会员</yd-badge></p>
       </div>
       <div class="manage_account">
@@ -63,7 +63,7 @@
       <yd-cell-item type="a" @click.native="gotobonushistroy()">
         <yd-icon slot="icon" name="jifen" size=".35rem" color="#ff003e" custom></yd-icon>
         <span slot="left">积分商城</span>
-        <span slot="right">{{userInfo.bonus?userInfo.bonus:'0'}}积分</span>
+        <span slot="right">{{customerinfo.bonus?customerinfo.bonus:'0'}}积分</span>
       </yd-cell-item>
       <yd-cell-item arrow type="a" @click.native="gotoGitfs()" >
         <yd-icon slot="icon" name="huiyuanzhongxin" size=".35rem" color="#ffaa00" custom></yd-icon>
@@ -114,7 +114,7 @@
   const vm= {
     computed: {
       ...mapGetters([
-        'userInfo',
+        'customerinfo',
         'quantity',
         'title'
       ])

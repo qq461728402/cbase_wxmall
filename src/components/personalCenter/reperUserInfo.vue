@@ -19,30 +19,30 @@
                 :compress="70"
                 inputAccept="image/*"
                 :url="uploadURL">
-          <img :src="userInfo.avatar" class="messimg" style="height: 0.8rem;width: 0.8rem" >
+          <img :src="customerinfo.avatar" class="messimg" style="height: 0.8rem;width: 0.8rem" >
         </vue-core-image-upload>
         </div>
       </yd-cell-item>
 
       <yd-cell-item>
         <span slot="left">真实姓名：</span>
-        <yd-input slot="right" placeholder="请输入真实姓名" v-model="userInfo.name"></yd-input>
+        <yd-input slot="right" placeholder="请输入真实姓名" v-model="customerinfo.customerNickname"></yd-input>
       </yd-cell-item>
       <yd-cell-item>
         <span slot="left">昵称：</span>
-        <yd-input slot="right"  placeholder="请输入昵称" v-model="userInfo.nickname"></yd-input>
+        <yd-input slot="right"  placeholder="请输入昵称" v-model="customerinfo.customerNickname"></yd-input>
       </yd-cell-item>
       <yd-cell-item>
         <span slot="left">手机号：</span>
-        <yd-input slot="right"  placeholder="请输入手机号码" v-model="userInfo.phone"  :show-clear-icon="false"></yd-input>
+        <yd-input slot="right"  placeholder="请输入手机号码" v-model="customerinfo.customerPhone"  :show-clear-icon="false"></yd-input>
       </yd-cell-item>
       <yd-cell-item>
         <span slot="left">性别：</span>
         <div slot="right">
-          <yd-radio-group v-model="userInfo.sex" color="#F00">
-            <yd-radio val="1"><span>男</span></yd-radio>
-            <yd-radio val="0"><span>女</span></yd-radio>
-            <yd-radio val="2"><span>保密</span></yd-radio>
+          <yd-radio-group v-model="customerinfo.customerGender" color="#F00">
+            <yd-radio val="男"><span>男</span></yd-radio>
+            <yd-radio val="女"><span>女</span></yd-radio>
+            <yd-radio val="保密"><span>保密</span></yd-radio>
           </yd-radio-group>
         </div>
       </yd-cell-item>
@@ -58,7 +58,7 @@
   const vm= {
     computed: {
       ...mapGetters([
-        'userInfo'
+        'customerinfo'
       ])
     },
     components: {
@@ -81,8 +81,8 @@
       imageuploaded(res) {
         if (res.code == 200) {
           if(res.result&&res.result.length>0){
-            this.userInfo.avatar=res.result[0].url;
-            this.userInfo.mediaId=res.result[0].id;
+            this.customerinfo.avatar=res.result[0].url;
+            this.customerinfo.mediaId=res.result[0].id;
           }
         }
       },
@@ -91,20 +91,23 @@
         const  that =this;
         baseHttp(this,'/api/personal/info',{},'get','',function (data){
           if(data){
+            this.$store.dispatch('getCustomerInfo', data.info);
+
+
+
             that.$store.dispatch('setUserInfo',data.info);
           }
         })
       },
       /*修改个人信息*/
       repInfo(){
-        const  that =this;
-        baseHttp(this,'/api/personal/info/update',this.userInfo,'post','修改中...',function (data) {
-          that.$dialog.toast({
+        baseHttp(this,'/api/personal/info/update',this.customerinfo,'post','修改中...',data=> {
+          this.$dialog.toast({
             mes: '修改成功!',
             timeout: 1000,
             icon: 'success',
-            callback:function () {
-                that.getuserInfo();
+            callback: ()=> {
+                this.getuserInfo();
             }
           });
         });

@@ -49,7 +49,7 @@
       getuserInfo(){
         baseHttp(this, '/api/personal/info', {}, 'get', '', data => {
           if (data) {
-            this.$store.dispatch('setUserInfo', data.info);
+            this.$store.dispatch('getCustomerInfo', data.info);
           }
         })
       },

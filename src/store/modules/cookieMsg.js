@@ -1,10 +1,8 @@
 /**
  * Created by dx on 18/3/1.
  */
-import {getToken,removeToken,getStore,setStore} from '../../config/mUtils'
-/**
- * Created by dx on 18/2/27.
- */
+import {getToken,removeToken,getStore,setStore} from '@/config/mUtils'
+
 const cookieMsg={
   state:{
     avatar:'',

@@ -11,9 +11,6 @@ const basicStorage={
     quantity:'0',//存储购物车数量
     shearUrl:window.location.href,
     shearTitle:document.title,
-    userInfo:{
-      bonus:0,//用户积分
-    },
     scrollPosion:0,
     indexhomeScroll:0,
     invoice:{
@@ -75,9 +72,6 @@ const basicStorage={
     SET_INVOIVE:(state,invoice) =>{
       state.invoice=invoice;
     },
-    SET_USERINFO:(state,userInfo)=>{
-      state.userInfo=userInfo;
-    },
   },
   actions: {
     setbaseInfo:({commit},baseinfo) =>{
@@ -122,9 +116,6 @@ const basicStorage={
     setInvoice({commit},invoice){
       commit('SET_INVOIVE',invoice);
     },
-    setUserInfo({commit},userInfo){
-      commit('SET_USERINFO',userInfo);
-    }
   }
 }
 export  default basicStorage;

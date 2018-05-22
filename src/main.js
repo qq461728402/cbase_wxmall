@@ -14,7 +14,6 @@ import Icon from 'vue-svg-icon/Icon.vue'
 import VueLazyload from 'vue-lazyload'
 import "@/assets/js/ydui.flexible.js"
 import "@/assets/fonts/iconfont.css"
-import 'babel-polyfill'
 Vue.config.productionTip = false
 Vue.use(YDUI);
 Vue.use(VueAxios, axios)

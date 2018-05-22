@@ -5,7 +5,6 @@
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
-
     <yd-cell-group v-for="item,index in orderItems" :key="index" style="margin-top: 0.2rem">
       <yd-cell-item style="padding: 0.2rem 0">
         <span slot="left" class="thumb"><img  :src="item.imageUrl"></span>
@@ -46,16 +45,33 @@
         </yd-grids-item>
       </yd-grids-group>
     </yd-cell-group>
+    <yd-cell-group  style="margin-top: 0.2rem" id="appraise_rate">
+      <yd-cell-item>
+        <span slot="left">客服满意度:</span>
+        <yd-rate slot="right" v-model="value" color="#d41d0f" active-color="#d41d0f"></yd-rate>
+      </yd-cell-item>
+      <yd-cell-item>
+        <span slot="left">物流满意度:</span>
+        <yd-rate slot="right" v-model="value1" color="#d41d0f" active-color="#d41d0f"></yd-rate>
+      </yd-cell-item>
+      <yd-cell-item>
+        <span slot="left">客服满意度:</span>
+        <yd-rate slot="right" v-model="value2" color="#d41d0f" active-color="#d41d0f"></yd-rate>
+      </yd-cell-item>
+    </yd-cell-group>
     <yd-button size="large" type="primary" class="pj_7" @click.native="submit()">提交</yd-button>
   </yd-layout>
 </template>
-<script type="text/babel">
-  import {baseHttp,getCookie,uploadURL} from '../../config/env'
-  import  {getStore,removeStore} from '../../config/mUtils'
+<script type="text/ecmascript-6">
+  import {baseHttp,getCookie,uploadURL} from '@/config/env'
+  import  {getStore,removeStore} from '@/config/mUtils'
   import VueCoreImageUpload from 'vue-core-image-upload'
-  const vm= {
+  export default{
     data() {
       return {
+        value:5,
+        value1:5,
+        value2:5,
         orderItems: [],
         images: [],
         upimages: [],
@@ -132,7 +148,6 @@
       },
     },
   }
-  export default vm;
 </script>
 <style scoped>
   .thumb {
@@ -187,5 +202,10 @@
 
   #orderAppraise .yd-grids-item:after {
     border-bottom: none;
+  }
+  #appraise_rate .yd-cell-right{
+    width:auto;
+    flex:0;
+
   }
 </style>

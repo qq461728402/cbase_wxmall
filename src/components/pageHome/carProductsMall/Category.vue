@@ -152,7 +152,7 @@
         this.selectItemCategories(this.categories[index].categoryId,index);
       },
       gotoList(item){
-        this.$router.push({ path: '/home/productsList', query: { categoryId:item.categoryId}});
+        this.$router.push({ path: '/home/productsList', query: {categoryId:item.categoryId}});
       }
     },
   }

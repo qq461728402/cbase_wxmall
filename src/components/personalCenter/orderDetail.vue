@@ -113,11 +113,11 @@
     </yd-popup>
   </yd-layout>
 </template>
-<script type="text/babel">
-  import {baseHttp,getCookie,formatDate} from '../../config/env'
-  import  {getStore,removeStore,setStore} from '../../config/mUtils'
-  import {wexinPay,wftPay} from '../../config/weichatPay'
-  import goods from '../../views/goods'
+<script type="text/ecmascript-6">
+  import {baseHttp,getCookie,formatDate} from '@/config/env'
+  import  {getStore,removeStore,setStore} from '@/config/mUtils'
+  import {wexinPay,wftPay} from '@/config/weichatPay'
+  import goods from '@/views/goods'
   var QRCode = require('js-qrcode');
   const vm= {
     components: {
@@ -176,18 +176,16 @@
         });
       },
       getoderDetail(){
-        const  that =this;
-        baseHttp(this, '/api/order/order', {'orderId': this.orderId}, 'get', '加载中...', function (data) {
-          console.log(111);
+        baseHttp(this, '/api/order/order', {'orderId': this.orderId}, 'get', '加载中...', data=> {
           if (data.info) {
-            that.info = data.info;
-            that.qrcode.make(data.info.number);
+            this.info = data.info;
+            this.qrcode.make(data.info.number);
           }
           if (data.isLocked) {
-            that.isLocked = data.isLocked;
+            this.isLocked = data.isLocked;
           }
           if (data.showQRCode) {
-            that.showQRCode = data.showQRCode;
+            this.showQRCode = data.showQRCode;
           }
           if (data.order) {
             if (data.order.orderType=='EXCHANGE'){
@@ -195,104 +193,98 @@
                 item.bonusPointsUsed=data.order.bonusPointsUsed;
               })
             }
-            that.order = data.order;
+            this.order = data.order;
           }
           if (data.status) {
-            that.status = data.status;
+            this.status = data.status;
           }
           if (data.orderStatus) {
-            that.orderStatus = data.orderStatus;
+            this.orderStatus = data.orderStatus;
           }
           if (data.canPay) {
-            that.canPay = data.canPay;//是否可以付款
+            this.canPay = data.canPay;//是否可以付款
           }
           if (data.canCancel) {
-            that.canCancel = data.canCancel;//是否可以申请取消订单
+            this.canCancel = data.canCancel;//是否可以申请取消订单
           }
           if (data.canRefund) {
-            that.canRefund = data.canRefund;//是否可以申请退款(发货前)，
+            this.canRefund = data.canRefund;//是否可以申请退款(发货前)，
           }
           if (data.canConfirm) {
-            that.canConfirm = data.canConfirm;//是否可以确认收货
+            this.canConfirm = data.canConfirm;//是否可以确认收货
           }
           if (data.canViewShippmentHistory) {
-            that.canViewShippmentHistory = data.canViewShippmentHistory;//是否可以查看物流
+            this.canViewShippmentHistory = data.canViewShippmentHistory;//是否可以查看物流
           }
           if (data.canComment) {
-            that.canComment = data.canComment;//是否可以评论
+            this.canComment = data.canComment;//是否可以评论
           }
           if (data.canReturn) {
-            that.canReturn = data.canReturn;////是否可以申请售后服务（退货）
+            this.canReturn = data.canReturn;////是否可以申请售后服务（退货）
           }
         })
       },
       /*取消订单*/
       cancleOrder(){
-        const  that =this;
         this.$dialog.confirm({
           title: '温馨提示',
           mes: '您是否确定取消订单！',
           opts: () => {
-            that.sureCancleOrder();
+            this.sureCancleOrder();
           }
         });
       },
       sureCancleOrder(){
-        const  that =this;
-        baseHttp(this, '/api/order/cancel', {'orderId': this.orderId}, 'post', '取消中...', function (data) {
-          that.$dialog.toast({
+        baseHttp(this, '/api/order/cancel', {'orderId': this.orderId}, 'post', '取消中...', data=> {
+          this.$dialog.toast({
             mes: '取消成功!',
             timeout: 1000,
             icon: 'success',
-            callback: function () {
-              that.gotoback();
+            callback:  ()=> {
+              this.gotoback();
             }
           });
         })
       },
       /*确认收货*/
       affirmOrder(){
-        const  that =this;
-        baseHttp(this, '/api/order/received', {'orderId': this.orderId}, 'post', '正在处理中...', function (data) {
-          that.$dialog.toast({
+        baseHttp(this, '/api/order/received', {'orderId': this.orderId}, 'post', '正在处理中...', data=> {
+          this.$dialog.toast({
             mes: '确认成功!',
             timeout: 1000,
             icon: 'success',
-            callback: function () {
-              that.gotoback();
+            callback:  ()=> {
+              this.gotoback();
             }
           });
         })
       },
       /*申请退款*/
       canclePayOrder(){
-        const  that =this;
         this.$dialog.confirm({
           title: '温馨提示',
           mes: '您是否确定退款！',
           opts: () => {
-            that.surecarRefund();
+            this.surecarRefund();
           }
         });
       },
       surecarRefund(){
-        const  that=this;
-        baseHttp(this, '/wechat/pay/refund', {'orderId': this.orderId}, 'post', '申请中...', function (data) {
-          that.$dialog.toast({
+        baseHttp(this, '/wechat/pay/refund', {'orderId': this.orderId}, 'post', '申请中...', data=> {
+          this.$dialog.toast({
             mes: '申请成功!',
             timeout: 1000,
             icon: 'success',
-            callback: function () {
-              that.gotoback();
+            callback: ()=> {
+              this.gotoback();
             }
           });
         })
       },
       /*订单支付*/
       payOrder(){
-        const that = this;
-        baseHttp(this, '/api/order/rePay', {'orderId': this.orderId}, 'post', '支付中...', function (data) {
-          that.perPay(data);
+        baseHttp(this, '/api/order/rePay', {'orderId': this.orderId}, 'post', '支付中...', data=> {
+          this.perPay(data);
         })
       },
       perPay(data){

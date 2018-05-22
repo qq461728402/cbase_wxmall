@@ -20,7 +20,7 @@
     </div>
     <!--banner-->
     <yd-slider autoplay="3000"  style="height:3.5rem" id="my_banner">
-      <yd-slider-item v-for="item,index in banner.items" :key="index">
+      <yd-slider-item v-for="item,index in banner.items" :key="index" @click.native="gotoinsurance(item)">
         <img :src="item.img">
       </yd-slider-item>
     </yd-slider>
