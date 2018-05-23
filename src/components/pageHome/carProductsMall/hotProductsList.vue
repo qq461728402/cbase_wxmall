@@ -22,15 +22,15 @@
     <!--描述：商品列表-->
     <yd-pullrefresh :callback="loadList" ref="pullrefreshDemo">
       <yd-infinitescroll :callback="loadMore" ref="infinitescrollDemo">
-        <productlist slot="list" :productlist="list" :theme="theme"  @gotoDetail="gotoDetail"></productlist>
+        <hotProductList slot="list" :productlist="list" theme="1"  @gotoDetail="gotoDetail"></hotProductList>
         <span slot="doneTip">我是有底线的</span>
       </yd-infinitescroll>
     </yd-pullrefresh>
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp} from '../../../config/env'
-  import productlist from '../../../views/productList'
+  import {baseHttp} from '@/config/env'
+  import hotProductList from '@/views/hotProductList/hotindex'
   import { mapGetters } from 'vuex'
   const vm= {
     computed: {
@@ -39,7 +39,7 @@
       ])
     },
     components: {
-      productlist
+      hotProductList
     },
     data() {
       return {

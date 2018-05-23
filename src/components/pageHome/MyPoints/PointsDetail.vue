@@ -6,7 +6,7 @@
       </router-link>
     </yd-navbar>
     <van-swipe :autoplay="3000" style="transform: none;" :style="{height:screenWidth+'px'}">
-      <van-swipe-item v-for="(image, index) in skuModel.images" :key="index" class="thumb">
+      <van-swipe-item v-for="(image, index) in skuModel.image" :key="index" class="thumb">
         <img v-lazy="image" style="min-height: 100px" @click="showPreview(index)"/>
       </van-swipe-item>
     </van-swipe>
@@ -15,14 +15,15 @@
         <p style="font-size: 14px;text-align: center;padding-top: 20px">{{skuModel.skuName}}</p>
         <p style="font-size: 12px;text-align: center;padding-top: 10px;color: #999999;">{{skuModel.skuDescription}}</p>
         <p style="text-align: center;padding-top: 10px">
-          <em style="color: red;font-size: 16px;font-weight: bold">{{skuModel.bonusPoints}}积分</em>
-          <em style="text-decoration: line-through;font-size: 14px;color: #999999;" v-if="false">￥{{skuModel.salePrice}}</em>
+          <em style="color: red;font-size: 16px;font-weight: bold">{{skuModel.promotionPoint}}积分</em>
+          <em style="text-decoration: line-through;font-size: 14px;color: #999999;" v-if="false">￥{{skuModel.promotionPrice}}</em>
         </p>
       </div>
     </van-cell-group>
     <van-cell-group style="margin-top: 0.2rem">
-      <van-cell>
-        <van-col span="10" style="color:#9c9c9c">剩余：{{skuModel.stock}}件</van-col>
+      <van-cell title="门店选择" is-link @click="show=!show">{{currentMerchant}}</van-cell>
+      <van-cell title="剩余：">
+        {{merchat_stock}}件
       </van-cell>
     </van-cell-group>
     <van-cell-group style="margin-top: 0.2rem;margin-bottom: 1.2rem">
@@ -43,7 +44,7 @@
     </van-cell-group>
     <van-goods-action slot="tabbar">
       <van-goods-action-mini-btn icon="chat" text="客服" @click="onClickMiniBtn"/>
-      <van-goods-action-big-btn text="立即兑换" primary @click="showBase=!showBase"/>
+      <van-goods-action-big-btn text="立即兑换" primary @click="onClickExchange"/>
     </van-goods-action>
     <van-sku slot="tabbar"
              v-model="showBase"
@@ -60,7 +61,7 @@
           <div class="van-sku-header__img-wrap"><img :src="skuModel.image" class="van-sku__goods-img"></div>
           <div class="van-sku-header__goods-info">
             <div class="van-sku__goods-name van-ellipsis">{{skuModel.skuName}}</div>
-            <div class="van-sku__goods-price"><span class="van-sku__price-num">{{props.selectedSkuComb?props.selectedSkuComb.price:skuModel.bonusPoints}}积分</span></div>
+            <div class="van-sku__goods-price"><span class="van-sku__price-num">{{skuModel.promotionPoint}}积分</span></div>
             <van-icon class="van-sku__close-icon" name="close" @click="props.skuEventBus.$emit('sku:close')"/>
           </div>
         </div>
@@ -71,12 +72,15 @@
         </div>
       </template>
     </van-sku>
+    <van-popup v-model="show" position="bottom">
+      <van-picker show-toolbar title="选择门店" :columns="stroelist" @cancel="onCancel" @confirm="onConfirm"/>
+    </van-popup>
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {Swipe, SwipeItem, Cell, CellGroup, Col, GoodsAction, GoodsActionBigBtn, GoodsActionMiniBtn, Sku, Button, ImagePreview,Icon} from 'vant';
-  import {setStore, getStore} from '../../../config/mUtils'
-  import {baseHttp} from '../../../config/env'
+  import {Swipe, SwipeItem, Cell, CellGroup, Col, GoodsAction, GoodsActionBigBtn, GoodsActionMiniBtn, Sku, Button, ImagePreview,Icon,Popup,Picker} from 'vant';
+  import {setStore, getStore} from '@/config/mUtils'
+  import {baseHttp} from '@/config/env'
   import {mapGetters} from 'vuex'
   const vm = {
     computed: {
@@ -85,6 +89,8 @@
       ])
     },
     components: {
+      [Picker.name]:Picker,
+      [Popup.name]:Popup,
       [Icon.name] :Icon,
       [Swipe.name]: Swipe,
       [SwipeItem.name]: SwipeItem,
@@ -100,8 +106,14 @@
     },
     data() {
       return {
+        loading:false,
+        stroelist: [],
+        stroeIds:[],
+        currentMerchant:'',
+        merchat_stock:0,
         screenWidth: document.body.clientWidth,
         showBase: false,
+        show:false,
         promotionSkuId: '',
         securitylst: ['正品保障', '正规发票', '自营门店'],
         param: {},//商品规格
@@ -146,40 +158,68 @@
       }
     },
     methods: {
+      onClickExchange(){
+        if (this.stroelist.length==0){
+          this.$dialog.toast({mes: '没有门店可兑换', timeout: 1500}); return;
+        }
+        this.showBase=!this.showBase;
+      },
+      onCancel(){
+        this.show=!this.show;
+      },
+      onConfirm(value, index) {
+        this.currentMerchant=value;
+        this.getSkuInventory(this.stroeIds[index]);
+        this.show=!this.show;
+      },
       gotoback(){
         this.$router.go(-1);
       },
+      //获取门店商品数量
+      getSkuInventory(merchantId){
+        baseHttp(this,'/api/promotion/getSkuInventory',{'merchant_Id':merchantId,'skuId':this.skuModel.skuId},'get','加载中...',data=>{
+         this.merchat_stock=data.SkuQuantity;
+          this.sku.stock_num=data.SkuQuantity;
+        });
+      },
       getDetail(){
-        const that = this;
-        baseHttp(this, '/api/promotion/promotion', {'promotionSkuId': this.promotionSkuId}, 'get', '加载中...', function (data) {
+        baseHttp(this, '/api/promotion/promotionSku', {'promotionSkuId': this.promotionSkuId}, 'get', '加载中...', data=> {
           var promotion=data.promotion;
-          if(promotion.limit==true){
-            that.quota=promotion.limitQuantity;
+          if(promotion.hasLimit==true){
+            this.quota=promotion.limitQuantity;
           }
-          that.formatPrice(promotion.endTime);
+          this.endTime=promotion.promotionVO.endTime;
           if(data.productOptions){
-            that.sku.tree=data.productOptions;
+            this.sku.tree=data.productOptions;
           }
           if(data.skus){
-            that.sku.none_sku=false;
-            that.sku.list=data.skus;
+            this.sku.none_sku=false;
+            this.sku.list=data.skus;
           }
           if(promotion){
-            that.skuModel=promotion;
-            that.sku.stock_num=promotion.stock;
-            that.sku.price=promotion.price;
-            that.sku.collection_id=promotion.productSkuId;
-            that.goods.picture=promotion.image;
-            that.goods.title=promotion.skuName;
-            that.goodsId=promotion.productSkuId
+            this.skuModel=promotion;
+            this.sku.collection_id=promotion.skuId;
+            this.goods.picture=promotion.image;
+            this.goods.title=promotion.skuName;
+            this.goodsId=promotion.skuId
           }
-          that.productDesc();
+          if (promotion.merchant&&promotion.merchant.length>0){
+              this.stroelist=promotion.merchant.map(item=>{
+                return item.storeName;
+              });
+            this.stroeIds=promotion.merchant.map(item=>{
+              return item.merchantId;
+            });
+           this.currentMerchant=this.stroelist[0];
+           this.getSkuInventory(this.stroeIds[0]);
+          }
+          this.productDesc();
         })
       },
       /*商品图文描述*/
       productDesc(){
         const that = this;
-        baseHttp(this, '/api/mall/productDesc', {'skuId': this.skuModel.productSkuId}, 'get', '', function (data) {
+        baseHttp(this, '/api/mall/productDesc', {'skuId': this.skuModel.skuId}, 'get', '', function (data) {
           if (data.images) {
             if (data.images.descriptions) that.descriptions = data.images.descriptions;
             if (data.images.param) that.param = data.images.param;
@@ -207,6 +247,7 @@
         this.$router.push({name: 'shoppingCart', meta: {title: '购物车'}});
       },
       gotoOder(skuData){
+
         console.log(skuData);
         var oderInfo = {};
         oderInfo.shippingType= this.skuModel.shippingType;
@@ -286,6 +327,7 @@
     min-height: 100px;
   }
   .detal img {
+    display: block;
     margin: auto;
     max-width: 100%;
     max-height: 100%;

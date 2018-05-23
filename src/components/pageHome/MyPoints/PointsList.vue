@@ -45,7 +45,7 @@
       },
       //积分兑换
       gotoDetail(item){
-        this.$router.push({path: '/home/PointsDetail',query:{'promotionSkuId':item.promotionSkuId}})
+        this.$router.push({path: '/home/PointsDetail',query:{'promotionSkuId':item.id}})
       }
     },
     activated(){

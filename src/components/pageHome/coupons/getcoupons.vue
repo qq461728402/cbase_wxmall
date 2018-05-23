@@ -30,7 +30,7 @@
                 </yd-progressbar>
               </div>
               <div style="width: 1.6rem; text-align: center;padding-bottom: .15rem;">
-                <yd-button type="danger" style="font-size: .25rem;width: 1rem" bgcolor="#f13130" color="#ffffff" @click.native.stop="getCoupos(item)">{{(item.bonusPoints&&item.bonusPoints>0)?(item.bonusPoints+'积分'):'立即领取'}}</yd-button>
+                <yd-button type="danger" style="font-size: .25rem;width: 1rem" bgcolor="#f13130" color="#ffffff" @click.native.stop="getCoupos(item)">{{(item.bonusPoints&&item.bonusPoints>0)?(item.bonusPoints+'积分'):'立即购买'}}</yd-button>
               </div>
             </div>
           </yd-flexbox>
@@ -46,9 +46,15 @@
     </div>
   </yd-layout>
 </template>
-<script type="text/babel">
-  import {baseHttp} from '../../../config/env'
+<script type="text/ecmascript-6">
+  import {baseHttp} from '@/config/env'
+  import { mapGetters } from 'vuex'
   const vm= {
+    computed: {
+      ...mapGetters([
+        'customerinfo',
+      ])
+    },
     data() {
       return {
         page:1,
@@ -116,26 +122,30 @@
       },
       /* 点击领取优惠券*/
       getCoupos(item){
-        if (item.bonusPoints>0){
-          this.$dialog.confirm({
-            title: '温馨提示',
-            mes: '您确定积分兑换优惠券',
-            opts: () => {
-              this.sureCoupos(item);
-            }
-          });
-        }else{
-          this.sureCoupos(item);
-        }
+        this.$dialog.confirm({
+          title: '温馨提示',
+          mes: '您确定购买优惠券',
+          opts: () => {
+            this.sureCoupos(item);
+          }
+        });
       },
       sureCoupos(item){
-        baseHttp(this,'/api/coupon/get',{'couponId':item.id},'get','正在领取', data => {
+        baseHttp(this,'/api/order/prePayCoupon',{'coupon_id':item.id,'customer_id': this.customerinfo.customerId},'get','正在购买', data => {
+          console.log(data);
           this.$dialog.toast({
             mes: '领取成功!',
             timeout: 2000,
           });
           item.quantityAvailable=item.quantityAvailable-1;
         })
+//        baseHttp(this,'/api/coupon/get',{'couponId':item.id},'get','正在领取', data => {
+//          this.$dialog.toast({
+//            mes: '领取成功!',
+//            timeout: 2000,
+//          });
+//          item.quantityAvailable=item.quantityAvailable-1;
+//        })
       },
 
     },

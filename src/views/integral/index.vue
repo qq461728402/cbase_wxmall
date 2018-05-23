@@ -1,13 +1,13 @@
 <!--积分列表-->
 <template>
   <yd-list :theme="theme" id="integral">
-    <yd-list-item v-for="item, key in list" :key="key" @click.native="gotoDetail(item)" >
-      <img slot="img" v-lazy="item.image">
+    <yd-list-item v-for="item, key in list" :key="key" @click.native="gotoDetail(item)">
+      <img slot="img" v-lazy="item.image[0]" v-if="item.image&&item.image.length>0">
       <span slot="title" style="font-weight: normal;color: #000;">{{item.skuName}}</span>
       <yd-list-other slot="other">
         <div>
-          <span class="demo-list-price" style="color: red;">{{item.bonusPoints}}积分</span>
-          <span class="demo-list-del-price" style="font-size: .2rem;text-decoration:line-through" v-if="item.salePrice&&item.salePrice.length>0"><em>¥</em>{{item.salePrice}}</span>
+          <span class="demo-list-price" style="color: red;">{{item.promotionPoint}}积分</span>
+          <span class="demo-list-del-price" style="font-size: .2rem;text-decoration:line-through" v-if="item.promotionPrice"><em>¥</em>{{item.promotionPrice}}</span>
         </div>
         <div>
           <van-button type="danger" size="small" class="pull-right">积分兑换</van-button>
