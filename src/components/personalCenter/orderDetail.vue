@@ -86,11 +86,6 @@
         <yd-icon name="kfdh" size=".6rem" color="#d81e06" custom></yd-icon>
       </a>
     </div>
-
-    <yd-button type="hollow"    @click.native="appraiseOrder()">评价晒单</yd-button>
-
-
-
     <yd-cell-group slot="tabbar" style="margin-bottom: 0rem;" v-if="canCancel==true||canRefund==true||canReturn==true||canConfirm==true||canPay==true||canComment==true">
       <yd-cell-item type="a">
             <span slot="right">
@@ -104,9 +99,6 @@
             </span>
       </yd-cell-item>
     </yd-cell-group>
-
-
-
     <yd-popup v-model="isshowwl" position="bottom" height="60%">
       <div style="height: 1rem;line-height: 1rem;border-bottom: 1px solid #edeeef" slot="top">
         <span style="font-size: 0.3rem;color: #666;padding-left: 0.2rem">订单历史详情</span>
