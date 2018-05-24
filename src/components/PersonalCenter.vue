@@ -48,7 +48,6 @@
         <span slot="text" style="color: #666666">售后/服务</span>
       </yd-grids-item>
     </yd-grids-group>
-
     <yd-cell-group style="margin-top: 0.2rem;">
       <yd-cell-item arrow type="a" @click.native="gotoshopcar">
         <yd-icon slot="icon" name="gouwuche" size=".35rem" color="#00d3bf" custom></yd-icon>
@@ -60,6 +59,10 @@
         <span slot="left"> 我的优惠券</span>
         <span slot="right" style="font-size: .3rem;"></span>
       </yd-cell-item>
+      <yd-cell-item arrow type="a" @click.native="myInvoice">
+        <yd-icon slot="icon" name="fapiao" size=".35rem" color="#ffaa00" custom></yd-icon>
+        <span slot="left">我的发票</span>
+      </yd-cell-item>
       <yd-cell-item type="a" @click.native="gotobonushistroy()">
         <yd-icon slot="icon" name="jifen" size=".35rem" color="#ff003e" custom></yd-icon>
         <span slot="left">积分商城</span>
@@ -69,7 +72,6 @@
         <yd-icon slot="icon" name="huiyuanzhongxin" size=".35rem" color="#ffaa00" custom></yd-icon>
         <span slot="left">会员中心</span>
       </yd-cell-item>
-
       <yd-cell-item arrow type="a" v-if="1==2">
         <yd-icon slot="icon" name="tuijian" size=".35rem" color="#ffaa00" custom></yd-icon>
         <span slot="left">推荐好友</span>
@@ -78,6 +80,7 @@
         <yd-icon slot="icon" name="duihuan" size=".35rem" color="#ffaa00" custom></yd-icon>
         <span slot="left">兑换专区</span>
       </yd-cell-item>
+
       <yd-cell-item arrow @click.native="introduct" type="a">
         <yd-icon slot="icon" name="guanyu" size=".35rem" color="#2e4057" custom></yd-icon>
         <span slot="left">{{title?title:'关于'}}</span>
@@ -167,6 +170,9 @@
       /*兑换*/
       exchange() {
 
+      },
+      myInvoice(){
+        this.$router.push({ path: '/personalCenter/myInvoice'});
       },
       gotoGitfs(){
         this.$router.push({ path: '/User/Card'});

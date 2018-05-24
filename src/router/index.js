@@ -58,6 +58,8 @@ const Explain = _import('User/Explain');//会员积分使用说明
 const Binding = _import('User/Binding');//会员卡绑定
 const showQcode = _import('User/showQcode');//优惠券条形码
 const manual = _import('User/manual'); //会员使用手册
+const myInvoice =_import('personalCenter/myInvoice/myInvoice')//我的发票
+const greatCustomer =_import('greatCustomer/greatcustomer')//大客户经理
 const router = new Router({
    // hashbang:false,
    // mode: 'history',
@@ -119,9 +121,10 @@ const router = new Router({
     {path:'/User/Explain',name:'Explain',component:Explain,meta:{title:'积分使用说明',keepAlive:true}},
     {path:'/User/Binding',name:'Binding',component:Binding,meta:{title:'会员卡绑定',keepAlive:false}},
     {path:'/home/showCoupons',name:'qcode',component:showQcode,mata:{title:'优惠券兑换',keepAlive:false}},
-      
     {path:'/home/hotProductsList',name:'hotProductsList',component:HotPro,meta:{title:'热销商品',keepAlive:true}},
     {path:'/user/manual',name:'manual',component:manual,meta:{title:'重百新世纪会员卡使用手册',keepAlive:true}},
+    {path:'/personalCenter/myInvoice',name:'myInvoice',component:myInvoice,meta:{title:'我的发票',keepAlive:false}},
+    {path:'/home/greatCustomer',name:'greatCustomer',component:greatCustomer,meta:{title:'大客户经理',keepAlive:false}},
   ],
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {

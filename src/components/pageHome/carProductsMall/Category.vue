@@ -17,7 +17,7 @@
           <img :src="caturl" width="100%">
         </div>
         <yd-grids-group :rows="3">
-          <yd-grids-item v-for="item,index in catItemlist" :key="index" :link="{ name: 'productsList', query: { categoryId: item.categoryId}}">
+          <yd-grids-item v-for="item,index in catItemlist" :key="index" :link="{ path: 'item.link'}">
             <img slot="icon" v-lazy="item.imgUrl">
             <span slot="text">{{item.categoryName}}</span>
           </yd-grids-item>
@@ -152,13 +152,17 @@
         this.selectItemCategories(this.categories[index].categoryId,index);
       },
       gotoList(item){
-        this.$router.push({ path: '/home/productsList', query: {categoryId:item.categoryId}});
+        console.log(item);
+        this.$router.push({path:item.link});
       }
     },
   }
   export default vm;
 </script>
 <style>
+  #carPro .yd-scrolltab-item{
+    min-width: 2rem;
+  }
   #carPro .yd-grids-item:after{
     border-bottom:none ;
   }

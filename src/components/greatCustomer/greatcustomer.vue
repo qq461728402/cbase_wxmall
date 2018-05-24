@@ -5,11 +5,10 @@
         <yd-navbar-back-icon color="#FFF"></yd-navbar-back-icon>
       </router-link>
     </yd-navbar>
-
     <yd-accordion>
-      <yd-accordion-item :title='greatcustomer.storeName' v-for="greatcustomer,index in greatcustomerList" :key="index" @click.native="getManagers(greatcustomer,index)" :ref="'accordion'+index">
+      <yd-accordion-item :title='greatcustomer.storeName' v-for="greatcustomer,index in greatcustomerList" :key="index" @click.native="getManagers(greatcustomer)" :ref="'accordion'+index">
         <div style="padding: .24rem;">
-
+          <customer :customerlist="greatcustomer.getManagers"></customer>
         </div>
       </yd-accordion-item>
     </yd-accordion>
@@ -18,11 +17,15 @@
 </template>
 <script type="text/ecmascript-6">
   import {baseHttp} from '@/config/env'
+  import customer from '@/views/customer'
   const vm= {
     data() {
       return {
           greatcustomerList:[],
       }
+    },
+    components:{
+      customer
     },
     mounted(){
         this.storelist();
@@ -39,19 +42,16 @@
             }
         })
       },
-      getManagers(greatcustomer,index){
-
-
-
-        greatcustomer.isOpen=!greatcustomer.isOpen;
-        for (var i=0;i<greatcustomer.length;i++){
-          eval('this.$refs.accordion'+i+'[0].closeItem()');
-        }
-        if ( greatcustomer.isOpen==false){
-          eval('this.$refs.accordion'+index+'[0].openItem()');
-
-        }
-      },
+      getManagers(greatcustomer){
+        greatcustomer.isOpen=!greatcustomer.isOpen
+        if(greatcustomer.getManagers.length==0&&greatcustomer.isOpen==true){
+          baseHttp(this, '/api/store/getManagers',{merchantId:greatcustomer.id},'get', '加载中...', data=> {
+            if (data&&data.managers){
+              greatcustomer.getManagers=data.managers;
+            }
+          })
+         }
+        },
       gotoback(){
         this.$router.go(-1);
       },

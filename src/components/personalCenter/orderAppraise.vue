@@ -47,15 +47,15 @@
     </yd-cell-group>
     <yd-cell-group  style="margin-top: 0.2rem" id="appraise_rate">
       <yd-cell-item>
-        <span slot="left">客服满意度:</span>
+        <span slot="left">门店满意度:</span>
         <yd-rate slot="right" v-model="value" color="#d41d0f" active-color="#d41d0f"></yd-rate>
       </yd-cell-item>
       <yd-cell-item>
-        <span slot="left">物流满意度:</span>
+        <span slot="left">送货满意度:</span>
         <yd-rate slot="right" v-model="value1" color="#d41d0f" active-color="#d41d0f"></yd-rate>
       </yd-cell-item>
       <yd-cell-item>
-        <span slot="left">客服满意度:</span>
+        <span slot="left">安装满意度:</span>
         <yd-rate slot="right" v-model="value2" color="#d41d0f" active-color="#d41d0f"></yd-rate>
       </yd-cell-item>
     </yd-cell-group>
@@ -66,6 +66,7 @@
   import {baseHttp,getCookie,uploadURL} from '@/config/env'
   import  {getStore,removeStore} from '@/config/mUtils'
   import VueCoreImageUpload from 'vue-core-image-upload'
+  import { RadioGroup, Radio } from 'vant';
   export default{
     data() {
       return {
@@ -80,6 +81,8 @@
       }
     },
     components: {
+      [RadioGroup.name]:RadioGroup,
+      [Radio.name]:Radio,
       'vue-core-image-upload': VueCoreImageUpload,
     },
     mounted(){

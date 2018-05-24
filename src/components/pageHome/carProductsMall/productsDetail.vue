@@ -35,6 +35,9 @@
           <span class="store">商家</span>
           <span class="storeName"> {{product.storeName}} </span>
       </van-cell>
+      <van-cell is-link :to="{'path':'/home/greatCustomer'}">
+        <span class="store">大客户经理</span>
+      </van-cell>
     </van-cell-group>
     <van-tabs :active="active" swipeable  sticky :duration="0.5" style="background-color: #ffffff;margin-bottom: 1rem;z-index: 1" id="tabs">
       <van-tab  title="商品详情">
@@ -120,7 +123,7 @@
              @add-cart="additem"
     >
       <template slot="sku-actions" slot-scope="props">
-        <div class="van-sku-actions">
+        <div class="van-sku-actions" style="display: none">
           <van-button v-if="isCarOrBuy==1" type="primary" bottom-action @click="props.skuEventBus.$emit('sku:addCart')">加入购物车</van-button>
           <van-button type="primary" v-else-if="isCarOrBuy==2" bottom-action @click="props.skuEventBus.$emit('sku:buy')">下一步</van-button>
         </div>

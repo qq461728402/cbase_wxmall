@@ -44,22 +44,27 @@
       <img src="../../assets/img/cleanOder.png">
       <p>您还没有相关订单</p>
     </div>
+    <confirmpop v-if="isreceived"  @confirmok="confirmok" ref="confirmPop"></confirmpop>
+
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie,formatDate} from '../../config/env'
-  import  {getStore,removeStore} from '../../config/mUtils'
-  import {wexinPay,wftPay} from '../../config/weichatPay'
+  import {baseHttp,getCookie,formatDate} from '@/config/env'
+  import  {getStore,removeStore} from '@/config/mUtils'
+  import {wexinPay,wftPay} from '@/config/weichatPay'
   import {Row, Col} from 'vant';
-  import goods from '../../views/goods'
+  import goods from '@/views/goods'
+  import confirmpop from '@/views/confirmpop'
   const vm= {
     components: {
       [Row.name]: Row,
       [Col.name]: Col,
-      goods
+      goods,
+      confirmpop
     },
     data() {
       return {
+        isreceived:false,
         isoderlist:false,
         type:'',
         page: 1,
@@ -157,19 +162,18 @@
 
       /*确认收货*/
       affirmOrder(item){
-        const  that =this;
-        baseHttp(this, '/api/order/received', {'orderId': item.orderId}, 'post', '正在处理中...', function (data) {
-          that.$dialog.toast({
-            mes: '确认成功!',
-            timeout: 1000,
-            icon: 'success',
-            callback: function () {
-              that.loadList();
-            }
-          });
-        })
+        if (item.storeId){
+          this.isreceived = true;
+          this.$nextTick( ()=> {
+            this.$refs.confirmPop.init(item.orderId,item.storeId)
+          })
+        }else{
+          this.$dialog.alert({mes: '订单异常!'});
+        }
       },
-
+      confirmok(){
+          this.pullList();
+      },
       /*进入商品详情*/
       gotoOderDetail(item){
         this.$router.push({ name: 'orderDetail', query: { orderId: item.orderId }});

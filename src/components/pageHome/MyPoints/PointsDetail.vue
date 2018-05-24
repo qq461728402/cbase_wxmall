@@ -21,7 +21,10 @@
       </div>
     </van-cell-group>
     <van-cell-group style="margin-top: 0.2rem">
-      <van-cell title="门店选择" is-link @click="show=!show">{{currentMerchant}}</van-cell>
+      <van-cell is-link :to="{'path':'/home/greatCustomer'}">
+        <span class="store">大客户经理</span>
+      </van-cell>
+      <van-cell title="门店选择" is-link @click="showMerchant">{{currentMerchant}}</van-cell>
       <van-cell title="剩余：">
         {{merchat_stock}}件
       </van-cell>
@@ -140,6 +143,7 @@
           title: '',
           picture: ''
         },
+        merchantId:'',
         quota:0,//限购
         skuModel: {},
         goodsId: '',
@@ -158,6 +162,12 @@
       }
     },
     methods: {
+      showMerchant(){
+        if (this.stroelist.length==0){
+          this.$dialog.toast({mes: '没有门店可选择', timeout: 1500}); return;
+        }
+        this.show=!this.show;
+      },
       onClickExchange(){
         if (this.stroelist.length==0){
           this.$dialog.toast({mes: '没有门店可兑换', timeout: 1500}); return;
@@ -177,6 +187,7 @@
       },
       //获取门店商品数量
       getSkuInventory(merchantId){
+        this.merchantId=merchantId;
         baseHttp(this,'/api/promotion/getSkuInventory',{'merchant_Id':merchantId,'skuId':this.skuModel.skuId},'get','加载中...',data=>{
          this.merchat_stock=data.SkuQuantity;
           this.sku.stock_num=data.SkuQuantity;
@@ -201,7 +212,8 @@
             this.sku.collection_id=promotion.skuId;
             this.goods.picture=promotion.image;
             this.goods.title=promotion.skuName;
-            this.goodsId=promotion.skuId
+            this.goodsId=promotion.skuId;
+            this.sku.price=promotion.promotionPoint/100.0;
           }
           if (promotion.merchant&&promotion.merchant.length>0){
               this.stroelist=promotion.merchant.map(item=>{
@@ -247,26 +259,47 @@
         this.$router.push({name: 'shoppingCart', meta: {title: '购物车'}});
       },
       gotoOder(skuData){
-
         console.log(skuData);
-        var oderInfo = {};
-        oderInfo.shippingType= this.skuModel.shippingType;
-        oderInfo.promotionId=this.skuModel.promotionId;
-        var skuId = '';
-        var bonusPoints='';
-        if (skuData.selectedSkuComb) {
-          skuId = skuData.selectedSkuComb.id;
-          bonusPoints = skuData.selectedSkuComb.price;
-        } else {
-          skuId = skuData.goodsId;
-          bonusPoints=this.skuModel.bonusPoints
-        }
-        oderInfo.messages=skuData.messages.message_0;
-        oderInfo.productSkuId=skuId;
-        oderInfo.quantity = skuData.selectedNum;
-        oderInfo.bonusPoints=bonusPoints;
-        setStore("oderInfo", oderInfo);
-        this.$router.push({name: 'PointsSubmit'});
+        this.showBase=!this.showBase;
+        this.$dialog.confirm({
+          title: '温馨提示',
+          mes: `确定兑换用${skuData.selectedSkuComb.price*skuData.selectedNum}积分兑换此商品`,
+          opts: () => {
+            var skuId='';
+            var bonusPoints='';
+            if (skuData.selectedSkuComb) {
+              skuId = skuData.selectedSkuComb.id;
+              bonusPoints = skuData.selectedSkuComb.price;
+            } else {
+              skuId = skuData.goodsId;
+              bonusPoints=this.skuModel.bonusPoints
+            }
+            var orderInfo= {skuCode: "",skuId: 0, skuName: "", skuPrice: 0,skuQuantity: 0, subTotal: 0, totalPrice: 0};
+            orderInfo.skuId=skuId;
+            orderInfo.merchantId=this.merchantId;
+            orderInfo.skuName=this.skuModel.skuName;
+            orderInfo.skuQuantity = skuData.selectedNum;
+            orderInfo.subTotal=bonusPoints;
+            orderInfo.skuPrice=bonusPoints;
+
+            baseHttp(this,'/api/order/buyIntegralGoods',orderInfo,'post','兑换中...',data=> {
+              if (data&&data.code==200){
+                this.$dialog.toast({
+                  mes: '兑换成功',
+                  timeout: 1500,
+                  icon: 'success',
+                  callback: ()=>{
+                    this.getDetail();
+                  }
+                });
+              }
+            })
+            console.log(skuData);
+          }
+        });
+
+
+
       },
       //客服电话
       onClickMiniBtn(){
