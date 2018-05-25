@@ -3,7 +3,7 @@
  */
 const basicStorage={
   state:{
-    cityName:'',//城市名称
+    cityName:'重庆市',//城市名称
     locatingCity:'',//定位城市
     configList:[],//首页存储
     categoryList:[],//分类列表
@@ -29,9 +29,6 @@ const basicStorage={
     },
   },
   mutations:{
-    SET_BASEINFO:(state,baseinfo) =>{
-      state.baseInfo=baseinfo;
-    },
     SET_SHEARURL:(state,shearUrl) => {
       state.shearUrl=shearUrl;
     },
@@ -74,9 +71,6 @@ const basicStorage={
     },
   },
   actions: {
-    setbaseInfo:({commit},baseinfo) =>{
-      commit('SET_BASEINFO',baseinfo)
-    },
     setshearTitle({commit},shearTitle){
       commit('SET_SHEARTITLE',shearTitle)
     },

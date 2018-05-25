@@ -32,13 +32,13 @@
     },
     methods:{
       storelist(){
-        baseHttp(this, '/api/store/list',{},'get', '加载中...', data=> {
+        baseHttp(this, '/api/store/managerStoreList',{},'get', '加载中...', data=> {
             if (data&&data.stores){
               data.stores.forEach(item =>{
                 item.getManagers=[];
                 item.isOpen=false;
               })
-                this.greatcustomerList=data.stores;
+              this.greatcustomerList=data.stores;
             }
         })
       },

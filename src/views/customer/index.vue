@@ -55,8 +55,8 @@
   .bulk_goods .goods-item .thumb {
     float: left;
     position: relative;
-    width: 1rem;
-    height: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
     background-color: #f4f4f4;
     text-align: center;
   }
@@ -75,8 +75,8 @@
   .goods-item .detail {
     position: relative;
     font-size: 0.25rem;
-    height: 1rem;
-    margin-left: 1.2rem;
+    height: 1.5rem;
+    margin-left: 1.7rem;
   }
   .goods-item .thumb img {
     position: absolute;

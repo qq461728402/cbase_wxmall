@@ -95,6 +95,7 @@
     computed: {
       ...mapGetters([
         'quantity',
+        'storeinfo'
       ])
     },
     components: {
@@ -251,8 +252,7 @@
     },
     //客服电话
     onClickMiniBtn(){
-      var baseInfo=this.$store.getters.baseInfo;
-      window.location.href = 'tel://'+baseInfo.storePhone;
+      window.location.href = 'tel://'+this.storeinfo.storePhone;
     },
   }
   export default vm;

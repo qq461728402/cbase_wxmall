@@ -57,7 +57,13 @@
 <script type="text/babel">
   import {baseHttp} from '../../../config/env'
   import {Button,Col,Row,Progress} from 'vant';
+  import {mapGetters} from 'vuex'
   const vm = {
+    computed: {
+      ...mapGetters([
+        'storeinfo',
+      ])
+    },
     components: {
       [Row.name]:Row,
       [Col.name]:Col,
@@ -91,7 +97,7 @@
       },
       starttimes(){
         const that = this;
-        baseHttp(this, '/api/promotion/seckill/times', {'store':'1'}, 'get', '加载中...', function (data) {
+        baseHttp(this, '/api/promotion/seckill/times', {'store':this.storeinfo.storeId}, 'get', '加载中...', function (data) {
           var currentTime = Date.parse(new Date());
           if(data.currentTime){
             currentTime=data.currentTime;

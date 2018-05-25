@@ -35,13 +35,11 @@
           }
         })
       },
+      /*获取用户门店信息*/
       baseInfo(){
-        this.$store.dispatch('getStore', '1');
-        return;
         baseHttp(this,'/api/store/storeInfo',{},'get','',data=>{
           if(data&&data.code==200){
-            this.$store.dispatch('setbaseInfo',data);
-            this.$store.dispatch('getStore', data.storeId);
+            this.$store.dispatch('getStoreInfo',data);
           }
         })
       },

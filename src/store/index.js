@@ -6,13 +6,15 @@ import Vuex from 'vuex'
 import basicStorage from './modules/basicStorage'
 import cookieMsg from './modules/cookieMsg'
 import customerInfo from './modules/customerInfo'
+import storeInfo from './modules/storeInfo'
 import getters from './getters'
 Vue.use(Vuex)
 const store = new Vuex.Store({
   modules:{
     basicStorage,
     cookieMsg,
-    customerInfo
+    customerInfo,
+    storeInfo
   },
   getters
 });

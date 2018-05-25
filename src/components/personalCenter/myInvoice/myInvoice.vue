@@ -32,6 +32,7 @@
 </template>
 <script type="text/ecmascript-6">
     import {baseHttp, getCookie, formatDate} from '@/config/env'
+    import { mapGetters } from 'vuex'
     const vm = {
         data() {
             return {
@@ -39,6 +40,11 @@
                 page: 1,
                 pageSize: 10,
             }
+        },
+        computed: {
+            ...mapGetters([
+                'customerinfo'
+            ])
         },
         mounted(){
             this.page=1;
@@ -56,7 +62,7 @@
                 this.invoicelist();
             },
             invoicelist(){
-                var pars = {page: this.page, pageSize: this.pageSize,customerId:'47'};
+                var pars = {page: this.page, pageSize: this.pageSize,customerId:this.customerinfo.customerId};
                 baseHttp(this, '/api/invoice/list', pars, 'get', this.page == 1 ? '加载中...' : '', data=> {
                     if(this.page==1){
                         if(data.data.recordList) {

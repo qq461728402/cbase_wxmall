@@ -7,58 +7,20 @@
     </yd-navbar>
     <yd-cell-group v-for="item,index in orderItems" :key="index" style="margin-top: 0.2rem">
       <yd-cell-item style="padding: 0.2rem 0">
-        <span slot="left" class="thumb"><img  :src="item.imageUrl"></span>
+        <span slot="left" class="thumb"><img :src="item.imageUrl"></span>
         <div slot="left">
-          <p>评分</p><yd-rate v-model="item.rank" color="#d41d0f" active-color="#d41d0f"></yd-rate>
+          <span>评分</span><yd-rate v-model="item.rank" color="#d41d0f" active-color="#d41d0f" size="24px" padding=".1rem"></yd-rate>
         </div>
       </yd-cell-item>
       <yd-cell-item>
         <yd-textarea slot="right" placeholder="请输入您的评价？" maxlength="100" v-model="item.desc"></yd-textarea>
       </yd-cell-item>
-      <yd-grids-group :rows="5">
-        <yd-grids-item v-for="imgs,index1 in item.images" :key="index1">
-          <div slot="else" style="text-align: center;" >
-            <img :src="imgs.url" style="height: 1.2rem;max-width: 1.2rem">
-            <img src="../../assets/img/delete.png" style="height: 0.3rem;width: 0.3rem;position: absolute;right: 0rem" @click="delImage(index,item)">
-          </div>
-        </yd-grids-item>
-        <yd-grids-item v-if="item.wait==true">
-          <div slot="else" style="text-align: center;" >
-            <icon name="wait" spin :scale="7"></icon>
-          </div>
-        </yd-grids-item>
-        <yd-grids-item type="a">
-          <vue-core-image-upload slot="else" style="text-align: center;"
-            inputOfFile="file"
-            inputAccept="image/*"
-            :credentials="false"
-            :crop="false"
-            :data="item.data"
-            :compress="70"
-            :multiple-size="5"
-            @imageuploading="imageuploading"
-            @imageuploaded="imageuploaded"
-            :max-file-size="5242880"
-            :url=uploadURL>
-            <img src="../../assets/img/addImages.png" class="messimg" style="height: 1.2rem;width: 1.2rem">
-          </vue-core-image-upload>
-        </yd-grids-item>
-      </yd-grids-group>
     </yd-cell-group>
-    <yd-cell-group  style="margin-top: 0.2rem" id="appraise_rate">
-      <yd-cell-item>
-        <span slot="left">门店满意度:</span>
-        <yd-rate slot="right" v-model="value" color="#d41d0f" active-color="#d41d0f"></yd-rate>
-      </yd-cell-item>
-      <yd-cell-item>
-        <span slot="left">送货满意度:</span>
-        <yd-rate slot="right" v-model="value1" color="#d41d0f" active-color="#d41d0f"></yd-rate>
-      </yd-cell-item>
-      <yd-cell-item>
-        <span slot="left">安装满意度:</span>
-        <yd-rate slot="right" v-model="value2" color="#d41d0f" active-color="#d41d0f"></yd-rate>
-      </yd-cell-item>
-    </yd-cell-group>
+    <van-cell-group style="margin-top: 0.2rem">
+      <van-cell title="门店满意度:">  <yd-rate size="20px" v-model="value" :show-text="['不满意','一般','满意']" count="3" color="#ffaa00" active-color="#ffaa00" padding=".1rem"></yd-rate> </van-cell>
+      <van-cell title="送货满意度:">  <yd-rate size="20px" v-model="value1" :show-text="['不满意','一般','满意']" count="3" color="#ffaa00" active-color="#ffaa00" padding=".1rem"></yd-rate> </van-cell>
+      <van-cell title="安装满意度:">  <yd-rate size="20px" v-model="value2" :show-text="['不满意','一般','满意']" count="3" color="#ffaa00" active-color="#ffaa00" padding=".1rem"></yd-rate> </van-cell>
+    </van-cell-group>
     <yd-button size="large" type="primary" class="pj_7" @click.native="submit()">提交</yd-button>
   </yd-layout>
 </template>
@@ -66,16 +28,26 @@
   import {baseHttp,getCookie,uploadURL} from '@/config/env'
   import  {getStore,removeStore} from '@/config/mUtils'
   import VueCoreImageUpload from 'vue-core-image-upload'
-  import { RadioGroup, Radio } from 'vant';
+  import { RadioGroup, Radio,Cell, CellGroup } from 'vant';
+  import { mapGetters } from 'vuex'
   export default{
+    computed: {
+      ...mapGetters([
+        'customerinfo'
+      ])
+    },
     data() {
       return {
-        value:5,
-        value1:5,
-        value2:5,
+        storeId:0,
+        storeServiceRating:'',
+        deliveryServiceRating:'',
+        installationServiceRating:'',
+        reviewDescription:'',
+        reviewRating:'',
+        value:3,
+        value1:3,
+        value2:3,
         orderItems: [],
-        images: [],
-        upimages: [],
         orderId: '',
         uploadURL:uploadURL,
       }
@@ -83,9 +55,12 @@
     components: {
       [RadioGroup.name]:RadioGroup,
       [Radio.name]:Radio,
+      [Cell.name]:Cell,
+      [CellGroup.name]:CellGroup,
       'vue-core-image-upload': VueCoreImageUpload,
     },
     mounted(){
+      this.storeId=this.$route.query.storeId;
       this.orderId =this.$route.query.orderId;
       var oderItemsInfo = this.$route.params;
       var appraiselst = [];
@@ -97,54 +72,39 @@
           }
           item.desc = '';
           item.rank = 5;
-          item.mediaIds = '';
-          item.images = [];
-          item.wait=false;
-          item.data= {tag:'appraise',index:i};
           appraiselst.push(item);
         }
-        this.orderItems = appraiselst;
+        this.orderItems = [appraiselst[0]];
       }
     },
     methods:{
       gotoback(){
         this.$router.go(-1);
       },
-      imageuploading(data,headers){
-        this.orderItems[headers.index].wait=true;
-      },
-      imageuploaded(res,data) {
-        var upimageItem = {};
-        upimageItem.id = res.result[0].id;
-        upimageItem.url= res.result[0].url;
-        this.orderItems[data.index].images.push(upimageItem);
-        this.orderItems[data.index].wait=false;
-      },
-      delImage(index, item) {
-        item.images.shift(index);
-      },
       submit(){
-        var appraiselst=[];
-        this.orderItems.forEach(function (item) {
-          var parment={};
-          parment.desc = item.desc;
-          parment.rank = item.rank;
-          var imgeurl=[];
-          item.images.forEach(function (upImage) {
-            imgeurl.push(upImage.id);
-          });
-          parment.mediaIds=imgeurl.join(",");
-          parment.skuId=item.skuId;
-          appraiselst.push(parment);
-        })
-        const  that=this;
-        baseHttp(this,'/api/mall/reviewAdd',{'data':JSON.stringify(appraiselst),'orderId':this.orderId},'post','评论中...',function (data) {
-          that.$dialog.toast({
+        this.storeServiceRating=this.value==3?'SATISFIED':this.value==2?'COMMONY':'UNSATISFY';
+        this.deliveryServiceRating=this.value1==3?'SATISFIED':this.value1==2?'COMMONY':'UNSATISFY'
+        this.installationServiceRating=this.value2==3?'SATISFIED':this.value2==2?'COMMONY':'UNSATISFY'
+        this.orderItems.forEach(item=> {
+          this.reviewDescription= item.desc;
+          this.reviewRating = item.rank;
+        });
+        var pram=
+        {customerId: this.customerinfo.customerId, deliveryServiceRating: this.deliveryServiceRating,
+                installationServiceRating:  this.installationServiceRating,
+                merchantId: this.storeId,
+                orderId:  this.orderId,
+                reviewDescription: this.reviewDescription,
+                reviewRating:  this.reviewRating,
+                storeServiceRating: this.storeServiceRating
+        }
+        baseHttp(this,'/api/order/saveReview',pram,'post','提交评论中...', data=> {
+          this.$dialog.toast({
             mes: '评论成功!',
             timeout: 1000,
             icon: 'success',
-            callback: function () {
-              that.gotoback();
+            callback:  ()=> {
+              this.gotoback();
             }
           });
         })

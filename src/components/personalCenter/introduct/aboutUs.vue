@@ -9,7 +9,13 @@
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
+  import { mapGetters} from 'vuex'
   const vm = {
+    computed: {
+      ...mapGetters([
+        'storeinfo'
+      ])
+    },
     data() {
       return {
         html:'',
@@ -17,7 +23,7 @@
     },
     mounted(){
       var baseInfo=this.$store.getters.baseInfo;
-      this.html=baseInfo.storeDesc;
+      this.html=this.storeinfo.storeDesc;
     },
     methods: {
       gotoback(){

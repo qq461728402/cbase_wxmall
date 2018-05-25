@@ -172,6 +172,7 @@
         }
       },
       confirmok(){
+          this.getOrderStatus();
           this.pullList();
       },
       /*进入商品详情*/

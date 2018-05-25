@@ -89,6 +89,8 @@
     computed: {
       ...mapGetters([
         'quantity',
+        'customerinfo',
+        'storeinfo'
       ])
     },
     components: {
@@ -259,7 +261,13 @@
         this.$router.push({name: 'shoppingCart', meta: {title: '购物车'}});
       },
       gotoOder(skuData){
-        console.log(skuData);
+//        if (skuData.selectedSkuComb.price*skuData.selectedNum>this.customerinfo.bonusPoints){
+//          this.$dialog.toast({
+//            mes: `您当前积分不足${skuData.selectedSkuComb.price*skuData.selectedNum}不能兑换`,
+//            timeout: 1000,
+//          });
+//          return;
+//        }
         this.showBase=!this.showBase;
         this.$dialog.confirm({
           title: '温馨提示',
@@ -297,14 +305,10 @@
             console.log(skuData);
           }
         });
-
-
-
       },
       //客服电话
       onClickMiniBtn(){
-        var baseInfo=this.$store.getters.baseInfo;
-        window.location.href = 'tel://'+baseInfo.storePhone;
+        window.location.href = 'tel://'+this.storeinfo.storePhone;
       },
     },
   }

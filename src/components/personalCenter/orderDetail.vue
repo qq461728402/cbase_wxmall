@@ -82,7 +82,7 @@
     </yd-cell-group>
     <div style="height: 1.2rem;width: 100%"></div>
     <div style="position:fixed;top:70%;right:0;z-index: 999;text-align: center;padding: 0.1rem;">
-      <a :href="'tel:'+tel">
+      <a :href="'tel:'+storeinfo.storePhone">
         <yd-icon name="kfdh" size=".6rem" color="#d81e06" custom></yd-icon>
       </a>
     </div>
@@ -122,8 +122,14 @@
   import {wexinPay,wftPay} from '@/config/weichatPay'
   import confirmpop from '@/views/confirmpop'
   import goods from '@/views/goods'
+  import { mapGetters } from 'vuex'
   var QRCode = require('js-qrcode');
   const vm= {
+    computed: {
+      ...mapGetters([
+        'storeinfo'
+      ]),
+    },
     components: {
       goods,
       confirmpop
@@ -131,7 +137,6 @@
     data() {
       return {
         isreceived:false,
-        tel:'',
         isLocked: false,
         orderStatus: '',
         showQRCode: false,
@@ -159,8 +164,6 @@
       }
     },
     mounted(){
-      var baseInfo=this.$store.getters.baseInfo;
-      this.tel=baseInfo.storePhone;
       this.orderId =this.$route.query.orderId;
       this.setQrCode();
       this.getoderDetail();
@@ -352,7 +355,7 @@
           });
           return;
         }
-        this.$router.push({ name: 'orderAppraise',query:{orderId:this.orderId}, params:orderItem,meta:{title:'订单评价'}});
+        this.$router.push({ name: 'orderAppraise',query:{orderId:this.orderId,storeId:this.info.storeId}, params:orderItem,meta:{title:'订单评价'}});
       },
       /*整单申请退货*/
       applyRefundAll(){

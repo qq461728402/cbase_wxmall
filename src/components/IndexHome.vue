@@ -3,7 +3,7 @@
     <div style="text-align: center;background-color:rgba(212, 29, 15, 0);position: fixed;width: 100%;max-width: 750px; z-index: 101;" id="my_search" >
       <yd-flexbox style="margin:8px 0;">
         <div style="width: 22%;height: 30px;line-height: 30px" @click="gotocitychoose">
-          <span class="city">{{cityname.length==0?'重庆市':cityname.substring(0,3)}}</span>
+          <span class="city">{{cityName}}</span>
         </div>
         <yd-flexbox-item id="searchId">
           <form action="javascript:return true;">
@@ -12,7 +12,7 @@
           </form>
         </yd-flexbox-item>
         <div style="width: 15%;height: 30px;line-height: 30px">
-          <a :href="'tel:'+tel">
+          <a :href="'tel:'+storeinfo.storePhone">
             <yd-icon slot="icon" name="kefu" size=".42rem" custom color="#ffffff"></yd-icon>
           </a>
         </div>
@@ -171,11 +171,9 @@
     data () {
       return {
         hotproductsList:[],
-        tel:'',
         title:'',
         bl:'',
         mySwiper: '',
-        cityname: '',
         weixinInfo: {},
         config: [],
         banner: {},
@@ -205,27 +203,17 @@
         return this.$refs.mySwiper.swiper
       },
       ...mapGetters([
-        'indexhomeScroll','quantity'
+        'indexhomeScroll','quantity','storeinfo','cityName'
       ])
     },
     mounted(){
-      var baseInfo=this.$store.getters.baseInfo;
-      this.tel=baseInfo.storePhone;
       bindEvent(this);
-      var cityname=this.$store.state.basicStorage.cityName;
-      if (cityname.length>0) {
-        this.cityname =cityname;
-      }
       this.getCartsQuantity();
       this.signature();
       this.getConfig();
     },
     beforeRouteEnter(to, from, next) {
       next(function (vm) {
-        var cityname=vm.$store.state.basicStorage.cityName;
-        if (cityname.length>0) {
-          vm.cityname = cityname;
-        }
         if(vm.title){
           document.title=vm.title;
         }
@@ -268,8 +256,7 @@
         })
       },
       gethotproducts(){
-        baseHttp(this, '/admin/product/hotSku', {'store':this.$store.getters.store,'page':1,'pageSize':20}, 'get','', data=>{
-          console.log(data);
+        baseHttp(this, '/admin/product/hotSku', {'store':this.storeinfo.storeId,'page':1,'pageSize':20}, 'get','', data=>{
           if (data.data &&data.data.recordList){
               this.hotproductsList=data.data.recordList;
             }
@@ -290,8 +277,8 @@
       },
 //    选择城市
       gotocitychoose(){
+        return;
         this.$router.push({path: 'home/chooseCity'})
-
       },
 //    车品商城
       gotocarproduct(item){
@@ -313,10 +300,10 @@
         if (window.location.href.indexOf('home/')!=-1){
           return;
         }
-        baseHttp(this, '/wechat/jsapi/signature', {'url': window.location.href}, 'post', '', function (data) {
+        baseHttp(this, '/wechat/jsapi/signature', {'url': window.location.href}, 'post', '', data=> {
           if (data.signature) {
-            that.signatureInfo = data.signature;
-            that.getLocation();
+            this.signatureInfo = data.signature;
+            this.getLocation();
           }
         })
       },
@@ -330,22 +317,19 @@
         })
       },
       getLocation(){
-        const that = this;
-        getLocation(this.signatureInfo, function (success) {
+        getLocation(this.signatureInfo, success=> {
             console.log(success);
             var map = new BMap.Map('');
             var point = new BMap.Point(success.longitude, success.latitude);
             var geoc = new BMap.Geocoder();
-            geoc.getLocation(point, function (rs) {
+            geoc.getLocation(point, rs=> {
               var addComp = rs.addressComponents;
               var data = {
                 latitude: success.latitude,
                 longitude: success.longitude,
                 cityname: addComp.district
               };
-              that.$store.dispatch('setCityName',data.cityname);
-              that.$store.dispatch('setLocatingCity',data.cityname);
-              that.cityname = data.cityname;
+              this.$store.dispatch('setCityName',data.cityname);
             });
           },
           function (fail) {

@@ -66,7 +66,7 @@
       <yd-cell-item type="a" @click.native="gotobonushistroy()">
         <yd-icon slot="icon" name="jifen" size=".35rem" color="#ff003e" custom></yd-icon>
         <span slot="left">积分商城</span>
-        <span slot="right">{{customerinfo.bonus?customerinfo.bonus:'0'}}积分</span>
+        <span slot="right">{{customerinfo.bonusPoints}}积分</span>
       </yd-cell-item>
       <yd-cell-item arrow type="a" @click.native="gotoGitfs()" >
         <yd-icon slot="icon" name="huiyuanzhongxin" size=".35rem" color="#ffaa00" custom></yd-icon>
@@ -83,12 +83,12 @@
 
       <yd-cell-item arrow @click.native="introduct" type="a">
         <yd-icon slot="icon" name="guanyu" size=".35rem" color="#2e4057" custom></yd-icon>
-        <span slot="left">{{title?title:'关于'}}</span>
+        <span slot="left">{{storeinfo.storeName+'关于'}}</span>
       </yd-cell-item>
-      <yd-cell-item arrow type="a" :href="'tel:'+tel">
+      <yd-cell-item arrow type="a" :href="'tel:'+storeinfo.storePhone">
         <yd-icon slot="icon" name="kefu" size=".35rem" color="#ff003e" custom></yd-icon>
         <span slot="left">客服帮助</span>
-        <span slot="right" style="font-size: .3rem;">{{tel}}</span>
+        <span slot="right" style="font-size: .3rem;">{{storeinfo.storePhone}}</span>
       </yd-cell-item>
     </yd-cell-group>
 
@@ -118,25 +118,20 @@
     computed: {
       ...mapGetters([
         'customerinfo',
+        'storeinfo',
         'quantity',
         'title'
       ])
     },
     data() {
       return {
-        tel:'',
         bonusPointsHistories:[],
         ordernum:{'PURCHASED':0,'SHIPPED':0,'CONFIRMED':0,'RECEIVED':0,'COMMENTED':0,'FINISHED':0,'REFUNDING':0,'NOT_COMMENT':0,'RETURN':0,'PAID':0},
         shearView:false,
         shearData:{},
-        /*bg:{
-          backgroundImage: "url(" + require("../assets/img/personbg.png") + ")",
-        }*/
       }
     },
     activated(){
-      var baseInfo=this.$store.getters.baseInfo;
-      this.tel=baseInfo.storePhone;
       this.getOrderStatus();
     },
     methods:{
@@ -195,9 +190,6 @@
         this.$router.push({ name: 'aboutUs'});
       },
     },
-//    mounted(){
-//      this.getOrderStatus();
-//    },
   }
   export default vm;
 </script>
