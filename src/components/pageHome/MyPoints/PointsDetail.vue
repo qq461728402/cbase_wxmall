@@ -261,13 +261,13 @@
         this.$router.push({name: 'shoppingCart', meta: {title: '购物车'}});
       },
       gotoOder(skuData){
-//        if (skuData.selectedSkuComb.price*skuData.selectedNum>this.customerinfo.bonusPoints){
-//          this.$dialog.toast({
-//            mes: `您当前积分不足${skuData.selectedSkuComb.price*skuData.selectedNum}不能兑换`,
-//            timeout: 1000,
-//          });
-//          return;
-//        }
+        if (skuData.selectedSkuComb.price*skuData.selectedNum>this.customerinfo.bonusPoints){
+          this.$dialog.toast({
+            mes: `您当前积分不足${skuData.selectedSkuComb.price*skuData.selectedNum}不能兑换`,
+            timeout: 1000,
+          });
+          return;
+        }
         this.showBase=!this.showBase;
         this.$dialog.confirm({
           title: '温馨提示',
@@ -289,14 +289,14 @@
             orderInfo.skuQuantity = skuData.selectedNum;
             orderInfo.subTotal=bonusPoints;
             orderInfo.skuPrice=bonusPoints;
-
             baseHttp(this,'/api/order/buyIntegralGoods',orderInfo,'post','兑换中...',data=> {
               if (data&&data.code==200){
                 this.$dialog.toast({
-                  mes: '兑换成功',
-                  timeout: 1500,
+                  mes: '兑换成功,请到我的订单查看',
+                  timeout: 2000,
                   icon: 'success',
                   callback: ()=>{
+                    this.getuserInfo();
                     this.getDetail();
                   }
                 });
@@ -305,6 +305,14 @@
             console.log(skuData);
           }
         });
+      },
+      /*获取用户信息*/
+      getuserInfo(){
+        baseHttp(this, '/api/personal/info', {}, 'get', '', data => {
+          if (data) {
+            this.$store.dispatch('getCustomerInfo', data.info);
+          }
+        })
       },
       //客服电话
       onClickMiniBtn(){

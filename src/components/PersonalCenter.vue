@@ -81,7 +81,7 @@
         <span slot="left">兑换专区</span>
       </yd-cell-item>
 
-      <yd-cell-item arrow @click.native="introduct" type="a">
+      <yd-cell-item arrow @click.native="introduct" type="a" v-if="1==2">
         <yd-icon slot="icon" name="guanyu" size=".35rem" color="#2e4057" custom></yd-icon>
         <span slot="left">{{storeinfo.storeName+'关于'}}</span>
       </yd-cell-item>
@@ -110,9 +110,9 @@
 
   </yd-layout>
 </template>
-<script type="text/babel">
-  import {getCookie,baseHttp} from "../config/env"
-  import {getStore,setStore} from "../config/mUtils"
+<script type="text/ecmascript-6">
+  import {getCookie,baseHttp} from "@/config/env"
+  import {getStore,setStore} from "@/config/mUtils"
   import { mapGetters } from 'vuex'
   const vm= {
     computed: {

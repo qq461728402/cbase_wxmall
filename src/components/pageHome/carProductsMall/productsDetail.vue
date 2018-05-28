@@ -175,6 +175,7 @@
     },
     data() {
       return {
+        externalId:'',
         active:0,
         screenWidth: document.body.clientWidth,
         sku: {
@@ -231,7 +232,11 @@
           that.screenWidth = window.screenWidth
         })()
       }
-      this.productId =this.$route.query.skuId;
+      if(this.$route.query.skuId){
+        this.productId =this.$route.query.skuId;
+      } else{
+        this.externalId=this.$route.query.skuCode;
+      }
       this.productDetail();
     },
     methods:{
@@ -252,7 +257,13 @@
       /*产品详情*/
       productDetail(){
         const that=this;
-        baseHttp(this, '/api/mall/skuDetail', {'skuId': this.productId}, 'get', '加载中...', function (data) {
+        var parm={};
+        if (this.productId.length>0){
+          parm.skuId=this.productId;
+        }else{
+          parm.externalId=this.externalId;
+        }
+        baseHttp(this, '/api/mall/skuDetail', parm, 'get', '加载中...', function (data) {
           that.product = data.product;
           if(data.product){
             that.defaultSkuId= data.product.skuId;
@@ -287,7 +298,7 @@
       /*商品图文描述*/
       productDesc(){
         const  that =this;
-        baseHttp(this, '/api/mall/productDesc', {'skuId': this.productId}, 'get', '加载中...', function (data) {
+        baseHttp(this, '/api/mall/productDesc', {'skuId': this.skuid}, 'get', '加载中...', function (data) {
           if(data.images)that.images=data.images;
           if(data.images.descriptions) that.descriptions = data.images.descriptions;
           if(data.images.param) that.param=data.images.param;
@@ -297,7 +308,7 @@
       /*获取部分评论*/
       reviews(){
         const  that =this;
-        baseHttp(this, '/api/mall/reviews', {'skuId': this.productId, 'page': 1, 'pageSize': '8'}, 'get', '加载中...', function (data) {
+        baseHttp(this, '/api/mall/reviews', {'skuId': this.skuid, 'page': 1, 'pageSize': '8'}, 'get', '加载中...', function (data) {
           if(data.reviews){
             that.reviewslist=data.reviews;
           }

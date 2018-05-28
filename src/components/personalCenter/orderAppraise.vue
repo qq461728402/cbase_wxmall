@@ -48,7 +48,7 @@
         value1:3,
         value2:3,
         orderItems: [],
-        orderId: '',
+        orderNumber: '',
         uploadURL:uploadURL,
       }
     },
@@ -61,7 +61,7 @@
     },
     mounted(){
       this.storeId=this.$route.query.storeId;
-      this.orderId =this.$route.query.orderId;
+      this.orderNumber =this.$route.query.orderNumber;
       var oderItemsInfo = this.$route.params;
       var appraiselst = [];
       if(oderItemsInfo.constructor == Array){
@@ -93,7 +93,7 @@
         {customerId: this.customerinfo.customerId, deliveryServiceRating: this.deliveryServiceRating,
                 installationServiceRating:  this.installationServiceRating,
                 merchantId: this.storeId,
-                orderId:  this.orderId,
+                orderNumber:  this.orderNumber,
                 reviewDescription: this.reviewDescription,
                 reviewRating:  this.reviewRating,
                 storeServiceRating: this.storeServiceRating

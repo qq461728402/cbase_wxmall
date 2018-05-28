@@ -261,7 +261,7 @@
            this.isreceived = true;
            this.$nextTick( ()=> {
             this.$refs.confirmPop.init(this.orderId,this.info.storeId)
-          })
+            })
         }else{
           this.$dialog.alert({mes: '订单异常!'});
         }
@@ -355,7 +355,7 @@
           });
           return;
         }
-        this.$router.push({ name: 'orderAppraise',query:{orderId:this.orderId,storeId:this.info.storeId}, params:orderItem,meta:{title:'订单评价'}});
+        this.$router.push({ name: 'orderAppraise',query:{orderNumber:this.info.number,storeId:this.info.storeId}, params:orderItem,meta:{title:'订单评价'}});
       },
       /*整单申请退货*/
       applyRefundAll(){

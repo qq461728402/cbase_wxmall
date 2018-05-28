@@ -44,19 +44,26 @@
       <img src="../../../assets/img/myyhq.png">
       <p>没有优惠券领取</p>
     </div>
+    <couponpop v-if="isbuy" @confirmok="couponbuy" ref="coupon"></couponpop>
+
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
   import {baseHttp} from '@/config/env'
   import { mapGetters } from 'vuex'
+  import couponpop from '@/views/couponPop'
   const vm= {
     computed: {
       ...mapGetters([
         'customerinfo',
       ])
     },
+    components: {
+      couponpop
+    },
     data() {
       return {
+        isbuy:false,
         page:1,
         pageSize:10,
         couponnum:{},
@@ -126,28 +133,24 @@
           title: '温馨提示',
           mes: '您确定购买优惠券',
           opts: () => {
-            this.sureCoupos(item);
+            this.isbuy = true;
+            this.$nextTick( ()=> {
+              this.$refs.coupon.init(item)
+            })
           }
         });
       },
-      sureCoupos(item){
-        baseHttp(this,'/api/order/prePayCoupon',{'coupon_id':item.id,'customer_id': this.customerinfo.customerId},'get','正在购买', data => {
+      couponbuy(item,code){
+        baseHttp(this,'/api/order/prePayCoupon',{'confirmCode':code,'coupon_id':item.id,'customer_id': this.customerinfo.customerId},'get','正在购买', data => {
           console.log(data);
           this.$dialog.toast({
-            mes: '领取成功!',
+            mes: '购买成功!',
             timeout: 2000,
           });
           item.quantityAvailable=item.quantityAvailable-1;
         })
-//        baseHttp(this,'/api/coupon/get',{'couponId':item.id},'get','正在领取', data => {
-//          this.$dialog.toast({
-//            mes: '领取成功!',
-//            timeout: 2000,
-//          });
-//          item.quantityAvailable=item.quantityAvailable-1;
-//        })
-      },
 
+      },
     },
   }
   export default vm;

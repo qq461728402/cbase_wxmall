@@ -40,7 +40,7 @@
                 }
                 baseHttp(this, '/api/order/checkoutCode', {'merchantId': this.storeId,'code':this.txcode}, 'post', '正在处理中...', data=> {
                     if (data && data.code==200 &&data.data==true){
-                        baseHttp(this, '/api/order/received', {'orderId': this.orderId}, 'post', '', data=> {
+                        baseHttp(this, '/api/order/received', {'orderId': this.orderId,'code':this.txcode}, 'post', '', data=> {
                             this.show = !this.show;
                             this.$emit('confirmok');
                         })
