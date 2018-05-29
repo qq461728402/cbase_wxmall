@@ -142,11 +142,12 @@
       },
       couponbuy(item,code){
         baseHttp(this,'/api/order/prePayCoupon',{'confirmCode':code,'coupon_id':item.id,'customer_id': this.customerinfo.customerId},'get','正在购买', data => {
-          console.log(data);
-          this.$dialog.toast({
-            mes: '购买成功!',
-            timeout: 2000,
-          });
+          window.location.href =  "https://pay.swiftpass.cn/pay/jspay?token_id="+data.payInfo.token_id+"&showwxtitle=1";
+//          console.log(data);
+//          this.$dialog.toast({
+//            mes: '购买成功!',
+//            timeout: 2000,
+//          });
           item.quantityAvailable=item.quantityAvailable-1;
         })
 

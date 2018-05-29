@@ -27,9 +27,9 @@
             </div>
         </div>
         <yd-cell-group>
-            <yd-cell-item arrow v-if="false">
+            <yd-cell-item arrow @click.native="gotoUserInfo">
                 <yd-icon slot="icon" name="shu" size=".35rem" color="#2e4057" custom></yd-icon>
-                <span slot="left">会员卡特权</span>
+                <span slot="left">会员信息完善</span>
             </yd-cell-item>
             <yd-cell-item arrow @click.native="getcoupons">
                 <yd-icon slot="icon" name="youhuiquan2" size=".35rem" color="#2e4057" custom></yd-icon>
@@ -121,7 +121,11 @@
             //领取优惠券
             getcoupons(){
                 this.$router.push({path:'/home/getcoupons'})
-            }
+            },
+            //个人信息完善
+            gotoUserInfo(){
+                this.$router.push({name:'reperUserInfo'});
+            },
         },
     }
 </script>

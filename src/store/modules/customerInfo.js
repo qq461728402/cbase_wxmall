@@ -6,6 +6,12 @@ import {getToken,removeToken,getStore,setStore} from '@/config/mUtils'
 const customerInfo={
   state:{
     customerinfo:{
+      income:'',
+      bobby:'',
+      addressMessage:'',
+      customerBirthday:'',
+      customerEmail:'',
+      customerSalutation:'',
       customerId:0,
       customerLastname:'',
       avatar: "",
@@ -17,7 +23,8 @@ const customerInfo={
       bonusPoints: 0,
       growth: "",
       tags: [],
-      rankName: ""
+      rankName: "",
+      customerTags:'{"consumeCharacter":"","consumeTrend":"","payTrend":"","attentionProduct":"","attentionBrand":"","productAttentionPoint":""}',
     }
   },
   mutations:{
