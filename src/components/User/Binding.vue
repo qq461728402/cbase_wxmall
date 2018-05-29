@@ -35,6 +35,19 @@
            </yd-radio-group>
          </div>
       </yd-cell-item>
+      <yd-cell-item v-if="isregister">
+        <span slot="left">开卡门店</span>
+        <select slot="right" v-model="storeName" v-if="disabled==false">
+          <option value="">请选择开卡门店(选填)</option>
+          <option :value=item.externalId  v-for="item,index in openCardList" :key="index">{{item.storeName}}</option>
+        </select>
+        <select slot="right" v-model="storeName" disabled v-else>
+          <option value="">请选择开卡门店(选填)</option>
+          <option :value=item.externalId  v-for="item,index in openCardList" :key="index">{{item.storeName}}</option>
+        </select>
+
+      </yd-cell-item>
+
     </yd-cell-group>
     <div class="login_2">
         <yd-checkbox v-model="isdeal" color="#F00" size="16"><span style="line-height: 16px;font-size: 0.28rem">同意</span></yd-checkbox><span style="color:#d41d0f;font-size: 14px" @click="gotomanual">《重百新世纪会员卡使用手册》</span>
@@ -65,11 +78,27 @@
         selectCarNo:'1',
         cardno:'',
         carlist:[],
+        openCardList:[],
+        storeName:'',
+        disabled:false
       }
     },
     mounted(){
+      if (this.$route.query.Code){
+        this.disabled=true;
+        this.storeName=this.$route.query.stroeCode;
+      }
+      this.storelist();
     },
     methods:{
+      storelist(){
+        baseHttp(this, '/api/store/managerStoreList',{key:false},'get', '加载中...', data=> {
+          if (data&&data.stores){
+            this.openCardList=data.stores;
+          }
+        })
+      },
+
       sendCode1() {
         const idNum = this.$refs.idNum;
         const mobile =this.$refs.mobile;
@@ -154,7 +183,7 @@
           });
           return;
         }
-        baseHttp(this,'/api/customer/register',{'name':this.name,'mobile':this.mobile,'idNum':this.idNum,'verifyCode':this.verifyCode,'ppid':'0','publicid':'0'},'post','注册中...', data=>{
+        baseHttp(this,'/api/customer/register',{'name':this.name,'mobile':this.mobile,'idNum':this.idNum,'verifyCode':this.verifyCode,'ppid':'0','publicid':'0','stroeId':this.storeName},'post','注册中...', data=>{
             if (data &&data.code==200){
               this.$dialog.toast({
                 mes: '注册成功!请绑定会员卡',
@@ -243,6 +272,9 @@
   }
   #binding .yd-cell-left{
     width: 80px;
+  }
+  #binding .yd-cell-right select{
+    color:#555;
   }
   #binding .yd-checkbox{
     padding-right: 0px;
