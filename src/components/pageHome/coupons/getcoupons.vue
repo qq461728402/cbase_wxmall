@@ -50,6 +50,7 @@
 </template>
 <script type="text/ecmascript-6">
   import {baseHttp} from '@/config/env'
+  import {wftPay} from '@/config/weichatPay'
   import { mapGetters } from 'vuex'
   import couponpop from '@/views/couponPop'
   const vm= {
@@ -142,7 +143,29 @@
       },
       couponbuy(item,code){
         baseHttp(this,'/api/order/prePayCoupon',{'confirmCode':code,'coupon_id':item.id,'customer_id': this.customerinfo.customerId},'get','正在购买', data => {
-          window.location.href =  "https://pay.swiftpass.cn/pay/jspay?token_id="+data.payInfo.token_id+"&showwxtitle=1";
+//          this.$store.dispatch('setrouter',that.$route.fullPath);
+//          this.$router.push({ name: 'orderpay', query: { token_id: data.payInfo.token_id }})
+          wftPay(data.payInfo,res=> {
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+              this.$router.replace({ name: 'orderSuccess', params: { payMoney:item.price}})
+            }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
+              that.$dialog.toast({
+                mes: '支付取消',
+                timeout: 2000,
+              });
+            }else if(res.err_msg =="get_brand_wcpay_request:fail"){
+              that.$dialog.toast({
+                mes: '支付失败! 请重新支付',
+                timeout: 2000,
+              });
+            }
+          },fail=> {
+            this.$dialog.toast({
+              mes: fail,
+              timeout: 2000,
+            });
+          })
+//          window.location.href =  "https://pay.swiftpass.cn/pay/jspay?token_id="+data.payInfo.token_id+"&showwxtitle=1";
 //          console.log(data);
 //          this.$dialog.toast({
 //            mes: '购买成功!',

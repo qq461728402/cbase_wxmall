@@ -45,9 +45,7 @@
           <option value="">请选择开卡门店(选填)</option>
           <option :value=item.externalId  v-for="item,index in openCardList" :key="index">{{item.storeName}}</option>
         </select>
-
       </yd-cell-item>
-
     </yd-cell-group>
     <div class="login_2">
         <yd-checkbox v-model="isdeal" color="#F00" size="16"><span style="line-height: 16px;font-size: 0.28rem">同意</span></yd-checkbox><span style="color:#d41d0f;font-size: 14px" @click="gotomanual">《重百新世纪会员卡使用手册》</span>
@@ -275,7 +273,12 @@
   }
   #binding .yd-cell-right select{
     color:#555;
+    margin-left:0.2rem;
   }
+  #binding .yd-cell-right{
+    justify-content:flex-start;
+  }
+
   #binding .yd-checkbox{
     padding-right: 0px;
   }
