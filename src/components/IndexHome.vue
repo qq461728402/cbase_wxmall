@@ -12,7 +12,7 @@
           </form>
         </yd-flexbox-item>
         <div style="width: 15%;height: 30px;line-height: 30px">
-          <a :href="'tel:'+storeinfo.storePhone">
+          <a :href="'tel:'+storeinfo.systemPhone">
             <yd-icon slot="icon" name="kefu" size=".42rem" custom color="#ffffff"></yd-icon>
           </a>
         </div>

@@ -233,9 +233,9 @@
         })()
       }
       if(this.$route.query.skuId){
-        this.productId =this.$route.query.skuId;
+        this.productId =this.$route.query.skuId+'';
       } else{
-        this.externalId=this.$route.query.skuCode;
+        this.externalId=this.$route.query.skuCode+'';
       }
       this.productDetail();
     },
@@ -384,7 +384,7 @@
       },
       //客服电话
       onClickMiniBtn(){
-        window.location.href = 'tel://'+this.storeinfo.storePhone;
+        window.location.href = 'tel://'+this.storeinfo.systemPhone;
       },
       //图片预览
       showPreview(index){

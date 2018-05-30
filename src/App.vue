@@ -24,6 +24,7 @@
       this.$store.dispatch('getUname');
       this.baseInfo();
       this.getuserInfo();
+      this.indexOf();
     },
     methods: {
       /*获取购物车数量*/
@@ -35,7 +36,15 @@
           }
         })
       },
-      /*获取用户门店信息*/
+      /*获取用户商城信息*/
+      indexOf(){
+        baseHttp(this,'/api/mall/setting',{},'get','',data=>{
+          if(data&&data.code==200){
+
+            this.$store.dispatch('getStoreInfo',data);
+          }
+        })
+      },
       baseInfo(){
         baseHttp(this,'/api/store/storeInfo',{},'get','',data=>{
           if(data&&data.code==200){

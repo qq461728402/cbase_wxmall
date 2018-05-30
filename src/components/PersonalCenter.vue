@@ -85,10 +85,10 @@
         <yd-icon slot="icon" name="guanyu" size=".35rem" color="#2e4057" custom></yd-icon>
         <span slot="left">{{storeinfo.storeName+'关于'}}</span>
       </yd-cell-item>
-      <yd-cell-item arrow type="a" :href="'tel:'+storeinfo.storePhone">
+      <yd-cell-item arrow type="a" :href="'tel:'+storeinfo.systemPhone">
         <yd-icon slot="icon" name="kefu" size=".35rem" color="#ff003e" custom></yd-icon>
         <span slot="left">客服帮助</span>
-        <span slot="right" style="font-size: .3rem;">{{storeinfo.storePhone}}</span>
+        <span slot="right" style="font-size: .3rem;">{{storeinfo.systemPhone}}</span>
       </yd-cell-item>
     </yd-cell-group>
 

@@ -252,7 +252,7 @@
     },
     //客服电话
     onClickMiniBtn(){
-      window.location.href = 'tel://'+this.storeinfo.storePhone;
+      window.location.href = 'tel://'+this.storeinfo.systemPhone;
     },
   }
   export default vm;

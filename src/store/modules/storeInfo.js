@@ -9,7 +9,10 @@ const storeInfo={
       storeDesc: '',
       storeId: 1,
       storeName: "",
-      storePhone: ""
+      storePhone: "",
+      systemPhone:'',//商城系统电话
+      systemName:'',//商城系统名称
+      systemDesc:'',//商城描述
     }
   },
   mutations:{

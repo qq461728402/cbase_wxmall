@@ -195,7 +195,7 @@
       /*修改个人信息*/
       repInfo(){
         this.customerinfo.income=this.income;
-        this.customerinfo.bobby=this.bobby;
+        this.customerinfo.hobby=this.hobby;
         this.customerinfo.addressMessage=this.addressMessage;
         this.customerinfo.customerBirthday=this.customerBirthday;
         this.customerinfo.customerEmail=this.customerEmail;
