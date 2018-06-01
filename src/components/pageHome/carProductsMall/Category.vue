@@ -17,7 +17,7 @@
           <img :src="caturl" width="100%">
         </div>
         <yd-grids-group :rows="3">
-          <yd-grids-item v-for="item,index in catItemlist" :key="index" :link="{ path: 'item.link'}">
+          <yd-grids-item v-for="item,index in catItemlist" :key="index"  @click.native="gotoList(item)">
             <img slot="icon" v-lazy="item.imgUrl">
             <span slot="text">{{item.categoryName}}</span>
           </yd-grids-item>

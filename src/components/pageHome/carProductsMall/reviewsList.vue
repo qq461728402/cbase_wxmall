@@ -35,7 +35,7 @@
             </yd-flexbox>
             <div style="padding: .1rem;" v-if="item.childrens && item.childrens.length>0">
               <p style="background-color: #edeeef;padding: .2rem;" v-for="huifu in item.childrens">
-                <span style="color: rgb(255, 125, 73);" >官方回复：</span>{{huifu.desc}}
+                <span style="color: rgb(255, 125, 73);" >掌柜回复：</span>{{huifu.desc}}
               </p>
             </div>
           </li>

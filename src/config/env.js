@@ -9,7 +9,7 @@ import {removeStore} from './mUtils'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
 axios.defaults.withCredentials=true;
-axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://192.168.199.189:8080/dqtest';//http://weixin.e-cbest.com/dqtest
+axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://weixin.e-cbest.com/dqtest';//http://weixin.e-cbest.com/dqtest
 /*
  * 拦截器*/
 axios.interceptors.response.use(response =>{

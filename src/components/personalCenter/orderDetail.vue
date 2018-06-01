@@ -290,14 +290,16 @@
       },
       /*订单支付*/
       payOrder(){
-        baseHttp(this, '/api/order/rePay', {'orderId': this.orderId}, 'post', '支付中...', data=> {
+        this.$dialog.loading.open('支付中...');
+        baseHttp(this, '/api/order/rePay', {'orderId': this.orderId}, 'post', '', data=> {
           this.perPay(data);
         })
       },
       perPay(data){
         const that = this;
-        baseHttp(this, '/api/order/prePay', data, 'post', '提交中...', function (data) {
-          that.payInfo = data.payInfo;
+        baseHttp(this, '/api/order/prePay', data, 'post', '', data=> {
+          this.payInfo = data.payInfo;
+          this.$dialog.loading.close();
 //          window.location.href =  "https://pay.swiftpass.cn/pay/jspay?token_id="+that.payInfo.token_id+"&showwxtitle=1";
 //          that.$store.dispatch('setrouter',that.$route.fullPath);
 //          that.$router.push({ name: 'orderpay', query: { token_id: that.payInfo.token_id }})

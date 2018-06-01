@@ -21,7 +21,7 @@
               <span style="color: #FFFFFF;">{{item.orderRequirement>0?'满'+item.orderRequirement+'可用':'无金额门槛'}}</span>
             </div>
             <yd-flexbox-item style="padding-left: 0.15rem">
-              <p style="min-height:1rem;font-size: 0.3rem">{{item.description}}</p>
+              <p style="min-height:1rem;font-size: 0.3rem">{{item.name}}</p>
               <div style="display: block;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
                 <span style="padding: 3px 0">有效期:{{item.startTime |formatDate}}—{{item.endTime |formatDate}}</span>
               </div>
@@ -46,7 +46,7 @@
               <span style="color: #FFFFFF;">{{item.orderRequirement>0?'满'+item.orderRequirement+'可用':'无金额门槛'}}</span>
             </div>
             <yd-flexbox-item style="padding-left: 0.15rem">
-              <p style="min-height:1rem;font-size: 0.3rem">{{item.description}}</p>
+              <p style="min-height:1rem;font-size: 0.3rem">{{item.name}}</p>
               <div style="display: block;color: #707070">
                 <span style="padding: 3px 0">{{item.startTime |formatDate}}—{{item.endTime |formatDate}}</span>
               </div>
@@ -65,7 +65,7 @@
           <yd-flexbox style="height: 1.5rem">
             <div style="height: 100%;background-color: #BBBBBB;padding: 0.2rem">
               <p style="font-size: .3rem; font-weight: bold;color: #ffffff;">￥<em style="font-size: 0.6rem">{{item.discount}}</em> </p>
-              <span style="color: #FFFFFF;">{{item.description}}</span>
+              <span style="color: #FFFFFF;">{{item.name}}</span>
             </div>
             <yd-flexbox-item style="padding-left: 0.15rem">
               <p style="min-height:1rem;font-size: 0.3rem;color: #707070">{{item.name}}</p>

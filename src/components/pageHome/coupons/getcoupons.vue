@@ -18,8 +18,8 @@
             </div>
             <yd-flexbox-item style="height:1.8rem;">
               <yd-flexbox direction="vertical" style="padding-top: 0.15rem">
-                <yd-flexbox-item><p style="font-size: 0.3rem;font-weight: bold;height: 1rem">{{item.description}}</p></yd-flexbox-item>
-                <yd-flexbox-item><span style="font-size: 0.4rem;color: #f00;padding-right: 0.2rem">{{item.discount}}</span><span style="color: #f00;background-color:#ffebdb;padding: 0.05rem;font-size: 0.25rem">{{item.orderRequirement>0?'满'+item.orderRequirement+'可用':'无金额门槛'}}</span>
+                <yd-flexbox-item><p style="font-size: 0.3rem;font-weight: bold;height: 1rem">{{item.name}}</p></yd-flexbox-item>
+                <yd-flexbox-item><span style="font-size: 0.4rem;color: #f00;padding-right: 0.2rem">{{item.discount}}<i style="font-size: 0.25rem">现金劵</i></span><span style="color: #f00;background-color:#ffebdb;padding: 0.05rem;font-size: 0.25rem">{{item.orderRequirement>0?'满'+item.orderRequirement+'可用':'无金额门槛'}}</span>
                 </yd-flexbox-item>
               </yd-flexbox>
             </yd-flexbox-item>
@@ -44,8 +44,7 @@
       <img src="../../../assets/img/myyhq.png">
       <p>没有优惠券领取</p>
     </div>
-    <couponpop v-if="isbuy" @confirmok="couponbuy" ref="coupon"></couponpop>
-
+    <couponpop v-if="isbuy" @confirmok="couponbuy" @cancel="couponcancel" ref="coupon"></couponpop>
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
@@ -130,24 +129,24 @@
       },
       /* 点击领取优惠券*/
       getCoupos(item){
-        this.$dialog.confirm({
-          title: '温馨提示',
-          mes: '您确定购买优惠券',
-          opts: () => {
-            this.isbuy = true;
-            this.$nextTick( ()=> {
-              this.$refs.coupon.init(item)
-            })
-          }
-        });
+        this.isbuy = true;
+        this.$nextTick( ()=> {
+          this.$refs.coupon.init(item)
+        })
+      },
+      couponcancel(){
+        this.isbuy=false;
       },
       couponbuy(item,code){
+        this.isbuy=false;
         baseHttp(this,'/api/order/prePayCoupon',{'confirmCode':code,'coupon_id':item.id,'customer_id': this.customerinfo.customerId},'get','正在购买', data => {
 //          this.$store.dispatch('setrouter',that.$route.fullPath);
 //          this.$router.push({ name: 'orderpay', query: { token_id: data.payInfo.token_id }})
           wftPay(data.payInfo,res=> {
             if (res.err_msg == "get_brand_wcpay_request:ok") {
-              this.$router.replace({ name: 'orderSuccess', params: { payMoney:item.price}})
+              item.quantityAvailable=item.quantityAvailable-1;
+              that.$dialog.alert({mes: '支付成功,请到我的优惠券查看'});
+//              this.$router.replace({ name: 'orderSuccess', params: {payMoney:item.price}});
             }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
               that.$dialog.toast({
                 mes: '支付取消',
@@ -161,17 +160,11 @@
             }
           },fail=> {
             this.$dialog.toast({
-              mes: fail,
+              mes: '支付取消',
               timeout: 2000,
             });
           })
-//          window.location.href =  "https://pay.swiftpass.cn/pay/jspay?token_id="+data.payInfo.token_id+"&showwxtitle=1";
-//          console.log(data);
-//          this.$dialog.toast({
-//            mes: '购买成功!',
-//            timeout: 2000,
-//          });
-          item.quantityAvailable=item.quantityAvailable-1;
+
         })
 
       },

@@ -19,7 +19,7 @@
                 :compress="70"
                 inputAccept="image/*"
                 :url="uploadURL">
-          <img :src="customerinfo.avatar" class="messimg" style="height: 0.8rem;width: 0.8rem">
+          <img :src="avatar" class="messimg" style="height: 0.8rem;width: 0.8rem">
         </vue-core-image-upload>
         </div>
       </yd-cell-item>
@@ -51,7 +51,7 @@
       </yd-cell-item>
       <yd-cell-item>
         <span slot="left">爱好：</span>
-        <input slot="right" type="text" v-model="bobby" placeholder="请输入爱好">
+        <input slot="right" type="text" v-model="hobby" placeholder="请输入爱好">
       </yd-cell-item>
 
       <yd-cell-item arrow type="label">
@@ -132,6 +132,7 @@
     },
     data() {
       return {
+        avatar:'',
         addressMessage:'',
         consumeCharacter:'',
         consumeCharacterlist:['有钱任性','最强大脑','完美主义','看我心情'],
@@ -145,7 +146,7 @@
         attentionBrandlist:['国际品牌','国内品牌','合资品牌'],
         productAttentionPoint:[],
         productAttentionPointlist:['节能','智能','健康','创新'],
-        bobby:'',
+        hobby:'',
         customerSalutation:'',
         professionallist:['政府部门','事业单位','教师','医生','律师','银行职员','自由职业','其他'],
         income:'',
@@ -158,8 +159,9 @@
       }
     },
     mounted(){
+      this.avatar=this.customerinfo.avatar;
       this.income= this.customerinfo.income;
-      this.bobby= this.customerinfo.bobby;
+      this.hobby= this.customerinfo.hobby;
       this.addressMessage=this.customerinfo.addressMessage;
       this.customerBirthday=this.customerinfo.customerBirthday;
       this.customerEmail=this.customerinfo.customerEmail;
@@ -179,21 +181,23 @@
       imageuploaded(res) {
         if (res.code == 200) {
           if(res.result&&res.result.length>0){
-            this.customerinfo.avatar=res.result[0].url;
-            this.customerinfo.mediaId=res.result[0].id;
+            this.avatar=res.result[0];
+//            this.customerinfo.mediaId=res.result[0].id;
           }
         }
       },
       /*获取用户信息*/
       getuserInfo(){
-        baseHttp(this,'/api/personal/info',{},'get','',data=>{
+        baseHttp(this,'/api/personal/info',{},'get','获取中...',data=>{
           if(data){
             this.$store.dispatch('getCustomerInfo', data.info);
+            this.gotoback();
           }
         })
       },
       /*修改个人信息*/
       repInfo(){
+        this.customerinfo.avatar=this.avatar;
         this.customerinfo.income=this.income;
         this.customerinfo.hobby=this.hobby;
         this.customerinfo.addressMessage=this.addressMessage;
@@ -207,7 +211,9 @@
         customerTags.attentionProduct=this.attentionProduct.join('|');
         customerTags.attentionBrand=this.attentionBrand.join('|')
         customerTags.productAttentionPoint= this.productAttentionPoint.join('|');
-        this.customerinfo.customerTags=JSON.stringify(customerTags)
+        this.customerinfo.customerTags=JSON.stringify(customerTags);
+
+
         baseHttp(this,'/api/personal/info/update',this.customerinfo,'post','提交中...',data=> {
           this.$dialog.toast({
             mes: '提交成功!',

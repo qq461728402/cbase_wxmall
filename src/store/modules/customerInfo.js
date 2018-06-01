@@ -7,7 +7,7 @@ const customerInfo={
   state:{
     customerinfo:{
       income:'',
-      bobby:'',
+      hobby:'',
       addressMessage:'',
       customerBirthday:'',
       customerEmail:'',

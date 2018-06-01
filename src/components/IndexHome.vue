@@ -213,10 +213,8 @@
       this.getConfig();
     },
     beforeRouteEnter(to, from, next) {
-      next(function (vm) {
-        if(vm.title){
-          document.title=vm.title;
-        }
+      next(vm=> {
+        document.title=vm.storeinfo.systemName;
         vm.searchValue='';
         document.getElementById("scrollView").scrollTop=vm.indexhomeScroll;
       });
@@ -228,11 +226,6 @@
         baseHttp(this, '/api/index/config', {}, 'get', storeConfig.length>0?'':'加载中...', function (data) {
           that.config = data.config;
           that.$store.dispatch('setConfig',data.config);
-          if(data.title){
-            that.title=data.title;
-            document.title=data.title;
-            that.$store.dispatch('setTitle',data.title);
-          }
           if (that.config instanceof Array) {
             that.config.forEach(function (item) {
               if ("banner" == item.code) {
@@ -256,6 +249,7 @@
         })
       },
       gethotproducts(){
+        document.title=this.storeinfo.systemName;
         baseHttp(this, '/admin/product/hotSku', {'store':this.storeinfo.storeId,'page':1,'pageSize':20}, 'get','', data=>{
           if (data.data &&data.data.recordList){
               this.hotproductsList=data.data.recordList;

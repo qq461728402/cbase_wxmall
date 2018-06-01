@@ -22,7 +22,7 @@
       this.$store.dispatch('getToken');
       this.$store.dispatch('getUid');
       this.$store.dispatch('getUname');
-      this.baseInfo();
+//      this.baseInfo();
       this.getuserInfo();
       this.indexOf();
     },
@@ -40,18 +40,17 @@
       indexOf(){
         baseHttp(this,'/api/mall/setting',{},'get','',data=>{
           if(data&&data.code==200){
-
             this.$store.dispatch('getStoreInfo',data);
           }
         })
       },
-      baseInfo(){
-        baseHttp(this,'/api/store/storeInfo',{},'get','',data=>{
-          if(data&&data.code==200){
-            this.$store.dispatch('getStoreInfo',data);
-          }
-        })
-      },
+//      baseInfo(){
+//        baseHttp(this,'/api/store/storeInfo',{},'get','',data=>{
+//          if(data&&data.code==200){
+//            this.$store.dispatch('getStoreInfo',data);
+//          }
+//        })
+//      },
       /*获取用户信息*/
       getuserInfo(){
         baseHttp(this, '/api/personal/info', {}, 'get', '', data => {
@@ -101,5 +100,8 @@
   }
   .van-image-preview .van-swipe{
     background-color: white;
+  }
+  .yd-dialog-black-mask, .yd-dialog-white-mask{
+    z-index:2010
   }
 </style>

@@ -28,6 +28,9 @@
             <van-col span="12" style="text-align: right;padding-right: .2rem;">
               <yd-button type="hollow" style="border: 1px solid #d41d0f;color: #d41d0f;height: .5rem;margin-top: 0.15rem" v-if="item.status=='PURCHASED'" @click.native.stop="gotoPay(item)">去支付</yd-button>
               <yd-button type="hollow" style="border: 1px solid #d41d0f;color: #d41d0f;height: .5rem;margin-top: 0.15rem" v-else-if="item.status=='SHIPPED'" @click.native.stop="affirmOrder(item)">确认收货</yd-button>
+
+              <yd-button type="hollow" style="border: 1px solid #d41d0f;color: #d41d0f;height: .5rem;margin-top: 0.15rem" v-else-if="statuses=='NOT_COMMENT'" @click.native.stop="appraise(item)">评价晒单</yd-button>
+
             </van-col>
           </van-row>
           <van-row style="padding: 0.2rem;">
@@ -159,7 +162,18 @@
         this.page=this.page+1;
         this.orderslist();
       },
+      appraise(item){
+        var orderItem = [{skuName:item.skuName,salePrice:item.totleFee,imageUrl:item.url}];
+        if (this.canComment == false) {
+          this.$dialog.toast({
+            mes: '您不能评价该订单',
+            timeout: 2000,
+          });
+          return;
+        }
+        this.$router.push({ name: 'orderAppraise',query:{orderNumber:item.number,storeId:item.storeId}, params:orderItem,meta:{title:'订单评价'}});
 
+      },
       /*确认收货*/
       affirmOrder(item){
         if (item.storeId){
@@ -180,15 +194,17 @@
         this.$router.push({ name: 'orderDetail', query: { orderId: item.orderId }});
       },
       gotoPay(item){
+        this.$dialog.loading.open('支付中...');
         const  that= this;
-        baseHttp(this,'/api/order/rePay',{'orderId':item.orderId},'post','支付中...',function (data){
+        baseHttp(this,'/api/order/rePay',{'orderId':item.orderId},'post','',function (data){
           that.perPay(data);
         })
       },
       perPay(data){
         const that = this;
-        baseHttp(this, '/api/order/prePay', data, 'post', '提交中...', function (data) {
+        baseHttp(this, '/api/order/prePay', data, 'post', '', function (data) {
           that.payInfo = data.payInfo;
+          that.$dialog.loading.close();
 //          window.location.href =  "https://pay.swiftpass.cn/pay/jspay?token_id="+that.payInfo.token_id+"&showwxtitle=1";
 //          that.$store.dispatch('setrouter',that.$route.fullPath);
 //          that.$router.push({ name: 'orderpay', query: { token_id: that.payInfo.token_id }})
