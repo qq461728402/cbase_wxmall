@@ -89,7 +89,7 @@
     <yd-cell-group slot="tabbar" style="margin-bottom: 0rem;" v-if="canCancel==true||canRefund==true||canReturn==true||canConfirm==true||canPay==true||canComment==true">
       <yd-cell-item type="a">
             <span slot="right">
-            	<yd-button type="hollow" v-if="canCancel==true" class="order_3" @click.native="cancleOrder()">取消订单</yd-button>
+            	<!--<yd-button type="hollow" v-if="canCancel==true" class="order_3" @click.native="cancleOrder()">取消订单</yd-button>-->
 				<yd-button type="hollow" v-if="canRefund==true" class="order_3" @click.native="canclePayOrder()">申请退款</yd-button>
 				<!--<yd-button type="danger" v-if="canReturn==true" class="order_3" color="#fff" @click.native="applyRefundAll()">申请售后</yd-button>-->
 				<yd-button type="danger" v-if="canConfirm==true" class="order_3"  color="#fff" @click.native="affirmOrder()">{{info.needService==true?'待服务':'确认收货'}}

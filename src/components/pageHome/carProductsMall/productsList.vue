@@ -134,6 +134,7 @@
           vm.sortType=0;
           vm.page=1;
           vm.products();
+          vm.screenlist=[];
         }else{
           document.getElementById("scrollView").scrollTop=vm.scrollPosion;
         }
@@ -189,7 +190,7 @@
       },
       mallbrands(){
         const that=this;
-        baseHttp(this,'/api/brand/store/brands',{store:this.$store.getters.store},'get','',function (data){
+        baseHttp(this,'api/brand/queryKey/brands',{queryKey:this.queryKey},'get','',function (data){
           for (var key in data.brands){
             data.brands[key].forEach(function (item) {
                 item.select=false;

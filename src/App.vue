@@ -104,4 +104,7 @@
   .yd-dialog-black-mask, .yd-dialog-white-mask{
     z-index:2010
   }
+  .van-sku-messages{
+    display: none;
+  }
 </style>
