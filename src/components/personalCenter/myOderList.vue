@@ -163,16 +163,19 @@
         this.orderslist();
       },
       appraise(item){
-        var orderItem = [{skuName:item.skuName,salePrice:item.totleFee,imageUrl:item.url}];
-        if (this.canComment == false) {
-          this.$dialog.toast({
-            mes: '您不能评价该订单',
-            timeout: 2000,
-          });
-          return;
-        }
-        this.$router.push({ name: 'orderAppraise',query:{orderNumber:item.number,storeId:item.storeId}, params:orderItem,meta:{title:'订单评价'}});
-
+        baseHttp(this, '/api/order/order', {'orderId': item.orderId}, 'get', '加载中...', data=> {
+          var info={};
+          if (data.info) {
+            info=data.info;
+          }
+          if (data.order) {
+            var orderItem = [];
+            data.order.items.forEach(item=> {
+              orderItem.push(item);
+            })
+          }
+          this.$router.push({ name: 'orderAppraise',query:{orderNumber:info.number,storeId:info.storeId}, params:orderItem,meta:{title:'订单评价'}});
+        })
       },
       /*确认收货*/
       affirmOrder(item){
@@ -204,13 +207,13 @@
         const that = this;
         baseHttp(this, '/api/order/prePay', data, 'post', '', function (data) {
           that.payInfo = data.payInfo;
-          that.$dialog.loading.close();
 //          window.location.href =  "https://pay.swiftpass.cn/pay/jspay?token_id="+that.payInfo.token_id+"&showwxtitle=1";
 //          that.$store.dispatch('setrouter',that.$route.fullPath);
 //          that.$router.push({ name: 'orderpay', query: { token_id: that.payInfo.token_id }})
           wftPay(data.payInfo,function (res) {
+            that.$dialog.loading.close();
             if (res.err_msg == "get_brand_wcpay_request:ok") {
-              that.$router.replace({ name: 'orderSuccess', params: { payMoney:that.paytotalFee}})
+              that.$router.replace({ name: 'orderSuccess', query: { payMoney:that.paytotalFee}})
             }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
 
            }else if(res.err_msg =="get_brand_wcpay_request:fail"){
@@ -220,6 +223,7 @@
               });
             }
           },function (fail) {
+            this.$dialog.loading.close();
             that.$dialog.toast({
               mes: '支付失败! 请重新支付',
               timeout: 2000,

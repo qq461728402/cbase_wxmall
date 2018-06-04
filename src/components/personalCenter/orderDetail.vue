@@ -299,13 +299,14 @@
         const that = this;
         baseHttp(this, '/api/order/prePay', data, 'post', '', data=> {
           this.payInfo = data.payInfo;
-          this.$dialog.loading.close();
+
 //          window.location.href =  "https://pay.swiftpass.cn/pay/jspay?token_id="+that.payInfo.token_id+"&showwxtitle=1";
 //          that.$store.dispatch('setrouter',that.$route.fullPath);
 //          that.$router.push({ name: 'orderpay', query: { token_id: that.payInfo.token_id }})
-          wftPay(data.payInfo,function (res) {
+          wftPay(data.payInfo,res=> {
+            this.$dialog.loading.close();
             if (res.err_msg == "get_brand_wcpay_request:ok") {
-              that.$router.replace({ name: 'orderSuccess', params: { payMoney:that.paytotalFee}})
+              that.$router.replace({ name: 'orderSuccess', query: { payMoney:that.paytotalFee}})
             }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
               that.$router.replace({ name: 'myOderList', query: {type:2}})
             }else if(res.err_msg =="get_brand_wcpay_request:fail"){
@@ -315,6 +316,7 @@
               });
             }
           },function (fail) {
+            this.$dialog.loading.close();
             that.$dialog.toast({
               mes: '支付失败! 请重新支付',
               timeout: 2000,
