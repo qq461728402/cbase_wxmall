@@ -28,6 +28,11 @@
                 </article>
            </yd-infinitescroll>
          </yd-pullrefresh>
+
+      <div class="noProduct" v-if="invoiceList.length==0">
+        <img src="../../../assets/img/cleanOder.png">
+        <p>您还没有发票单</p>
+      </div>
     </yd-layout>
 </template>
 <script type="text/ecmascript-6">
@@ -160,6 +165,21 @@
 
     .receipt li .writed {
         background-color: #39ae05
+    }
+
+
+    .noProduct {
+      text-align: center;
+      padding: 20% 0 0 0
+    }
+    .noProduct img {
+      width: 1.5rem;
+      height: 1.5rem
+    }
+    .noProduct p {
+      font-size: 13px;
+      color: #666;
+      line-height: 40px
     }
 
 </style>
