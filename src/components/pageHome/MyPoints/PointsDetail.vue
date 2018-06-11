@@ -164,6 +164,9 @@
       }
     },
     methods: {
+      gotoback(){
+        this.$router.go(-1);
+      },
       showMerchant(){
         if (this.stroelist.length==0){
           this.$dialog.toast({mes: '没有门店可选择', timeout: 1500}); return;
@@ -311,6 +314,7 @@
         baseHttp(this, '/api/personal/info', {}, 'get', '', data => {
           if (data) {
             this.$store.dispatch('getCustomerInfo', data.info);
+            this.gotoback();
           }
         })
       },

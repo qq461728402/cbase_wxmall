@@ -9,7 +9,7 @@ import {removeStore} from './mUtils'
 Vue.use(VueAxios, axios)
 Vue.use(YDUI)
 axios.defaults.withCredentials=true;
-axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://weixin.e-cbest.com/dqtest';//http://weixin.e-cbest.com/dqtest
+axios.defaults.baseURL = process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi' : 'http://weixin.e-cbest.com/dq';//http://weixin.e-cbest.com/dqtest
 /*
  * 拦截器*/
 axios.interceptors.response.use(response =>{
@@ -28,7 +28,7 @@ export  const  uploadURL=axios.defaults.baseURL+'/api/file/upload';
  *url 接口地址
  *method 请求方式POST Get
  */
-export function baseHttp(ydui, url, par, method, loadmsg, callback) {
+export function baseHttp(ydui, url, par, method, loadmsg, callback,isALL=false) {
   if (loadmsg.length != 0) {
     ydui.$dialog.loading.open(loadmsg);
   }
@@ -38,10 +38,10 @@ export function baseHttp(ydui, url, par, method, loadmsg, callback) {
     params:par,
     data:par,
     timeout: 15000,
-  }).then(function (response) {
+  }).then(response=> {
     if(response.data.code==200){
       if (callback) {
-        callback(response.data)
+        callback(isALL==false?response.data:response)
       }
     }
     else{
@@ -51,17 +51,11 @@ export function baseHttp(ydui, url, par, method, loadmsg, callback) {
       });
     }
     ydui.$dialog.loading.close();
-  }).catch(function (error) {
+  }).catch(error => {
     console.log(error);
     ydui.$dialog.loading.close();
-    // ydui.$dialog.toast({
-    //   mes: error,
-    //   timeout: 1000,
-    //   icon: 'error',
-    // });
   })
 }
-
 
 export function baseHttp1(ydui, url, par, method, loadmsg, callback) {
   if (loadmsg.length != 0) {

@@ -35,7 +35,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '../../config/env'
+  import { baseHttp,getCookie} from '../../config/env'
   import  {getStore,removeStore} from '../../config/mUtils'
   const vm= {
     data() {
@@ -101,7 +101,7 @@
         const input = this.$refs.mobile;
         //判断条件
         if(this.addressInfo.receiver.length==0){
-          vues.$dialog.toast({mes: '请输入收货人姓名!', timeout: 1000});
+          this.$dialog.toast({mes: '请输入收货人姓名!', timeout: 1000});
           return;
         }else if(this.addressInfo.phone.length==0||input.valid==false){
           this.$dialog.toast({mes: '请输入正确手机号', timeout: 1000});

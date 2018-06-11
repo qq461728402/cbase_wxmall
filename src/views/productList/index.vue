@@ -11,7 +11,7 @@
         <yd-list-other slot="other">
           <div>
             <span class="demo-list-price" style="color: red;"><em>¥</em>{{item.salePrices}}</span>
-            <span class="demo-list-del-price" style="font-size: .2rem;text-decoration:line-through"><em>¥</em>{{item.retailPrices}}</span>
+            <span class="demo-list-del-price" v-if="item.retailPrices!=null" style="font-size: .2rem;text-decoration:line-through"><em>¥</em>{{item.retailPrices}}</span>
           </div>
           <div>
             <span style="color: #6e6f70;">评论</span>&nbsp;<span style="color:#ff7d49 ">{{item.reviewCount?item.reviewCount:'0'}}</span></span><span v-if="item.isAvalible==false" style="font-weight: bold;color: #d41d0f;">{{(item.unAvalibleReson)}}</span>

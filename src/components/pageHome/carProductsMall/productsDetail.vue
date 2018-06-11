@@ -10,8 +10,10 @@
     <van-cell-group>
       <van-cell>
         <p class="skuName">{{product.skuName}}</p>
-        <p class="longDescription">{{product.longDescription}}</p>
-        <p class="price">¥<em>{{price}}</em> <em class="guidePrice">¥{{guidePrice}}</em></p>
+        <!--<p class="longDescription">{{product.longDescription}}</p>-->
+        <p class="price">¥<em>{{price}}</em>
+          <!--<em class="guidePrice">¥{{guidePrice}}</em>-->
+        </p>
         <div v-if="product.skuAssociation.gift&&product.skuAssociation.gift.length>0">
           <span style="color: #7f828f;float: left;padding-top: 0.1rem;">促销:&nbsp;&nbsp;</span>
           <yd-flexbox>
@@ -30,12 +32,12 @@
         </div>
       </van-cell>
    </van-cell-group>
-    <van-cell-group style="margin-top: 0.2rem;margin-bottom: 0.2rem">
-      <van-cell>
-          <span class="store">商家</span>
-          <span class="storeName"> {{product.storeName}} </span>
-      </van-cell>
-      <van-cell is-link :to="{'path':'/home/greatCustomer'}">
+    <van-cell-group style="margin-top: 0.2rem;margin-bottom: 0.2rem" id="great">
+      <!--<van-cell>-->
+          <!--<span class="store">商家</span>-->
+          <!--<span class="storeName"> {{product.storeName}} </span>-->
+      <!--</van-cell>-->
+      <van-cell is-link :to="{'path':'/home/greatCustomer'}" icon="send-gift">
         <span class="store">大客户经理</span>
       </van-cell>
     </van-cell-group>
@@ -106,9 +108,9 @@
     <van-goods-action slot="tabbar" style="z-index: 1">
       <van-goods-action-mini-btn icon="chat" text="客服" @click="onClickMiniBtn" />
       <van-goods-action-mini-btn icon="cart" text="购物车" @click="gotoCar()" :info="$store.state.basicStorage.quantity+''" />
-      <van-goods-action-big-btn  v-if="product.isAvalible==true" text="加入购物车" @click="shopping(1)"/>
-      <van-goods-action-big-btn  v-if="product.isAvalible==true" text="立即购买" @click="shopping(2)" primary />
-      <van-goods-action-big-btn  v-if="product.isAvalible==false" text="联系门店" />
+      <van-goods-action-big-btn   text="点击查看" @click="shopping(1)"/>
+      <van-goods-action-big-btn   text="到店购买" @click="shopping(2)" primary />
+      <!--<van-goods-action-big-btn  v-if="product.isAvalible==false" text="库存不足" />-->
     </van-goods-action>
     <van-sku slot="tabbar"
              v-model="showBase"
@@ -123,17 +125,17 @@
              @add-cart="additem"
     >
       <template slot="sku-actions" slot-scope="props">
-        <div class="van-sku-actions" style="display: none">
-          <van-button v-if="isCarOrBuy==1" type="primary" bottom-action @click="props.skuEventBus.$emit('sku:addCart')">加入购物车</van-button>
-          <van-button type="primary" v-else-if="isCarOrBuy==2" bottom-action @click="props.skuEventBus.$emit('sku:buy')">下一步</van-button>
+        <div class="van-sku-actions">
+          <!--<van-button v-if="isCarOrBuy==1" type="primary" bottom-action @click="props.skuEventBus.$emit('sku:addCart')">加入购物车</van-button>-->
+          <van-button type="primary"  bottom-action>线上购买暂未开放</van-button>
         </div>
       </template>
     </van-sku>
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp} from  '../../../config/env'
-  import {setStore,getStore} from '../../../config/mUtils'
+  import {baseHttp} from  '@/config/env'
+  import {setStore,getStore} from '@/config/mUtils'
   import Vue from 'vue'
   import { mapGetters } from 'vuex'
   import {
@@ -450,7 +452,7 @@
     font-size: 0.3rem
   }
   .store{
-    color: rgb(129, 131, 142);
+    color: #444444;
     font-size: 0.28rem;
   }
   .storeName{
@@ -472,5 +474,7 @@
   #reviews .yd-cell-item:not(:last-child):after{
     border-bottom:0px;
   }
-
+  #great .van-cell__title>i{
+    color: red;
+  }
 </style>

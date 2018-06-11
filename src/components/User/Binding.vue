@@ -55,12 +55,11 @@
     </div>
     <div class="login_2" style="text-align: center">
       <label class="login_3"><a class="login_4" @click="isregister=!isregister">{{isregister==true?'已有会员卡去绑定':'新会员注册'}}</a><br>
-        </span>
       </label>
     </div>
   </yd-layout>
 </template>
-<script type="text/babel">
+<script type="text/ecmascript-6">
   import {baseHttp} from '@/config/env'
   import isArray from 'lodash/isArray'
   const vm= {
@@ -84,7 +83,7 @@
     mounted(){
       if (this.$route.query.Code){
         this.disabled=true;
-        this.storeName=this.$route.query.stroeCode;
+        this.storeName=this.$route.query.Code;
       }
       this.storelist();
     },
@@ -96,7 +95,6 @@
           }
         })
       },
-
       sendCode1() {
         const idNum = this.$refs.idNum;
         const mobile =this.$refs.mobile;

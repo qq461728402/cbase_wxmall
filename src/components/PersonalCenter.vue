@@ -164,7 +164,6 @@
       },
       /*兑换*/
       exchange() {
-
       },
       myInvoice(){
         this.$router.push({ path: '/personalCenter/myInvoice'});

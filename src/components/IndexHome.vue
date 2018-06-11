@@ -72,8 +72,7 @@
         <div class="codeitemTitle">
           <span class="line"></span>
           <span class="txt"><yd-icon name="discount" size=".3rem" color="#999"></yd-icon>{{codeitem.title}}</span>
-          </span>
-          </span><span class="line"></span>
+          <span class="line"></span>
         </div>
         <div class="rowSpan">
           <div class="rowSpanLeft">
@@ -111,8 +110,7 @@
         <div class="codeitemTitle">
           <span class="line"></span>
           <span class="txt"><yd-icon name="discount" size=".3rem" color="#999"></yd-icon>{{codeitem.title}}</span>
-          </span>
-          </span><span class="line"></span>
+          <span class="line"></span>
         </div>
         <div style="overflow: hidden; min-height: 100px">
           <div v-for="item in codeitem.items" @click="gotofluid(item)" style="font-size: 0;">
@@ -125,8 +123,7 @@
       <div class="codeitemTitle" style="background-color: #ffffff">
         <span class="line"></span>
         <span class="txt"><yd-icon name="hothuorererexiao" size=".3rem" color="#d41d0f"  custom></yd-icon>热销商品</span>
-        </span>
-        </span><span class="line"></span>
+        <span class="line"></span>
         <span style="position: absolute;right: .3rem;padding: 0 0 0 0.2rem" @click="gotoHotList">更多<yd-icon name="youjiantou" size=".2rem" color="#d41d0f" custom></yd-icon></span>
       </div>
       <div>
@@ -306,7 +303,7 @@
         return;
         baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', data=> {
           if (data.quantity >= 0) {
-            that.$store.dispatch('setQuantity', data.quantity);
+            this.$store.dispatch('setQuantity', data.quantity);
           }
         })
       },

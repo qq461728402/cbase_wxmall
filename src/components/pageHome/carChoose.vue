@@ -30,7 +30,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp} from '../../config/env'
+  import { baseHttp } from '@/config/env'
   import {setStore,getStore} from '../../config/mUtils'
   const vm= {
     data() {

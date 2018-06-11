@@ -204,6 +204,7 @@
         })
       },
       perPay(data){
+        var total_fee=data.total_fee;
         const that = this;
         baseHttp(this, '/api/order/prePay', data, 'post', '', function (data) {
           that.payInfo = data.payInfo;
@@ -213,7 +214,7 @@
           wftPay(data.payInfo,function (res) {
             that.$dialog.loading.close();
             if (res.err_msg == "get_brand_wcpay_request:ok") {
-              that.$router.replace({ name: 'orderSuccess', query: { payMoney:that.paytotalFee}})
+              that.$router.replace({ name: 'orderSuccess', query: { payMoney:total_fee}})
             }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
 
            }else if(res.err_msg =="get_brand_wcpay_request:fail"){

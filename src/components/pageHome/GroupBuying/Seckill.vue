@@ -40,7 +40,7 @@
             <div class="from-shop">
               <van-row style="line-height: 30px">
                 <van-col span="8" class="price"> <span><em>¥</em>{{item.price}}</span></van-col>
-                <van-col offset="8" span="8"><van-button :disabled="item.status!='START'" type="danger" size="small" class="pull-right">{{item.status=='NOTSTART'?'未开枪':item.status=='START'?'立即抢购':item.status=='END'?'已结束':'已抢空'}}</van-button></van-col>
+                <van-col offset="8" span="8"><van-button :disabled="item.status!='START'" type="danger" size="small" class="pull-right">{{item.status=='NOTSTART'?'未开抢':item.status=='START'?'立即抢购':item.status=='END'?'已结束':'已抢空'}}</van-button></van-col>
               </van-row>
               <van-row>
                 <van-col span="8" class="del_price" v-if="item.salePrice"><span><em>¥</em>{{item.salePrice}}</span></van-col>

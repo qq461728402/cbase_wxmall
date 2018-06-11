@@ -31,9 +31,9 @@
         <span slot="left">性别：<i style="color: red">*</i></span>
         <div slot="right">
           <yd-radio-group v-model="customerinfo.customerGender" color="#F00">
-            <yd-radio val="男"><span>男</span></yd-radio>
-            <yd-radio val="女"><span>女</span></yd-radio>
-            <yd-radio val="保密"><span>保密</span></yd-radio>
+            <yd-radio val="1"><span>男</span></yd-radio>
+            <yd-radio val="0"><span>女</span></yd-radio>
+            <yd-radio val="2"><span>保密</span></yd-radio>
           </yd-radio-group>
         </div>
       </yd-cell-item>

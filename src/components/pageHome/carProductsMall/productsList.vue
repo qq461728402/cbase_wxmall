@@ -109,10 +109,9 @@
       }
     },
     mounted(){
-      const _this=this;
       document.getElementById("scrollView").addEventListener('scroll',()=> {
         var top = document.getElementById("scrollView").scrollTop;
-        _this.$store.dispatch('setscrollPosion',top);
+        this.$store.dispatch('setscrollPosion',top);
       })
     },
     beforeRouteEnter(to, from, next) {
@@ -126,6 +125,8 @@
           if(vm.$route.query.queryKey) {
             vm.queryKey=vm.$route.query.queryKey;
           }
+          vm.priceSorting=1;
+          vm.selectscreenlist=[];
           vm.show4=false;
           vm.xl='#6d6d6d';
           vm.zh='#ff0000';
@@ -133,8 +134,8 @@
           vm.list=[];
           vm.sortType=0;
           vm.page=1;
-          vm.products();
           vm.screenlist=[];
+          vm.products();
         }else{
           document.getElementById("scrollView").scrollTop=vm.scrollPosion;
         }

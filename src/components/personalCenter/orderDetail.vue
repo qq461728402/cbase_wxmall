@@ -22,7 +22,7 @@
           <p>收货地址<i style="float: right;">{{info.addr}}</i></p>
           <p>支付方式<i style="float: right;">{{info.payType}}</i></p>
           <p v-if="info.preorderTime">预约时间<i style="float: right;">{{info.preorderTime | dateYY}}</i></p>
-          <p>配送方式<i style="float: right;">{{order.shippingType=='SELF_DELIVERY'?'门店自提':order.shippingType=='DELIVERY'?'快递':'门店自提 快递'}}</i></p>
+          <p>配送方式<i style="float: right;">{{order.shippingType=='SELF_DELIVERY'?'门店自提':order.shippingType=='DELIVERY'?'快递':order.shippingType=='WAREHOUSE_DELIVERY'?'仓库发货':order.shippingType=='WAREHOUSE_SELF_DELIVERY'?'仓库自提':order.shippingType=='FACTORY_DELIVERY'?'厂家发货':order.shippingType=='STORE_DELIVERY'?'门店配送':'既可快递又可到店'}}</i></p>
           <p v-if="info.needInvoice">发票类型<i style="float: right;">纸质发票</i></p>
           <p v-if="info.needInvoice">发票抬头<i style="float: right;">{{info.invocieType=='PERSONAL'?'个人:':info.invocieType=='COMPANY'?'公司:':'无需发票'}}
             {{info.invocieType!='NO'?info.invoiceTitle:''}}
@@ -65,13 +65,14 @@
     </div>
     <div class="payinfo" v-if="order.orderType!='EXCHANGE'">
       <p><span class="label">商品总额</span> <span class="price">&yen;{{order.subTotal}}</span></p>
+      <p><span class="label">优惠金额</span> <span class="price">&yen;{{order.discountAmount}}</span></p>
       <p><span class="label">服务费</span> <span class="price">&yen;{{order.serviceFee}}</span></p>
-      <p><span class="label">运费</span> <span class="price">&yen;{{order.shipmentFee}}</span></p>
+      <!--<p><span class="label">运费</span> <span class="price">&yen;{{order.shipmentFee}}</span></p>-->
       <p v-if="order.couponOffer"><span class="label">优惠券</span> <span class="price discount">-&yen;{{order.couponOffer}}</span></p>
       <p v-if="order.isBonusPointsUsed==true"><span class="label">积分抵扣金额</span> <span class="price discount">-&yen;{{order.bonusPointsUsed}}</span></p>
       <p><span class="label">订单总额</span> <span class="price">&yen;{{order.total}}</span></p>
     </div>
-    <yd-cell-group style="text-align: center;" v-show="showQRCode==true">
+    <yd-cell-group style="text-align: center;" v-show="1==2">
       <div style="padding: 0.2rem;">
         <p style="font-size: 0.3rem"><strong>订单二维码</strong></p>
         <p style="color: gray">让门店扫一扫,节省您与门店对接时间</p>
@@ -90,7 +91,7 @@
       <yd-cell-item type="a">
             <span slot="right">
             	<!--<yd-button type="hollow" v-if="canCancel==true" class="order_3" @click.native="cancleOrder()">取消订单</yd-button>-->
-				<yd-button type="hollow" v-if="canRefund==true" class="order_3" @click.native="canclePayOrder()">申请退款</yd-button>
+				<!--<yd-button type="hollow" v-if="canRefund==true" class="order_3" @click.native="canclePayOrder()">申请退款</yd-button>-->
 				<!--<yd-button type="danger" v-if="canReturn==true" class="order_3" color="#fff" @click.native="applyRefundAll()">申请售后</yd-button>-->
 				<yd-button type="danger" v-if="canConfirm==true" class="order_3"  color="#fff" @click.native="affirmOrder()">{{info.needService==true?'待服务':'确认收货'}}
         </yd-button>
@@ -296,6 +297,7 @@
         })
       },
       perPay(data){
+        var total_fee=data.total_fee;
         const that = this;
         baseHttp(this, '/api/order/prePay', data, 'post', '', data=> {
           this.payInfo = data.payInfo;
@@ -306,7 +308,7 @@
           wftPay(data.payInfo,res=> {
             this.$dialog.loading.close();
             if (res.err_msg == "get_brand_wcpay_request:ok") {
-              that.$router.replace({ name: 'orderSuccess', query: { payMoney:that.paytotalFee}})
+              that.$router.replace({ name: 'orderSuccess', query: { payMoney:total_fee}})
             }else if(res.err_msg =="get_brand_wcpay_request:cancel"){
               that.$router.replace({ name: 'myOderList', query: {type:2}})
             }else if(res.err_msg =="get_brand_wcpay_request:fail"){
