@@ -150,7 +150,6 @@
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
-  import {baseHttp} from '@/config/env'
   import {setStore, getStore} from '@/config/mUtils'
   import 'swiper/dist/css/swiper.css'
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
@@ -220,7 +219,7 @@
       getConfig(){
         var storeConfig=this.$store.state.basicStorage.configList
         const that = this;
-        baseHttp(this, '/api/index/config', {}, 'get', storeConfig.length>0?'':'加载中...', function (data) {
+       this.apiRequest( '/api/index/config', {}, 'get', storeConfig.length>0?'':'加载中...', function (data) {
           that.config = data.config;
           that.$store.dispatch('setConfig',data.config);
           if (that.config instanceof Array) {
@@ -247,7 +246,7 @@
       },
       gethotproducts(){
         document.title=this.storeinfo.systemName;
-        baseHttp(this, '/admin/product/hotSku', {'store':this.storeinfo.storeId,'page':1,'pageSize':20}, 'get','', data=>{
+       this.apiRequest( '/admin/product/hotSku', {'store':this.storeinfo.storeId,'page':1,'pageSize':20}, 'get','', data=>{
           if (data.data &&data.data.recordList){
               this.hotproductsList=data.data.recordList;
             }
@@ -291,7 +290,7 @@
         if (window.location.href.indexOf('home/')!=-1){
           return;
         }
-        baseHttp(this, '/wechat/jsapi/signature', {'url': window.location.href}, 'post', '', data=> {
+       this.apiRequest( '/wechat/jsapi/signature', {'url': window.location.href}, 'post', '', data=> {
           if (data.signature) {
             this.signatureInfo = data.signature;
             this.getLocation();
@@ -301,7 +300,7 @@
       /*获取购物车数量*/
       getCartsQuantity(){
         return;
-        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', data=> {
+       this.apiRequest( '/api/carts/cartsQuantity', {}, 'get', '', data=> {
           if (data.quantity >= 0) {
             this.$store.dispatch('setQuantity', data.quantity);
           }

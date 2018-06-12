@@ -48,7 +48,7 @@
       /*获取门店信息*/
       getStoreList(){
          var oderInfo = this.$route.params;
-        baseHttp(this, '/api/order/serviceShops', {'data': JSON.stringify(oderInfo)}, 'post', '加载中...', function (data) {
+       this.apiRequest( '/api/order/serviceShops', {'data': JSON.stringify(oderInfo)}, 'post', '加载中...', function (data) {
           for (var key in data.stores) {
             data.stores[key].select = false;
           }

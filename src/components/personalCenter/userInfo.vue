@@ -42,7 +42,7 @@
 
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '../../config/env'
+  import {getCookie} from '../../config/env'
   import  {getStore,removeStore} from '../../config/mUtils'
   import VueCoreImageUpload from 'vue-core-image-upload'
   import { mapGetters } from 'vuex'
@@ -86,7 +86,7 @@
       /*退出登录*/
       loginout(){
         const  that =this;
-        baseHttp(this,'/api/customer/logout',{},'post','正在退出...',function (data) {
+       this.apiRequest('/api/customer/logout',{},'post','正在退出...',function (data) {
           that.$dialog.toast({
             mes: '退出成功!',
             timeout: 1000,

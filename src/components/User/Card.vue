@@ -56,7 +56,6 @@
 </template>
 <script type="text/ecmascript-6">
     import show from '@/views/showcar'
-    import {baseHttp1} from "@/config/env"
     export default {
         components: {
             show
@@ -86,7 +85,7 @@
         methods: {
             //获取会员卡信息
             loyalty(){
-                baseHttp1(this, '/api/customer/loyalty', {}, 'get', '', data => {
+                this.apiRequest('/api/customer/loyalty', {}, 'get', '', data => {
                     this.isload=true;
                     if (data && data.code == 200) {
                         this.iscarInfo = data;

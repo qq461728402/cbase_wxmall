@@ -107,7 +107,7 @@
 </template>
 <script type="text/babel">
   import {getStore} from '../../../config/mUtils'
-  import {baseHttp} from '../../../config/env'
+
   const vm = {
     data() {
       return {
@@ -139,7 +139,7 @@
       },
       series(){
         const that = this;
-        baseHttp(this, '/api/maintenance/list', {'type': this.type}, 'get', '加载中...', function (data) {
+       this.apiRequest( '/api/maintenance/list', {'type': this.type}, 'get', '加载中...', function (data) {
           if (data.items)that.items = data.items;
           that.$refs.noProduct.display = '';
         });
@@ -177,7 +177,7 @@
       /*加入购物车*/
       payItem(item){
         const  that =this;
-        baseHttp(this,'/api/carts/addToCarts',{'skuId':item.sku,'quantity':item.count,'merchantId':item.merchantId},'post','正在加入',function (data){
+       this.apiRequest('/api/carts/addToCarts',{'skuId':item.sku,'quantity':item.count,'merchantId':item.merchantId},'post','正在加入',function (data){
           that.$dialog.toast({
             mes: '加入成功!',
             timeout: 1000,
@@ -191,7 +191,7 @@
       /*获取购物车数量*/
       getCartsQuantity(){
         const  that =this;
-        baseHttp(this,'/api/carts/cartsQuantity',{},'get','',function (data){
+       this.apiRequest('/api/carts/cartsQuantity',{},'get','',function (data){
           if(data.quantity)that.quantity=data.quantity
         });
       },

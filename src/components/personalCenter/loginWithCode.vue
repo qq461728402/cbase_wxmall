@@ -50,7 +50,6 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '../../config/env'
   import {setStore,getStore} from '../../config/mUtils'
   import md5 from 'js-md5'
   const vm= {
@@ -83,7 +82,7 @@
           return;
         }
         const that =this;
-        baseHttp(this,'/api/customer/sendMessage',{'customerPhone':this.loginpas.customerPhone},'post','发送中...',function (data) {
+       this.apiRequest('/api/customer/sendMessage',{'customerPhone':this.loginpas.customerPhone},'post','发送中...',function (data) {
           that.$dialog.toast({
             mes: '发送成功!',
             timeout: 1000,
@@ -128,7 +127,7 @@
           return;
         }
         const  that=this;
-        baseHttp(this,"/api/customer/logWithCode",this.loginpas,'post','登录中...',function (data) {
+       this.apiRequest("/api/customer/logWithCode",this.loginpas,'post','登录中...',function (data) {
           that.$dialog.toast({
             mes: '登录成功!',
             timeout: 1000,
@@ -169,7 +168,7 @@
           return;
         }
         this.loginpas.customerPassword= md5(this.loginpas.Password);
-        baseHttp(this,'/api/customer/login',this.loginpas,'post','登录中...',function (data) {
+       this.apiRequest('/api/customer/login',this.loginpas,'post','登录中...',function (data) {
           that.$dialog.toast({
             mes: '登录成功!',
             timeout: 1000,

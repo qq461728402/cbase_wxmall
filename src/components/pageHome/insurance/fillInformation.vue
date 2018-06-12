@@ -72,9 +72,7 @@
     <yd-button  size="large" type="primary" class="infm_12" @click.native="getQuotation">获取报价</yd-button>
   </yd-layout>
 </template>
-<script type="text/babel">
-  import {baseHttp} from '../../../config/env'
-  import {setStore,getStore} from  '../../../config/mUtils'
+<script type="text/ecmascript-6">
   import VueCoreImageUpload from 'vue-core-image-upload'
   const vm= {
     data() {
@@ -137,7 +135,7 @@
       },
       enquiredCarNo(){
         const that=this;
-        baseHttp(this, '/api/insurance/quotation/enquired', {'brand':this.carvNo}, 'post', '获取报价中...', function (data) {
+       this.apiRequest('/api/insurance/quotation/enquired', {'brand':this.carvNo}, 'post', '获取报价中...', function (data) {
           if(data.status!=0){
             that.carvNo='渝';
             that.$refs.carvNo.setFocus();
@@ -215,7 +213,7 @@
         }
         var pars={'carNumber':this.carvNo,'carOwner':this.username,'identificationId':this.sfz,'insuredCity':this.selected,'primaryTelephone':this.mobile,'identificationImg':this.sfzzmurl,'vihicleLicenseImg':this.sfzfmurl,'companyId':this.companyId};
         const  that=this;
-        baseHttp(this, '/api/insurance/saveInsuranceEnquire', pars, 'post', '获取报价中...', function (data) {
+       this.apiRequest( '/api/insurance/saveInsuranceEnquire', pars, 'post', '获取报价中...', function (data) {
           that.$dialog.alert({mes: data.msg,callback:function () {
             that.gotoback();
           }});

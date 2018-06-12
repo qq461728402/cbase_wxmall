@@ -12,7 +12,7 @@
 </template>
 <script type="text/ecmascript-6">
   import VueBarcode from '@xkeshi/vue-barcode'
-  import {baseHttp} from '@/config/env'
+
   const vm= {
     components: {
       barcode:VueBarcode,
@@ -47,7 +47,7 @@
     methods:{
       init(carId){
         this.txm=carId;
-        baseHttp(this, '/api/customer/dynamicCardNumber', {}, 'get', '生成条形码...', data => {
+       this.apiRequest( '/api/customer/dynamicCardNumber', {}, 'get', '生成条形码...', data => {
           if (data && data.code == 200) {
             this.value = data.cardNumber;
             this.isload=true;

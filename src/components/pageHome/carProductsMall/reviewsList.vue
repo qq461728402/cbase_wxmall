@@ -46,7 +46,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp} from '../../../config/env'
+
   const vm= {
     data() {
       return {
@@ -68,7 +68,7 @@
       /*获取部分评论*/
       reviews1(isref){
         const that = this;
-        baseHttp(this, '/api/mall/reviews', {'skuId': this.productId, 'page': this.page, 'pageSize': '10'}, 'get',(this.page==1&&isref==false)?'加载中...':'', function (data) {
+        this.apiRequest('/api/mall/reviews', {'skuId': this.productId, 'page': this.page, 'pageSize': '10'}, 'get',(this.page==1&&isref==false)?'加载中...':'', function (data) {
           if (data.reviewCount)that.reviewCount = data.reviewCount;
           if (that.page == 1) {
             if (data.reviews)that.reviewslist = data.reviews;

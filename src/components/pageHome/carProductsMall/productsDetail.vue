@@ -134,9 +134,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp} from  '@/config/env'
   import {setStore,getStore} from '@/config/mUtils'
-  import Vue from 'vue'
   import { mapGetters } from 'vuex'
   import {
     GoodsAction,
@@ -224,8 +222,6 @@
         securitylst:['正品保障','正规发票','自营门店'],
       }
     },
-    computed: {
-    },
     mounted(){
       const  that =this;
       window.onresize = () => {
@@ -252,7 +248,7 @@
       /*获取购物车数量*/
       getCartsQuantity(){
         const that = this;
-        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
+        this.apiRequest('/api/carts/cartsQuantity', {}, 'get', '', function (data) {
           if (data.quantity)that.$store.dispatch('setQuantity',data.quantity);
         })
       },
@@ -265,7 +261,7 @@
         }else{
           parm.externalId=this.externalId;
         }
-        baseHttp(this, '/api/mall/skuDetail', parm, 'get', '加载中...', function (data) {
+        this.apiRequest('/api/mall/skuDetail', parm, 'get', '加载中...', function (data) {
           that.product = data.product;
           if(data.product){
             that.defaultSkuId= data.product.skuId;
@@ -300,7 +296,7 @@
       /*商品图文描述*/
       productDesc(){
         const  that =this;
-        baseHttp(this, '/api/mall/productDesc', {'skuId': this.skuid}, 'get', '加载中...', function (data) {
+        this.apiRequest('/api/mall/productDesc', {'skuId': this.skuid}, 'get', '加载中...', function (data) {
           if(data.images)that.images=data.images;
           if(data.images.descriptions) that.descriptions = data.images.descriptions;
           if(data.images.param) that.param=data.images.param;
@@ -310,7 +306,7 @@
       /*获取部分评论*/
       reviews(){
         const  that =this;
-        baseHttp(this, '/api/mall/reviews', {'skuId': this.skuid, 'page': 1, 'pageSize': '8'}, 'get', '加载中...', function (data) {
+        this.apiRequest('/api/mall/reviews', {'skuId': this.skuid, 'page': 1, 'pageSize': '8'}, 'get', '加载中...', function (data) {
           if(data.reviews){
             that.reviewslist=data.reviews;
           }
@@ -339,7 +335,7 @@
           skuId=skuData.goodsId;
         }
         var  that =this;
-        baseHttp(this,'/api/carts/addToCarts',{'skuId':skuId,'quantity':skuData.selectedNum,'merchantId':this.product.merchantId},'post','',function (data){
+        this.apiRequest('/api/carts/addToCarts',{'skuId':skuId,'quantity':skuData.selectedNum,'merchantId':this.product.merchantId},'post','',function (data){
           that.showBase=false;
           that.getCartsQuantity();
         });
@@ -386,7 +382,7 @@
       },
       //客服电话
       onClickMiniBtn(){
-        window.location.href = 'tel://'+this.storeinfo.systemPhone;
+        window.location.href = 'tel:'+this.storeinfo.systemPhone;
       },
       //图片预览
       showPreview(index){

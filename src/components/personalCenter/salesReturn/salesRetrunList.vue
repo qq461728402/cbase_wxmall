@@ -38,7 +38,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '@/config/env'
+  import {getCookie} from '@/config/env'
   import  {getStore,removeStore,setStore} from '@/config/mUtils'
   import { Cell, CellGroup,Row, Col } from 'vant';
   const vm= {
@@ -72,7 +72,7 @@
       goodsrefundlist(){
         var pars={'page':this.page,'pageSize':this.pageSize}
         const  that =this;
-        baseHttp(this,'/api/return/returns',pars,'get',this.page==1?'加载中...':'',function (data){
+       this.apiRequest('/api/return/returns',pars,'get',this.page==1?'加载中...':'',function (data){
           if(that.page==1){
             if(data.orders) {
               that.isrefund=false;

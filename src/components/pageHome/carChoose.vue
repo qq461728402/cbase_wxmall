@@ -30,7 +30,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import { baseHttp } from '@/config/env'
+
   import {setStore,getStore} from '../../config/mUtils'
   const vm= {
     data() {
@@ -45,7 +45,7 @@
       //获取车辆信息
       carListf(){
         const  that =this;
-        baseHttp(this,'/api/car/list',{},'get','加载中...',function (data) {
+       this.apiRequest('/api/car/list',{},'get','加载中...',function (data) {
           if (typeof data.items === 'object') {
               that.carlist1=data.items;
           }
@@ -67,7 +67,7 @@
       },
       deletecar(caritem){
         const that =this;
-        baseHttp(this, '/api/car/delete', {car:caritem.id}, 'post', '删除中...', function (data) {
+       this.apiRequest( '/api/car/delete', {car:caritem.id}, 'post', '删除中...', function (data) {
           that.$dialog.toast({
             mes: '车辆删除成功!',
             timeout: 1000,
@@ -80,7 +80,7 @@
       },
       updatacar(item) {
         const that =this;
-        baseHttp(this, '/api/car/update', {car:item.id}, 'post', '更新中...', function (data) {
+       this.apiRequest( '/api/car/update', {car:item.id}, 'post', '更新中...', function (data) {
           if(data.result){
             if(data.result.type){
               localStorage.setItem("carInfo",JSON.stringify(data.result));

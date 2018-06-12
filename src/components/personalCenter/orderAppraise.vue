@@ -25,7 +25,7 @@
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
-  import {baseHttp,getCookie,uploadURL} from '@/config/env'
+  import {getCookie,uploadURL} from '@/config/env'
   import  {getStore,removeStore} from '@/config/mUtils'
   import VueCoreImageUpload from 'vue-core-image-upload'
   import { RadioGroup, Radio,Cell, CellGroup } from 'vant';
@@ -98,7 +98,7 @@
                 reviewRating:  this.reviewRating,
                 storeServiceRating: this.storeServiceRating
         }
-        baseHttp(this,'/api/order/saveReview',pram,'post','提交评论中...', data=> {
+       this.apiRequest('/api/order/saveReview',pram,'post','提交评论中...', data=> {
           this.$dialog.toast({
             mes: '评论成功!',
             timeout: 1000,

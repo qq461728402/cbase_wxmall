@@ -22,7 +22,6 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '../../config/env'
   import  {getStore,removeStore} from '../../config/mUtils'
   const vm= {
     data() {
@@ -43,7 +42,7 @@
       },
       addressList(){
         const  that =this;
-        baseHttp(this,'/api/order/addressList',{},'get','加载中...',function (data) {
+       this.apiRequest('/api/order/addressList',{},'get','加载中...',function (data) {
           that.data=data;
         });
       },
@@ -61,7 +60,7 @@
         var par={};
         par.isDeafult=1;
         par.addressId=item.addressId;
-        baseHttp(this, 'updateAddressAPI', par, 'post', '选择中...', function (data) {
+       this.apiRequest( 'updateAddressAPI', par, 'post', '选择中...', function (data) {
           that.$dialog.toast({
             mes: '选择成功!',
             timeout: 1000,

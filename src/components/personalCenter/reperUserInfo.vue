@@ -117,7 +117,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie,uploadURL} from '../../config/env'
+  import {getCookie,uploadURL} from '../../config/env'
   import  {getStore,removeStore} from '../../config/mUtils'
   import VueCoreImageUpload from 'vue-core-image-upload'
   import { mapGetters } from 'vuex'
@@ -188,7 +188,7 @@
       },
       /*获取用户信息*/
       getuserInfo(){
-        baseHttp(this,'/api/personal/info',{},'get','获取中...',data=>{
+       this.apiRequest('/api/personal/info',{},'get','获取中...',data=>{
           if(data){
             this.$store.dispatch('getCustomerInfo', data.info);
             this.gotoback();
@@ -214,7 +214,7 @@
         this.customerinfo.customerTags=JSON.stringify(customerTags);
 
 
-        baseHttp(this,'/api/personal/info/update',this.customerinfo,'post','提交中...',data=> {
+       this.apiRequest('/api/personal/info/update',this.customerinfo,'post','提交中...',data=> {
           this.$dialog.toast({
             mes: '提交成功!',
             timeout: 1000,

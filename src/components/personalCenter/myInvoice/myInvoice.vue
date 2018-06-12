@@ -36,7 +36,7 @@
     </yd-layout>
 </template>
 <script type="text/ecmascript-6">
-    import {baseHttp, getCookie, formatDate} from '@/config/env'
+    import {getCookie, formatDate} from '@/config/env'
     import { mapGetters } from 'vuex'
     const vm = {
         data() {
@@ -68,7 +68,7 @@
             },
             invoicelist(){
                 var pars = {page: this.page, pageSize: this.pageSize,customerId:this.customerinfo.customerId};
-                baseHttp(this, '/api/invoice/list', pars, 'get', this.page == 1 ? '加载中...' : '', data=> {
+               this.apiRequest( '/api/invoice/list', pars, 'get', this.page == 1 ? '加载中...' : '', data=> {
                     if(this.page==1){
                         if(data.data.recordList) {
                             this.invoiceList=data.data.recordList;

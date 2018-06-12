@@ -30,7 +30,6 @@
               <yd-button type="hollow" style="border: 1px solid #d41d0f;color: #d41d0f;height: .5rem;margin-top: 0.15rem" v-else-if="item.status=='SHIPPED'" @click.native.stop="affirmOrder(item)">确认收货</yd-button>
 
               <yd-button type="hollow" style="border: 1px solid #d41d0f;color: #d41d0f;height: .5rem;margin-top: 0.15rem" v-else-if="statuses=='NOT_COMMENT'" @click.native.stop="appraise(item)">评价晒单</yd-button>
-
             </van-col>
           </van-row>
           <van-row style="padding: 0.2rem;">
@@ -52,7 +51,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie,formatDate} from '@/config/env'
+  import {getCookie,formatDate} from '@/config/env'
   import  {getStore,removeStore} from '@/config/mUtils'
   import {wexinPay,wftPay} from '@/config/weichatPay'
   import {Row, Col} from 'vant';
@@ -100,7 +99,7 @@
       gotoback(){
         this.$router.go(-1);
       },
-      switchlist:function (label,tabkey) {
+      switchlist(label,tabkey) {
         this.statuses=tabkey;
         this.page=1;
         this.oderlist=[];
@@ -108,7 +107,7 @@
       },
       getOrderStatus(){
         const  that=this;
-        baseHttp(this,'/api/order/status',{},'get','',function (data){
+       this.apiRequest('/api/order/status',{},'get','',function (data){
           if(data.status) {
             for(var key in data.status){
               that.ordernum[key]=data.status[key];
@@ -126,7 +125,7 @@
          api='/api/order/orders/nocomment';
         }
         const  that =this;
-        baseHttp(this,api,pars,'get',this.page==1?'加载中...':'',function (data){
+       this.apiRequest(api,pars,'get',this.page==1?'加载中...':'',function (data){
           if(that.page==1){
             if(data.orders) {
               that.isoderlist=false;
@@ -163,7 +162,7 @@
         this.orderslist();
       },
       appraise(item){
-        baseHttp(this, '/api/order/order', {'orderId': item.orderId}, 'get', '加载中...', data=> {
+       this.apiRequest( '/api/order/order', {'orderId': item.orderId}, 'get', '加载中...', data=> {
           var info={};
           if (data.info) {
             info=data.info;
@@ -199,14 +198,14 @@
       gotoPay(item){
         this.$dialog.loading.open('支付中...');
         const  that= this;
-        baseHttp(this,'/api/order/rePay',{'orderId':item.orderId},'post','',function (data){
+       this.apiRequest('/api/order/rePay',{'orderId':item.orderId},'post','',function (data){
           that.perPay(data);
         })
       },
       perPay(data){
         var total_fee=data.total_fee;
         const that = this;
-        baseHttp(this, '/api/order/prePay', data, 'post', '', function (data) {
+       this.apiRequest( '/api/order/prePay', data, 'post', '', function (data) {
           that.payInfo = data.payInfo;
 //          window.location.href =  "https://pay.swiftpass.cn/pay/jspay?token_id="+that.payInfo.token_id+"&showwxtitle=1";
 //          that.$store.dispatch('setrouter',that.$route.fullPath);

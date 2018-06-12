@@ -55,7 +55,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp} from '../../../config/env'
+
   import {Button,Col,Row,Progress} from 'vant';
   import {mapGetters} from 'vuex'
   const vm = {
@@ -97,7 +97,7 @@
       },
       starttimes(){
         const that = this;
-        baseHttp(this, '/api/promotion/seckill/times', {'store':this.storeinfo.storeId}, 'get', '加载中...', function (data) {
+       this.apiRequest( '/api/promotion/seckill/times', {'store':this.storeinfo.storeId}, 'get', '加载中...', function (data) {
           var currentTime = Date.parse(new Date());
           if(data.currentTime){
             currentTime=data.currentTime;
@@ -134,7 +134,7 @@
       },
       loadList(startTime) {
         const that = this;
-        baseHttp(this, '/api/promotion/seckill/list', {'startTime': startTime,'store':'1'}, 'get', '加载中...', function (data) {
+       this.apiRequest( '/api/promotion/seckill/list', {'startTime': startTime,'store':'1'}, 'get', '加载中...', function (data) {
           if(data.model){
             if(data.model.promotions){
               that.promotions=data.model.promotions;

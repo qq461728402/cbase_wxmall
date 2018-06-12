@@ -76,7 +76,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp} from '../../../config/env'
+
   import productlist from '../../../views/productList'
   import { mapGetters } from 'vuex'
   const vm= {
@@ -191,7 +191,7 @@
       },
       mallbrands(){
         const that=this;
-        baseHttp(this,'api/brand/queryKey/brands',{queryKey:this.queryKey},'get','',function (data){
+        this.apiRequest('api/brand/queryKey/brands',{queryKey:this.queryKey},'get','',function (data){
           for (var key in data.brands){
             data.brands[key].forEach(function (item) {
                 item.select=false;
@@ -218,7 +218,7 @@
           pars.brandIds=this.selectscreenlist.join(",");
         }
         const that=this;
-        baseHttp(this,'/api/mall/products',pars,'post',this.page==1?'加载中...':'',function (data){
+        this.apiRequest('/api/mall/products',pars,'post',this.page==1?'加载中...':'',function (data){
           if(that.page==1){
             if(data.skus) {
               that.list=data.skus;

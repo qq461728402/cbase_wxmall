@@ -35,8 +35,6 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import { baseHttp,getCookie} from '../../config/env'
-  import  {getStore,removeStore} from '../../config/mUtils'
   const vm= {
     data() {
       return {
@@ -79,14 +77,14 @@
       },
       getarea(){
         const  that =this;
-        baseHttp(this,'/api/city/areas',{},'get','',function (data) {
+       this.apiRequest('/api/city/areas',{},'get','',function (data) {
           that.areas=data.areas
           that.ready=true;
         })
       },
       getDetail(){
         const  that =this;
-        baseHttp(this, '/api/personal/addr',{'addressId':this.addressId}, 'get', '加载中...', function (data) {
+       this.apiRequest( '/api/personal/addr',{'addressId':this.addressId}, 'get', '加载中...', function (data) {
           that.addressInfo=data.addr;
           if(that.addressInfo.isDeafult==1){
             that.addressInfo.isDeafult=true;
@@ -126,7 +124,7 @@
       rperAddress(){
         this.addressInfo.addressId=this.addressId;
         const that =this;
-        baseHttp(this, '/api/personal/addr/update', this.addressInfo, 'post', '修改中...', function (data) {
+       this.apiRequest( '/api/personal/addr/update', this.addressInfo, 'post', '修改中...', function (data) {
           that.$dialog.toast({
             mes: '修改成功!',
             timeout: 1000,
@@ -140,7 +138,7 @@
       //添加地址
       addAddress(){
         const  that =this;
-        baseHttp(this, '/api/personal/addr/add', this.addressInfo, 'post', '添加中...', function (data) {
+       this.apiRequest( '/api/personal/addr/add', this.addressInfo, 'post', '添加中...', function (data) {
           that.$dialog.toast({
             mes: '添加成功!',
             timeout: 1000,

@@ -48,7 +48,7 @@
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
-  import {baseHttp} from '@/config/env'
+
   import {wftPay} from '@/config/weichatPay'
   import { mapGetters } from 'vuex'
   import couponpop from '@/views/couponPop'
@@ -94,7 +94,7 @@
         var pars={page:this.page,pageSize:this.pageSize};
         pars.type=this.selettype;
         const  that =this;
-        baseHttp(this,'/api/coupon/list',pars,'get',(isrefresh==false&&this.page==1)?'加载中...':'',function (data) {
+       this.apiRequest('/api/coupon/list',pars,'get',(isrefresh==false&&this.page==1)?'加载中...':'',function (data) {
           that.count=2;
           if(that.page==1){
             if(data.coupons) {
@@ -139,7 +139,7 @@
       },
       couponbuy(item,code){
         this.isbuy=false;
-        baseHttp(this,'/api/order/prePayCoupon',{'confirmCode':code,'coupon_id':item.id,'customer_id': this.customerinfo.customerId},'get','正在购买', data => {
+       this.apiRequest('/api/order/prePayCoupon',{'confirmCode':code,'coupon_id':item.id,'customer_id': this.customerinfo.customerId},'get','正在购买', data => {
 //          this.$store.dispatch('setrouter',that.$route.fullPath);
 //          this.$router.push({ name: 'orderpay', query: { token_id: data.payInfo.token_id }})
           wftPay(data.payInfo,res=> {

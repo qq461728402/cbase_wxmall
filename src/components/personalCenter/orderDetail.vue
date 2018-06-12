@@ -118,7 +118,7 @@
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
-  import {baseHttp,getCookie,formatDate} from '@/config/env'
+  import {getCookie,formatDate} from '@/config/env'
   import  {getStore,removeStore,setStore} from '@/config/mUtils'
   import {wexinPay,wftPay} from '@/config/weichatPay'
   import confirmpop from '@/views/confirmpop'
@@ -186,7 +186,7 @@
         });
       },
       getoderDetail(){
-        baseHttp(this, '/api/order/order', {'orderId': this.orderId}, 'get', '加载中...', data=> {
+       this.apiRequest( '/api/order/order', {'orderId': this.orderId}, 'get', '加载中...', data=> {
           if (data.info) {
             this.info = data.info;
             this.qrcode.make(data.info.number);
@@ -245,7 +245,7 @@
         });
       },
       sureCancleOrder(){
-        baseHttp(this, '/api/order/cancel', {'orderId': this.orderId}, 'post', '取消中...', data=> {
+       this.apiRequest( '/api/order/cancel', {'orderId': this.orderId}, 'post', '取消中...', data=> {
           this.$dialog.toast({
             mes: '取消成功!',
             timeout: 1000,
@@ -278,7 +278,7 @@
         });
       },
       surecarRefund(){
-        baseHttp(this, '/wechat/pay/refund', {'orderId': this.orderId}, 'post', '申请中...', data=> {
+       this.apiRequest( '/wechat/pay/refund', {'orderId': this.orderId}, 'post', '申请中...', data=> {
           this.$dialog.toast({
             mes: '申请成功!',
             timeout: 1000,
@@ -292,14 +292,14 @@
       /*订单支付*/
       payOrder(){
         this.$dialog.loading.open('支付中...');
-        baseHttp(this, '/api/order/rePay', {'orderId': this.orderId}, 'post', '', data=> {
+       this.apiRequest( '/api/order/rePay', {'orderId': this.orderId}, 'post', '', data=> {
           this.perPay(data);
         })
       },
       perPay(data){
         var total_fee=data.total_fee;
         const that = this;
-        baseHttp(this, '/api/order/prePay', data, 'post', '', data=> {
+       this.apiRequest( '/api/order/prePay', data, 'post', '', data=> {
           this.payInfo = data.payInfo;
 
 //          window.location.href =  "https://pay.swiftpass.cn/pay/jspay?token_id="+that.payInfo.token_id+"&showwxtitle=1";
@@ -328,7 +328,7 @@
       },
       gethistoryOrder(){
         const that = this;
-        baseHttp(this, '/api/order/histories', {'orderId': this.orderId}, 'get', '加载中...', function (data) {
+       this.apiRequest( '/api/order/histories', {'orderId': this.orderId}, 'get', '加载中...', function (data) {
           if (data.histories) {
             that.histories = data.histories;
           }

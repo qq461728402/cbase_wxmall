@@ -57,7 +57,6 @@
 
 </template>
 <script type="text/babel">
-  import {baseHttp} from '../config/env'
   import {setStore,getStore} from '../config/mUtils'
   const vm= {
     data() {
@@ -80,7 +79,7 @@
       /*获取购物车数量*/
       getCartsQuantity(){
         const that = this;
-        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
+       this.apiRequest( '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
           if (data.quantity)that.quantity = data.quantity
         });
       },
@@ -90,7 +89,7 @@
       },
       loadList(){
         const that=this;
-        baseHttp(this,'/api/store/list',{},'get','加载中...',function (data) {
+       this.apiRequest('/api/store/list',{},'get','加载中...',function (data) {
           that.stores=data.stores;
           for (var key in data.areas){
             data.areas[key].select=false;
@@ -102,7 +101,7 @@
       },
       search(item,index){
         const that=this;
-        baseHttp(this,'/api/store/search',{area:item.id},'get','查询中...',function (data) {
+       this.apiRequest('/api/store/search',{area:item.id},'get','查询中...',function (data) {
           console.log(data);
           for (var key in that.areas){
             if (key !=index){

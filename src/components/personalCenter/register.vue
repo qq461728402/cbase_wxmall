@@ -35,7 +35,6 @@
   </div>
 </template>
 <script type="text/babel">
-  import {baseHttp} from '../../config/env'
   import  md5 from 'js-md5'
   const vm= {
     data() {
@@ -62,7 +61,7 @@
           return;
         }
         const that =this;
-        baseHttp(this, "/api/customer/sendMessage", {'customerPhone': this.customerPhone}, 'post', '发送中...', function (data) {
+       this.apiRequest( "/api/customer/sendMessage", {'customerPhone': this.customerPhone}, 'post', '发送中...', function (data) {
           that.$dialog.toast({
             mes: '发送成功!',
             timeout: 1000,
@@ -99,7 +98,7 @@
           return;
         }
         const  that =this;
-        baseHttp(this, "/api/customer/regist", {'customerPhone': this.customerPhone, 'message': this.message, 'customerPassword': md5(this.password)}, 'post', '注册中...', function (data) {
+       this.apiRequest( "/api/customer/regist", {'customerPhone': this.customerPhone, 'message': this.message, 'customerPassword': md5(this.password)}, 'post', '注册中...', function (data) {
           that.$dialog.toast({
             mes: '注册成功!',
             timeout: 1000,

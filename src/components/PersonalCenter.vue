@@ -111,7 +111,7 @@
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
-  import {getCookie,baseHttp} from "@/config/env"
+  import {getCookie} from "@/config/env"
   import {getStore,setStore} from "@/config/mUtils"
   import { mapGetters } from 'vuex'
   const vm= {
@@ -177,7 +177,7 @@
       /*获取订单数量*/
       getOrderStatus(){
         const  that =this;
-        baseHttp(this,'/api/order/status',{},'get','',function (data) {
+       this.apiRequest('/api/order/status',{},'get','',function (data) {
           if(data.status){
             for(var key in data.status){
               that.ordernum[key]=data.status[key];

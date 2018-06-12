@@ -59,7 +59,7 @@
 </template>
 <script type="text/ecmascript-6">
   import {getStore,removeStore} from '@/config/mUtils'
-  import {baseHttp,formatDate,isEmptyObject} from '@/config/env'
+  import {formatDate,isEmptyObject} from '@/config/env'
   import {wexinPay,wftPay} from '@/config/weichatPay'
   import { mapGetters } from 'vuex'
   import { Row, Col,Cell, CellGroup } from 'vant';
@@ -128,7 +128,7 @@
     methods:{
       /*订单默认信息*/
       oderInfo(){
-        baseHttp(this, '/api/order/defaultInfo', {}, 'get', '获取中...',  data => {
+       this.apiRequest( '/api/order/defaultInfo', {}, 'get', '获取中...',  data => {
           this.oderdefault = data;
           if (data.address) {
             this.address = data.address;
@@ -147,7 +147,7 @@
           oderInfo.state = this.address.addressState;
           oderInfo.street = this.address.addressStreet;
         }
-        baseHttp(this, '/api/promotion/exchange/confirm', {'data': JSON.stringify(oderInfo)}, 'get', '', data => {
+       this.apiRequest( '/api/promotion/exchange/confirm', {'data': JSON.stringify(oderInfo)}, 'get', '', data => {
           this.orderData = data.data;
         })
       },
@@ -166,7 +166,7 @@
       },
       /*获取用户信息*/
       getuserInfo(){
-        baseHttp(this, '/api/personal/info', {}, 'get', '', data => {
+       this.apiRequest( '/api/personal/info', {}, 'get', '', data => {
           if (data) {
             this.$store.dispatch('setUserInfo', data.info);
             this.$router.go(-1);
@@ -183,7 +183,7 @@
           title: '温馨提示',
           mes: '您确定兑换此商品',
           opts: () => {
-            baseHttp(this, '/api/promotion/exchange', {'data': JSON.stringify(this.orderData)}, 'post', '提交中...',data=> {
+           this.apiRequest( '/api/promotion/exchange', {'data': JSON.stringify(this.orderData)}, 'post', '提交中...',data=> {
               this.$dialog.toast({
                 mes: '兑换成功',
                 timeout: 1500,

@@ -50,7 +50,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp} from '../../../config/env'
+
   import {setStore,getStore} from  '../../../config/mUtils'
   const vm= {
     data() {
@@ -85,7 +85,7 @@
       /*获取保险公司信息*/
       getcompany(){
         const  that=this;
-        baseHttp(this,'/api/insurance/company',{},'post','加载中...',function (data) {
+       this.apiRequest('/api/insurance/company',{},'post','加载中...',function (data) {
           that.data=data;
           if(data.adImgs.length>0){
             that.adImgs=data.adImgs[0];
@@ -95,7 +95,7 @@
       /*获取报价数量*/
       quantity(){
         const  that=this;
-        baseHttp(this,'/api/insurance/quotation/quantity',{},'post','',function (data) {
+       this.apiRequest('/api/insurance/quotation/quantity',{},'post','',function (data) {
           that.quantity1=data.quantity;
         });
       },

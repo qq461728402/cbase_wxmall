@@ -15,7 +15,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp} from '../../../config/env'
+
   import {Button} from 'vant';
   import  goodlist from '../../../views/goodList'
   const vm= {
@@ -35,7 +35,7 @@
     methods: {
       loadList() {
         const that = this;
-        baseHttp(this, '/api/promotion/list', {'promotionType': 'GROUPON'}, 'get', '加载中...', function (data) {
+       this.apiRequest( '/api/promotion/list', {'promotionType': 'GROUPON'}, 'get', '加载中...', function (data) {
           if(data.promotions) {
             that.items =data.promotions ;
           }

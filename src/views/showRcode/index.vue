@@ -18,7 +18,7 @@
 </template>
 <script type="text/ecmascript-6">
   import VueBarcode from '@xkeshi/vue-barcode'
-  import {baseHttp} from '@/config/env'
+
   var QRCode = require('js-qrcode');
   const vm= {
     components: {
@@ -38,7 +38,7 @@
     methods:{
       init(carId){
         this.txm=carId;
-        baseHttp(this, '/api/customer/dynamicCardNumber', {}, 'get', '生成条形码...', data => {
+       this.apiRequest( '/api/customer/dynamicCardNumber', {}, 'get', '生成条形码...', data => {
           if (data && data.code == 200) {
             this.value = data.cardNumber;
           }

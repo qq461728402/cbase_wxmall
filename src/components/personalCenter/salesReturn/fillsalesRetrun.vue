@@ -79,7 +79,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie,uploadURL} from '../../../config/env'
+  import {getCookie,uploadURL} from '../../../config/env'
   import  {getStore,removeStore} from '../../../config/mUtils'
   import VueCoreImageUpload from 'vue-core-image-upload'
   import  goods from '@/views/goods'
@@ -158,7 +158,7 @@
         const that=this;
         var applyRefundAPI='/api/return/apply';//单品退
         var refundApplyOrder='/api/return/applyOrder';//整单退
-        baseHttp(this,this.flag==1?refundApplyOrder:this.flag==2?applyRefundAPI:'',this.applyRequest,'post','申请中...',function (data){
+       this.apiRequest(this.flag==1?refundApplyOrder:this.flag==2?applyRefundAPI:'',this.applyRequest,'post','申请中...',function (data){
           that.$dialog.toast({
             mes: '申请成功!',
             timeout: 1000,

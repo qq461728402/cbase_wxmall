@@ -13,7 +13,7 @@
     </div>
 </template>
 <script type="text/ecmascript-6">
-    import {baseHttp, getCookie, formatDate} from '@/config/env'
+    import { getCookie, formatDate} from '@/config/env'
     export default {
         data(){
             return {
@@ -38,9 +38,9 @@
                     this.$dialog.toast({mes: '请输入提货码'});
                     return;
                 }
-                baseHttp(this, '/api/order/checkoutCode', {'merchantId': this.storeId,'code':this.txcode}, 'post', '正在处理中...', data=> {
+               this.apiRequest( '/api/order/checkoutCode', {'merchantId': this.storeId,'code':this.txcode}, 'post', '正在处理中...', data=> {
                     if (data && data.code==200 &&data.data==true){
-                        baseHttp(this, '/api/order/received', {'orderId': this.orderId,'code':this.txcode}, 'post', '', data=> {
+                       this.apiRequest( '/api/order/received', {'orderId': this.orderId,'code':this.txcode}, 'post', '', data=> {
                             this.show = !this.show;
                             this.$emit('confirmok');
                         })

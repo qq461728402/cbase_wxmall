@@ -11,8 +11,6 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {getStore} from '../../../config/mUtils'
-  import {baseHttp,formatDate,isEmptyObject} from '../../../config/env'
   const vm= {
     data() {
       return {
@@ -28,7 +26,7 @@
       },
       getprotocol(){
         const that = this;
-        baseHttp(this, '/api/system/help?helpId=1', {}, 'get', '获取中...', function (data) {
+       this.apiRequest( '/api/system/help?helpId=1', {}, 'get', '获取中...', function (data) {
           that.pl=data.contents
         })
       }

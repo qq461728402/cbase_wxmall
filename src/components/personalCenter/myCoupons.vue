@@ -84,7 +84,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie,formatDate} from '../../config/env'
+  import {getCookie,formatDate} from '../../config/env'
   import  {getStore,removeStore} from '../../config/mUtils'
   const vm= {
     data() {
@@ -113,21 +113,21 @@
       //获取用户已经使用的优惠券
       getexpired(){
         const  that =this;
-        baseHttp(this, '/api/coupon/expired', {}, 'get', '加载中...', function (data) {
+       this.apiRequest( '/api/coupon/expired', {}, 'get', '加载中...', function (data) {
           if(data.coupons)that.expiredlist=data.coupons;
         });
       },
       //获取用户未使用的优惠券
       getunused(){
         const  that =this;
-        baseHttp(this, '/api/coupon/unused', {}, 'get', '加载中...', function (data) {
+       this.apiRequest( '/api/coupon/unused', {}, 'get', '加载中...', function (data) {
           if(data.coupons)that.unusedlist=data.coupons;
         });
       },
       //获取用户已使用的优惠券
       getused(){
         const  that =this;
-        baseHttp(this, '/api/coupon/used', {}, 'get', '加载中...', function (data) {
+       this.apiRequest( '/api/coupon/used', {}, 'get', '加载中...', function (data) {
           if(data.coupons)that.usedlist=data.coupons;
 
         });

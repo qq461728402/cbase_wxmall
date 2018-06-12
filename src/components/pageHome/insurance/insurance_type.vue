@@ -78,7 +78,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp} from '../../../config/env'
+
   import {setStore,getStore} from  '../../../config/mUtils'
   const vm= {
     data() {
@@ -164,7 +164,7 @@
       },
       getInsuranceQuotation(){
         const  that=this;
-        baseHttp(this, '/api/insurance/getQuotations', {}, 'get', '加载中...', function (data) {
+       this.apiRequest( '/api/insurance/getQuotations', {}, 'get', '加载中...', function (data) {
           data.totalMoney=0;
           that.data=data;
           if(that.data.items.length>0){
@@ -270,7 +270,7 @@
           }
         });
         const  that=this;
-        baseHttp(this, '/api/insurance/totleFee', {'tbid':this.tbid,'brand':this.brand,'contents':JSON.stringify(setItem)}, 'post', '正在获取报价...', function (data) {
+       this.apiRequest( '/api/insurance/totleFee', {'tbid':this.tbid,'brand':this.brand,'contents':JSON.stringify(setItem)}, 'post', '正在获取报价...', function (data) {
           if (data.gifts.length>0){
              data.gifts.forEach(function (item) {
               item.select=false;

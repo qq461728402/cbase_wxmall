@@ -56,7 +56,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '@/config/env'
+  import {getCookie} from '@/config/env'
   import  {getStore,removeStore} from '@/config/mUtils'
   import { Button} from 'vant';
   import  goods from '@/views/goods'
@@ -88,7 +88,7 @@
       },
       getOrder(){
         const  that =this;
-        baseHttp(this,'/api/return/return',{'returnId':this.returnId},'get','加载中...',function (data) {
+       this.apiRequest('/api/return/return',{'returnId':this.returnId},'get','加载中...',function (data) {
           if(data.return){
             if(data.return.desc){
               that.descs=data.return.desc;
@@ -106,7 +106,7 @@
           return;
         }
         const  that =this;
-        baseHttp(this, '/api/return/deliver', {'returnId': this.returnId, 'shipNumber': this.kddh}, 'post', '正在处理中...', function (data) {
+       this.apiRequest( '/api/return/deliver', {'returnId': this.returnId, 'shipNumber': this.kddh}, 'post', '正在处理中...', function (data) {
           that.$dialog.toast({
             mes: '取消成功!',
             timeout: 1000,
@@ -119,7 +119,7 @@
       },
       cancel(){
         const  that =this;
-        baseHttp(this, '/api/return/cancel', {'returnId': this.returnId}, 'post', '正在处理中...', function (data) {
+       this.apiRequest( '/api/return/cancel', {'returnId': this.returnId}, 'post', '正在处理中...', function (data) {
           that.$dialog.toast({
             mes: '处理成功!',
             timeout: 1000,

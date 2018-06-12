@@ -89,7 +89,7 @@
 <script type="text/babel">
   import { Swipe, SwipeItem,Cell,CellGroup,Col, GoodsAction, GoodsActionBigBtn,GoodsActionMiniBtn,Sku,Button,ImagePreview} from 'vant';
   import {setStore,getStore} from '../../../config/mUtils'
-  import {baseHttp} from '../../../config/env'
+
   import { mapGetters } from 'vuex'
   const vm= {
     computed: {
@@ -168,7 +168,7 @@
       },
       getDetail(){
         const  that =this;
-        baseHttp(this, '/api/promotion/promotion', {'promotionSkuId': this.promotionSkuId}, 'get', '加载中...', function (data) {
+       this.apiRequest( '/api/promotion/promotion', {'promotionSkuId': this.promotionSkuId}, 'get', '加载中...', function (data) {
           var promotion=data.promotion;
           if(promotion.limit==true){
             that.quota=promotion.limitQuantity;
@@ -196,7 +196,7 @@
       /*商品图文描述*/
       productDesc(){
         const  that =this;
-        baseHttp(this, '/api/mall/productDesc', {'skuId': this.skuModel.productSkuId}, 'get', '', function (data) {
+       this.apiRequest( '/api/mall/productDesc', {'skuId': this.skuModel.productSkuId}, 'get', '', function (data) {
           if(data.images){
             if(data.images.descriptions) that.descriptions = data.images.descriptions;
             if(data.images.param) that.param=data.images.param;

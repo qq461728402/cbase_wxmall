@@ -60,7 +60,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp} from '../../../config/env'
+
   import {setStore,getStore} from  '../../../config/mUtils'
   const vm= {
     data() {
@@ -95,7 +95,7 @@
       },
       getbrands () {
         const  that =this;
-        baseHttp(this,'/api/car/brands',{},'get','加载中...',function (data) {
+        this.apiRequest('/api/car/brands',{},'get','加载中...',function (data) {
           var map = {}, dest = [];
           var arr = data.brands;
           for (var i = 0; i < arr.length; i++) {
@@ -123,7 +123,7 @@
       },
       gettypes(item){
         const  that=this;
-        baseHttp(this,'/api/car/types',{'brandId':item.id},'post','加载中...',function (data) {
+       this.apiRequest('/api/car/types',{'brandId':item.id},'post','加载中...',function (data) {
           var brandlist=[];
           for(var key in data.types){
             brandlist.push({'brandType':key,'codelst':data.types[key]});
@@ -135,7 +135,7 @@
       gotocarModel(item){
         const  that=this;
         that.brandType=item.fullname;
-        baseHttp(this,'/api/car/displacement',{'typeId':item.id},'post','加载中...',function (data) {
+       this.apiRequest('/api/car/displacement',{'typeId':item.id},'post','加载中...',function (data) {
           that.typeId=item.id;
           that.displacement=data.displacement;
           that.seen=false;
@@ -146,7 +146,7 @@
       },
       gotocar(item){
         const  that=this;
-        baseHttp(this,'/api/car/yearType',{'typeId':this.typeId,'displacement':item},'post','加载中...',function (data) {
+       this.apiRequest('/api/car/yearType',{'typeId':this.typeId,'displacement':item},'post','加载中...',function (data) {
           that.level=2;
           that.disStr=item;
           that.yearType=data.yearType;
@@ -154,7 +154,7 @@
       },
       getType(item){
         const  that=this;
-        baseHttp(this,'/api/car/salesName',{'typeId':this.typeId,'displacement':this.disStr,'yearType':item},'post','加载中...',function (data) {
+       this.apiRequest('/api/car/salesName',{'typeId':this.typeId,'displacement':this.disStr,'yearType':item},'post','加载中...',function (data) {
           that.yearStr=item;
           that.level=3;
           that.typeType=data.yearType;
@@ -162,7 +162,7 @@
       },
       chooseCar(item){
         const  that=this;
-        baseHttp(this, '/api/car/update', {car:item.id}, 'post', '加载中...', function (data) {
+       this.apiRequest( '/api/car/update', {car:item.id}, 'post', '加载中...', function (data) {
           that.$dialog.toast({
             mes: '车辆更新成功!',
             timeout: 1000,

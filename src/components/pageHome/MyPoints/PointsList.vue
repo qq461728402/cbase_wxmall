@@ -16,7 +16,7 @@
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
-  import {baseHttp} from '@/config/env'
+
   import {Button} from 'vant';
   import integral from '@/views/integral'
   import { mapGetters } from 'vuex'
@@ -38,7 +38,7 @@
     },
     methods:{
       loadList() {
-        baseHttp(this, '/api/promotion/list', {'promotionType': 'EXCHANGE'}, 'get', '加载中...', data=> {
+       this.apiRequest( '/api/promotion/list', {'promotionType': 'EXCHANGE'}, 'get', '加载中...', data=> {
           this.items = data.promotions;
           this.$refs.pullrefreshDemo.$emit('ydui.pullrefresh.finishLoad');
         })

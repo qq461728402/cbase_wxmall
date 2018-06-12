@@ -94,7 +94,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '../../../config/env'
+  import {getCookie} from '../../../config/env'
   import  {getStore,removeStore} from '../../../config/mUtils'
   const vm= {
     data() {
@@ -116,7 +116,7 @@
       },
       insuranceOrders(){
         const  that=this;
-        baseHttp(this,'/api/insurance/order',{'orderId':this.insuranceId},'get','加载中...',function (data) {
+       this.apiRequest('/api/insurance/order',{'orderId':this.insuranceId},'get','加载中...',function (data) {
           that.items=data.order.items;
           that.tbOrderBaseInfo=data.order.tbOrderBaseInfo;
           that.gifts=data.order.gifts;

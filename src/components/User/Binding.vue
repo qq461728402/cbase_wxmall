@@ -60,7 +60,7 @@
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
-  import {baseHttp} from '@/config/env'
+
   import isArray from 'lodash/isArray'
   const vm= {
     data() {
@@ -89,7 +89,7 @@
     },
     methods:{
       storelist(){
-        baseHttp(this, '/api/store/managerStoreList',{key:false},'get', '加载中...', data=> {
+       this.apiRequest( '/api/store/managerStoreList',{key:false},'get', '加载中...', data=> {
           if (data&&data.stores){
             this.openCardList=data.stores;
           }
@@ -111,7 +111,7 @@
           });
           return;
         }
-        baseHttp(this,'/api/customer/sendSms',{'method':this.isregister?'SendSmsCreate':'SendSmsBand','mobile':this.mobile,'idNum':this.idNum,'ppid':'0'},'post','发送中...', data=>{
+       this.apiRequest('/api/customer/sendSms',{'method':this.isregister?'SendSmsCreate':'SendSmsBand','mobile':this.mobile,'idNum':this.idNum,'ppid':'0'},'post','发送中...', data=>{
           this.$dialog.toast({
             mes: '发送成功!',
             timeout: 1000,
@@ -179,7 +179,7 @@
           });
           return;
         }
-        baseHttp(this,'/api/customer/register',{'name':this.name,'mobile':this.mobile,'idNum':this.idNum,'verifyCode':this.verifyCode,'ppid':'0','publicid':'0','stroeId':this.storeName},'post','注册中...', data=>{
+       this.apiRequest('/api/customer/register',{'name':this.name,'mobile':this.mobile,'idNum':this.idNum,'verifyCode':this.verifyCode,'ppid':'0','publicid':'0','stroeId':this.storeName},'post','注册中...', data=>{
             if (data &&data.code==200){
               this.$dialog.toast({
                 mes: '注册成功!请绑定会员卡',
@@ -218,7 +218,7 @@
           });
           return;
         }
-        baseHttp(this,'/api/customer/bind',{'mobile':this.mobile,'idNum':this.idNum,'verifyCode':this.verifyCode,'cardno':this.cardno,'ppid':'0','publicid':'0'},'post','绑定中...', data=>{
+       this.apiRequest('/api/customer/bind',{'mobile':this.mobile,'idNum':this.idNum,'verifyCode':this.verifyCode,'cardno':this.cardno,'ppid':'0','publicid':'0'},'post','绑定中...', data=>{
           if (data &&data.code==200){
             this.$dialog.toast({
               mes: '绑定会员卡成功',

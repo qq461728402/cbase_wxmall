@@ -16,7 +16,7 @@
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
-  import {baseHttp} from '@/config/env'
+
   import customer from '@/views/customer'
   const vm= {
     data() {
@@ -32,7 +32,7 @@
     },
     methods:{
       storelist(){
-        baseHttp(this, '/api/store/managerStoreList',{key:true},'get', '加载中...', data=> {
+        this.apiRequest('/api/store/managerStoreList',{key:true},'get', '加载中...', data=> {
             if (data&&data.stores){
               data.stores.forEach(item =>{
                 item.getManagers=[];
@@ -45,7 +45,7 @@
       getManagers(greatcustomer){
         greatcustomer.isOpen=!greatcustomer.isOpen
         if(greatcustomer.getManagers.length==0&&greatcustomer.isOpen==true){
-          baseHttp(this, '/api/store/getManagers',{merchantId:greatcustomer.id},'get', '加载中...', data=> {
+          this.apiRequest('/api/store/getManagers',{merchantId:greatcustomer.id},'get', '加载中...', data=> {
             if (data&&data.managers){
               greatcustomer.getManagers=data.managers;
             }

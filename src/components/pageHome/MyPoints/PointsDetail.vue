@@ -83,7 +83,7 @@
 <script type="text/babel">
   import {Swipe, SwipeItem, Cell, CellGroup, Col, GoodsAction, GoodsActionBigBtn, GoodsActionMiniBtn, Sku, Button, ImagePreview,Icon,Popup,Picker} from 'vant';
   import {setStore, getStore} from '@/config/mUtils'
-  import {baseHttp} from '@/config/env'
+
   import {mapGetters} from 'vuex'
   const vm = {
     computed: {
@@ -193,13 +193,13 @@
       //获取门店商品数量
       getSkuInventory(merchantId){
         this.merchantId=merchantId;
-        baseHttp(this,'/api/promotion/getSkuInventory',{'merchant_Id':merchantId,'skuId':this.skuModel.skuId},'get','加载中...',data=>{
+       this.apiRequest('/api/promotion/getSkuInventory',{'merchant_Id':merchantId,'skuId':this.skuModel.skuId},'get','加载中...',data=>{
          this.merchat_stock=data.SkuQuantity;
           this.sku.stock_num=data.SkuQuantity;
         });
       },
       getDetail(){
-        baseHttp(this, '/api/promotion/promotionSku', {'promotionSkuId': this.promotionSkuId}, 'get', '加载中...', data=> {
+       this.apiRequest( '/api/promotion/promotionSku', {'promotionSkuId': this.promotionSkuId}, 'get', '加载中...', data=> {
           var promotion=data.promotion;
           if(promotion.hasLimit==true){
             this.quota=promotion.limitQuantity;
@@ -236,7 +236,7 @@
       /*商品图文描述*/
       productDesc(){
         const that = this;
-        baseHttp(this, '/api/mall/productDesc', {'skuId': this.skuModel.skuId}, 'get', '', function (data) {
+       this.apiRequest( '/api/mall/productDesc', {'skuId': this.skuModel.skuId}, 'get', '', function (data) {
           if (data.images) {
             if (data.images.descriptions) that.descriptions = data.images.descriptions;
             if (data.images.param) that.param = data.images.param;
@@ -292,7 +292,7 @@
             orderInfo.skuQuantity = skuData.selectedNum;
             orderInfo.subTotal=bonusPoints;
             orderInfo.skuPrice=bonusPoints;
-            baseHttp(this,'/api/order/buyIntegralGoods',orderInfo,'post','兑换中...',data=> {
+           this.apiRequest('/api/order/buyIntegralGoods',orderInfo,'post','兑换中...',data=> {
               if (data&&data.code==200){
                 this.$dialog.toast({
                   mes: '兑换成功,请到我的订单查看',
@@ -311,7 +311,7 @@
       },
       /*获取用户信息*/
       getuserInfo(){
-        baseHttp(this, '/api/personal/info', {}, 'get', '', data => {
+       this.apiRequest( '/api/personal/info', {}, 'get', '', data => {
           if (data) {
             this.$store.dispatch('getCustomerInfo', data.info);
             this.gotoback();

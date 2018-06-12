@@ -29,7 +29,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp} from '@/config/env'
+
   import hotProductList from '@/views/hotProductList/hotindex'
   import { mapGetters } from 'vuex'
   const vm= {
@@ -96,7 +96,7 @@
         if(this.queryKey.length!=0){
           pars.queryKey=this.queryKey;
         }
-        baseHttp(this,'/admin/product/hotSku',pars,'get',this.page==1?'加载中...':'',data=>{
+        this.apiRequest('/admin/product/hotSku',pars,'get',this.page==1?'加载中...':'',data=>{
           if(this.page==1){
             if(data.data.recordList) {
               this.list=data.data.recordList;

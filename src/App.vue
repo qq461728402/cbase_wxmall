@@ -7,7 +7,6 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-  import {baseHttp} from '@/config/env'
   import {shearUrl} from '@/config/weichatPay'
   import axios from 'axios'
   export default{
@@ -22,7 +21,7 @@
       this.$store.dispatch('getToken');
       this.$store.dispatch('getUid');
       this.$store.dispatch('getUname');
-//      this.baseInfo();
+
       this.getuserInfo();
       this.indexOf();
     },
@@ -30,7 +29,7 @@
       /*获取购物车数量*/
       getCartsQuantity(){
         return;
-        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', data => {
+        this.apiRequest('/api/carts/cartsQuantity',{},'get','',data=>{
           if (data.quantity >= 0) {
             this.$store.dispatch('setQuantity', data.quantity);
           }
@@ -38,14 +37,14 @@
       },
       /*获取用户商城信息*/
       indexOf(){
-        baseHttp(this,'/api/mall/setting',{},'get','',data=>{
+        this.apiRequest('/api/mall/setting',{},'get','',data=>{
           if(data&&data.code==200){
             this.$store.dispatch('getStoreInfo',data);
           }
         })
       },
 //      baseInfo(){
-//        baseHttp(this,'/api/store/storeInfo',{},'get','',data=>{
+//       this.apiRequest('/api/store/storeInfo',{},'get','',data=>{
 //          if(data&&data.code==200){
 //            this.$store.dispatch('getStoreInfo',data);
 //          }
@@ -53,7 +52,7 @@
 //      },
       /*获取用户信息*/
       getuserInfo(){
-        baseHttp(this, '/api/personal/info', {}, 'get', '', data => {
+        this.apiRequest('/api/personal/info', {}, 'get', '', data => {
           if (data) {
             this.$store.dispatch('getCustomerInfo', data.info);
           }

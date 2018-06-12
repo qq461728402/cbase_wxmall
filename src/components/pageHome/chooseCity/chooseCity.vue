@@ -15,7 +15,7 @@
 </template>
 <script type="text/babel">
   import city from 'vue-city';
-  import {baseHttp} from '../../../config/env'
+
   import {setStore,getStore} from  '../../../config/mUtils'
   const vm= {
     data(){
@@ -55,7 +55,7 @@
         const that=this;
         var locatingCity=this.$store.state.basicStorage.locatingCity;
         var cityData=[];
-        baseHttp(this,'/api/city/all',{},'get','加载中...',function (data){
+       this.apiRequest('/api/city/all',{},'get','加载中...',function (data){
           for(var key in data.areas){
               data.areas[key].forEach(function (item) {
                   cityData.push({

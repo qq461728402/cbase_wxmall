@@ -58,7 +58,7 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp} from '../../../config/env'
+
   import {setStore,getStore,removeStore} from  '../../../config/mUtils'
   const vm= {
     data() {
@@ -114,7 +114,7 @@
       },
       addressList(){
         const that =this;
-        baseHttp(this,'/api/order/addressList',{},'get','加载中...',function (data) {
+       this.apiRequest('/api/order/addressList',{},'get','加载中...',function (data) {
           if(data.address){
               data.address.forEach(function (addressItem) {
                if(addressItem.default==1){
@@ -197,7 +197,7 @@
           address.detail=this.defelutaddress.addressStreet;
         }
         const that =this;
-        baseHttp(this,'/api/insurance/confirm',{'data':JSON.stringify(par)},'post','提交中...',function (data) {
+       this.apiRequest('/api/insurance/confirm',{'data':JSON.stringify(par)},'post','提交中...',function (data) {
           window.location.href = "http://wx.cxcq.cpic.com.cn/weixinpay/JSAPIPay.aspx?tbid="+par.tbid+"&fee=0.01&partnerid=cpicshangshe&backUrl="+'http://joewee.mynatapp.cc';
         });
       }

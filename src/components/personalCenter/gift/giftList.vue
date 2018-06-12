@@ -31,8 +31,6 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '../../../config/env'
-  import  {getStore,removeStore} from '../../../config/mUtils'
   const vm= {
     data() {
       return {
@@ -51,7 +49,7 @@
       },
       giftslist(){
         const  that =this;
-        baseHttp(this,'/api/insurance/gifts',{},'post','加载中...',function (data) {
+       this.apiRequest('/api/insurance/gifts',{},'post','加载中...',function (data) {
           if(data.gifts)that.giftlist=data.gifts;
         });
       },

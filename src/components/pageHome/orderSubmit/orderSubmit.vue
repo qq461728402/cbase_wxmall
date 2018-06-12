@@ -186,7 +186,7 @@
 </template>
 <script type="text/babel">
   import {getStore,removeStore} from '@/config/mUtils'
-  import {baseHttp,formatDate,isEmptyObject} from '@/config/env'
+  import {formatDate,isEmptyObject} from '@/config/env'
   import {wexinPay,wftPay} from '@/config/weichatPay'
   import { mapGetters } from 'vuex'
   import { Row, Col,Cell, CellGroup } from 'vant';
@@ -308,7 +308,7 @@
       /*订单默认信息*/
       oderInfo(){
         const that = this;
-        baseHttp(this, '/api/order/defaultInfo', {}, 'get', '获取中...', function (data) {
+       this.apiRequest( '/api/order/defaultInfo', {}, 'get', '获取中...', function (data) {
           that.oderdefault = data;
           if (data.address)that.address = data.address;
           if(data.bonusPoints){
@@ -332,7 +332,7 @@
           oderInfo.street = this.address.addressStreet;
         }
         const that = this;
-        baseHttp(this, '/api/order/confirm', {'data': JSON.stringify(oderInfo)}, 'post', '', function (data) {
+       this.apiRequest( '/api/order/confirm', {'data': JSON.stringify(oderInfo)}, 'post', '', function (data) {
           that.orderData = data.orderData;
           that.bonusPointsUsed=that.bonusPointsUsed>(that.orderData.subTotal+that.orderData.serviceFee)?(that.orderData.subTotal+that.orderData.serviceFee):that.bonusPointsUsed;
           if(data.orderData.preorderTime){
@@ -351,7 +351,7 @@
       couponsOder(){
         var oderInfo = this.getorderInfo;;
         const that = this;
-        baseHttp(this, '/api/order/coupons', {'data': JSON.stringify(oderInfo)}, 'post', '', function (data) {
+       this.apiRequest( '/api/order/coupons', {'data': JSON.stringify(oderInfo)}, 'post', '', function (data) {
           if (data.availableCount)that.availableCount = data.availableCount;
           if (data.available)that.available = data.available
           if (data.unavailable) that.unavailable = data.unavailable;
@@ -449,7 +449,7 @@
         this.orderData.district = this.address.addressDistrict;
         this.orderData.state = this.address.addressState;
         this.orderData.street = this.address.addressStreet;
-        baseHttp(this, '/api/order/checkout', {'data': JSON.stringify(this.orderData)}, 'post', '提交中...', function ( data) {
+       this.apiRequest( '/api/order/checkout', {'data': JSON.stringify(this.orderData)}, 'post', '提交中...', function ( data) {
           that.paytotalFee=data.total_fee;
           if(data.total_fee){
             if (data.total_fee==0){
@@ -464,7 +464,7 @@
       },
       perPay(data){
         const that = this;
-        baseHttp(this, '/api/order/prePay', data, 'post', '提交中...', function (data) {
+       this.apiRequest( '/api/order/prePay', data, 'post', '提交中...', function (data) {
           that.payInfo = data.payInfo;
 //          that.$store.dispatch('setrouter',that.$route.fullPath);
 //         that.$router.replace({ name: 'orderpay', query: { token_id: that.payInfo.token_id }})

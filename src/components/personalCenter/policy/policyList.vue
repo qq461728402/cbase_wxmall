@@ -28,7 +28,7 @@
 
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '../../../config/env'
+  import {getCookie} from '../../../config/env'
   import  {getStore,removeStore} from '../../../config/mUtils'
   const vm= {
     data() {
@@ -49,7 +49,7 @@
       },
       insuranceOrders(){
         const  that=this;
-        baseHttp(this,'/api/insurance/orders',{},'get','加载中...',function (data) {
+       this.apiRequest('/api/insurance/orders',{},'get','加载中...',function (data) {
           that.orders=data.orders;
         });
       },

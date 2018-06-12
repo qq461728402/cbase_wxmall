@@ -51,8 +51,6 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp,getCookie} from '../../../config/env'
-  import  {getStore,removeStore} from '../../../config/mUtils'
   const vm= {
     data() {
       return {
@@ -81,7 +79,7 @@
           this.exchangeStore = !this.exchangeStore;
           return;
         }
-        baseHttp(this,'/api/insurance/gift/sotres',{'skuId':this.skuId},'post','加载中...',function (data) {
+       this.apiRequest('/api/insurance/gift/sotres',{'skuId':this.skuId},'post','加载中...',function (data) {
           if(data.preorderTime){
             var day3 = new Date(data.preorderTime);
             that.startDate= formatDate(day3,'yyyy-MM-dd');
@@ -132,7 +130,7 @@
           return;
         }
         const  that=this;
-        baseHttp(this,'/api/insurance/gift/preorder',{'skuId':this.skuId,'itemId':this.itemId,'preorderTime':this.orderDate,'merchantId':this.merchantId},'post','预约中...',function (data) {
+       this.apiRequest('/api/insurance/gift/preorder',{'skuId':this.skuId,'itemId':this.itemId,'preorderTime':this.orderDate,'merchantId':this.merchantId},'post','预约中...',function (data) {
           that.$dialog.toast({
             mes: '预约成功!',
             timeout: 1000,

@@ -84,7 +84,6 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {baseHttp} from '../config/env'
   import {openLocation} from '../config/weichatPay'
   const vm= {
     data() {
@@ -137,7 +136,7 @@
 
       getStroeDetail(){
         const that=this;
-        baseHttp(this,'/api/store/detail',{'merchantId': this.id},'get','加载中...',function (data) {
+       this.apiRequest('/api/store/detail',{'merchantId': this.id},'get','加载中...',function (data) {
           console.log(data);
           if(data.urls)that.urls=data.urls;
           if (data.store)that.storeInfo = data.store;
@@ -164,7 +163,7 @@
       },
       signature(){
         const  that =this;
-        baseHttp(this,'/wechat/jsapi/signature',{'url':window.location.href},'post','',function (data) {
+       this.apiRequest('/wechat/jsapi/signature',{'url':window.location.href},'post','',function (data) {
           if(data.signature) {
             that.weixinInfo=data.signature;
             that.getLocation();

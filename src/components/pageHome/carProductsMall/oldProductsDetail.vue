@@ -200,9 +200,7 @@
 <script type="text/babel">
   import 'swiper/dist/css/swiper.css'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
-  import {baseHttp} from  '../../../config/env'
   import {setStore,getStore} from '../../../config/mUtils'
-  import Vue from 'vue'
   import { mapGetters } from 'vuex'
   import {
     GoodsAction,
@@ -329,7 +327,7 @@
       /*获取购物车数量*/
       getCartsQuantity(){
         const that = this;
-        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
+        this.apiRequest('/api/carts/cartsQuantity', {}, 'get', '', function (data) {
           if (data.quantity)that.$store.dispatch('setQuantity',data.quantity);
         })
       },
@@ -345,7 +343,7 @@
       /*产品详情*/
       productDetail(){
         const that=this;
-        baseHttp(this, '/api/mall/skuDetail', {'skuId': this.productId}, 'get', '加载中...', function (data) {
+        this.apiRequest('/api/mall/skuDetail', {'skuId': this.productId}, 'get', '加载中...', function (data) {
           that.product = data.product;
           if(data.product){
             that.defaultSkuId= data.product.skuId;
@@ -380,7 +378,7 @@
       /*商品图文描述*/
       productDesc(){
         const  that =this;
-        baseHttp(this, '/api/mall/productDesc', {'skuId': this.productId}, 'get', '加载中...', function (data) {
+        this.apiRequest('/api/mall/productDesc', {'skuId': this.productId}, 'get', '加载中...', function (data) {
           if(data.images)that.images=data.images;
           if(data.images.descriptions) that.descriptions = data.images.descriptions;
           if(data.images.param) that.param=data.images.param;
@@ -393,7 +391,7 @@
       /*获取部分评论*/
       reviews(){
         const  that =this;
-        baseHttp(this, '/api/mall/reviews', {'skuId': this.productId, 'page': 1, 'pageSize': '3'}, 'get', '加载中...', function (data) {
+        this.apiRequest('/api/mall/reviews', {'skuId': this.productId, 'page': 1, 'pageSize': '3'}, 'get', '加载中...', function (data) {
           if(data.reviews){
             that.reviewslist=data.reviews;
           }
@@ -403,7 +401,7 @@
       /*获取全部评论*/
       reviews1(isref){
         const that = this;
-        baseHttp(this, '/api/mall/reviews', {'skuId': this.productId, 'page': this.page, 'pageSize': '10'}, 'get',(this.page==1&&isref==false)?'加载中...':'', function (data) {
+        this.apiRequest('/api/mall/reviews', {'skuId': this.productId, 'page': this.page, 'pageSize': '10'}, 'get',(this.page==1&&isref==false)?'加载中...':'', function (data) {
           if (data.reviewCount)that.reviewCount = data.reviewCount;
           if (that.page == 1) {
             if (data.reviews){
@@ -443,7 +441,7 @@
           skuId=skuData.goodsId;
         }
         var  that =this;
-        baseHttp(this,'/api/carts/addToCarts',{'skuId':skuId,'quantity':skuData.selectedNum,'merchantId':this.product.merchantId},'post','',function (data){
+        this.apiRequest('/api/carts/addToCarts',{'skuId':skuId,'quantity':skuData.selectedNum,'merchantId':this.product.merchantId},'post','',function (data){
           that.showBase=false;
           that.getCartsQuantity();
         });

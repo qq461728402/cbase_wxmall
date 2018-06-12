@@ -65,7 +65,7 @@
 </template>
 <script type="text/babel">
   import {getStore,setStore} from '../../../config/mUtils'
-  import {baseHttp} from '../../../config/env'
+
   const vm = {
     data() {
       return {
@@ -95,7 +95,7 @@
       brandslist(){
         var pars = {categoryId: this.categoryId}
         const  that =this;
-        baseHttp(this, "/api/maintenance/brands", pars, 'get', '加载中...', function (data) {
+       this.apiRequest( "/api/maintenance/brands", pars, 'get', '加载中...', function (data) {
           if (data.brands) {
             that.tablist = data.brands;
             that.products(false);
@@ -110,7 +110,7 @@
         var pars = {categoryId: this.categoryId, page: this.page, pageSize: this.pageSize, sortType: '0'}
         pars.brandIds = this.brandId;
         const that = this;
-        baseHttp(this, '/api/mall/products', pars, 'post', (this.page == 1&&isrefresh==false) ? '加载中...' : '', function (data) {
+       this.apiRequest( '/api/mall/products', pars, 'post', (this.page == 1&&isrefresh==false) ? '加载中...' : '', function (data) {
           if (data.totalPages) {
             that.totalPages = data.totalPages;
           }

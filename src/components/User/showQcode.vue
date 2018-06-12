@@ -26,7 +26,7 @@
 </template>
 <script type="text/ecmascript-6">
   import VueBarcode from '@xkeshi/vue-barcode'
-  import {baseHttp,formatDate} from '@/config/env'
+  import {formatDate} from '@/config/env'
   var QRCode = require('js-qrcode');
   const vm= {
     components: {
@@ -58,7 +58,7 @@
     },
     methods:{
       generate(){
-        baseHttp(this, '/api/coupon/generate', {couponId:this.couponId}, 'get', '加载中...', data => {
+       this.apiRequest( '/api/coupon/generate', {couponId:this.couponId}, 'get', '加载中...', data => {
           if (data && data.code == 200) {
             this.consumeCode = data.consumeCode;
             this.expiredTime=data.expiredTime;

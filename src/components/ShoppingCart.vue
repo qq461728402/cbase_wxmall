@@ -84,7 +84,6 @@
   </yd-layout>
 </template>
 <script type="text/babel">
-  import {getCookie,baseHttp,baseHttp1} from "../config/env"
   import {getStore,setStore} from "../config/mUtils"
   import { mapGetters } from 'vuex'
   import { Stepper } from 'vant';
@@ -120,7 +119,7 @@
     methods:{
       getCartsQuantity(){
         const that = this;
-        baseHttp(this, '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
+       this.apiRequest( '/api/carts/cartsQuantity', {}, 'get', '', function (data) {
           if (data.quantity>-1) {
             that.$store.dispatch('setQuantity',data.quantity);
           }
@@ -167,7 +166,7 @@
               tempitem.quantity++;
           }
           const  that=this;
-          baseHttp(this, '/api/carts/cartsUpdate', tempitem, 'post', '修改中...', function (data) {
+         this.apiRequest( '/api/carts/cartsUpdate', tempitem, 'post', '修改中...', function (data) {
             item.quantity = data.quantity;
             that.getCartsQuantity();
         });
@@ -177,7 +176,7 @@
         const that = this;
         that.cartItems = [];
         that.carts=[];
-        baseHttp(this, '/api/carts/carts', {}, 'get', isrefesh==false?'加载中...':'', function (data) {
+       this.apiRequest( '/api/carts/carts', {}, 'get', isrefesh==false?'加载中...':'', function (data) {
           if (data.carts) {
             that.showNoProduct=false;
             data.carts.forEach(function (cart) {
@@ -215,7 +214,7 @@
           return;
         }
         var cartItemIds = cartItemIdLst.join(",");
-        baseHttp(this, '/api/carts/cartsDelete', {'cartItemIds': cartItemIds}, 'post', '删除中...', function (data) {
+       this.apiRequest( '/api/carts/cartsDelete', {'cartItemIds': cartItemIds}, 'post', '删除中...', function (data) {
           that.loadList();
             that.getCartsQuantity();
         });

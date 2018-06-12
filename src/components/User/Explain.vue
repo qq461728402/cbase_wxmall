@@ -11,7 +11,6 @@
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
-  import {baseHttp} from "@/config/env"
   const vm= {
     data() {
       return {
@@ -23,7 +22,7 @@
     },
     methods:{
       getshuju() {
-        baseHttp(this, '/api/customer/description', {}, 'get', '', data => {
+       this.apiRequest( '/api/customer/description', {}, 'get', '', data => {
           if (data && data.code == 200) {
             this.description = data.description;
           }

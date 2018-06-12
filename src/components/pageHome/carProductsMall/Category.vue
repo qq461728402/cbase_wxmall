@@ -42,7 +42,7 @@
   </yd-layout>
 </template>
 <script type="text/ecmascript-6">
-  import {baseHttp} from '../../../config/env'
+
   import { mapGetters } from 'vuex'
   const vm= {
     computed: {
@@ -99,23 +99,22 @@
           }
           return;
         }
-        const  that=this;
-        baseHttp(this,'/api/mall/category',this.loginpas,'post','加载中...',function (data) {
+        this.apiRequest('/api/mall/category',this.loginpas,'post','加载中...',data=> {
           if(data.categories){
-            that.cacheCatItemList=data.categories;
+            this.cacheCatItemList=data.categories;
             for (var key in data.categories){
-              if(that.selectcategoryId.length>0&&that.selectcategoryId==data.categories[key].categoryId){
+              if(this.selectcategoryId.length>0&&this.selectcategoryId==data.categories[key].categoryId){
                 data.categories[key].select=true;
-                that.selectItemCategories(data.categories[key].categoryId,key);
-              }else if(that.selectcategoryId.length==0&&key==that.initindex){
+                this.selectItemCategories(data.categories[key].categoryId,key);
+              }else if(this.selectcategoryId.length==0&&key==this.initindex){
                 data.categories[key].select=true;
-                that.selectItemCategories(data.categories[key].categoryId,key);
+                this.selectItemCategories(data.categories[key].categoryId,key);
               }else{
                 data.categories[key].select=false;
               }
             }
-            that.categories=data.categories;
-            that.$store.dispatch('setCategoryList', that.categories);
+            this.categories=data.categories;
+            this.$store.dispatch('setCategoryList', this.categories);
           }
         })
       },
@@ -128,7 +127,7 @@
           this.caturl=that.caturllist[index]?that.caturllist[index]:'';
         }
         if(this.catItemlist.length>0)return;
-        baseHttp(this,'/api/mall/category',{'parentId':parentId},'post',this.catItemlist.length==0?'加载中...':'',function (data){
+        this.apiRequest('/api/mall/category',{'parentId':parentId},'post',this.catItemlist.length==0?'加载中...':'',data=>{
           if(data.categories){
             that.caturllist[index]=data.url;
             that.cacheCatItemList[index].catItemlist=data.categories;
